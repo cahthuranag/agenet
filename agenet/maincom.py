@@ -2,9 +2,9 @@ import numpy as np
 import math
 import argparse
 #import sys
-import agewire
+import agenet
 from scipy import special as sp
-from agewire import av_age
+from agenet import av_age
 #from av_age import validate
 import matplotlib.pyplot as plt
 import pandas as pd
@@ -104,7 +104,7 @@ def main ():
 
 
 def printval():
- from agewire import maincom
+ from agenet import maincom
  genlambda,av_age_poisson_simulation,av_age_poisson_theoretical=maincom.main()
  all_data_age=list(zip(genlambda,av_age_poisson_simulation,av_age_poisson_theoretical))
  print(tab.tabulate(all_data_age, tablefmt='psql', showindex=False,
@@ -114,7 +114,7 @@ def printval():
  
                                 
 def ageplot ():  
- from agewire import maincom
+ from agenet import maincom
  #from scipy.interpolate import spline
  from scipy.interpolate import make_interp_spline, BSpline
  genlambda,av_age_poisson_simulation,av_age_poisson_theoretical=maincom.main()

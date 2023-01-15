@@ -1,5 +1,5 @@
 import pytest
-from agewire.maincom import main
+from agenet.maincom import main
 import matplotlib.pyplot as plt 
 
 def test_main_empty():

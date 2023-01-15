@@ -1,5 +1,5 @@
 import pytest
-from agewire.av_age import av_age_func
+from agenet.av_age import av_age_func
 
 
 # def test_av_age_func_values():
