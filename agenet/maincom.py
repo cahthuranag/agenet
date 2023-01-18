@@ -7,6 +7,7 @@ from scipy import special as sp
 from agenet import av_age
 #from av_age import validate
 import matplotlib.pyplot as plt
+from agenet import bler
 import pandas as pd
 import tabulate as tab
 import itertools as intert
@@ -24,7 +25,7 @@ def main ():
  for j in range(0,len(genlambda)):
      lambda1 = genlambda[j]
      num_events = 30
-     inter_arrival_times=(1/lambda1)*(np.log(1/np.random.rand(num_events)))
+     inter_arrival_times=(1/lambda1)*(np.ones(num_events))
      inter_arrival_times_1=  np.delete(inter_arrival_times,-1)
      arrival_timestamps = np.append((np.zeros(1)), (np.cumsum(inter_arrival_times_1)))
      nu_sim_1=10
@@ -53,12 +54,8 @@ def main ():
              n2=150
              k1=100
              k2=100
-             c1=math.log2(1+snr1)
-             v1=0.5*(1-(1/(1+snr1)**2))*((math.log2(np.random.exponential(1)))**2)
-             c2=math.log2(1+snr2)
-             v2=0.5*(1-(1/(1+snr2)**2))*((math.log2(np.random.exponential(1)))**2)
-             er1=qfunc(((n1*c1)-k1)/math.sqrt(n1*v1))
-             er2=qfunc(((n2*c2)-k2)/math.sqrt(n2*v2))
+             er1=bler.blercal(snr1, n1, k1)
+             er2=bler.blercal(snr2, n2, k2)
              er=er1+(er2*(1-er1))
              #era[sim]==er
              era[sim]=er
