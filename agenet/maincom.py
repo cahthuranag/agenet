@@ -23,7 +23,7 @@ def main ():
  av_age_poisson_theoretical = np.zeros(np.size(genlambda))
  for j in range(0,len(genlambda)):
      lambda1 = genlambda[j]
-     num_events = 300
+     num_events = 30
      inter_arrival_times=(1/lambda1)*(np.log(1/np.random.rand(num_events)))
      inter_arrival_times_1=  np.delete(inter_arrival_times,-1)
      arrival_timestamps = np.append((np.zeros(1)), (np.cumsum(inter_arrival_times_1)))
