@@ -5,8 +5,13 @@ def  av_age_func(v,T):
     import matplotlib.pyplot as plt
     import itertools
     from scipy.integrate import simpson
+    import sys
     #T=[1,2,3,4]
     #v=[2,3,4,5]
+    if np.size(T) != np.size(v) or np.size(T) == 0 or np.size(v) == 0:
+        print("Error: The number of elements in T and v should be same or non-zero")
+        sys.exit()
+    
     kt=[0]
     times =  np.append(T,(v[-1]))
     times=np.append(kt,times)
