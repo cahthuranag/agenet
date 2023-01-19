@@ -14,10 +14,8 @@ import tabulate as tab
 import itertools as intert
 
 #%run -i av_age.py 
-def main():
+def main(num_nodes,active_prob):
  lambda1 = 200
- active_prob = 0.5
- num_nodes = 1
  #lambda1 = genlambda[j]
  num_events = 100
  inter_arrival_times=(1/lambda1)*(np.ones(num_events))
