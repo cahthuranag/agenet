@@ -17,7 +17,7 @@ import itertools as intert
 def main(num_nodes,active_prob):
  lambda1 = 200
  #lambda1 = genlambda[j]
- num_events = 100
+ num_events = 200
  inter_arrival_times=(1/lambda1)*(np.ones(num_events))
  arrival_timestamps = np.cumsum(inter_arrival_times)
  T=10**-4
