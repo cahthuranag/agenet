@@ -13,7 +13,7 @@ setuptools.setup(
     long_description_content_type = 'text/markdown',
     url = "https://github.com/cahthuranag/agenet.git",
     packages = ['agenet'],
-    install_requires = ['numpy', 'pandas', 'tabulate', 'matplotlib' , 'scipy','argparse''random'],
+    install_requires = ['numpy', 'pandas', 'tabulate', 'matplotlib' , 'scipy','argparse','random'],
     python_requires = '>=3.8',
     entry_points = {
         'console_scripts': ['agecal=agenet.maincom:printval','ageplot=agenet.maincom:ageplot','ageprintex=agenet.av_age:printageex','ageplotex=agenet.av_age:plotageex'],
