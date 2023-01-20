@@ -14,5 +14,5 @@ def blercal(snr, n, k):
  if err<0:
     err=1
  return err
-r
+
   
