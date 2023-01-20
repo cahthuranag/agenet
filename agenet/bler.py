@@ -9,8 +9,10 @@ def qfunc(x):
 def blercal(snr, n, k):
  import bler
  c = math.log2(1 + snr)
- v = 0.5 * (1 - (1 / (1 + snr) ** 2)) * ((math.log2(np.random.exponential(1))) ** 2)
+ v = 0.5 * (1 - (1 / (1 + snr) ** 2)) * ((math.log2(math.e)) ** 2)
  err = bler.qfunc(((n * c) - k) / math.sqrt(n * v))
  if err<0:
     err=1
  return err
+r
+  
