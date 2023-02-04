@@ -1,0 +1,34 @@
+<div class="md-copyright">
+ {% if config.copyright %}
+   <div class="md-copyright__highlight">
+     {{ config.copyright }}
+   </div>
+ {% endif %}
+ {% if not config.extra.generator == false %}
+   Made with
+   <a
+     href="https://www.mkdocs.org/"
+     target="_blank" rel="noopener"
+   >
+     MkDocs
+   </a>,
+   <a
+     href="https://mkdocstrings.github.io/"
+     target="_blank" rel="noopener"
+   >
+     mkdocstrings
+   </a>,
+   <a
+     href="https://squidfunk.github.io/mkdocs-material/"
+     target="_blank" rel="noopener"
+   >
+     Material for MkDocs
+   </a> and
+   <a
+     href="https://smarie.github.io/mkdocs-gallery/"
+     target="_blank" rel="noopener"
+   >
+     MkDocs Gallery
+   </a>
+ {% endif %}
+</div>
