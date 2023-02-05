@@ -48,7 +48,7 @@ plugins:
           separate_signature: true
 
 watch:
-  #- ../pyclugen
+  - ../agenet
 
 nav:
 - Home: index.md
