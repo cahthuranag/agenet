@@ -13,6 +13,7 @@ import pandas as pd
 import tabulate as tab
 import itertools as intert
 import matplotlib.pyplot as plt
+
 # Define the range of values for each parameter
 num_nodes = range(2, 3)
 active_prob = np.arange(0.1, 0.8, 0.05)
@@ -39,12 +40,12 @@ for i, param in enumerate([num_nodes, active_prob]):
     results = np.array(results)
 
     # Define the name of the current parameter
-    param_names = ['number of nodes', 'active probability']
+    param_names = ["number of nodes", "active probability"]
     param_name = param_names[i]
 
     # Plot the result
     plt.plot(results[:, 0], results[:, 1], label="x")
-    #plt.plot(results[:, 0], results[:, 2], label="y")
+    # plt.plot(results[:, 0], results[:, 2], label="y")
     plt.xlabel(param_name)
     plt.ylabel("AAoI")
     plt.title("x and y vs {}".format(param_name))
