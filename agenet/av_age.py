@@ -53,9 +53,9 @@ def av_age_func(v, T):
 def printageex():
     from agenet import av_age
 
-    av_age_fn, _, _ = av_age.av_age_func([2, 3, 4, 5], [1, 2, 3, 4])
+    av_age_fn, _, _ = av_age.av_age_func([2, 3, 4, 5], [1, 2, 3, 4]) 
     print(
-        "Average age of information  when  time slots are [2,3,4,5], [1,2,3,4]:",
+        "Average age of information  when  time slots are [2,3,4,5], [1,2,3,4]:", 
         av_age_fn,
     )
 
