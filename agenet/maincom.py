@@ -19,7 +19,7 @@ import itertools as intert
 def main(num_nodes, active_prob):
     lambda1 = 200
     # lambda1 = genlambda[j]
-    num_events = 200
+    num_events = 2000
     inter_arrival_times = (1 / lambda1) * (np.ones(num_events))
     arrival_timestamps = np.cumsum(inter_arrival_times)
     T = 10**-4
@@ -57,7 +57,9 @@ def main(num_nodes, active_prob):
     dep = [x for x in departure_timestamps_s if x != 0]
     sermat = [x for x in server_timestamps_1 if x != 0]
 
-    av_age_poisson_simulation, _, _ = av_age.av_age_func(sermat, dep)
+    av_age_poisson_simulation, _, _ = av_age.average_age_of_information_function(
+        sermat, dep
+    )
     if er_p == 1:
         print("Theoretical average age is not defined")
     else:

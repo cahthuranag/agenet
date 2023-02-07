@@ -45,7 +45,7 @@ for i, param in enumerate([num_nodes, active_prob]):
 
     # Plot the result
     plt.plot(results[:, 0], results[:, 1], label="x")
-    # plt.plot(results[:, 0], results[:, 2], label="y")
+    plt.plot(results[:, 0], results[:, 2], label="y")
     plt.xlabel(param_name)
     plt.ylabel("AAoI")
     plt.title("x and y vs {}".format(param_name))
