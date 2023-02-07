@@ -1,61 +1,86 @@
-def av_age_func(v, T):
-
+def average_age_of_information_function(arrival_time, generation_times):
     import numpy as np
-    import math
     import matplotlib.pyplot as plt
     import itertools
     from scipy.integrate import simpson
     import sys
 
-    # T=[1,2,3,4]
-    # v=[2,3,4,5]
-    if np.size(T) != np.size(v) or np.size(T) == 0 or np.size(v) == 0:
-        print("Error: The number of elements in T and v should be same or non-zero")
+    # arrival times of the packets
+    received_times = arrival_time
+    # departure times of the packets
+    generation_timess = generation_times
+
+    # check if number of arrival and departure times are equal and not zero
+    if (
+        np.size(generation_timess) != np.size(received_times)
+        or np.size(generation_timess) == 0
+        or np.size(received_times) == 0
+    ):
+        print(
+            "Error: The number of elements in departure times and arrival times should be equal and non-zero"
+        )
         sys.exit()
 
-    kt = [0]
-    times = np.append(T, (v[-1]))
-    times = np.append(kt, times)
-    # print(times.tolist())
+    # initializing an array to store the times
+    times = np.append(generation_timess, (received_times[-1]))
+    # adding a zero at the beginning of the times array
+    times = np.append([0], times)
+
+    # index to keep track of arrival times
     ii = 0
     offset = 0
-    # print(times.tolist())
+    # creating an array to store the ages
     age = times.copy()
-    agep = np.zeros(np.size(T))
+    agep = np.zeros(np.size(generation_timess))
 
-    # age[1]=times[1]
+    # length of the times array
     lent = len(times)
+    # loop through the times array
     for i in range(1, lent):
-        if times[i] == v[ii]:
-            offset = T[ii]
+        # if the current time is equal to an arrival time
+        if times[i] == received_times[ii]:
+            # store the departure time
+            offset = generation_timess[ii]
             ii += 1
+            # subtract the offset from the current time
             age[i] = age[i] - offset
 
-    k = np.size(T)
-    agep[0] = v[0]
+    # size of the departure times array
+    k = np.size(generation_timess)
+    agep[0] = received_times[0]
+    # loop through the departure times array
     for i in range(1, k):
-        # diff=T[iii]
-        agep[i] = v[i] - T[i - 1]
+        # calculate the difference between the arrival and departure times
+        agep[i] = received_times[i] - generation_timess[i - 1]
 
-    newtimes = np.repeat(times, 2)
-    newpagep = np.append((age[1]), agep)
-    newpagep = np.append((kt), newpagep)
-    final = list(itertools.chain.from_iterable(zip(newpagep, age)))
+    # repeat the times array twice
+    new_times = np.repeat(times, 2)
+    # concatenate the age values and age differences
+    new_age_differences = np.append((age[1]), agep)
+    # add a zero at the beginning of the new_age_differences array
+    new_age_differences = np.append([0], new_age_differences)
+    # flatten the two arrays into a single array
+    final = list(itertools.chain.from_iterable(zip(new_age_differences, age)))
 
-    # print(times.tolist())
-    # plt.plot(times, age)
-    # plt.plot(newtimes, final)
-    # print(np.trapz(final,newtimes))
-    av_age_fn = np.trapz(final, newtimes) / np.max(newtimes)
-    return [av_age_fn, newtimes, final]
+    # calculate the average age of information
+    average_age = np.trapz(final, new_times) / np.max(new_times)
+    return [average_age, new_times, final]
+
+
+def print_average_age_example():
+    from agenet import average_age_of_information
+
+    average_age, _, _ = average_age_of_information.average_age_of_information_function(
+        [2, 3, 4, 5], [1, 2, 3]
+    )
 
 
 def printageex():
     from agenet import av_age
 
-    av_age_fn, _, _ = av_age.av_age_func([2, 3, 4, 5], [1, 2, 3, 4]) 
+    av_age_fn, _, _ = av_age.av_age_func([2, 3, 4, 5], [1, 2, 3, 4])
     print(
-        "Average age of information  when  time slots are [2,3,4,5], [1,2,3,4]:", 
+        "Average age of information  when  time slots are [2,3,4,5], [1,2,3,4]:",
         av_age_fn,
     )
 
@@ -73,7 +98,3 @@ def plotageex():
     plt.xlabel("Time")
     plt.ylabel("Age")
     plt.show()
-
-
-def validate(args):
-    return args
