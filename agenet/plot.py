@@ -3,7 +3,7 @@ import numpy as np
 
 # import sys
 from scipy import special as sp
-from maincom import main
+from maincom import main, run_main
 
 # from av_age import validate
 import matplotlib.pyplot as plt
@@ -16,7 +16,7 @@ import matplotlib.pyplot as plt
 
 # Define the range of values for each parameter
 num_nodes = np.arange(2, 3, 1)
-active_prob = np.arange(0.3, 0.6, 0.02)
+active_prob = np.arange(0.3, 0.7, 0.02)
 
 
 # Combine the parameters into a list
@@ -31,7 +31,7 @@ for i, param in enumerate([num_nodes, active_prob]):
         # Unpack the combination into separate variables
         num_nodes, active_prob = combo
         # Run the simulation with the current parameters
-        x, y = main(num_nodes, active_prob)
+        x, y = run_main(num_nodes, active_prob)
         print(x, y)
         # Append the result of the simulation to the results list
         results.append((combo[i], x, y))
@@ -44,7 +44,7 @@ for i, param in enumerate([num_nodes, active_prob]):
     param_name = param_names[i]
 
     # Plot the result
-    # plt.plot(results[:, 0], results[:, 1], label="x")
+    plt.plot(results[:, 0], results[:, 1], label="x")
     plt.plot(results[:, 0], results[:, 2], label="y")
 
     plt.xlabel(param_name)
