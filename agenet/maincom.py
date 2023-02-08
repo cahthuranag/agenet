@@ -93,7 +93,4 @@ def main(num_nodes, active_prob):
         av_age_theoretical = (1 / lambda1) * (0.5 + (1 / (1 - er_p)))
 
     # print(av_age_simulation, av_age_theoretical)
-    return av_age_poisson_theoretical, av_age_poisson_simulation
-
-
-# Iterate over each parameter
+    return av_age_theoretical, av_age_simulation

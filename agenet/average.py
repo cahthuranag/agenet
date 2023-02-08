@@ -5,7 +5,7 @@ import matplotlib.pyplot as plt
 # Define the average age of information function
 def average_age_of_information_fn(destination_times, generation_times, lambha):
     # Define the time step (p) as a constant (lambha)
-    p = lambha * 0.1
+    p = lambha * 0.01
     # Initialize the times array with the first destination time plus the time step
     times = np.arange(0, destination_times[0] + p, p)
     # Loop through the rest of the destination times
