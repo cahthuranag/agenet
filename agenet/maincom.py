@@ -12,8 +12,6 @@ import matplotlib.pyplot as plt
 import bler
 import snr
 import av_age
-import average
-
 import pandas as pd
 import tabulate as tab
 import itertools as intert
@@ -23,15 +21,14 @@ import matplotlib.pyplot as plt
 def main(num_nodes, active_prob):
     lambda1 = 1
     # lambda1 = genlambda[j]
-    num_events = 10000
+    num_events = 1000
     inter_arrival_times = (1 / lambda1) * (np.ones(num_events))
     arrival_timestamps = np.cumsum(inter_arrival_times)
-    T = 10**-4
     N0 = 2 * (10**-15)
-    d1 = 700  # disatance
-    d2 = 700
-    P1 = 500 * (10**-2)
-    P2 = 500 * (10**-2)
+    d1 = 700  # disatance between the source nodes and the relay or access point
+    d2 = 700  # distance between the the relay or access point and the destination
+    P1 = 500 * (10**-2)  # power of the source nodes
+    P2 = 500 * (10**-2)  # power of the relay or access point
     # n = 300
     n1 = 300
     n2 = 300
@@ -85,7 +82,7 @@ def main(num_nodes, active_prob):
 
     # print(sermat, dep)
     system_time = 1 / lambda1
-    av_age_simulation, _, _ = average.average_age_of_information_fn(v1, t1, system_time)
+    av_age_simulation, _, _ = av_age.average_age_of_information_fn(v1, t1, system_time)
     print(er1, er2, su_p, er_p)
     if er_p == 1:
         print("Theoretical average age is not defined")
@@ -94,3 +91,19 @@ def main(num_nodes, active_prob):
 
     # print(av_age_simulation, av_age_theoretical)
     return av_age_theoretical, av_age_simulation
+
+    # run the main function serveral times and get the average of the results
+
+
+# This function is used to run the main function several times and get the average of the results
+def run_main(num_nodes, active_prob):
+    num_runs = 10  # number of runs
+    av_age_theoretical = 0
+    av_age_simulation = 0
+    for i in range(num_runs):
+        av_age_theoretical_i, av_age_simulation_i = main(num_nodes, active_prob)
+        av_age_theoretical += av_age_theoretical_i
+        av_age_simulation += av_age_simulation_i
+    av_age_theoretical /= num_runs  # average of the theoretical results
+    av_age_simulation /= num_runs  # average of the simulation results
+    return av_age_theoretical, av_age_simulation  # return the average of the results
