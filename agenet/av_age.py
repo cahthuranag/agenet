@@ -63,38 +63,5 @@ def average_age_of_information_function(arrival_time, generation_times):
     final = list(itertools.chain.from_iterable(zip(new_age_differences, age)))
 
     # calculate the average age of information
-    average_age = np.trapz(final, new_times) / np.max(new_times)
-    return [average_age, new_times, final]
-
-
-def print_average_age_example():
-    from agenet import average_age_of_information
-
-    average_age, _, _ = average_age_of_information.average_age_of_information_function(
-        [2, 3, 4, 5], [1, 2, 3]
-    )
-
-
-def printageex():
-    from agenet import av_age
-
-    av_age_fn, _, _ = av_age.av_age_func([2, 3, 4, 5], [1, 2, 3, 4])
-    print(
-        "Average age of information  when  time slots are [2,3,4,5], [1,2,3,4]:",
-        av_age_fn,
-    )
-
-
-def plotageex():
-    from agenet import av_age
-    import matplotlib.pyplot as plt
-
-    av_age_print, newtimesex, final = av_age.av_age_func([2, 3, 4, 5], [1, 2, 3, 4])
-    print(
-        "Average age of information  when  time slots are [2,3,4,5], [1,2,3,4]:",
-        av_age_print,
-    )
-    plt.plot(newtimesex, final)
-    plt.xlabel("Time")
-    plt.ylabel("Age")
-    plt.show()
+    average_age = np.trapz(final, new_times) / np.amax(new_times)
+    return average_age

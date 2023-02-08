@@ -15,8 +15,8 @@ import itertools as intert
 import matplotlib.pyplot as plt
 
 # Define the range of values for each parameter
-num_nodes = range(2, 3)
-active_prob = np.arange(0.1, 0.8, 0.05)
+num_nodes = np.arange(2, 3, 1)
+active_prob = np.arange(0.3, 0.6, 0.1)
 
 
 # Combine the parameters into a list
@@ -46,6 +46,7 @@ for i, param in enumerate([num_nodes, active_prob]):
     # Plot the result
     plt.plot(results[:, 0], results[:, 1], label="x")
     plt.plot(results[:, 0], results[:, 2], label="y")
+
     plt.xlabel(param_name)
     plt.ylabel("AAoI")
     plt.title("x and y vs {}".format(param_name))
