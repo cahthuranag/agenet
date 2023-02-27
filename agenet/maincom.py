@@ -21,24 +21,28 @@ import matplotlib.pyplot as plt
 def main(num_nodes, active_prob):
     lambda1 = 1
     # lambda1 = genlambda[j]
-    num_events = 1000
-    inter_arrival_times = (1 / lambda1) * (np.ones(num_events))
-    arrival_timestamps = np.cumsum(inter_arrival_times)
-    N0 = 2 * (10**-15)
+    num_events = 100  # number of events
+    inter_arrival_times = (1 / lambda1) * (np.ones(num_events))  # inter arrival times
+    arrival_timestamps = np.cumsum(inter_arrival_times)  # arrival timestamps
+    N0 = 2 * (10**-15)  # noise power
     d1 = 700  # disatance between the source nodes and the relay or access point
     d2 = 700  # distance between the the relay or access point and the destination
     P1 = 500 * (10**-2)  # power of the source nodes
     P2 = 500 * (10**-2)  # power of the relay or access point
     # n = 300
-    n1 = 300
-    n2 = 300
-    k1 = 100
-    k2 = 100
-    snr1 = snr.snr(N0, d1, P1)
-    snr2 = snr.snr(N0, d2, P2)
-    er1 = bler.blercal(snr1, n1, k1)
-    er2 = bler.blercal(snr2, n2, k2)
-    inter_service_times = (1 / lambda1) * np.ones((num_events))
+    n1 = 300  # number of bits in the block for the source nodes
+    n2 = 300  # number of bits in the block for the relay or access point
+    k1 = 100  # number of bits in the message for the source nodes
+    k2 = 100  # number of bits in the message for the relay or access point
+    snr1 = snr.snr(N0, d1, P1)  # snr for the source nodes at the relay or access point
+    snr2 = snr.snr(N0, d2, P2)  # snr for the relay or access point at the destination
+    er1 = bler.blercal(
+        snr1, n1, k1
+    )  # block error rate for the source nodes at the relay or access point
+    er2 = bler.blercal(
+        snr2, n2, k2
+    )  # block error rate for the relay or access point at the destination
+    inter_service_times = (1 / lambda1) * np.ones((num_events))  # inter service times
     # Generating departure timestamps for the node 1
     server_timestamps_1 = np.zeros(num_events)
     departure_timestamps_s = np.zeros(num_events)
