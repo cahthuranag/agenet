@@ -10,18 +10,35 @@ import scipy.special as sp
 
 
 def qfunc(x):
-    return 0.5 - 0.5 * sp.erf(x / math.sqrt(2))  # this function is the q function
+    if x < 0:
+        return 0
+    return 0.5 - 0.5 * sp.erf(
+        x / math.sqrt(2)
+    )  # this function is the q function # this function is the q function
+
+
+# The Q-function is a mathematical function that gives the tail probability of the standard normal distribution.
 
 
 # Calculate the BLER for the given SNR, n, k
 def blercal(snr, n, k):
-    import bler
+    if snr < 0:
+        raise ValueError(
+            "SNR must be non-negative"
+        )  # testing the snr value is non-negative
+    if n <= 0:
+        raise ValueError(
+            "n must be greater than 0"
+        )  # testing the n value is greater than 0
+    if k <= 0:
+        raise ValueError(
+            "k must be greater than 0"
+        )  # testing the k value is greater than 0
 
     c = math.log2(1 + snr)  # this is the capacity of the channel
     v = (
         0.5 * (1 - (1 / (1 + snr) ** 2)) * ((math.log2(math.e)) ** 2)
     )  # this is the variance of the channel
-    err = bler.qfunc(((n * c) - k) / math.sqrt(n * v))  # this is the block error rate
-    if err < 0:  # if q function give it is considered as 1 as the error rate
-        err = 1
-    return err  # return the error rate
+    err = qfunc(((n * c) - k) / math.sqrt(n * v))
+
+    return err
