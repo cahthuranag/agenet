@@ -14,8 +14,8 @@ fully customized by the user.
 
 | Symbol         | Parameter         | Description                                                      |
 |:-------------- |:----------------- |:---------------------------------------------------------------- |
-| $n$            | `num_dims`        | Number of dimensions.                                            |
-| $c$            | `num_clusters`    | Number of clusters.                                              |
+| $n_{1}$        | `n1`              |number of bits in the block for the source nodes                  |
+| $n{2}$         | `n2`              |number of bits in the block for the relay node                    |
 | $p$            | `num_points`      | Total number of points to generate.                              |
 | $\mathbf{d}$   | `direction`       | Average direction of cluster-supporting lines ($n \times 1$).  |
 | $\theta_\sigma$| `angle_disp`      | Angle dispersion of cluster-supporting lines (radians).          |
