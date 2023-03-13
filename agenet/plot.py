@@ -15,8 +15,11 @@ import itertools as intert
 import matplotlib.pyplot as plt
 
 # Define the range of values for each parameter
-num_nodes = np.arange(2, 3, 1)
+num_nodes = np.arange(2, 5, 1)
 active_prob = np.arange(0.3, 0.7, 0.02)
+n = 300
+k = 100
+P = 500 * (10**-2)
 
 
 # Combine the parameters into a list

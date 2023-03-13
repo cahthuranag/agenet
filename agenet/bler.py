@@ -39,6 +39,8 @@ def blercal(snr, n, k):
     v = (
         0.5 * (1 - (1 / (1 + snr) ** 2)) * ((math.log2(math.e)) ** 2)
     )  # this is the variance of the channel
-    err = qfunc(((n * c) - k) / math.sqrt(n * v))
-
-    return err
+    err = qfunc(
+        ((n * c) - k) / math.sqrt(n * v)
+    )  # this function calculates the block error rate
+    # ref. On the Evaluation of the Polyanskiy-Poor-Verdu Converse Bound for Finite Blocklength Coding in AWGN
+    return err  # return the block error rate

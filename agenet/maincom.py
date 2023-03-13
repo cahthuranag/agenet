@@ -18,7 +18,7 @@ import itertools as intert
 import matplotlib.pyplot as plt
 
 
-def main(num_nodes, active_prob):
+def main(num_nodes, active_prob, n, k, P):
     lambda1 = 1
     # lambda1 = genlambda[j]
     num_events = 100  # number of events
@@ -27,13 +27,13 @@ def main(num_nodes, active_prob):
     N0 = 2 * (10**-15)  # noise power
     d1 = 700  # disatance between the source nodes and the relay or access point
     d2 = 700  # distance between the the relay or access point and the destination
-    P1 = 500 * (10**-2)  # power of the source nodes
-    P2 = 500 * (10**-2)  # power of the relay or access point
+    P1 = P  # power of the source nodes
+    P2 = P  # power of the relay or access point
     # n = 300
-    n1 = 300  # number of bits in the block for the source nodes
-    n2 = 300  # number of bits in the block for the relay or access point
-    k1 = 100  # number of bits in the message for the source nodes
-    k2 = 100  # number of bits in the message for the relay or access point
+    n1 = n  # number of bits in the block for the source nodes
+    n2 = n  # number of bits in the block for the relay or access point
+    k1 = k  # number of bits in the message for the source nodes
+    k2 = k  # number of bits in the message for the relay or access point
     snr1 = snr.snr(N0, d1, P1)  # snr for the source nodes at the relay or access point
     snr2 = snr.snr(N0, d2, P2)  # snr for the relay or access point at the destination
     er1 = bler.blercal(
@@ -85,7 +85,7 @@ def main(num_nodes, active_prob):
     # sermat= [arrival_timestamps[1]]+ sermat
 
     # print(sermat, dep)
-    system_time = 1 / lambda1
+    system_time = 1 / lambda1  # system time (time which update in the system)
     av_age_simulation, _, _ = av_age.average_age_of_information_fn(v1, t1, system_time)
     print(er1, er2, su_p, er_p)
     if er_p == 1:
@@ -100,14 +100,19 @@ def main(num_nodes, active_prob):
 
 
 # This function is used to run the main function several times and get the average of the results
-def run_main(num_nodes, active_prob):
-    num_runs = 10  # number of runs
-    av_age_theoretical = 0
-    av_age_simulation = 0
+def run_main(num_nodes, active_prob, n, k, P):
+    num_runs = 100  # number of runs
+    av_age_theoretical_run = 0
+    av_age_simulation_run = 0
     for i in range(num_runs):
-        av_age_theoretical_i, av_age_simulation_i = main(num_nodes, active_prob)
-        av_age_theoretical += av_age_theoretical_i
-        av_age_simulation += av_age_simulation_i
-    av_age_theoretical /= num_runs  # average of the theoretical results
-    av_age_simulation /= num_runs  # average of the simulation results
-    return av_age_theoretical, av_age_simulation  # return the average of the results
+        av_age_theoretical_i, av_age_simulation_i = main(
+            num_nodes, active_prob, n, k, P
+        )
+        av_age_theoretical_run += av_age_theoretical_i
+        av_age_simulation_run += av_age_simulation_i
+    av_age_theoretical_run /= num_runs  # average of the theoretical results
+    av_age_simulation_run /= num_runs  # average of the simulation results
+    return (
+        av_age_theoretical_run,
+        av_age_simulation_run,
+    )  # return the average of the results
