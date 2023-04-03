@@ -11,7 +11,6 @@ from scipy import special as sp
 import matplotlib.pyplot as plt
 import bler
 import snr
-import bler_th
 import av_age
 import pandas as pd
 import tabulate as tab
@@ -38,8 +37,8 @@ def main(num_nodes, active_prob, n, k, P):
     # block error rate for the relay or access point at the destination
     snr1_th = snr.snr_th(N0, d1, P1)
     snr2_th = snr.snr_th(N0, d2, P2)
-    er1_th = bler_th.blercal_th(snr1_th, n1, k1)
-    er2_th = bler_th.blercal_th(snr2_th, n2, k2)
+    er1_th = bler.blercal_th(snr1_th, n1, k1)
+    er2_th = bler.blercal_th(snr2_th, n2, k2)
     inter_service_times = (1 / lambda1) * np.ones((num_events))  # inter service times
     # Generating departure timestamps for the node 1
     server_timestamps_1 = np.zeros(num_events)

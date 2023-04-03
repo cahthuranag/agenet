@@ -48,3 +48,17 @@ def blercal(snr, n, k):
     if err > 1:
         err = 1
     return err  # return the block error rate
+
+
+def blercal_th(snr, n, k):  # this function calculates the theoretical block error rate
+    beta = 1 / (
+        2 * math.pi * math.sqrt((2 ** (2 * k / n)) - 1)
+    )  # this is the beta value
+    sim_phi = (2 ** (k / n)) - 1  # this is the phi value
+    phi_bas = sim_phi - (1 / (2 * beta * math.sqrt(n)))  # this is the phi value
+    delta = sim_phi + (1 / (2 * beta * math.sqrt(n)))
+    err_th = 1 - (
+        (beta * math.sqrt(n) * snr)
+        * (math.exp(-1 * phi_bas * (1 / snr)) - math.exp(-1 * delta * (1 / snr)))
+    )
+    return err_th
