@@ -11,7 +11,7 @@ import scipy.special as sp
 
 def qfunc(x):
     if x < 0:
-        return 0
+        return 1
     return 0.5 - 0.5 * sp.erf(
         x / math.sqrt(2)
     )  # this function is the q function # this function is the q function
@@ -34,13 +34,17 @@ def blercal(snr, n, k):
         raise ValueError(
             "k must be greater than 0"
         )  # testing the k value is greater than 0
-
+    if k > n:
+        raise ValueError(
+            "k must be less than or equal to n"
+        )  # testing the k value is less than or equal to n
     c = math.log2(1 + snr)  # this is the capacity of the channel
-    v = (
-        0.5 * (1 - (1 / (1 + snr) ** 2)) * ((math.log2(math.e)) ** 2)
-    )  # this is the variance of the channel
+    v = 0.5 * (1 - (1 / (1 + snr) ** 2)) * ((math.log2(math.exp(1))) ** 2)
+    # this is the variance of the channel
     err = qfunc(
         ((n * c) - k) / math.sqrt(n * v)
     )  # this function calculates the block error rate
     # ref. On the Evaluation of the Polyanskiy-Poor-Verdu Converse Bound for Finite Blocklength Coding in AWGN
+    if err > 1:
+        err = 1
     return err  # return the block error rate

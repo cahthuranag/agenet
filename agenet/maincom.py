@@ -11,6 +11,7 @@ from scipy import special as sp
 import matplotlib.pyplot as plt
 import bler
 import snr
+import bler_th
 import av_age
 import pandas as pd
 import tabulate as tab
@@ -21,10 +22,10 @@ import matplotlib.pyplot as plt
 def main(num_nodes, active_prob, n, k, P):
     lambda1 = 1
     # lambda1 = genlambda[j]
-    num_events = 100  # number of events
+    num_events = 500  # number of events
     inter_arrival_times = (1 / lambda1) * (np.ones(num_events))  # inter arrival times
     arrival_timestamps = np.cumsum(inter_arrival_times)  # arrival timestamps
-    N0 = 2 * (10**-15)  # noise power
+    N0 = 1 * (10**-13)  # noise power
     d1 = 700  # disatance between the source nodes and the relay or access point
     d2 = 700  # distance between the the relay or access point and the destination
     P1 = P  # power of the source nodes
@@ -34,22 +35,32 @@ def main(num_nodes, active_prob, n, k, P):
     n2 = n  # number of bits in the block for the relay or access point
     k1 = k  # number of bits in the message for the source nodes
     k2 = k  # number of bits in the message for the relay or access point
-    snr1 = snr.snr(N0, d1, P1)  # snr for the source nodes at the relay or access point
-    snr2 = snr.snr(N0, d2, P2)  # snr for the relay or access point at the destination
-    er1 = bler.blercal(
-        snr1, n1, k1
-    )  # block error rate for the source nodes at the relay or access point
-    er2 = bler.blercal(
-        snr2, n2, k2
-    )  # block error rate for the relay or access point at the destination
+    # block error rate for the relay or access point at the destination
+    snr1_th = snr.snr_th(N0, d1, P1)
+    snr2_th = snr.snr_th(N0, d2, P2)
+    er1_th = bler_th.blercal_th(snr1_th, n1, k1)
+    er2_th = bler_th.blercal_th(snr2_th, n2, k2)
     inter_service_times = (1 / lambda1) * np.ones((num_events))  # inter service times
     # Generating departure timestamps for the node 1
     server_timestamps_1 = np.zeros(num_events)
     departure_timestamps_s = np.zeros(num_events)
-    su_p = active_prob * (1 - er1) * ((1 - active_prob) ** (num_nodes - 1))
-    er_f = 1 - su_p
-    er_p = er_f + (er2 * (er_f - 1))
+    su_p_th = active_prob * (1 - er1_th) * ((1 - active_prob) ** (num_nodes - 1))
+    er_f_th = 1 - su_p_th
+    er_p_th = er_f_th + (er2_th * (er_f_th - 1))
     for i in range(0, num_events):
+        snr1 = snr.snr(
+            N0, d1, P1
+        )  # snr for the source nodes at the relay or access point
+        snr2 = snr.snr(N0, d2, P2)
+        er1 = bler.blercal(
+            snr1, n1, k1
+        )  # block error rate for the source nodes at the relay or access point
+        er2 = bler.blercal(
+            snr2, n2, k2
+        )  # block error rate for the relay or access point at the destination
+        su_p = active_prob * (1 - er1) * ((1 - active_prob) ** (num_nodes - 1))
+        er_f = 1 - su_p
+        er_p = er_f + (er2 * (er_f - 1))
         er_indi = int(random.random() > er_p)
         if er_indi == 0:
             departure_timestamps_s[i] = 0
@@ -87,11 +98,12 @@ def main(num_nodes, active_prob, n, k, P):
     # print(sermat, dep)
     system_time = 1 / lambda1  # system time (time which update in the system)
     av_age_simulation, _, _ = av_age.average_age_of_information_fn(v1, t1, system_time)
-    print(er1, er2, su_p, er_p)
-    if er_p == 1:
+
+    # print(er1, er2, er1_th, er2_th)
+    if er_p_th == 1:
         print("Theoretical average age is not defined")
     else:
-        av_age_theoretical = (1 / lambda1) * (0.5 + (1 / (1 - er_p)))
+        av_age_theoretical = (1 / lambda1) * (0.5 + (1 / (1 - er_p_th)))
 
     # print(av_age_simulation, av_age_theoretical)
     return av_age_theoretical, av_age_simulation
@@ -101,7 +113,7 @@ def main(num_nodes, active_prob, n, k, P):
 
 # This function is used to run the main function several times and get the average of the results
 def run_main(num_nodes, active_prob, n, k, P):
-    num_runs = 100  # number of runs
+    num_runs = 10  # number of runs
     av_age_theoretical_run = 0
     av_age_simulation_run = 0
     for i in range(num_runs):
