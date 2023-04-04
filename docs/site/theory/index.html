@@ -314,19 +314,6 @@
     Simulation Parameters
   </a>
   
-    <nav class="md-nav" aria-label="Simulation Parameters">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
-  <a href="#mandatory-parameters" class="md-nav__link">
-    Mandatory parameters
-  </a>
-  
-</li>
-        
-      </ul>
-    </nav>
-  
 </li>
         
       </ul>
@@ -364,65 +351,49 @@
 <h2 id="overview">overview</h2>
 <p>This section explains the theoretical basis for this system model. In this system, we analyze the age of information of a wireless communication model with several nodes. </p>
 <h3 id="simulation-parameters">Simulation Parameters</h3>
-<p>The <em>clugen</em> algorithm (and consequently, the [<code>clugen()</code>][pyclugen.main.clugen]
-function) has mandatory and optional parameters, listed and described in the tables
-below. The optional parameters are set to sensible defaults, and in many situations
-may be left unchanged. Nonetheless, these allow all of the algorithm's steps to be
-fully customized by the user.</p>
-<h4 id="mandatory-parameters">Mandatory parameters</h4>
 <table>
 <thead>
 <tr>
 <th align="left">Symbol</th>
-<th align="left">Parameter</th>
 <th align="left">Description</th>
 </tr>
 </thead>
 <tbody>
 <tr>
-<td align="left">$n$</td>
-<td align="left"><code>num_dims</code></td>
-<td align="left">Number of dimensions.</td>
+<td align="left">$n_{1}$</td>
+<td align="left">number of bits in the block for the source nodes</td>
 </tr>
 <tr>
-<td align="left">$c$</td>
-<td align="left"><code>num_clusters</code></td>
-<td align="left">Number of clusters.</td>
+<td align="left">$n_{2}$</td>
+<td align="left">number of bits in the block for the relay node</td>
 </tr>
 <tr>
-<td align="left">$p$</td>
-<td align="left"><code>num_points</code></td>
-<td align="left">Total number of points to generate.</td>
+<td align="left">$d_{1}$</td>
+<td align="left">disatance between the source nodes and the relay or access point</td>
 </tr>
 <tr>
-<td align="left">$\mathbf{d}$</td>
-<td align="left"><code>direction</code></td>
-<td align="left">Average direction of cluster-supporting lines ($n \times 1$).</td>
+<td align="left">$d_{2}$</td>
+<td align="left">distance between the the relay or access point and the destination</td>
 </tr>
 <tr>
-<td align="left">$\theta_\sigma$</td>
-<td align="left"><code>angle_disp</code></td>
-<td align="left">Angle dispersion of cluster-supporting lines (radians).</td>
+<td align="left">$k_{1}$</td>
+<td align="left">number of bits in the message for the source nodes</td>
 </tr>
 <tr>
-<td align="left">$\mathbf{s}$</td>
-<td align="left"><code>cluster_sep</code></td>
-<td align="left">Average cluster separation in each dimension ($n \times 1$).</td>
+<td align="left">$k_{2}$</td>
+<td align="left">number of bits in the message for the relay or access point</td>
 </tr>
 <tr>
-<td align="left">$l$</td>
-<td align="left"><code>llength</code></td>
-<td align="left">Average length of cluster-supporting lines.</td>
+<td align="left">$N0$</td>
+<td align="left">noise power  at each node</td>
 </tr>
 <tr>
-<td align="left">$l_\sigma$</td>
-<td align="left"><code>llength_disp</code></td>
-<td align="left">Length dispersion of cluster-supporting lines.</td>
+<td align="left">$P_{1}$</td>
+<td align="left">power of the source nodes</td>
 </tr>
 <tr>
-<td align="left">$f_\sigma$</td>
-<td align="left"><code>lateral_disp</code></td>
-<td align="left">Cluster lateral dispersion, i.e., dispersion of points from their projection on the cluster-supporting line.</td>
+<td align="left">$P_{2}$</td>
+<td align="left">power of the relay or access point</td>
 </tr>
 </tbody>
 </table>
