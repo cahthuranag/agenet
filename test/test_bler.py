@@ -61,3 +61,23 @@ with pytest.raises(ValueError) as e_info:
 assert (
     str(e_info.value) == "k must be greater than 0"
 ), f"Expected 'k must be greater than 0', but got {e_info.value}"
+
+
+def test_blercal_th():
+    snr = 2
+    n = 4
+    k = 2
+    expected_result = 0.23932581220163115
+    assert math.isclose(blercal_th(snr, n, k), expected_result, rel_tol=1e-9)
+
+    snr = 3
+    n = 6
+    k = 3
+    expected_result = 0.08420510483454747
+    assert math.isclose(blercal_th(snr, n, k), expected_result, rel_tol=1e-9)
+
+    snr = 4
+    n = 8
+    k = 4
+    expected_result = 0.028357647955059283
+    assert math.isclose(blercal_th(snr, n, k), expected_result, rel_tol=1e-9)
