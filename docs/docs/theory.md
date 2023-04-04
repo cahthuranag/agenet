@@ -4,22 +4,15 @@
 This section explains the theoretical basis for this system model. In this system, we analyze the age of information of a wireless communication model with several nodes. 
 ### Simulation Parameters
 
-The _clugen_ algorithm (and consequently, the [`clugen()`][pyclugen.main.clugen]
-function) has mandatory and optional parameters, listed and described in the tables
-below. The optional parameters are set to sensible defaults, and in many situations
-may be left unchanged. Nonetheless, these allow all of the algorithm's steps to be
-fully customized by the user.
 
-#### Mandatory parameters
-
-| Symbol         | Parameter         | Description                                                      |
-|:-------------- |:----------------- |:---------------------------------------------------------------- |
-| $n_{1}$        | `n1`              |number of bits in the block for the source nodes                  |
-| $n{2}$         | `n2`              |number of bits in the block for the relay node                    |
-| $p$            | `num_points`      | Total number of points to generate.                              |
-| $\mathbf{d}$   | `direction`       | Average direction of cluster-supporting lines ($n \times 1$).  |
-| $\theta_\sigma$| `angle_disp`      | Angle dispersion of cluster-supporting lines (radians).          |
-| $\mathbf{s}$   | `cluster_sep`     | Average cluster separation in each dimension ($n \times 1$).   |
-| $l$            | `llength`         | Average length of cluster-supporting lines.                      |
-| $l_\sigma$     | `llength_disp`    | Length dispersion of cluster-supporting lines.                   |
-| $f_\sigma$     | `lateral_disp`    | Cluster lateral dispersion, i.e., dispersion of points from their projection on the cluster-supporting line. |
+| Symbol       | Description                                                      |
+|:--------------  |:---------------------------------------------------------------- |
+| $n_{1}$      |number of bits in the block for the source nodes                  |
+| $n_{2}$         |number of bits in the block for the relay node                    |
+| $d_{1}$           | disatance between the source nodes and the relay or access point                             |
+| $d_{2}$       | distance between the the relay or access point and the destination  |
+| $k_{1}$  | number of bits in the message for the source nodes        |
+| $k_{2}$    | number of bits in the message for the relay or access point   |
+| $N0$                  |noise power  at each node                 |
+| $P_{1}$         |  power of the source nodes                  |
+| $P_{2}$       | power of the relay or access point|
