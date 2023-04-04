@@ -21,7 +21,7 @@ import matplotlib.pyplot as plt
 def main(num_nodes, active_prob, n, k, P):
     lambda1 = 1
     # lambda1 = genlambda[j]
-    num_events = 500  # number of events
+    num_events = 1000  # number of events
     inter_arrival_times = (1 / lambda1) * (np.ones(num_events))  # inter arrival times
     arrival_timestamps = np.cumsum(inter_arrival_times)  # arrival timestamps
     N0 = 1 * (10**-13)  # noise power
@@ -112,7 +112,7 @@ def main(num_nodes, active_prob, n, k, P):
 
 # This function is used to run the main function several times and get the average of the results
 def run_main(num_nodes, active_prob, n, k, P):
-    num_runs = 10  # number of runs
+    num_runs = 100  # number of runs
     av_age_theoretical_run = 0
     av_age_simulation_run = 0
     for i in range(num_runs):
