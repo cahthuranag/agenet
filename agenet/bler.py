@@ -62,3 +62,6 @@ def blercal_th(snr, n, k):  # this function calculates the theoretical block err
         * (math.exp(-1 * phi_bas * (1 / snr)) - math.exp(-1 * delta * (1 / snr)))
     )
     return err_th
+
+
+

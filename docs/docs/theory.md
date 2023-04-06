@@ -4,6 +4,9 @@
 This section explains the theoretical basis for this system model. In this system, we analyze the age of information of a wireless communication model with several nodes. 
 ### Simulation Parameters
 
+#### maincom function
+In the maincom function, we consider the following parameters when calculating the age of information theoretically and through simulation.
+
 
 | Symbol       | Description                                                      |
 |:--------------  |:---------------------------------------------------------------- |
