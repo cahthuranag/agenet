@@ -1,7 +1,7 @@
 import matplotlib.pyplot as plt
 import pytest
 
-from maincom import main, run_main
+from agenet.maincom import main, run_main
 
 # create test cases for the plot data
 test_cases = [
