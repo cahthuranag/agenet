@@ -100,10 +100,7 @@ def main(num_nodes, active_prob, n, k, P, numevents):
     av_age_simulation, _, _ = av_age.average_age_of_information_fn(v1, t1, system_time)
 
     # print(er1, er2, er1_th, er2_th)
-    if er_p_th == 1:
-        print("Theoretical average age is not defined")
-    else:
-        av_age_theoretical = (1 / lambda1) * (0.5 + (1 / (1 - er_p_th)))
+    av_age_theoretical = (1 / lambda1) * (0.5 + (1 / (1 - er_p_th)))
 
     # print(av_age_simulation, av_age_theoretical)
     return av_age_theoretical, av_age_simulation

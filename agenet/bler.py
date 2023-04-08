@@ -45,8 +45,8 @@ def blercal(snr, n, k):
         ((n * c) - k) / math.sqrt(n * v)
     )  # this function calculates the block error rate
     # ref. On the Evaluation of the Polyanskiy-Poor-Verdu Converse Bound for Finite Blocklength Coding in AWGN
-    if err > 1:
-        err = 1
+    # if err > 1:
+    # err = 1
     return err  # return the block error rate
 
 
