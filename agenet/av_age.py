@@ -33,21 +33,3 @@ def average_age_of_information_fn(destination_times, generation_times, lambha):
     average_age = trapz(age, times) / np.amax(times)
     # Return the average age, the age array, and the times array
     return average_age, age, times
-
-
-# Define a function to plot and print the example average age of information
-def print_average_age_example():
-    # Calculate the average age of information for the example
-    average_age, age, times = average_age_of_information_fn(
-        list(range(1, 10001)), list(range(0, 10000)), 0.1
-    )
-    # Plot the age versus time
-    plt.plot(age, times)
-    plt.xlabel("Time")
-    plt.ylabel("Age")
-    plt.show()
-    # Print the average age of information
-    print(
-        "Average age of information when the destination times are [2,3,4,5], [1,2,3,4]:",
-        average_age,
-    )

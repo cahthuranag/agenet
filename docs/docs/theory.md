@@ -1,6 +1,7 @@
 # Theory
 ## overview 
 
+
 This section explains the theoretical basis for this system model. In this system, we analyze the age of information of a wireless communication model with several nodes. 
 ### Simulation Parameters
 
