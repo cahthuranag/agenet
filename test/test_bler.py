@@ -40,3 +40,26 @@ def test_blercal_th():
 
     # Test for large SNR
     assert np.isclose(round(blercal_th(1000, 600, 100), 3), 0)
+
+
+def qfunc(x):
+    if x < 0:
+        return 1
+    return 0.5 - 0.5 * sp.erf(x / math.sqrt(2))
+
+
+def test_qfunc():
+    # Test the qfunc function for some known inputs and expected outputs
+    assert qfunc(-10) == 1
+    assert qfunc(-1) == 1
+    assert qfunc(0) == 0.5
+    assert qfunc(1) == 0.15865525393145707
+
+    # Test the qfunc function for some edge cases
+    assert math.isnan(qfunc(float("nan")))
+    assert qfunc(float("-inf")) == 1
+    assert qfunc(float("inf")) == 0
+
+
+if __name__ == "__main__":
+    pytest.main()
