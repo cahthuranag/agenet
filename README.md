@@ -9,6 +9,11 @@ A Python 3.8 implementation of the System Model estimate the average AoI (AAoI) 
 ## System Model
 The following figure illustrates the wireless communication system that is proposed in this application. 
 ![System model.](https://github.com/cahthuranag/agenet/blob/main/docs/docs/figures/Fig1.png) 
+The diagram illustrates a wireless network that consists of multiple nodes. The transmission between each node and the relay is done using a transmission scheme similar to that of the slotted ALOHA protocol, which is a popular random access method used in wireless communication systems.
+
+However, the transmission between the relay and each destination uses dedicated communication channels, and as a result, no transmission scheme similar to ALOHA is employed for this part of the communication. This helps to reduce the possibility of collisions and improve the reliability of the communication.
+
+Additionally, short packet communication is used for transmission. Since short packets are more susceptible to errors, a finite block length information theory is employed to calculate the block error rate. This allows for a more accurate estimation of the probability of errors occurring during transmissio
 ## Features
 The agenet package allows the user to study the Age of Information (AoI) in a slotted URLLC-enabled ALOHA network, which can be used as a basis for implementing mission-critical wireless communication applications. This application can be used as a study tool to analyze the age of information in slotted ALOHA networks with multiple users and short packet communications scenarios to maintain URLLC (ultra-reliable low-latency communication). In this application, various parameters such as power allocation, block length, packet size, number of nodes in the network, and activation probability of each node can be adjusted to analyze how the age of information varies.
 
