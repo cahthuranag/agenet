@@ -61,7 +61,7 @@ This way, the package is installed in development mode. As a result, the pytest 
 
 ## Documentation
 
-* [*Agenet* package documentation]()
+* [*Agenet* package documentation](https://cahthuranag.github.io/agenet/)
 * [Developer's guide]()
 * [Scenario Description]()
 
