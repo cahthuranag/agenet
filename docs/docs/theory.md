@@ -23,4 +23,3 @@ In the maincom function, we consider the following parameters when calculating t
 
 
 
-test
