@@ -7,9 +7,9 @@
 # agenet
 A Python 3.8 implementation of the System Model estimate the average AoI (AAoI) in an ultra-reliable low latency communication (URLLC) enabled  wireless  communication system with slotted aloha scheme  over the quasi-static Rayleigh block fading channels. A packet communication scheme is used to meet both the reliability and latency requirements of the  proposed wireless network. By resorting to finite block length information theory, queuing theory and stochastic processes, theoretical results were obtained for this research software.
 ## System Model
-In this software,  a URLLC-enable wireless communication  system is proposed as illustrated in following figure. 
+The following figure illustrates the wireless communication system that is proposed in this application. 
 ![System model.](https://github.com/cahthuranag/agenet/blob/main/docs/docs/figures/Fig1.png) 
-
+## Features
 The agenet package allows the user to study the Age of Information (AoI) in a slotted URLLC-enabled ALOHA network, which can be used as a basis for implementing mission-critical wireless communication applications. This application can be used as a study tool to analyze the age of information in slotted ALOHA networks with multiple users and short packet communications scenarios to maintain URLLC (ultra-reliable low-latency communication). In this application, various parameters such as power allocation, block length, packet size, number of nodes in the network, and activation probability of each node can be adjusted to analyze how the age of information varies.
 
 The agenet package contains several functions that can be used to study the Age of Information (AoI) in a slotted URLLC-enabled ALOHA network. These functions include:
