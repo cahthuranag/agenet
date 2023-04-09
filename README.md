@@ -13,7 +13,7 @@ The diagram illustrates a wireless network that consists of multiple nodes. The 
 
 However, the transmission between the relay and each destination uses dedicated communication channels, and as a result, no transmission scheme similar to ALOHA is employed for this part of the communication. This helps to reduce the possibility of collisions and improve the reliability of the communication.
 
-Additionally, short packet communication is used for transmission. Since short packets are more susceptible to errors, a finite block length information theory is employed to calculate the block error rate. This allows for a more accurate estimation of the probability of errors occurring during transmissio
+Additionally, short packet communication is used for transmission. Since short packets are more susceptible to errors, a finite block length information theory is employed to calculate the block error rate. This allows for a more accurate estimation of the probability of errors occurring during transmission.
 ## Features
 The agenet package allows the user to study the Age of Information (AoI) in a slotted URLLC-enabled ALOHA network, which can be used as a basis for implementing mission-critical wireless communication applications. This application can be used as a study tool to analyze the age of information in slotted ALOHA networks with multiple users and short packet communications scenarios to maintain URLLC (ultra-reliable low-latency communication). In this application, various parameters such as power allocation, block length, packet size, number of nodes in the network, and activation probability of each node can be adjusted to analyze how the age of information varies.
 
@@ -28,7 +28,15 @@ Also, it is useful for analyzing the performance of the network and assessing th
 
 - Estimates the average AoI value for a given update generation time and receiving time. This function can be used to estimate the average AoI value for a given update generation time and receiving time, which is a useful metric for evaluating the performance of any network ;
 
-The package can be used to analyze the performance of a slotted URLLC-enabled ALOHA network and to implement mission-critical wireless communication applications. Additionally, a command-line script is included in the package that allows for easy experimentation with the model without requiring knowledge or use of Python. The user can run a simulation with default parameters using the command provided.
+The package can be used to analyze the performance of a slotted URLLC-enabled ALOHA network and to implement mission-critical wireless communication applications. Additionally, a command-line script is included in the package that allows for easy experimentation with the model. The user can run a simulation with default parameters using the command provided. To run a simulation with default parameters, the user can use a provided command. The simulation can generate both theoretical and simulated values for various factors such as block lengths, power allocations, packet sizes, activation probabilities, and number of nodes in the network. These values can be presented in the form of tables using following command.
+```
+ageprint
+```
+
+In addition to the tables, the simulation results can also be displayed as plots using the command 
+```
+ageplot
+```
 
 
 ## Requirements
