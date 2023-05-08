@@ -3,7 +3,7 @@ requires = [ "setuptools" ]
 build-backend = "setuptools.build_meta"
 
 [project]
-name = "egrader"
+name = "agenet"
 description = "Auto-grader for Git-based programming exercises"
 version = "0.0.3"
 authors = [ { name = "Chathuranga Basanyaka", email = "chathurangab@sltc.ac.lk" } ]
@@ -32,8 +32,7 @@ dependencies = [
     "yarl",
     "validators" ]
 
-[project.scripts]
-egrader = "egrader.cli_bin:main"
+
 
 [project.optional-dependencies]
 dev = [
@@ -60,13 +59,6 @@ dev = [
     "types-PyYAML",
     "types-requests" ]
 
-[project.urls]
-"Bug Reports" = "https://github.com/VideojogosLusofona/egrader/issues"
-"Documentation" = "https://videojogoslusofona.github.io/egrader/"
-"Source" = "https://github.com/VideojogosLusofona/egrader"
-
-[tool.setuptools]
-packages = [ "egrader" ]
 
 [tool.mypy]
 python_version = "3.10"
@@ -91,7 +83,7 @@ norecursedirs = [
     ".tox",
     ".git",
     "__pycache__" ]
-testpaths = ["egrader", "tests"]
+testpaths = ["agenet", "tests"]
 
 [tool.black]
 line-length = 88
@@ -99,7 +91,7 @@ line-length = 88
 [tool.isort]
 # https://pycqa.github.io/isort/docs/configuration/options.html
 profile = "black"
-src_paths = [ "egrader", "tests" ]
+src_paths = [ "agenet", "tests" ]
 line_length = 88
 skip_gitignore = "True"
 
