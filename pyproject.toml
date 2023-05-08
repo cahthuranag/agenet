@@ -1,0 +1,145 @@
+[build-system]
+requires = [ "setuptools" ]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "egrader"
+description = "Auto-grader for Git-based programming exercises"
+version = "0.0.3"
+authors = [ { name = "Chathuranga Basanyaka", email = "chathurangab@sltc.ac.lk" } ]
+readme = "README.md"
+requires-python = ">=3.10"
+keywords = [
+    "aat",
+    "education",
+    "autograder",
+    "programming",
+    "computer science education" ]
+license = {text = "GPL-3"}
+# https://pypi.org/classifiers/
+classifiers = [
+    "Development Status :: 3 - Alpha",
+    "Programming Language :: Python :: 3",
+    "Intended Audience :: Education",
+    "License :: OSI Approved :: GNU General Public License v3 (GPLv3)",
+    "Operating System :: POSIX",
+    "Topic :: Education" ]
+dependencies = [
+    "python-dateutil",
+    "pyyaml",
+    "requests",
+    "sh >= 2.0.0",
+    "yarl",
+    "validators" ]
+
+[project.scripts]
+egrader = "egrader.cli_bin:main"
+
+[project.entry-points."egrader.assess_repo"]
+min_commits = "egrader.plugins.repo:assess_min_commits"
+commit_date_interval = "egrader.plugins.repo:assess_commit_date_interval"
+commits_email = "egrader.plugins.repo:assess_commits_email"
+repo_exists = "egrader.plugins.repo:assess_repo_exists"
+files_exist = "egrader.plugins.repo:assess_files_exist"
+run_command = "egrader.plugins.repo:assess_run_command"
+
+[project.entry-points."egrader.assess_inter_repo"]
+more_commits_bonus = "egrader.plugins.inter_repo:assess_more_commits_bonus"
+
+[project.entry-points."egrader.report"]
+basic = "egrader.plugins.report:report_basic"
+markdown = "egrader.plugins.report:report_markdown"
+tsv = "egrader.plugins.report:report_tsv"
+
+[project.optional-dependencies]
+dev = [
+    "black",
+    "flake8 >= 6.0.0",
+    "flake8-black",
+    "flake8-builtins",
+    "flake8-bugbear",
+    "flake8-comprehensions",
+    "flake8-docstrings",
+    "flake8-isort",
+    "Flake8-pyproject",
+    "flake8-pytest-style",
+    "flake8-simplify",
+    "isort",
+    "mypy",
+    "pep8-naming",
+    "pre-commit",
+    "pytest >= 7.0",
+    "coverage",
+    "pytest-cov >= 3.0.0",
+    "pytest-mypy",
+    "types-python-dateutil",
+    "types-PyYAML",
+    "types-requests" ]
+
+[project.urls]
+"Bug Reports" = "https://github.com/VideojogosLusofona/egrader/issues"
+"Documentation" = "https://videojogoslusofona.github.io/egrader/"
+"Source" = "https://github.com/VideojogosLusofona/egrader"
+
+[tool.setuptools]
+packages = [ "egrader" ]
+
+[tool.mypy]
+python_version = "3.10"
+
+[[tool.mypy.overrides]]
+module = [
+    "validators",
+    "sh"
+]
+ignore_missing_imports = true
+
+[tool.pytest.ini_options]
+minversion = "7.0"
+addopts = "--mypy --doctest-modules"
+norecursedirs = [
+    "hooks",
+    "*.egg",
+    ".eggs",
+    "dist",
+    "build",
+    "docs",
+    ".tox",
+    ".git",
+    "__pycache__" ]
+testpaths = ["egrader", "tests"]
+
+[tool.black]
+line-length = 88
+
+[tool.isort]
+# https://pycqa.github.io/isort/docs/configuration/options.html
+profile = "black"
+src_paths = [ "egrader", "tests" ]
+line_length = 88
+skip_gitignore = "True"
+
+[tool.flake8]
+extend-select = [ "B9", "C4" ]
+max-line-length = 88
+max-doc-length = 88
+ignore = [
+    "B018",
+    # "E203", # whitespace before ':' # https://github.com/PyCQA/pycodestyle/issues/373
+    "E203",
+    "SIM106",
+    "W503" ]
+doctests = true
+exclude = [
+    ".git",
+    "__pycache__",
+    ".*cache",
+    "build",
+    "dist",
+    "env",
+    "venv",
+    ".eggs",
+    "*.egg",
+    "docs" ]
+# flake8-docstrings
+docstring-convention = "google"
