@@ -1,4 +1,6 @@
 def plot(numevnts=1000, numruns=100):
+    import matplotlib
+    matplotlib.use('TkAgg')
     import matplotlib.pyplot as plt
     from agenet.maincom import main, run_main
 
