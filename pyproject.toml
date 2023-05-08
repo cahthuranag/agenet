@@ -19,9 +19,7 @@ dependencies = [ "numpy", "pandas" , "tabulate", "matplotlib", "scipy"] # Not re
 [project.optional-dependencies]
 dev = [
     "pdoc",
-    "pytest >= 6.0",
-    "coverage",
-    "pytest-cov >= 3.0.0" ]
+ "pytest", "pytest-cov", "pytest-console-scripts", "coverage", "codecov" ]
 
 [tool.setuptools]
 #packages = ["finefibo"]
