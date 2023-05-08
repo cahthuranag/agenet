@@ -8,7 +8,7 @@ description = "Auto-grader for Git-based programming exercises"
 version = "0.0.3"
 authors = [ { name = "Chathuranga Basanyaka", email = "chathurangab@sltc.ac.lk" } ]
 readme = "README.md"
-requires-python = ">=3.10"
+requires-python = ">=3.8"
 keywords = [
     "aat",
     "education",
@@ -36,86 +36,6 @@ dependencies = [
 
 [project.optional-dependencies]
 dev = [
-    "black",
-    "flake8 >= 6.0.0",
-    "flake8-black",
-    "flake8-builtins",
-    "flake8-bugbear",
-    "flake8-comprehensions",
-    "flake8-docstrings",
-    "flake8-isort",
-    "Flake8-pyproject",
-    "flake8-pytest-style",
-    "flake8-simplify",
-    "isort",
-    "mypy",
-    "pep8-naming",
-    "pre-commit",
-    "pytest >= 7.0",
-    "coverage",
-    "pytest-cov >= 3.0.0",
-    "pytest-mypy",
-    "types-python-dateutil",
-    "types-PyYAML",
-    "types-requests" ]
+    "numpy", "pandas", "tabulate", "matplotlib", "scipy" ]
 
 
-[tool.mypy]
-python_version = "3.10"
-
-[[tool.mypy.overrides]]
-module = [
-    "validators",
-    "sh"
-]
-ignore_missing_imports = true
-
-[tool.pytest.ini_options]
-minversion = "7.0"
-#addopts = "--mypy --doctest-modules"
-norecursedirs = [
-    "hooks",
-    "*.egg",
-    ".eggs",
-    "dist",
-    "build",
-    "docs",
-    ".tox",
-    ".git",
-    "__pycache__" ]
-testpaths = ["agenet", "tests"]
-
-[tool.black]
-line-length = 88
-
-[tool.isort]
-# https://pycqa.github.io/isort/docs/configuration/options.html
-profile = "black"
-src_paths = [ "agenet", "tests" ]
-line_length = 88
-skip_gitignore = "True"
-
-[tool.flake8]
-extend-select = [ "B9", "C4" ]
-max-line-length = 88
-max-doc-length = 88
-ignore = [
-    "B018",
-    # "E203", # whitespace before ':' # https://github.com/PyCQA/pycodestyle/issues/373
-    "E203",
-    "SIM106",
-    "W503" ]
-doctests = true
-exclude = [
-    ".git",
-    "__pycache__",
-    ".*cache",
-    "build",
-    "dist",
-    "env",
-    "venv",
-    ".eggs",
-    "*.egg",
-    "docs" ]
-# flake8-docstrings
-docstring-convention = "google"
