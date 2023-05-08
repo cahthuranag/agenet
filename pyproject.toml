@@ -1,41 +1,39 @@
 [build-system]
-requires = [ "setuptools" ]
+requires = ["setuptools"]
 build-backend = "setuptools.build_meta"
 
 [project]
 name = "agenet"
-description = "Auto-grader for Git-based programming exercises"
-version = "0.0.3"
-authors = [ { name = "Chathuranga Basanyaka", email = "chathurangab@sltc.ac.lk" } ]
+version = "0.0.1"
+description = "Age of Inforamtaion Model for wireless networks"
 readme = "README.md"
 requires-python = ">=3.8"
-keywords = [
-    "aat",
-    "education",
-    "autograder",
-    "programming",
-    "computer science education" ]
-license = {text = "GPL-3"}
-# https://pypi.org/classifiers/
-classifiers = [
-    "Development Status :: 3 - Alpha",
-    "Programming Language :: Python :: 3",
-    "Intended Audience :: Education",
-    "License :: OSI Approved :: GNU General Public License v3 (GPLv3)",
-    "Operating System :: POSIX",
-    "Topic :: Education" ]
-dependencies = [
-    "python-dateutil",
-    "pyyaml",
-    "requests",
-    "sh >= 2.0.0",
-    "yarl",
-    "validators" ]
+keywords = ["fibonacci", "recursive"]
+license = {text = "MIT"}
+authors = [ { name = "Chathuranga Basanayaka", email = "chathurangab@sltc.ac.lk" } ]
+dependencies = [ "numpy", "pandas" , "tabulate", "matplotlib", "scipy"] # Not really required
 
-
+[project.scripts]
+#pyfibo = "finefibo.fibo:run_from_cli"
 
 [project.optional-dependencies]
 dev = [
-    "numpy", "pandas", "tabulate", "matplotlib", "scipy" ]
+    "pdoc",
+    "pytest >= 6.0",
+    "coverage",
+    "pytest-cov >= 3.0.0" ]
+
+[tool.setuptools]
+#packages = ["finefibo"]
+
+[tool.pytest.ini_options]
+minversion = "6.0"
+addopts = "-v --tb=short --strict-markers"
+testpaths = [ "tests" ]
+#xfail_strict = "true"
+markers = [
+    "critical: The most critical tests",
+    "get: Test functions which return some value",
+    "fast: The fast tests" ]
 
 
