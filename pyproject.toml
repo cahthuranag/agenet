@@ -35,22 +35,6 @@ dependencies = [
 [project.scripts]
 egrader = "egrader.cli_bin:main"
 
-[project.entry-points."egrader.assess_repo"]
-min_commits = "egrader.plugins.repo:assess_min_commits"
-commit_date_interval = "egrader.plugins.repo:assess_commit_date_interval"
-commits_email = "egrader.plugins.repo:assess_commits_email"
-repo_exists = "egrader.plugins.repo:assess_repo_exists"
-files_exist = "egrader.plugins.repo:assess_files_exist"
-run_command = "egrader.plugins.repo:assess_run_command"
-
-[project.entry-points."egrader.assess_inter_repo"]
-more_commits_bonus = "egrader.plugins.inter_repo:assess_more_commits_bonus"
-
-[project.entry-points."egrader.report"]
-basic = "egrader.plugins.report:report_basic"
-markdown = "egrader.plugins.report:report_markdown"
-tsv = "egrader.plugins.report:report_tsv"
-
 [project.optional-dependencies]
 dev = [
     "black",
