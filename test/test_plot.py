@@ -1,8 +1,7 @@
 import pytest
 import matplotlib
-
+matplotlib.use('Agg')  # Use non-interactive backend
 import matplotlib.pyplot as plt
-
 from agenet.plot import plot
 
 def test_plot():
