@@ -27,7 +27,7 @@ def snr(N0, d, P):
 
 def snr_th(N0, d, P):
     """
-    Calculates the theoretical signal-to-noise ratio (SNR) of the received signal.
+    Calculates the theoretical snr of the received signal.
 
     Args:
         N0 (float): The power spectral density of the noise.
@@ -39,9 +39,6 @@ def snr_th(N0, d, P):
 
     """
     import math
-
-    import numpy as np
-
     f = 6 * (10**9)  # frequency of the signal
     C = 3 * (10**8)  # speed of light
     log_alpha = (20 * math.log10(d)) + (

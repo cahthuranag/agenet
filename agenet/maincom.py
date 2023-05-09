@@ -1,43 +1,44 @@
-import argparse
-import itertools as intert
-import math
+
 import random
 
-import matplotlib.pyplot as plt
 import numpy as np
-import pandas as pd
-import tabulate as tab
-from scipy import special as sp
 
 import agenet.av_age as av_age
 import agenet.snr as snr
 from agenet.bler import blercal, blercal_th
 
 
-def main(num_nodes: int, active_prob: float, n: int, k: int, P: float, numevents: int):
+def main(
+        num_nodes: int,
+        active_prob: float,
+        n: int,
+        k: int,
+        P: float,
+        numevents: int):
     """
-    Simulates a communication system and calculates the average age of information.
+    Simulates a communication system and calculates the AAoI.
 
     Args:
-        num_nodes (int): Number of nodes in the system, including the source node and the relay/access point.
+        num_nodes (int): Number of nodes in the system
         active_prob (float): Probability that a node is active.
         n (int): Number of bits in a block.
         k (int): Number of bits in a message.
-        P (float): Power of the nodes in the system.
+        P (float): Power of the nodes.
         numevents (int): Number of events to simulate.
 
     Returns:
-        Tuple[float, float]: A tuple of two floats. The first element is the theoretical average age of information
-        for the system, and the second element is the simulated average age of information for the system.
+        Tuple[float, float]: A tuple of two floats.
+        theoretical AAoI amd simulation AAoI.
     """
     lambda1 = 1  # arrival for one transmission period
     # lambda1 = genlambda[j]
     num_events = numevents  # number of events
-    inter_arrival_times = (1 / lambda1) * (np.ones(num_events))  # inter arrival times
+    inter_arrival_times = (1 / lambda1) * \
+        (np.ones(num_events))  # inter arrival times
     arrival_timestamps = np.cumsum(inter_arrival_times)  # arrival timestamps
     N0 = 1 * (10**-13)  # noise power
-    d1 = 700  # disatance between the source nodes and the relay or access point
-    d2 = 700  # distance between the the relay or access point and the destination
+    d1 = 700  # disatance between source nodes and relay 
+    d2 = 700  # distance between the relay and destination
     P1 = P  # power of the source nodes
     P2 = P  # power of the relay or access point
     # n = 300
@@ -50,11 +51,13 @@ def main(num_nodes: int, active_prob: float, n: int, k: int, P: float, numevents
     snr2_th = snr.snr_th(N0, d2, P2)
     er1_th = blercal_th(snr1_th, n1, k1)
     er2_th = blercal_th(snr2_th, n2, k2)
-    inter_service_times = (1 / lambda1) * np.ones((num_events))  # inter service times
+    inter_service_times = (1 / lambda1) * \
+        np.ones((num_events))  # inter service times
     # Generating departure timestamps for the node 1
     server_timestamps_1 = np.zeros(num_events)
     departure_timestamps_s = np.zeros(num_events)
-    su_p_th = active_prob * (1 - er1_th) * ((1 - active_prob) ** (num_nodes - 1))
+    su_p_th = active_prob * (1 - er1_th) * \
+        ((1 - active_prob) ** (num_nodes - 1))
     er_f_th = 1 - su_p_th
     er_p_th = er_f_th + (er2_th * (er_f_th - 1))
     for i in range(0, num_events):
@@ -77,13 +80,13 @@ def main(num_nodes: int, active_prob: float, n: int, k: int, P: float, numevents
             server_timestamps_1[i] = 0
 
         else:
-            departure_timestamps_s[i] = arrival_timestamps[i] + inter_service_times[i]
+            departure_timestamps_s[i] = arrival_timestamps[i] + \
+                inter_service_times[i]
             server_timestamps_1[i] = arrival_timestamps[i]
     # print(server_timestamps_1,departure_timestamps_s)
     dep = [x for x in departure_timestamps_s if x != 0]
     sermat = [x for x in server_timestamps_1 if x != 0]
     depcop = dep.copy()
-    sermat_int = sermat.copy()
     if server_timestamps_1[-1] == 0:
         if len(depcop) != 0:
             depcop.pop()
@@ -107,7 +110,8 @@ def main(num_nodes: int, active_prob: float, n: int, k: int, P: float, numevents
 
     # print(sermat, dep)
     system_time = 1 / lambda1  # system time (time which update in the system)
-    av_age_simulation, _, _ = av_age.average_age_of_information_fn(v1, t1, system_time)
+    av_age_simulation, _, _ = av_age.average_age_of_information_fn(
+        v1, t1, system_time)
 
     # print(er1, er2, er1_th, er2_th)
     av_age_theoretical = (1 / lambda1) * (0.5 + (1 / (1 - er_p_th)))
@@ -118,30 +122,38 @@ def main(num_nodes: int, active_prob: float, n: int, k: int, P: float, numevents
     # run the main function serveral times and get the average of the results
 
 
-# This function is used to run the main function several times and get the average of the results
-def run_main(num_nodes: int, active_prob: float, n: int, k: int, P: float, numevnts: int, numruns: int):
-    """Run the simulation `numruns` times and return the average age of information.
+# This function is used to run the main function several times and get the
+# average of the results
+def run_main(
+        num_nodes: int,
+        active_prob: float,
+        n: int,
+        k: int,
+        P: float,
+        numevnts: int,
+        numruns: int):
+    """Run the simulation `numruns` times and return the AAoI.
 
     Args:
         num_nodes: Number of nodes in the network.
         active_prob: Probability that a node is active in a given time slot.
-        n: Number of time slots in the simulation.
-        k: Number of neighbors each node is connected to.
-        P: Probability of successful transmission between two neighboring nodes.
-        numevnts: Number of events that occur during the simulation.
+        n (int): Number of bits in a block.
+        k (int): Number of bits in a message.
+        P (float): Power of the nodes.
+        numevnts: Number of events.
         numruns: Number of times to run the simulation.
 
     Returns:
-        A tuple containing the average theoretical age of information and the average simulation age of information.
+        A tuple containing the  theoretical AAoI and the simulation AAoI.
     """
     num_runs = numruns
     av_age_theoretical_run = 0
     av_age_simulation_run = 0
     for i in range(num_runs):
-        av_age_theoretical_i, av_age_simulation_i = main(num_nodes, active_prob, n, k, P, numevnts)
+        av_age_theoretical_i, av_age_simulation_i = main(
+            num_nodes, active_prob, n, k, P, numevnts)
         av_age_theoretical_run += av_age_theoretical_i
         av_age_simulation_run += av_age_simulation_i
     av_age_theoretical_run /= num_runs
     av_age_simulation_run /= num_runs
     return av_age_theoretical_run, av_age_simulation_run
-

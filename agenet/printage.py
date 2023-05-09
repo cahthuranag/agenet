@@ -1,9 +1,9 @@
 def printage(numevnts=100, numruns=100):
-    """Prints a table comparing theoretical and simulated results for different input values.
+    """Prints a table comparing results for different input values.
 
     Args:
-        numevnts (int, optional): The number of events to simulate. Defaults to 100.
-        numruns (int, optional): The number of runs to simulate. Defaults to 100.
+        numevnts (int, optional): The number of events, Defaults to 100.
+        numruns (int, optional): The number of runs,  Defaults to 100.
 
     Returns:
         None: This function only prints a table.
@@ -52,7 +52,8 @@ def printage(numevnts=100, numruns=100):
             ],
         )
     ):
-        # create a list of the constant values with the loop variable set to None
+        # create a list of the constant values with the loop variable set to
+        # None
         const_vals = [
             num_nodes_const,
             active_prob_const,
@@ -71,7 +72,7 @@ def printage(numevnts=100, numruns=100):
         table_rows = []
         for val in var_vals:
             theoretical, simulated = run_main(
-                *(const_vals[:i] + [val] + const_vals[i + 1 :])
+                *(const_vals[:i] + [val] + const_vals[i + 1:])
             )
             table_rows.append([val, theoretical, simulated])
 

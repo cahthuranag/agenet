@@ -30,7 +30,8 @@ ageprint = "agenet.printage:printage"
 [project.optional-dependencies]
 dev = [
     "pdoc",
- "pytest", "pytest-cov", "pytest-console-scripts", "coverage", "codecov" ]
+ "pytest", "pytest-cov", "pytest-console-scripts", "coverage", "codecov" ,"pre-commit"
+]
 
 [tool.setuptools]
 #packages = ["finefibo"]

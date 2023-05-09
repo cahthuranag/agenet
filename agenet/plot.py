@@ -1,10 +1,10 @@
 def plot(numevnts=1000, numruns=100):
     """
-    Plot the simulated and theoretical values of a system based on specified ranges of values for each variable.
+    Plot the simulated and theoretical for each variable.
 
     Args:
-        numevnts (int, optional): The number of events in the system. Default is 1000.
-        numruns (int, optional): The number of runs of the simulation. Default is 100.
+        numevnts (int, optional): The number of events. Default is 1000.
+        numruns (int, optional): The number of runs. Default is 100.
 
     Returns:
         None
@@ -63,7 +63,8 @@ def plot(numevnts=1000, numruns=100):
             ],
         )
     ):
-        # create a list of the constant values with the loop variable set to None
+        # create a list of the constant values with the loop variable set to
+        # None
         const_vals = [
             num_nodes_const,
             acative_prob_vals_const,
@@ -75,7 +76,8 @@ def plot(numevnts=1000, numruns=100):
         ]
         const_vals[i] = None
 
-        # create a new figure and plot the simulated and theoretical values with the constant values
+        # create a new figure and plot the simulated and theoretical values
+        # with the constant values
         fig, ax = plt.subplots()
         ax.plot(
             var_vals,
@@ -96,7 +98,7 @@ def plot(numevnts=1000, numruns=100):
         ax.set_xlabel(var_name)
         ax.legend()
         ax.set_title(
-            f"Plot of Simulated and Theoretical Values with respect to {var_name}"
+            f"Plot of Simulated and Theoretical Values respect to {var_name}"
         )
 
         # update the minimum and maximum values for the x and y-axes
@@ -129,7 +131,8 @@ def plot(numevnts=1000, numruns=100):
 
     # plt.show()
 
-    # set the x and y-axis limits based on the updated minimum and maximum values
+    # set the x and y-axis limits based on the updated minimum and maximum
+    # values
     ax.set_xlim(x_min, x_max)
     ax.set_ylim(y_min, y_max)
 
