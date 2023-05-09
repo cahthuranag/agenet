@@ -2,13 +2,7 @@ import numpy as np
 import math
 import argparse
 import random
-
-
-# import sys
 from scipy import special as sp
-
-
-# from av_age import validate
 import matplotlib.pyplot as plt
 from agenet.bler import blercal, blercal_th
 import agenet.snr as snr
@@ -19,7 +13,22 @@ import itertools as intert
 import matplotlib.pyplot as plt
 
 
-def main(num_nodes, active_prob, n, k, P, numevents):
+def main(num_nodes: int, active_prob: float, n: int, k: int, P: float, numevents: int):
+    """
+    Simulates a communication system and calculates the average age of information.
+
+    Args:
+        num_nodes (int): Number of nodes in the system, including the source node and the relay/access point.
+        active_prob (float): Probability that a node is active.
+        n (int): Number of bits in a block.
+        k (int): Number of bits in a message.
+        P (float): Power of the nodes in the system.
+        numevents (int): Number of events to simulate.
+
+    Returns:
+        Tuple[float, float]: A tuple of two floats. The first element is the theoretical average age of information
+        for the system, and the second element is the simulated average age of information for the system.
+    """
     lambda1 = 1  # arrival for one transmission period
     # lambda1 = genlambda[j]
     num_events = numevents  # number of events
@@ -109,19 +118,29 @@ def main(num_nodes, active_prob, n, k, P, numevents):
 
 
 # This function is used to run the main function several times and get the average of the results
-def run_main(num_nodes, active_prob, n, k, P, numevnts, numruns):
-    num_runs = numruns  # number of runs
+def run_main(num_nodes: int, active_prob: float, n: int, k: int, P: float, numevnts: int, numruns: int):
+    """Run the simulation `numruns` times and return the average age of information.
+
+    Args:
+        num_nodes: Number of nodes in the network.
+        active_prob: Probability that a node is active in a given time slot.
+        n: Number of time slots in the simulation.
+        k: Number of neighbors each node is connected to.
+        P: Probability of successful transmission between two neighboring nodes.
+        numevnts: Number of events that occur during the simulation.
+        numruns: Number of times to run the simulation.
+
+    Returns:
+        A tuple containing the average theoretical age of information and the average simulation age of information.
+    """
+    num_runs = numruns
     av_age_theoretical_run = 0
     av_age_simulation_run = 0
     for i in range(num_runs):
-        av_age_theoretical_i, av_age_simulation_i = main(
-            num_nodes, active_prob, n, k, P, numevnts
-        )
+        av_age_theoretical_i, av_age_simulation_i = main(num_nodes, active_prob, n, k, P, numevnts)
         av_age_theoretical_run += av_age_theoretical_i
         av_age_simulation_run += av_age_simulation_i
-    av_age_theoretical_run /= num_runs  # average of the theoretical results
-    av_age_simulation_run /= num_runs  # average of the simulation results
-    return (
-        av_age_theoretical_run,
-        av_age_simulation_run,
-    )  # return the average of the results
+    av_age_theoretical_run /= num_runs
+    av_age_simulation_run /= num_runs
+    return av_age_theoretical_run, av_age_simulation_run
+

@@ -1,4 +1,14 @@
 def printage(numevnts=100, numruns=100):
+    """Prints a table comparing theoretical and simulated results for different input values.
+
+    Args:
+        numevnts (int, optional): The number of events to simulate. Defaults to 100.
+        numruns (int, optional): The number of runs to simulate. Defaults to 100.
+
+    Returns:
+        None: This function only prints a table.
+
+    """
     from tabulate import tabulate
     from agenet.maincom import main, run_main
 

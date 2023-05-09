@@ -1,6 +1,4 @@
 def plot(numevnts=1000, numruns=100):
-    import matplotlib
-    #matplotlib.use('TkAgg')
     import matplotlib.pyplot as plt
     from agenet.maincom import main, run_main
 
@@ -111,15 +109,14 @@ def plot(numevnts=1000, numruns=100):
         )
 
     #plt.show()
-    fig.savefig('plot.png')
-
-    # close plot
-    plt.close(fig)
 
     # set the x and y-axis limits based on the updated minimum and maximum values
     ax.set_xlim(x_min, x_max)
     ax.set_ylim(y_min, y_max)
 
-def plotshow ():
-    import matplotlib.pyplot as plt
-    plt.show()
+
+def plotshow():  
+ from agenet.plot import plot
+ import matplotlib.pyplot as plt
+ plot() 
+ plt.show()

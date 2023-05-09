@@ -10,6 +10,15 @@ import scipy.special as sp
 
 
 def qfunc(x):
+    """
+    The Q-function is a mathematical function that gives the tail probability of the standard normal distribution.
+
+    Parameters:
+    x (float): input value for Q-function.
+
+    Returns:
+    float: value of the Q-function evaluated at x.
+    """
     if x < 0:
         return 1
     return 0.5 - 0.5 * sp.erf(
@@ -22,6 +31,17 @@ def qfunc(x):
 
 # Calculate the BLER for the given SNR, n, k
 def blercal(snr, n, k):
+    """
+    Calculate the Block Error Rate (BLER) for the given SNR, n, k.
+
+    Parameters:
+    snr (float): Signal-to-Noise Ratio (SNR).
+    n (int): Number of bits in the block.
+    k (int): Number of bits in the message.
+
+    Returns:
+    float: Block Error Rate (BLER) for the given SNR, n, k.
+    """
     if snr < 0:
         raise ValueError(
             "SNR must be non-negative"
@@ -51,6 +71,17 @@ def blercal(snr, n, k):
 
 
 def blercal_th(snr, n, k):  # this function calculates the theoretical block error rate
+    """
+    Calculate the theoretical Block Error Rate (BLER) for the given SNR, n, k.
+
+    Parameters:
+    snr (float): Signal-to-Noise Ratio (SNR).
+    n (int): Number of bits in the block.
+    k (int): Number of bits in the message.
+
+    Returns:
+    float: Theoretical Block Error Rate (BLER) for the given SNR, n, k.
+    """
     beta = 1 / (
         2 * math.pi * math.sqrt((2 ** (2 * k / n)) - 1)
     )  # this is the beta value
