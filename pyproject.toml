@@ -8,13 +8,20 @@ version = "0.0.1"
 description = "Age of Inforamtaion Model for wireless networks"
 readme = "README.md"
 requires-python = ">=3.8"
-keywords = ["fibonacci", "recursive"]
+keywords = ["age of inforamation ", "URLLC", "age of inforamation model"]
 license = {text = "MIT"}
-authors = [ { name = "Chathuranga Basanayaka", email = "chathurangab@sltc.ac.lk" } ]
+authors = [ { name = "Chathuranga Basanayaka", email = "chathurangab@sltc.ac.lk" }, 
+{name = "Nuno Fachada", email = "nuno.fachada@ulusofona.pt" }]
 dependencies = [ "numpy", "pandas" , "tabulate", "matplotlib", "scipy"] # Not really required
-
+classifiers = [
+    "License :: OSI Approved :: MIT License",
+    "Operating System :: OS Independent",
+    "Programming Language :: Python",
+    "Intended Audience :: Science/Research",
+    "Topic :: Scientific/Engineering" ]
 [project.scripts]
-#pyfibo = "finefibo.fibo:run_from_cli"
+ageplot = "agenet.plot:plot"
+ageprint = "agenet.printage:printage"
 
 [project.optional-dependencies]
 dev = [
@@ -33,5 +40,6 @@ markers = [
     "critical: The most critical tests",
     "get: Test functions which return some value",
     "fast: The fast tests" ]
+
 
 
