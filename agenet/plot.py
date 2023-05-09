@@ -1,6 +1,8 @@
-def plot(numevnts=1000, numruns=100):
+def plot(numevnts=1000, numruns=1):
     import matplotlib.pyplot as plt
     from agenet.maincom import main, run_main
+
+
 
     # create a range of values for each variable except the one being plotted
     num_nodes_vals = [1, 2, 3, 4, 5]
