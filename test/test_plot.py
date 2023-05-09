@@ -1,5 +1,6 @@
 import matplotlib
-matplotlib.use('Agg')  # use Agg backend
+matplotlib.use('Agg')
+
 import matplotlib.pyplot as plt
 
 from agenet.plot import plot
