@@ -24,7 +24,7 @@ ageplot = "agenet.plot:plot"
 ageprint = "agenet.printage:printage"
 [project.urls]
 "Homepage" = "https://github.com/cahthuranag/agenet"
-"Bug Tracker" = ""
+#"Bug Tracker" = ""
 "Documentation" = "https://cahthuranag.github.io/agenet/"
 
 [project.optional-dependencies]
