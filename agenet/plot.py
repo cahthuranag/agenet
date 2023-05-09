@@ -16,9 +16,8 @@ def plot(numevnts=1000, numruns=100):
     plot(numevnts=2000, numruns=50)
     """
     import matplotlib.pyplot as plt
-    from agenet.maincom import main, run_main
 
-
+    from agenet.maincom import run_main
 
     # create a range of values for each variable except the one being plotted
     num_nodes_vals = [1, 2, 3, 4, 5]
@@ -81,7 +80,7 @@ def plot(numevnts=1000, numruns=100):
         ax.plot(
             var_vals,
             [
-                run_main(*(const_vals[:i] + [val] + const_vals[i + 1 :]))[0]
+                run_main(*(const_vals[:i] + [val] + const_vals[i + 1:]))[0]
                 for val in var_vals
             ],
             label="Theoretical",
@@ -89,7 +88,7 @@ def plot(numevnts=1000, numruns=100):
         ax.plot(
             var_vals,
             [
-                run_main(*(const_vals[:i] + [val] + const_vals[i + 1 :]))[1]
+                run_main(*(const_vals[:i] + [val] + const_vals[i + 1:]))[1]
                 for val in var_vals
             ],
             label="Simulated",
@@ -108,7 +107,8 @@ def plot(numevnts=1000, numruns=100):
             min(
                 min(
                     [
-                        run_main(*(const_vals[:i] + [val] + const_vals[i + 1 :]))
+                        run_main(
+                            *(const_vals[:i] + [val] + const_vals[i + 1:]))
                         for val in var_vals
                     ]
                 )
@@ -119,22 +119,24 @@ def plot(numevnts=1000, numruns=100):
             max(
                 max(
                     [
-                        run_main(*(const_vals[:i] + [val] + const_vals[i + 1 :]))
+                        run_main(
+                            *(const_vals[:i] + [val] + const_vals[i + 1:]))
                         for val in var_vals
                     ]
                 )
             ),
         )
 
-    #plt.show()
+    # plt.show()
 
     # set the x and y-axis limits based on the updated minimum and maximum values
     ax.set_xlim(x_min, x_max)
     ax.set_ylim(y_min, y_max)
 
 
-def plotshow():  
- from agenet.plot import plot
- import matplotlib.pyplot as plt
- plot() 
- plt.show()
+def plotshow():
+    import matplotlib.pyplot as plt
+
+    from agenet.plot import plot
+    plot()
+    plt.show()

@@ -1,6 +1,4 @@
-# test_maincom.py
-
-from agenet.maincom import main, run_main
+# Tests for printage.py
 from agenet.printage import printage
 
 

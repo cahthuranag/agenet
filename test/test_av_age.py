@@ -1,5 +1,6 @@
 import numpy as np
 import pytest
+from matplotlib import pyplot as plt
 from scipy.integrate import trapz
 
 from agenet.av_age import average_age_of_information_fn
@@ -44,7 +45,8 @@ def test_average_age_of_information_fn():
     actual_average_age, _, _ = average_age_of_information_fn(
         destination_times, generation_times, lambha
     )
-    # Check that the actual average age of information matches the expected value
+    # Check that the actual average age of information 
+    # matches the expected value
     assert np.isclose(actual_average_age, expected_average_age, rtol=1e-1)
 
 
