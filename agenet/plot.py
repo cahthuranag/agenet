@@ -1,4 +1,20 @@
-def plot(numevnts=1000, numruns=1):
+def plot(numevnts=1000, numruns=100):
+    """
+    Plot the simulated and theoretical values of a system based on specified ranges of values for each variable.
+
+    Args:
+        numevnts (int, optional): The number of events in the system. Default is 1000.
+        numruns (int, optional): The number of runs of the simulation. Default is 100.
+
+    Returns:
+        None
+
+    Raises:
+        None
+
+    Example:
+        >>> plot(numevnts=2000, numruns=50)
+    """
     import matplotlib.pyplot as plt
     from agenet.maincom import main, run_main
 
