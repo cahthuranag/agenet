@@ -5,7 +5,7 @@ build-backend = "setuptools.build_meta"
 [project]
 name = "agenet"
 version = "0.0.1"
-description = "Age of Inforamtaion Model for wireless networks"
+description = "Age of Information Model for wireless networks"
 readme = "README.md"
 requires-python = ">=3.8"
 keywords = ["age of inforamation ", "URLLC", "age of inforamation model"]
@@ -22,6 +22,10 @@ classifiers = [
 [project.scripts]
 ageplot = "agenet.plot:plot"
 ageprint = "agenet.printage:printage"
+[project.urls]
+"Homepage" = "https://github.com/cahthuranag/agenet"
+"Bug Tracker" = ""
+"Documentation" = "https://cahthuranag.github.io/agenet/"
 
 [project.optional-dependencies]
 dev = [
