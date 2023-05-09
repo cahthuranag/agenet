@@ -5,7 +5,18 @@ repos:
     -   id: check-yaml
     -   id: end-of-file-fixer
     -   id: trailing-whitespace
--   repo: https://github.com/psf/black
-    rev: 22.10.0
+-   repo: https://github.com/pycqa/flake8
+    rev: '6.0.0'
     hooks:
-    -   id: black
+    -   id: flake8
+        additional_dependencies:
+        -   flake8-black
+        -   flake8-builtins
+        -   flake8-bugbear
+        -   flake8-comprehensions
+        -   flake8-docstrings
+        -   flake8-isort
+        -   flake8-pytest-style
+        -   flake8-simplify
+        -   Flake8-pyproject
+        exclude: docs
