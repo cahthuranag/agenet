@@ -9,7 +9,7 @@ def test_plot():
     plot(numevnts=500, numruns=1)
 
     # assert that the plot is not displayed
-    assert len(plt.get_fignums()) == 0
+    assert len(plt.get_fignums()) == 4
     plt.close('all')
 
 

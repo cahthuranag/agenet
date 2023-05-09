@@ -20,7 +20,7 @@ classifiers = [
     "Intended Audience :: Science/Research",
     "Topic :: Scientific/Engineering" ]
 [project.scripts]
-ageplot = "agenet.plot:plot"
+ageplot = "agenet.plot:plotshow"
 ageprint = "agenet.printage:printage"
 [project.urls]
 "Homepage" = "https://github.com/cahthuranag/agenet"
