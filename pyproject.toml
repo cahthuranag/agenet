@@ -45,6 +45,35 @@ markers = [
     "critical: The most critical tests",
     "get: Test functions which return some value",
     "fast: The fast tests" ]
+[tool.black]
+line-length = 88
+
+[tool.isort]
+# https://pycqa.github.io/isort/docs/configuration/options.html
+profile = "black"
+src_paths = ["agenet", "tests"]
+line_length = 88
+skip_gitignore = "True"
+
+[tool.flake8]
+extend-select = ["B9", "C4"]
+max-line-length = 88
+max-doc-length = 88
+ignore = [ "B018", "SIM106", "W503" ]
+doctests = true
+exclude = [
+    ".git",
+    "__pycache__",
+    ".*cache",
+    "build",
+    "dist",
+    "env",
+    "venv",
+    ".eggs",
+    "*.egg",
+    "docs" ]
+# flake8-docstrings
+docstring-convention = "google"  
 
 
 
