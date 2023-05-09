@@ -1,6 +1,5 @@
 import math
 
-import numpy as np
 import scipy.special as sp
 
 # this function claculate block error rate for the given snr, n, k
@@ -87,8 +86,7 @@ def blercal_th(snr, n, k):  # this function calculates the theoretical block err
         2 * math.pi * math.sqrt((2 ** (2 * k / n)) - 1)
     )  # this is the beta value
     sim_phi = (2 ** (k / n)) - 1  # this is the phi value
-    phi_bas = sim_phi - (1 / (2 * beta * math.sqrt(n))
-                         )  # this is the phi value
+    phi_bas = sim_phi - (1 / (2 * beta * math.sqrt(n)))  # this is the phi value
     delta = sim_phi + (1 / (2 * beta * math.sqrt(n)))
     err_th = 1 - (
         (beta * math.sqrt(n) * snr)
