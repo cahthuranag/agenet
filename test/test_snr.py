@@ -1,5 +1,7 @@
-import pytest
 import math
+
+import pytest
+
 from agenet.snr import snr, snr_th
 
 

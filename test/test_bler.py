@@ -1,7 +1,9 @@
 import math
+
 import numpy as np
-import scipy.special as sp
 import pytest
+import scipy.special as sp
+
 from agenet.bler import blercal, blercal_th
 
 # Test blercal() function

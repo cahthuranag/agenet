@@ -10,7 +10,8 @@ def printage(numevnts=100, numruns=100):
 
     """
     from tabulate import tabulate
-    from agenet.maincom import main, run_main
+
+    from agenet.maincom import run_main
 
     # create a range of values for each variable except the one being tabled
     num_nodes_vals = [1, 2, 3, 4, 5]

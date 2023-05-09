@@ -1,7 +1,9 @@
-import pytest
-from agenet.av_age import average_age_of_information_fn
 import numpy as np
+import pytest
 from scipy.integrate import trapz
+
+from agenet.av_age import average_age_of_information_fn
+
 
 # def test_av_age_func_values():
 #     assert av_age_func([2,3,4,5], [1,2,3,4]) == 1.3

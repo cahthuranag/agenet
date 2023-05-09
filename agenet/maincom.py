@@ -1,16 +1,17 @@
-import numpy as np
-import math
 import argparse
+import itertools as intert
+import math
 import random
-from scipy import special as sp
+
 import matplotlib.pyplot as plt
-from agenet.bler import blercal, blercal_th
-import agenet.snr as snr
-import agenet.av_age as av_age
+import numpy as np
 import pandas as pd
 import tabulate as tab
-import itertools as intert
-import matplotlib.pyplot as plt
+from scipy import special as sp
+
+import agenet.av_age as av_age
+import agenet.snr as snr
+from agenet.bler import blercal, blercal_th
 
 
 def main(num_nodes: int, active_prob: float, n: int, k: int, P: float, numevents: int):

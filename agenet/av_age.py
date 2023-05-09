@@ -1,6 +1,6 @@
 import numpy as np
 from scipy.integrate import trapz
-import matplotlib.pyplot as plt
+
 
 # Define the average age of information function
 def average_age_of_information_fn(destination_times, generation_times, lambha):

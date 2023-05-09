@@ -12,6 +12,7 @@ def snr(N0, d, P):
 
     """
     import math
+
     import numpy as np
 
     f = 6 * (10**9)  # frequency of the signal
@@ -38,6 +39,7 @@ def snr_th(N0, d, P):
 
     """
     import math
+
     import numpy as np
 
     f = 6 * (10**9)  # frequency of the signal
