@@ -34,7 +34,7 @@ dev = [
 ]
 
 [tool.setuptools]
-#packages = ["finefibo"]
+
 
 [tool.pytest.ini_options]
 minversion = "6.0"
