@@ -138,10 +138,16 @@ def plot(numevnts=1000, numruns=100):
 
 
 def plotshow():
+    import matplotlib.pyplot as plt
+
+    from agenet.plot import plot
+    plot()
+    plt.show()
+
+def main():
+    from agenet.plot import plot
     import argparse
     import matplotlib.pyplot as plt
-    from agenet.plot import plot
-
     parser = argparse.ArgumentParser()
     parser.add_argument(
         "--numevnts",
@@ -160,7 +166,5 @@ def plotshow():
     plot(args.numevnts, args.numruns)
     plt.show()
 
-if __name__ == "__plot__":
-    plot()
- 
-plotshow()
+if __name__ == "__main__":
+    main()
