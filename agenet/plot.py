@@ -138,8 +138,29 @@ def plot(numevnts=1000, numruns=100):
 
 
 def plotshow():
+    import argparse
     import matplotlib.pyplot as plt
-
     from agenet.plot import plot
-    plot()
+
+    parser = argparse.ArgumentParser()
+    parser.add_argument(
+        "--numevnts",
+        type=int,
+        default=1000,
+        help="The number of events (default: 1000)",
+    )
+    parser.add_argument(
+        "--numruns",
+        type=int,
+        default=100,
+        help="The number of runs (default: 100)",
+    )
+    args = parser.parse_args()
+
+    plot(args.numevnts, args.numruns)
     plt.show()
+
+if __name__ == "__plot__":
+    plot()
+ 
+plotshow()
