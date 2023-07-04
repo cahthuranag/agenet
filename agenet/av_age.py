@@ -29,7 +29,7 @@ def average_age_of_information_fn(destination_times, generation_times, lambha):
         # Concatenate the times array with the dummy array
         times = np.concatenate((times, dummy))
     # Initialize a counter (ii) and an offset
-    ii = 0 
+    ii = 0
     offset = 0
     # Initialize the age array as the times array
     age = times.copy()

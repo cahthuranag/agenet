@@ -1,11 +1,9 @@
-
 import random
-
 import numpy as np
-
 import agenet.av_age as av_age
 import agenet.snr as snr
 from agenet.bler import blercal, blercal_th
+import argparse
 
 
 def main(
@@ -28,7 +26,7 @@ def main(
 
     Returns:
         Tuple[float, float]: A tuple of two floats.
-        theoretical AAoI amd simulation AAoI.
+        theoretical AAoI and simulation AAoI.
     """
     lambda1 = 1  # arrival for one transmission period
     # lambda1 = genlambda[j]
@@ -37,7 +35,7 @@ def main(
         (np.ones(num_events))  # inter arrival times
     arrival_timestamps = np.cumsum(inter_arrival_times)  # arrival timestamps
     N0 = 1 * (10**-13)  # noise power
-    d1 = 700  # disatance between source nodes and relay 
+    d1 = 700  # disatance between source nodes and relay
     d2 = 700  # distance between the relay and destination
     P1 = P  # power of the source nodes
     P2 = P  # power of the relay or access point
@@ -119,8 +117,6 @@ def main(
     # print(av_age_simulation, av_age_theoretical)
     return av_age_theoretical, av_age_simulation
 
-    # run the main function serveral times and get the average of the results
-
 
 # This function is used to run the main function several times and get the
 # average of the results
@@ -144,7 +140,7 @@ def run_main(
         numruns: Number of times to run the simulation.
 
     Returns:
-        A tuple containing the  theoretical AAoI and the simulation AAoI.
+        A tuple containing the theoretical AAoI and the simulation AAoI.
     """
     num_runs = numruns
     av_age_theoretical_run = 0
@@ -157,3 +153,31 @@ def run_main(
     av_age_theoretical_run /= num_runs
     av_age_simulation_run /= num_runs
     return av_age_theoretical_run, av_age_simulation_run
+
+
+def parse_arguments():
+    """Parse command-line arguments."""
+    parser = argparse.ArgumentParser(description='AAoI Simulation')
+    parser.add_argument('--num_nodes', type=int, default=2,
+                        help='Number of nodes in the network')
+    parser.add_argument('--active_prob', type=float, default=0.5,
+                        help='Probability that a node is active in a given time slot')
+    parser.add_argument('--n', type=int, default=200,
+                        help='Number of bits in a block')
+    parser.add_argument('--k', type=int, default=150,
+                        help='Number of bits in a message')
+    parser.add_argument('--P', type=float, default=0.1,
+                        help='Power of the nodes')
+    parser.add_argument('--numevents', type=int, default=1000,
+                        help='Number of events')
+    parser.add_argument('--numruns', type=int, default=100,
+                        help='Number of times to run the simulation')
+    return parser.parse_args()
+
+
+if __name__ == '__main__':
+    args = parse_arguments()
+    theoretical_aaoi, simulation_aaoi = run_main(
+        args.num_nodes, args.active_prob, args.n, args.k, args.P, args.numevents, args.numruns)
+    print('Theoretical AAoI:', theoretical_aaoi)
+    print('Simulation AAoI:', simulation_aaoi)

@@ -95,6 +95,11 @@ def blercal_th(snr, n, k):  # this function calculates the theoretical block err
     )
     return err_th
 if __name__ == "__main__":
+    """
+    This is the main function that is called when the file is run directly.
+    command line arguments are used to calculate the block error rate.
+    """
+
     parser = argparse.ArgumentParser(description="Block Error Rate Calculation")
     parser.add_argument("--snr", type=float, help="Signal-to-Noise Ratio (SNR)")
     parser.add_argument("--n", type=int, help="Number of bits in the block")
@@ -117,7 +122,7 @@ if __name__ == "__main__":
     else:
         if theory:
             err_th = blercal_th(snr, n, k)
-            print(f"Theoretical BLER: {err_th}")
+            print(f"Theoretical BLER: {err_th}") # this prints the theoretical block error rate
         else:
             err = blercal(snr, n, k)
-            print(f"BLER: {err}")
+            print(f"BLER: {err}") # this prints the block error rate simulated
