@@ -79,3 +79,14 @@ def printage(numevnts=100, numruns=100):
         # print the table
         print(tabulate(table_rows, headers=headers, tablefmt="grid"))
         print("\n")
+def main():
+    import argparse
+    from agenet.printage import printage
+    parser = argparse.ArgumentParser(description='Prints a table comparing results for different input values.')
+    parser.add_argument('--numevnts', type=int, default=100, help='The number of events')
+    parser.add_argument('--numruns', type=int, default=100, help='The number of runs')
+    args = parser.parse_args()
+    printage(args.numevnts, args.numruns)
+
+if __name__ == "__main__":
+    main()
