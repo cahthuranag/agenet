@@ -1,4 +1,5 @@
 import math
+import argparse
 
 import scipy.special as sp
 
@@ -93,3 +94,30 @@ def blercal_th(snr, n, k):  # this function calculates the theoretical block err
         * (math.exp(-1 * phi_bas * (1 / snr)) - math.exp(-1 * delta * (1 / snr)))
     )
     return err_th
+if __name__ == "__main__":
+    parser = argparse.ArgumentParser(description="Block Error Rate Calculation")
+    parser.add_argument("--snr", type=float, help="Signal-to-Noise Ratio (SNR)")
+    parser.add_argument("--n", type=int, help="Number of bits in the block")
+    parser.add_argument("--k", type=int, help="Number of bits in the message")
+    parser.add_argument(
+        "--theory",
+        action="store_true",
+        help="Calculate theoretical Block Error Rate (BLER)",
+    )
+
+    args = parser.parse_args()
+
+    snr = args.snr
+    n = args.n
+    k = args.k
+    theory = args.theory
+
+    if snr is None or n is None or k is None:
+        parser.print_help()
+    else:
+        if theory:
+            err_th = blercal_th(snr, n, k)
+            print(f"Theoretical BLER: {err_th}")
+        else:
+            err = blercal(snr, n, k)
+            print(f"BLER: {err}")
