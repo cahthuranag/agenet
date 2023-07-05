@@ -50,7 +50,7 @@ def blercal_th(snr: float, n: int, k: int) -> float:
     """
     Calculate the theoretical Block Error Rate (BLER) for the given SNR, n, k.
 
-    Parameters:
+    Args:
     snr (float): Signal-to-Noise Ratio (SNR).
     n (int): Number of bits in the block.
     k (int): Number of bits in the message.
