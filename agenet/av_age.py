@@ -54,13 +54,27 @@ def average_age_of_information_fn(
     return average_age, age, times
 
 
-if __name__ == '__main__':
-    parser = argparse.ArgumentParser(description='Calculate the average age of information.')
-    parser.add_argument('--lambha', type=float, default=1, help='The arrival rate of information.')
-    parser.add_argument('--dest_times', nargs='+', type=float, default=[0.5, 1.5, 2.5, 3.5, 4.5],
-                        help='Destination times.')
-    parser.add_argument('--gen_times', nargs='+', type=float, default=[0.3, 0.8, 1.2, 1.6, 2.0],
-                        help='Generation times.')
+if __name__ == "__main__":
+    parser = argparse.ArgumentParser(
+        description="Calculate the average age of information."
+    )
+    parser.add_argument(
+        "--lambha", type=float, default=1, help="The arrival rate of information."
+    )
+    parser.add_argument(
+        "--dest_times",
+        nargs="+",
+        type=float,
+        default=[0.5, 1.5, 2.5, 3.5, 4.5],
+        help="Destination times.",
+    )
+    parser.add_argument(
+        "--gen_times",
+        nargs="+",
+        type=float,
+        default=[0.3, 0.8, 1.2, 1.6, 2.0],
+        help="Generation times.",
+    )
     args = parser.parse_args()
 
     # Convert destination_times and generation_times to lists
@@ -69,7 +83,9 @@ if __name__ == '__main__':
     lambha = args.lambha
 
     # Call the function with the provided arguments
-    average_age, age, times =average_age_of_information_fn(destination_times, generation_times, lambha)
+    average_age, age, times = average_age_of_information_fn(
+        destination_times, generation_times, lambha
+    )
 
     # Print the results
-    print('Average Age of Information:', average_age)
+    print("Average Age of Information:", average_age)
