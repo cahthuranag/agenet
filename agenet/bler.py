@@ -1,7 +1,7 @@
 import math
 import argparse
 
-import scipy.special as sp
+import scipy.special as sp 
 
 
 def qfunc(x: float) -> float:
@@ -17,7 +17,7 @@ def qfunc(x: float) -> float:
     """
     if x < 0:
         return 1
-    return 0.5 - 0.5 * sp.erf(x / math.sqrt(2))
+    return 0.5 - 0.5 * sp.erf(x / math.sqrt(2)) # pylint: disable=E1101
 
 
 def blercal(snr: float, n: int, k: int) -> float:
