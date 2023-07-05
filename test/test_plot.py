@@ -9,5 +9,4 @@ def test_plot():
 
     # assert that the plot is not displayed
     assert len(plt.get_fignums()) == 5
-    plt.close('all')
-    
+    plt.close("all")

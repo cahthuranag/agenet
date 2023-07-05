@@ -1,19 +1,24 @@
+# Copyright (c) 2023 Chathuranga M. Basnayaka and Nuno Fachada
+# Distributed under the MIT License. See LICENSE.md for more info.
 import numpy as np
 from scipy.integrate import trapz
+from typing import Tuple, List
 
 
 # Define the average age of information function
-def average_age_of_information_fn(destination_times, generation_times, lambha):
+def average_age_of_information_fn(
+    destination_times: List[float], generation_times: List[float], lambha: float
+) -> Tuple[float, np.ndarray, np.ndarray]:
     """
     Calculate the average age of information given the destination times, generation times, and arrival rate.
 
     Args:
-        destination_times (array-like): A sorted array of destination times.
-        generation_times (array-like): An array of the corresponding generation times for each destination time.
+        destination_times (List[float]): A sorted list of destination times.
+        generation_times (List[float]): A list of the corresponding generation times for each destination time.
         lambha (float): The arrival rate of information.
 
     Returns:
-        Tuple[float, array-like, array-like]: A tuple containing the average age of information, the array of ages
+        Tuple[float, np.ndarray, np.ndarray]: A tuple containing the average age of information, the array of ages
         for each time step, and the corresponding time step array.
     """
     # Define the time step (p) as a constant (lambha)
@@ -24,8 +29,7 @@ def average_age_of_information_fn(destination_times, generation_times, lambha):
     # Loop through the rest of the destination times
     for i in range(1, len(destination_times)):
         # Generate an array of times between two consecutive destination times
-        dummy = np.arange(
-            destination_times[i - 1], destination_times[i] + p, p)
+        dummy = np.arange(destination_times[i - 1], destination_times[i] + p, p)
         # Concatenate the times array with the dummy array
         times = np.concatenate((times, dummy))
     # Initialize a counter (ii) and an offset

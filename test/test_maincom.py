@@ -8,6 +8,7 @@ test_cases = [
     (4, 0.5, 500, 50, 50**-3, 1000),  # test case 2
 ]
 
+
 # define pytest function to test main function with multiple test cases
 @pytest.mark.parametrize("num_nodes, active_prob, n, k, P,numevents", test_cases)
 def test_main(num_nodes, active_prob, n, k, P, numevents):
