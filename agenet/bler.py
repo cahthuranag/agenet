@@ -1,7 +1,7 @@
-import math
 import argparse
+import math
 
-import scipy.special as sp 
+import scipy.special as sp
 
 
 def qfunc(x: float) -> float:

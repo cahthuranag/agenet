@@ -1,6 +1,7 @@
-import math
-import numpy as np
 import argparse
+import math
+
+import numpy as np
 
 
 def snr(N0: float, d: float, P: float) -> float:

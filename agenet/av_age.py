@@ -1,7 +1,8 @@
+import argparse
+from typing import List, Tuple
+
 import numpy as np
 from scipy.integrate import trapz
-from typing import Tuple, List
-import argparse
 
 
 # Define the average age of information function

@@ -1,10 +1,12 @@
+import argparse
 import random
+from typing import Tuple
+
 import numpy as np
+
 import agenet.av_age as av_age
 import agenet.snr as snr
 from agenet.bler import blercal, blercal_th
-import argparse
-from typing import Tuple
 
 
 def main(

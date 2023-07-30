@@ -1,9 +1,11 @@
 # Copyright (c) 2023 Chathuranga M. Basnayaka and Nuno Fachada
 # Distributed under the MIT License. See LICENSE.md for more info.
-import matplotlib.pyplot as plt
 import argparse
-from agenet.maincom import run_main
 from typing import List
+
+import matplotlib.pyplot as plt
+
+from agenet.maincom import run_main
 
 
 def plot_generate(

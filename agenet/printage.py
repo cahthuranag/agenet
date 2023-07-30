@@ -1,7 +1,9 @@
 import argparse
-from tabulate import tabulate
-from agenet.maincom import run_main
 from typing import List
+
+from tabulate import tabulate
+
+from agenet.maincom import run_main
 
 
 def generate_comparison_table(
@@ -17,24 +19,10 @@ def generate_comparison_table(
     n_vals: List[int],
     k_vals: List[int],
     P_vals: List[float],
+    file=None,
 ) -> None:
     """
     Generates a table comparing the theoretical and simulated values for the given input values.
-    Args:
-        num_nodes_const (int): Constant value for the number of nodes.
-        active_prob_const (float): Constant value for the active probability.
-        n_const (int): Constant value for the block length.
-        k_const (int): Constant value for the update size.
-        P_const (float): Constant value for the power.
-        numevnts (int): Number of events to simulate.
-        numruns (int): Number of runs to simulate.
-        num_nodes_vals (List[int]): List of values for the number of nodes.
-        active_prob_vals (List[float]): List of values for the active probability.
-        n_vals (List[int]): List of values for the block length.
-        k_vals (List[int]): List of values for the update size.
-        P_vals (List[float]): List of values for the power.
-    Returns:
-        The table is printed to the console.
     """
     for i, (var_name, var_vals) in enumerate(
         zip(
@@ -54,7 +42,6 @@ def generate_comparison_table(
             ],
         )
     ):
-        # create a list of the constant values with the loop variable set to None
         const_vals = [
             num_nodes_const,
             active_prob_const,
@@ -66,10 +53,8 @@ def generate_comparison_table(
         ]
         const_vals[i] = None
 
-        # create the table headers
         headers = [var_name, "Theoretical", "Simulated"]
 
-        # create a list of rows for the table
         table_rows = []
         for val in var_vals:
             theoretical, simulated = run_main(
@@ -77,9 +62,12 @@ def generate_comparison_table(
             )
             table_rows.append([val, theoretical, simulated])
 
-        # print the table
-        print(tabulate(table_rows, headers=headers, tablefmt="grid"))
-        print("\n")
+        if file is not None:
+            file.write(tabulate(table_rows, headers=headers, tablefmt="grid") + "\n\n")
+        else:
+            print(tabulate(table_rows, headers=headers, tablefmt="grid"))
+            print("\n")
+
 
 
 def printage(args: argparse.Namespace) -> None:
