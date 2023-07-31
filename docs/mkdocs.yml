@@ -7,7 +7,7 @@ site_author: Chathuranga Basanayaka
 copyright: <a rel="license" href="http://creativecommons.org/licenses/by/4.0/"><img alt="CC-BY License" style="border-width:0" src="https://i.creativecommons.org/l/by/4.0/80x15.png" /></a>
 
 theme:
-  name: material
+  name: mkdocs
   custom_dir: overrides
   logo: https://github.com/clugen/.github/blob/main/logos/apple-touch-icon-120x120.png?raw=true
   favicon: https://raw.githubusercontent.com/clugen/.github/main/logos/favicon.ico
@@ -16,29 +16,27 @@ theme:
   palette:
     accent: deep orange
   features:
-  - navigation.instant
-  - navigation.expand
-  - navigation.indexes
-  - navigation.tabs
-  - navigation.tabs.sticky
-  - toc.integrate
-
+    - navigation.instant
+    - navigation.expand
+    - navigation.indexes
+    - navigation.tabs
+    - navigation.tabs.sticky
+    - toc.integrate
 
 watch:
   - ../agenet
 
 nav:
-- Home: index.md
-- Theory: theory.md
-#- Examples: generated/gallery
-#- Reference: reference.md
-#- Development: dev.md
- 
+  - Home: index.md
+  - Theory: theory.md
+  # - Examples: generated/gallery
+  # - Reference: reference.md
+  # - Development: dev.md
 
-
-
+plugins:
+  - mkdocstrings
 
 extra_javascript:
-- javascripts/mathjax.js
-- https://polyfill.io/v3/polyfill.min.js?features=es6
-- https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js
+  - javascripts/mathjax.js
+  - https://polyfill.io/v3/polyfill.min.js?features=es6
+  - https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js

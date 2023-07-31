@@ -7,6 +7,8 @@ from agenet.maincom import run_main
 
 
 def generate_comparison_table(
+
+    
     num_nodes_const: int,
     active_prob_const: float,
     n_const: int,
@@ -23,6 +25,20 @@ def generate_comparison_table(
 ) -> None:
     """
     Generates a table comparing the theoretical and simulated values for the given input values.
+    Args: num_nodes_const (int): Constant value for the number of nodes.
+        active_prob_const (float): Constant value for the active probability.
+        n_const (int): Constant value for the block length.
+        k_const (int): Constant value for the update size.
+        P_const (float): Constant value for the power.
+        numevnts (int): The number of events.
+        numruns (int): The number of runs.
+        num_nodes_vals (List[int]): Values for the number of nodes.
+        active_prob_vals (List[float]): Values for the active probability.
+        n_vals (List[int]): Values for the block length.
+        k_vals (List[int]): Values for the update size.
+        P_vals (List[float]): Values for the power.
+    Returns:
+        Thus funtion will return a table comparing the theoretical and simulated values for the given input values.            
     """
     for i, (var_name, var_vals) in enumerate(
         zip(
@@ -141,7 +157,7 @@ def main() -> None:
     )
 
     parser.add_argument(
-        "--numevnts", type=int, default=100, help="The number of events."
+        "--numevnts", type=int, default=500, help="The number of events."
     )
     parser.add_argument("--numruns", type=int, default=100, help="The number of runs.")
 
