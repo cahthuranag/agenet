@@ -23,29 +23,6 @@ theme:
   - navigation.tabs.sticky
   - toc.integrate
 
-plugins:
-- search
-- gallery:
-    examples_dirs: docs/examples
-    gallery_dirs: docs/generated/gallery
-    within_subsection_order: FileNameSortKey
-    run_stale_examples: true
-    reset_modules: []
-- mkdocstrings:
-    default_handler: python
-    handlers:
-      python:
-        import:
-        - https://docs.python.org/3/objects.inv
-        - https://numpy.org/doc/stable/objects.inv
-        options:
-          docstring_style: google
-          show_root_toc_entry: false
-          show_submodules: no
-          heading_level: 2
-          line_length: 80
-          show_signature_annotations: true
-          separate_signature: true
 
 watch:
   - ../agenet
@@ -54,23 +31,28 @@ nav:
 - Home: index.md
 - Theory: theory.md
 #- Examples: generated/gallery
-#- Reference: reference.md
+- Reference: reference.md
 #- Development: dev.md
 
-markdown_extensions:
-- admonition
-- attr_list
-- pymdownx.highlight:
-    anchor_linenums: true
-    guess_lang: true
-- pymdownx.inlinehilite
-- pymdownx.snippets
-- pymdownx.superfences
-- pymdownx.arithmatex:
-    generic: true
-- toc:
-    toc_depth: 2
-    permalink: true
+plugins:
+- search:
+    lang: en
+- mkdocstrings:
+    default_handler: python
+    handlers:
+      python:
+        paths: [..]
+        import:
+        - https://docs.python.org/3/objects.inv
+        - https://pandas.pydata.org/docs/objects.inv
+        options:
+          docstring_style: google
+          show_root_toc_entry: false
+          show_submodules: no
+          heading_level: 2
+          line_length: 88
+          show_signature_annotations: true
+          separate_signature: true
 
 extra_javascript:
 - javascripts/mathjax.js
