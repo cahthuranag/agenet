@@ -1,7 +1,7 @@
 site_name: agenet
 site_url: https://cahthuranag.github.io/agenet
 repo_url: https://github.com/cahthuranag/agenet
-edit_uri: https://github.com/cahthuranag/agenet/edit/master/docs/docs/
+#edit_uri: https://github.com/cahthuranag/agenet/edit/master/docs/docs/
 site_description: Documentation for age of information calculation toolbox
 site_author: Chathuranga Basanayaka
 copyright: <a rel="license" href="http://creativecommons.org/licenses/by/4.0/"><img alt="CC-BY License" style="border-width:0" src="https://i.creativecommons.org/l/by/4.0/80x15.png" /></a>
