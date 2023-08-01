@@ -22,4 +22,3 @@ In the maincom function, we consider the following parameters when calculating t
 | $P_{2}$       | power of the relay or access point|
 
 
-
