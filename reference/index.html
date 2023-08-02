@@ -805,10 +805,88 @@
   <div class="doc doc-contents ">
   
       <p>Calculate the Block Error Rate (BLER) for the given SNR, n, k.</p>
-      <p>snr (float): Signal-to-Noise Ratio (SNR).
-n (int): Number of bits in the block.
-k (int): Number of bits in the message.</p>
-      <p>float: Block Error Rate (BLER) for the given SNR, n, k.</p>
+
+
+
+  <p><strong>Parameters:</strong></p>
+  <table>
+    <thead>
+      <tr>
+        <th>Name</th>
+        <th>Type</th>
+        <th>Description</th>
+        <th>Default</th>
+      </tr>
+    </thead>
+    <tbody>
+        <tr>
+          <td><code>snr</code></td>
+          <td>
+                <code>float</code>
+          </td>
+          <td>
+            <div class="doc-md-description">
+              <p>Signal-to-Noise Ratio (SNR).</p>
+            </div>
+          </td>
+          <td>
+              <em>required</em>
+          </td>
+        </tr>
+        <tr>
+          <td><code>n</code></td>
+          <td>
+                <code>int</code>
+          </td>
+          <td>
+            <div class="doc-md-description">
+              <p>Number of bits in the block.</p>
+            </div>
+          </td>
+          <td>
+              <em>required</em>
+          </td>
+        </tr>
+        <tr>
+          <td><code>k</code></td>
+          <td>
+                <code>int</code>
+          </td>
+          <td>
+            <div class="doc-md-description">
+              <p>Number of bits in the message.</p>
+            </div>
+          </td>
+          <td>
+              <em>required</em>
+          </td>
+        </tr>
+    </tbody>
+  </table>
+
+
+
+  <p><strong>Returns:</strong></p>
+  <table>
+    <thead>
+      <tr>
+<th>Name</th>        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+        <tr>
+<td><code>float</code></td>          <td>
+                <code>float</code>
+          </td>
+          <td>
+            <div class="doc-md-description">
+              <p>Block Error Rate (BLER) for the given SNR, n, k.</p>
+            </div>
+          </td>
+        </tr>
+    </tbody>
+  </table>
 
           <details class="quote">
             <summary>Source code in <code>C:\Users\chathuranga\AppData\Local\Programs\Python\Python311\Lib\site-packages\agenet\bler.py</code></summary>
@@ -839,13 +917,13 @@ k (int): Number of bits in the message.</p>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Calculate the Block Error Rate (BLER) for the given SNR, n, k.</span>
 
-<span class="sd">    Parameters:</span>
-<span class="sd">    snr (float): Signal-to-Noise Ratio (SNR).</span>
-<span class="sd">    n (int): Number of bits in the block.</span>
-<span class="sd">    k (int): Number of bits in the message.</span>
+<span class="sd">    Args:</span>
+<span class="sd">       snr (float): Signal-to-Noise Ratio (SNR).</span>
+<span class="sd">       n (int): Number of bits in the block.</span>
+<span class="sd">       k (int): Number of bits in the message.</span>
 
 <span class="sd">    Returns:</span>
-<span class="sd">    float: Block Error Rate (BLER) for the given SNR, n, k.</span>
+<span class="sd">     float: Block Error Rate (BLER) for the given SNR, n, k.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="k">if</span> <span class="n">snr</span> <span class="o">&lt;</span> <span class="mi">0</span><span class="p">:</span>
         <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;SNR must be non-negative&quot;</span><span class="p">)</span>
@@ -879,10 +957,88 @@ k (int): Number of bits in the message.</p>
   <div class="doc doc-contents ">
   
       <p>Calculate the theoretical Block Error Rate (BLER) for the given SNR, n, k.</p>
-      <p>snr (float): Signal-to-Noise Ratio (SNR).
-n (int): Number of bits in the block.
-k (int): Number of bits in the message.</p>
-      <p>float: Theoretical Block Error Rate (BLER) for the given SNR, n, k.</p>
+
+
+
+  <p><strong>Parameters:</strong></p>
+  <table>
+    <thead>
+      <tr>
+        <th>Name</th>
+        <th>Type</th>
+        <th>Description</th>
+        <th>Default</th>
+      </tr>
+    </thead>
+    <tbody>
+        <tr>
+          <td><code>snr</code></td>
+          <td>
+                <code>float</code>
+          </td>
+          <td>
+            <div class="doc-md-description">
+              <p>Signal-to-Noise Ratio (SNR).</p>
+            </div>
+          </td>
+          <td>
+              <em>required</em>
+          </td>
+        </tr>
+        <tr>
+          <td><code>n</code></td>
+          <td>
+                <code>int</code>
+          </td>
+          <td>
+            <div class="doc-md-description">
+              <p>Number of bits in the block.</p>
+            </div>
+          </td>
+          <td>
+              <em>required</em>
+          </td>
+        </tr>
+        <tr>
+          <td><code>k</code></td>
+          <td>
+                <code>int</code>
+          </td>
+          <td>
+            <div class="doc-md-description">
+              <p>Number of bits in the message.</p>
+            </div>
+          </td>
+          <td>
+              <em>required</em>
+          </td>
+        </tr>
+    </tbody>
+  </table>
+
+
+
+  <p><strong>Returns:</strong></p>
+  <table>
+    <thead>
+      <tr>
+<th>Name</th>        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+        <tr>
+<td><code>float</code></td>          <td>
+                <code>float</code>
+          </td>
+          <td>
+            <div class="doc-md-description">
+              <p>Theoretical Block Error Rate (BLER) for the given SNR, n, k.</p>
+            </div>
+          </td>
+        </tr>
+    </tbody>
+  </table>
 
           <details class="quote">
             <summary>Source code in <code>C:\Users\chathuranga\AppData\Local\Programs\Python\Python311\Lib\site-packages\agenet\bler.py</code></summary>
@@ -911,12 +1067,12 @@ k (int): Number of bits in the message.</p>
 <span class="sd">    Calculate the theoretical Block Error Rate (BLER) for the given SNR, n, k.</span>
 
 <span class="sd">    Args:</span>
-<span class="sd">    snr (float): Signal-to-Noise Ratio (SNR).</span>
-<span class="sd">    n (int): Number of bits in the block.</span>
-<span class="sd">    k (int): Number of bits in the message.</span>
+<span class="sd">      snr (float): Signal-to-Noise Ratio (SNR).</span>
+<span class="sd">      n (int): Number of bits in the block.</span>
+<span class="sd">      k (int): Number of bits in the message.</span>
 
 <span class="sd">    Returns:</span>
-<span class="sd">    float: Theoretical Block Error Rate (BLER) for the given SNR, n, k.</span>
+<span class="sd">     float: Theoretical Block Error Rate (BLER) for the given SNR, n, k.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">beta</span> <span class="o">=</span> <span class="mi">1</span> <span class="o">/</span> <span class="p">(</span><span class="mi">2</span> <span class="o">*</span> <span class="n">math</span><span class="o">.</span><span class="n">pi</span> <span class="o">*</span> <span class="n">math</span><span class="o">.</span><span class="n">sqrt</span><span class="p">((</span><span class="mi">2</span> <span class="o">**</span> <span class="p">(</span><span class="mi">2</span> <span class="o">*</span> <span class="n">k</span> <span class="o">/</span> <span class="n">n</span><span class="p">))</span> <span class="o">-</span> <span class="mi">1</span><span class="p">))</span>
     <span class="n">sim_phi</span> <span class="o">=</span> <span class="p">(</span><span class="mi">2</span> <span class="o">**</span> <span class="p">(</span><span class="n">k</span> <span class="o">/</span> <span class="n">n</span><span class="p">))</span> <span class="o">-</span> <span class="mi">1</span>
@@ -948,8 +1104,60 @@ k (int): Number of bits in the message.</p>
   
       <p>The Q-function is a mathematical function that gives the tail probability
 of the standard normal distribution.</p>
-      <p>x (float): input value for Q-function.</p>
-      <p>float: value of the Q-function evaluated at x.</p>
+
+
+
+  <p><strong>Parameters:</strong></p>
+  <table>
+    <thead>
+      <tr>
+        <th>Name</th>
+        <th>Type</th>
+        <th>Description</th>
+        <th>Default</th>
+      </tr>
+    </thead>
+    <tbody>
+        <tr>
+          <td><code>x</code></td>
+          <td>
+                <code>float</code>
+          </td>
+          <td>
+            <div class="doc-md-description">
+              <p>input value for Q-function.</p>
+            </div>
+          </td>
+          <td>
+              <em>required</em>
+          </td>
+        </tr>
+    </tbody>
+  </table>
+
+
+
+  <p><strong>Returns:</strong></p>
+  <table>
+    <thead>
+      <tr>
+<th>Name</th>        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+        <tr>
+<td><code>float</code></td>          <td>
+                <code>float</code>
+          </td>
+          <td>
+            <div class="doc-md-description">
+              <p>value of the Q-function evaluated at x.</p>
+            </div>
+          </td>
+        </tr>
+    </tbody>
+  </table>
 
           <details class="quote">
             <summary>Source code in <code>C:\Users\chathuranga\AppData\Local\Programs\Python\Python311\Lib\site-packages\agenet\bler.py</code></summary>
@@ -971,11 +1179,11 @@ of the standard normal distribution.</p>
 <span class="sd">    The Q-function is a mathematical function that gives the tail probability</span>
 <span class="sd">    of the standard normal distribution.</span>
 
-<span class="sd">    Parameters:</span>
-<span class="sd">    x (float): input value for Q-function.</span>
+<span class="sd">    Args:</span>
+<span class="sd">      x (float): input value for Q-function.</span>
 
 <span class="sd">    Returns:</span>
-<span class="sd">    float: value of the Q-function evaluated at x.</span>
+<span class="sd">     float: value of the Q-function evaluated at x.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="k">if</span> <span class="n">x</span> <span class="o">&lt;</span> <span class="mi">0</span><span class="p">:</span>
         <span class="k">return</span> <span class="mi">1</span>
@@ -1733,7 +1941,12 @@ of the standard normal distribution.</p>
 
           <details class="quote">
             <summary>Source code in <code>C:\Users\chathuranga\AppData\Local\Programs\Python\Python311\Lib\site-packages\agenet\plot.py</code></summary>
-            <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">170</span>
+            <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">165</span>
+<span class="normal">166</span>
+<span class="normal">167</span>
+<span class="normal">168</span>
+<span class="normal">169</span>
+<span class="normal">170</span>
 <span class="normal">171</span>
 <span class="normal">172</span>
 <span class="normal">173</span>
@@ -1809,12 +2022,7 @@ of the standard normal distribution.</p>
 <span class="normal">243</span>
 <span class="normal">244</span>
 <span class="normal">245</span>
-<span class="normal">246</span>
-<span class="normal">247</span>
-<span class="normal">248</span>
-<span class="normal">249</span>
-<span class="normal">250</span>
-<span class="normal">251</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">main</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<span class="normal">246</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">main</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Main function that parses the command-line arguments and calls the printage function.</span>
 <span class="sd">    Returns:</span>
@@ -2099,12 +2307,7 @@ of the standard normal distribution.</p>
 <span class="normal">120</span>
 <span class="normal">121</span>
 <span class="normal">122</span>
-<span class="normal">123</span>
-<span class="normal">124</span>
-<span class="normal">125</span>
-<span class="normal">126</span>
-<span class="normal">127</span>
-<span class="normal">128</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">plot_generate</span><span class="p">(</span>
+<span class="normal">123</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">plot_generate</span><span class="p">(</span>
     <span class="n">num_nodes_const</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span>
     <span class="n">active_prob_const</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span>
     <span class="n">n_const</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span>
@@ -2126,12 +2329,7 @@ of the standard normal distribution.</p>
 <span class="sd">        numruns (int, optional): The number of runs. Default is 100.</span>
 
 <span class="sd">    Returns:</span>
-<span class="sd">       plt.Figure: The generated figure.</span>
-
-<span class="sd">    Raises:</span>
-<span class="sd">        None</span>
-
-
+<span class="sd">        plt.Figure: The generated figure.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
     <span class="c1"># initialize the minimum and maximum values for the x and y-axes</span>
