@@ -9,11 +9,11 @@ def qfunc(x: float) -> float:
     The Q-function is a mathematical function that gives the tail probability
     of the standard normal distribution.
 
-    Parameters:
-    x (float): input value for Q-function.
+    Args:
+      x (float): input value for Q-function.
 
     Returns:
-    float: value of the Q-function evaluated at x.
+     float: value of the Q-function evaluated at x.
     """
     if x < 0:
         return 1
@@ -24,13 +24,13 @@ def blercal(snr: float, n: int, k: int) -> float:
     """
     Calculate the Block Error Rate (BLER) for the given SNR, n, k.
 
-    Parameters:
-    snr (float): Signal-to-Noise Ratio (SNR).
-    n (int): Number of bits in the block.
-    k (int): Number of bits in the message.
+    Args:
+       snr (float): Signal-to-Noise Ratio (SNR).
+       n (int): Number of bits in the block.
+       k (int): Number of bits in the message.
 
     Returns:
-    float: Block Error Rate (BLER) for the given SNR, n, k.
+     float: Block Error Rate (BLER) for the given SNR, n, k.
     """
     if snr < 0:
         raise ValueError("SNR must be non-negative")
@@ -51,12 +51,12 @@ def blercal_th(snr: float, n: int, k: int) -> float:
     Calculate the theoretical Block Error Rate (BLER) for the given SNR, n, k.
 
     Args:
-    snr (float): Signal-to-Noise Ratio (SNR).
-    n (int): Number of bits in the block.
-    k (int): Number of bits in the message.
+      snr (float): Signal-to-Noise Ratio (SNR).
+      n (int): Number of bits in the block.
+      k (int): Number of bits in the message.
 
     Returns:
-    float: Theoretical Block Error Rate (BLER) for the given SNR, n, k.
+     float: Theoretical Block Error Rate (BLER) for the given SNR, n, k.
     """
     beta = 1 / (2 * math.pi * math.sqrt((2 ** (2 * k / n)) - 1))
     sim_phi = (2 ** (k / n)) - 1

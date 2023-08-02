@@ -30,12 +30,7 @@ def plot_generate(
         numruns (int, optional): The number of runs. Default is 100.
 
     Returns:
-       plt.Figure: The generated figure.
-
-    Raises:
-        None
-
-
+        plt.Figure: The generated figure.
     """
 
     # initialize the minimum and maximum values for the x and y-axes
