@@ -127,9 +127,21 @@ def plot(args: argparse.Namespace) -> None:
     import matplotlib.pyplot as plt
 
     """
-    Prints a table comparing results for different input values based on the command-line arguments.
+    Plot the simulated and theoretical for each variable.
     Args:
         args (argparse.Namespace): Parsed command-line arguments.
+        Num_nodes_const (int, optional): The number of nodes. Default is 2.
+        active_prob_const (float, optional): The active probability. 
+        n_const (int, optional): The block length. 
+        k_const (int, optional): The update size.
+        P_const (float, optional): The power. 
+        numevnts (int, optional): The number of events. 
+        numruns (int, optional): The number of runs.
+        num_nodes_vals (List[int], optional): The list of number of nodes.
+        active_prob_vals (List[float], optional): The list of active probability.
+        n_vals (List[int], optional): The list of block length.
+        k_vals (List[int], optional): The list of update size.
+        P_vals (List[float], optional): The list of power.
     Returns:
      plt.Figure: The generated figure.
     """
