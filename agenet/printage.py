@@ -193,7 +193,7 @@ def main() -> None:
         "--P_vals",
         nargs="+",
         type=float,
-        default=[2 * (10**-3), 4 * (10**-3), 6 * (10**-3), 8 * (10**-3)],
+        default=[2 * (10**-1), 4 * (10**-1), 6 * (10**-1), 8 * (10**-1)],
         help="Values for the power.",
     )
     args = parser.parse_args()
