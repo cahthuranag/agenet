@@ -31,7 +31,7 @@ def main(
     num_events = numevents  # number of events
     inter_arrival_times = (1 / lambda1) * (np.ones(num_events))  # inter arrival times
     arrival_timestamps = np.cumsum(inter_arrival_times)  # arrival timestamps
-    N0 = 1 * (10**-10)  # noise power
+    N0 = 1 * (10**-13)  # noise power
     d1 = 700  # disatance between source nodes and relay
     d2 = 700  # distance between the relay and destination
     P1 = P  # power of the source nodes
