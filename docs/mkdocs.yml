@@ -24,6 +24,7 @@ nav:
 - Home: index.md
 - Theory: theory.md
 - "API": reference.md
+- "Usage": usage.md
 
 plugins:
 - mkdocstrings:

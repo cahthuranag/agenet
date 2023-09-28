@@ -15,6 +15,8 @@
         <link rel="canonical" href="https://cahthuranag.github.io/agenet/usage/">
       
       
+        <link rel="prev" href="../reference/">
+      
       
       <link rel="icon" href="../assets/images/favicon.png">
       <meta name="generator" content="mkdocs-1.5.2, mkdocs-material-9.1.21">
@@ -174,6 +176,20 @@
   </li>
 
       
+        
+  
+  
+    
+  
+
+
+  <li class="md-tabs__item">
+    <a href="./" class="md-tabs__link md-tabs__link--active">
+      Usage
+    </a>
+  </li>
+
+      
     </ul>
   </div>
 </nav>
@@ -271,6 +287,118 @@
   
 
     
+      
+      
+      
+
+  
+  
+    
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          Usage
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        Usage
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#how-to-use-manincom-module" class="md-nav__link">
+    How to use manincom module
+  </a>
+  
+    <nav class="md-nav" aria-label="How to use manincom module">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#description-of-the-simulation-parameters" class="md-nav__link">
+    Description of the Simulation Parameters
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#plotting-aaoi-simulation-results-plotpy" class="md-nav__link">
+    Plotting AAoI Simulation Results (plot.py)
+  </a>
+  
+    <nav class="md-nav" aria-label="Plotting AAoI Simulation Results (plot.py)">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#description-of-the-simulation-parameters_1" class="md-nav__link">
+    Description of the Simulation Parameters
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#generating-comparison-tables" class="md-nav__link">
+    Generating comparison tables
+  </a>
+  
+    <nav class="md-nav" aria-label="Generating comparison tables">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#description-of-the-simulation-parameters_2" class="md-nav__link">
+    Description of the Simulation Parameters
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#running-the-script" class="md-nav__link">
+    Running the Script
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+    
   </ul>
 </nav>
                   </div>
@@ -342,7 +470,10 @@
 <li><code>--k_vals</code>: List of values for the update size (default: [50, 60, 70, 80, 90, 95, 100]).</li>
 <li><code>--P_vals</code>: List of values for the power (default: [0.002, 0.004, 0.006, 0.008]).</li>
 </ul>
-<h2 id="running-the-script">Running the Script</h2>
+<h3 id="running-the-script">Running the Script</h3>
+<p>Example code to run the script:</p>
+<pre><code>python print.py --num_nodes_const 2 --active_prob_const 0.5 --n_const 150 --k_const 100 --P_const 0.002 --numevnts 500 --numruns 100 --num_nodes_vals 1 2 3 4 5 --active_prob_vals 0.1 0.15 0.2 0.25 --n_vals 150 160 170 180 190 200 210 220 230 240 250 --k_vals 50 60 70 
+</code></pre>
 
 
 
