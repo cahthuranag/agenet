@@ -9,7 +9,7 @@
 A Python 3.8 implementation of the System Model estimate the average AoI (AAoI) in an ultra-reliable low latency communication (URLLC) enabled  wireless  communication system with slotted aloha scheme  over the quasi-static Rayleigh block fading channels. A packet communication scheme is used to meet both the reliability and latency requirements of the  proposed wireless network. By resorting to finite block length information theory, queuing theory and stochastic processes, theoretical results were obtained for this research software.
 ## System Model
 The following figure illustrates the wireless communication system that is proposed in this application. 
-![System model.](https://github.com/cahthuranag/agenet/tree/main/docs/docs/image)
+![System model.](https://github.com/cahthuranag/agenet/blob/main/docs/docs/image/Fig1.png)
 The diagram illustrates a wireless network that consists of multiple nodes. The transmission between each node and the relay is done using a transmission scheme similar to that of the slotted ALOHA protocol, which is a popular random access method used in wireless communication systems.
 
 However, the transmission between the relay and each destination uses dedicated communication channels, and as a result, no transmission scheme similar to ALOHA is employed for this part of the communication. This helps to reduce the possibility of collisions and improve the reliability of the communication.
