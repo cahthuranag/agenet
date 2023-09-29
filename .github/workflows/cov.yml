@@ -24,7 +24,7 @@ jobs:
         pip install pip --upgrade
         pip install .[dev]
     - name: Test with pytest and create coverage report
-      run: pytest --cov=parshift --cov-report=xml
+      run: pytest --cov=agenet --cov-report=xml
     - name: Upload coverage to Codecov
       uses: codecov/codecov-action@v3
       with:
