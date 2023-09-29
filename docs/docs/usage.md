@@ -1,3 +1,15 @@
+# Usage
+After installing the package, to run the script on your terminal simply run the following command.
+To run a simulation with default parameters, the user can use a provided command. The simulation can generate both theoretical and simulated values for various factors such as block lengths, power allocations, packet sizes, activation probabilities, and number of nodes in the network. These values can be presented in the form of tables using following command.
+```
+ageprint
+```
+
+In addition to the tables, the simulation results can also be displayed as plots using the command 
+```
+ageplot
+```
+
 ### How to use manincom module
 #### Description of the Simulation Parameters
 
