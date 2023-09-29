@@ -2,8 +2,11 @@ import argparse
 import pytest
 from io import StringIO
 from contextlib import redirect_stdout
-from agenet.printage import generate_comparison_table
+from agenet.printage import generate_comparison_table, printage
 from tabulate import tabulate
+import io
+import sys
+from contextlib import redirect_stdout
 
 # this is a test for the generate_comparison_table function
 
@@ -54,8 +57,7 @@ def test_generate_comparison_table():
     P_vals = [2 * (10**-3), 4 * (10**-3)]
 
     # Capture the printed output
-    import io
-    from contextlib import redirect_stdout
+  
 
     output = io.StringIO()
     with redirect_stdout(output):
@@ -86,5 +88,40 @@ def test_generate_comparison_table():
     assert expected_table == actual_table
 
 
+
+
 if __name__ == "__main__":
     pytest.main()
+
+def test_printage():
+    args = argparse.Namespace(
+        num_nodes_const=2,
+        active_prob_const=0.5,
+        n_const=150,
+        k_const=100,
+        P_const=2 * (10**-3),
+        numevnts=500,
+        numruns=100,
+        num_nodes_vals=[1, 2, 3],
+        active_prob_vals=[0.1, 0.2],
+        n_vals=[150, 160],
+        k_vals=[50, 60],
+        P_vals=[2 * (10**-3), 4 * (10**-3)]
+    )
+    # Capture the printed output
+  
+
+    output = io.StringIO()
+    with redirect_stdout(output):
+        printage(args)
+    output_str = output.getvalue()
+
+    # Split the output into lines and check the format using tabulate
+    output_lines = output_str.strip().split("\n")
+    headers = [header.strip() for header in output_lines[0].strip().split("|")[1:-1]]
+    table_data = [row.strip().split("|")[1:-1] for row in output_lines[2:-1]]
+
+    expected_table = tabulate(table_data, headers=headers, tablefmt="grid")
+    actual_table = tabulate(table_data, headers=headers, tablefmt="grid")
+
+    assert expected_table == actual_table
