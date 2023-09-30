@@ -3,10 +3,10 @@ name: Coverage
 on:
   pull_request:
     branches: [main]
-    paths: [ 'agenet/**', 'tests/**', '.github/workflows/cov.yml' ]
+    paths: [ 'agenet/**', 'tests/**' ]
   push:
     branches: [main]
-    paths: [ 'agenet/**', 'tests/**', '.github/workflows/cov.yml' ]
+    paths: [ 'agenet/**', 'tests/**' ]
     tags: '*'
 
 jobs:
