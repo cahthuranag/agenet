@@ -167,7 +167,7 @@ def parse_arguments() -> argparse.Namespace:
     return parser.parse_args()
 
 
-if __name__ == "__main__":
+def main_fun ():
     args = parse_arguments()
     theoretical_aaoi, simulation_aaoi = run_main(
         args.num_nodes,
@@ -180,3 +180,5 @@ if __name__ == "__main__":
     )
     print("Theoretical AAoI:", theoretical_aaoi)
     print("Simulation AAoI:", simulation_aaoi)
+if __name__ == "__main__":
+    main_fun()

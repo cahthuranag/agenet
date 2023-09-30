@@ -4,8 +4,10 @@ import matplotlib.pyplot as plt
 import pytest
 from unittest import mock
 
-from agenet.plot import plot
-
+from agenet.plot import plot, main
+import matplotlib
+import sys
+import matplotlib
 
 def test_plot(monkeypatch):
     parser = argparse.ArgumentParser()
@@ -163,5 +165,30 @@ def test_plot(monkeypatch):
 
     # Get the output
     out = output.getvalue().strip()
-    
 
+
+
+
+matplotlib.use('Agg')  # Use Agg backend to prevent plots from being displayed
+
+def test_main():
+    sys.argv = [
+        "your_script_name.py",
+        "--num_nodes_const", "2",
+        "--active_prob_const", "0.5",
+        "--n_const", "150",
+        "--k_const", "100",
+        "--P_const", "0.002",
+        "--numevnts", "1000",
+        "--numruns", "1",
+        "--num_nodes_vals", "1", "2",
+        "--active_prob_vals", "0.1", "0.2",
+        "--n_vals", "150", "160",
+        "--k_vals", "50", "60",
+        "--P_vals", "0.002", "0.003"
+    ]
+    with mock.patch.object(plt, "show"):
+     main()
+
+
+    

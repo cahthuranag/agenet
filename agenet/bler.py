@@ -69,7 +69,8 @@ def blercal_th(snr: float, n: int, k: int) -> float:
     return err_th
 
 
-if __name__ == "__main__":
+
+def main():
     parser = argparse.ArgumentParser(description="Block Error Rate Calculation")
     parser.add_argument("--snr", type=float, help="Signal-to-Noise Ratio (SNR)")
     parser.add_argument("--n", type=int, help="Number of bits in the block")
@@ -96,3 +97,5 @@ if __name__ == "__main__":
         else:
             err = blercal(snr, n, k)
             print(f"BLER: {err}")
+if __name__ == "__main__":
+    main()
