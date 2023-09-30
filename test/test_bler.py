@@ -1,12 +1,12 @@
 import math
+import sys
+from io import StringIO
 
 import numpy as np
 import pytest
 import scipy.special as sp
 
 from agenet.bler import blercal, blercal_th, main
-from io import StringIO
-import sys
 
 # Test blercal() function
 
@@ -67,7 +67,7 @@ def test_qfunc():
 
 def test_main(capsys):
     # Set up the arguments
-    sys.argv = ['program_name.py', '--snr', '10', '--n', '100', '--k', '50']
+    sys.argv = ["program_name.py", "--snr", "10", "--n", "100", "--k", "50"]
     main()
 
     # Capture the output

@@ -17,7 +17,7 @@ def qfunc(x: float) -> float:
     """
     if x < 0:
         return 1
-    return 0.5 - 0.5 * sp.erf(x / math.sqrt(2)) # pylint: disable=E1101
+    return 0.5 - 0.5 * sp.erf(x / math.sqrt(2))  # pylint: disable=E1101
 
 
 def blercal(snr: float, n: int, k: int) -> float:
@@ -69,7 +69,6 @@ def blercal_th(snr: float, n: int, k: int) -> float:
     return err_th
 
 
-
 def main():
     parser = argparse.ArgumentParser(description="Block Error Rate Calculation")
     parser.add_argument("--snr", type=float, help="Signal-to-Noise Ratio (SNR)")
@@ -97,5 +96,7 @@ def main():
         else:
             err = blercal(snr, n, k)
             print(f"BLER: {err}")
+
+
 if __name__ == "__main__":
     main()

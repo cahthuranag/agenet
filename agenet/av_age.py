@@ -54,7 +54,6 @@ def average_age_of_information_fn(
     # Return the average age, the age array, and the times array
     return average_age, age, times
 
-import argparse
 
 def main():
     parser = argparse.ArgumentParser(
@@ -82,15 +81,16 @@ def main():
     # Convert destination_times and generation_times to lists
     destination_times = args.dest_times
     generation_times = args.gen_times
-    lambha = args.lambha# Changed variable name to 'lambdha'
+    lambha = args.lambha  # Changed variable name to 'lambdha'
 
     # Call the function with the provided arguments
-    average_age,_,_ = average_age_of_information_fn(
+    average_age, _, _ = average_age_of_information_fn(
         destination_times, generation_times, lambha
     )
 
     # Print the results
     print("Average Age of Information:", average_age)
+
 
 if __name__ == "__main__":
     main()

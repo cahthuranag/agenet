@@ -1,18 +1,17 @@
 import argparse
-import pytest
-from io import StringIO
-from contextlib import redirect_stdout
-from agenet.printage import generate_comparison_table, printage, main
-from tabulate import tabulate
 import io
 import sys
 from contextlib import redirect_stdout
-import pytest
+from io import StringIO
 from unittest.mock import patch
 
+import pytest
+from tabulate import tabulate
 
+from agenet.printage import generate_comparison_table, main, printage
 
 # this is a test for the generate_comparison_table function
+
 
 def assert_table_format(output_lines):
     header_line = output_lines[0].strip()
@@ -44,7 +43,6 @@ def assert_table_format(output_lines):
     assert separator_line == expected_separator
 
 
-
 def test_generate_comparison_table():
     # Test input values for the function
     num_nodes_const = 2
@@ -61,7 +59,6 @@ def test_generate_comparison_table():
     P_vals = [2 * (10**-3), 4 * (10**-3)]
 
     # Capture the printed output
-  
 
     output = io.StringIO()
     with redirect_stdout(output):
@@ -77,7 +74,7 @@ def test_generate_comparison_table():
             active_prob_vals,
             n_vals,
             k_vals,
-            P_vals
+            P_vals,
         )
     output_str = output.getvalue()
 
@@ -90,8 +87,6 @@ def test_generate_comparison_table():
     actual_table = tabulate(table_data, headers=headers, tablefmt="grid")
 
     assert expected_table == actual_table
-
-
 
 
 def test_printage():
@@ -107,10 +102,9 @@ def test_printage():
         active_prob_vals=[0.1, 0.2],
         n_vals=[150, 160],
         k_vals=[50, 60],
-        P_vals=[2 * (10**-3), 4 * (10**-3)]
+        P_vals=[2 * (10**-3), 4 * (10**-3)],
     )
     # Capture the printed output
-  
 
     output = io.StringIO()
     with redirect_stdout(output):
@@ -128,27 +122,45 @@ def test_printage():
     assert expected_table == actual_table
 
 
-
-
-@patch('sys.argv', [
-    "script_name.py",
-    "--num_nodes_const", "2",
-    "--active_prob_const", "0.5",
-    "--n_const", "150",
-    "--k_const", "100",
-    "--P_const", "0.002",
-    "--numevnts", "1000",
-    "--numruns", "1",
-    "--num_nodes_vals", "1", "2",
-    "--active_prob_vals", "0.1", "0.2",
-    "--n_vals", "150", "160",
-    "--k_vals", "50", "60",
-    "--P_vals", "0.002", "0.003"
-])
+@patch(
+    "sys.argv",
+    [
+        "script_name.py",
+        "--num_nodes_const",
+        "2",
+        "--active_prob_const",
+        "0.5",
+        "--n_const",
+        "150",
+        "--k_const",
+        "100",
+        "--P_const",
+        "0.002",
+        "--numevnts",
+        "1000",
+        "--numruns",
+        "1",
+        "--num_nodes_vals",
+        "1",
+        "2",
+        "--active_prob_vals",
+        "0.1",
+        "0.2",
+        "--n_vals",
+        "150",
+        "160",
+        "--k_vals",
+        "50",
+        "60",
+        "--P_vals",
+        "0.002",
+        "0.003",
+    ],
+)
 def test_main_output(capsys):
     output = io.StringIO()
     with redirect_stdout(output):
-     main()
+        main()
     output_str = output.getvalue()
 
     # Split the output into lines and check the format using tabulate
@@ -160,5 +172,3 @@ def test_main_output(capsys):
     actual_table = tabulate(table_data, headers=headers, tablefmt="grid")
 
     assert expected_table == actual_table
-
-    

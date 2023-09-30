@@ -1,9 +1,9 @@
-from agenet.snr import snr,main
-
-from io import StringIO
-import sys
-import subprocess
 import os
+import subprocess
+import sys
+from io import StringIO
+
+from agenet.snr import main, snr
 
 
 def test_snr():
@@ -24,11 +24,10 @@ def test_snr_th():
     assert result >= 0
 
 
-
 def test_main(capsys):
     # Set up the arguments
-    sys.argv = ['program_name.py', '-N0', '0.1', '-d', '100', '-P', '1']
-    
+    sys.argv = ["program_name.py", "-N0", "0.1", "-d", "100", "-P", "1"]
+
     # Run the main function
     main()
 
@@ -39,8 +38,8 @@ def test_main(capsys):
     assert "SNR:" in captured.out
     assert "Theoretical SNR:" in captured.out
 
-def test_command_line_arguments():
 
+def test_command_line_arguments():
     script_path = os.path.abspath("agenet/snr.py")
     # Run the script with the sample command-line arguments
     command = f"python {script_path} -N0 0.1 -d 100 -P 1"

@@ -7,8 +7,6 @@ from agenet.maincom import run_main
 
 
 def generate_comparison_table(
-
-    
     num_nodes_const: int,
     active_prob_const: float,
     n_const: int,
@@ -38,7 +36,7 @@ def generate_comparison_table(
         k_vals (List[int]): Values for the update size.
         P_vals (List[float]): Values for the power.
     Returns:
-        Thus funtion will return a table comparing the theoretical and simulated values for the given input values.            
+        Thus funtion will return a table comparing the theoretical and simulated values for the given input values.
     """
     for i, (var_name, var_vals) in enumerate(
         zip(
@@ -83,7 +81,6 @@ def generate_comparison_table(
         else:
             print(tabulate(table_rows, headers=headers, tablefmt="grid"))
             print("\n")
-
 
 
 def printage(args: argparse.Namespace) -> None:

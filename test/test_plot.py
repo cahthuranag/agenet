@@ -1,13 +1,14 @@
 import argparse
+import sys
 from io import StringIO
-import matplotlib.pyplot as plt
-import pytest
 from unittest import mock
 
-from agenet.plot import plot, main
 import matplotlib
-import sys
-import matplotlib
+import matplotlib.pyplot as plt
+import pytest
+
+from agenet.plot import main, plot
+
 
 def test_plot(monkeypatch):
     parser = argparse.ArgumentParser()
@@ -97,63 +98,65 @@ def test_plot(monkeypatch):
     # Add other necessary arguments to the parser
 
     # Mock the command-line arguments
-    monkeypatch.setattr("sys.argv", [
-        "test_script.py",
-        "--num_nodes_const",
-        "2",
-        "--active_prob_const",
-        "0.5",
-        "--n_const",
-        "150",
-        "--k_const",
-        "100",
-        "--P_const",
-        "0.002",
-        "--numevnts",
-        "1000",
-        "--numruns",
-        "2",
-        "--num_nodes_vals",
-        "1",
-        "2",
-        "3",
-        "4",
-        "5",
-        "--active_prob_vals",
-        "0.1",
-        "0.15",
-        "0.2",
-        "0.25",
-        "--n_vals",
-        "150",
-        "160",
-        "170",
-        "180",
-        "190",
-        "200",
-        "210",
-        "220",
-        "230",
-        "240",
-        "250",
-        "--k_vals",
-        "50",
-        "60",
-        "70",
-        "80",
-        "90",
-        "95",
-        "100",
-        "--P_vals",
-        "0.002",
-        "0.003",
-        "0.004",
-        "0.005",
-        "0.01",
-    ])
+    monkeypatch.setattr(
+        "sys.argv",
+        [
+            "test_script.py",
+            "--num_nodes_const",
+            "2",
+            "--active_prob_const",
+            "0.5",
+            "--n_const",
+            "150",
+            "--k_const",
+            "100",
+            "--P_const",
+            "0.002",
+            "--numevnts",
+            "1000",
+            "--numruns",
+            "2",
+            "--num_nodes_vals",
+            "1",
+            "2",
+            "3",
+            "4",
+            "5",
+            "--active_prob_vals",
+            "0.1",
+            "0.15",
+            "0.2",
+            "0.25",
+            "--n_vals",
+            "150",
+            "160",
+            "170",
+            "180",
+            "190",
+            "200",
+            "210",
+            "220",
+            "230",
+            "240",
+            "250",
+            "--k_vals",
+            "50",
+            "60",
+            "70",
+            "80",
+            "90",
+            "95",
+            "100",
+            "--P_vals",
+            "0.002",
+            "0.003",
+            "0.004",
+            "0.005",
+            "0.01",
+        ],
+    )
 
     args = parser.parse_args([])
-
 
     # Redirect stdout to a StringIO object
     output = StringIO()
@@ -167,28 +170,41 @@ def test_plot(monkeypatch):
     out = output.getvalue().strip()
 
 
+matplotlib.use("Agg")  # Use Agg backend to prevent plots from being displayed
 
-
-matplotlib.use('Agg')  # Use Agg backend to prevent plots from being displayed
 
 def test_main():
     sys.argv = [
         "your_script_name.py",
-        "--num_nodes_const", "2",
-        "--active_prob_const", "0.5",
-        "--n_const", "150",
-        "--k_const", "100",
-        "--P_const", "0.002",
-        "--numevnts", "1000",
-        "--numruns", "1",
-        "--num_nodes_vals", "1", "2",
-        "--active_prob_vals", "0.1", "0.2",
-        "--n_vals", "150", "160",
-        "--k_vals", "50", "60",
-        "--P_vals", "0.002", "0.003"
+        "--num_nodes_const",
+        "2",
+        "--active_prob_const",
+        "0.5",
+        "--n_const",
+        "150",
+        "--k_const",
+        "100",
+        "--P_const",
+        "0.002",
+        "--numevnts",
+        "1000",
+        "--numruns",
+        "1",
+        "--num_nodes_vals",
+        "1",
+        "2",
+        "--active_prob_vals",
+        "0.1",
+        "0.2",
+        "--n_vals",
+        "150",
+        "160",
+        "--k_vals",
+        "50",
+        "60",
+        "--P_vals",
+        "0.002",
+        "0.003",
     ]
     with mock.patch.object(plt, "show"):
-     main()
-
-
-    
+        main()
