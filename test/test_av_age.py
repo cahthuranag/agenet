@@ -4,6 +4,8 @@ from matplotlib import pyplot as plt
 from scipy.integrate import trapz
 
 from agenet.av_age import average_age_of_information_fn
+import subprocess
+import os
 
 
 # def test_av_age_func_values():
@@ -55,3 +57,31 @@ def test_average_age():
     times = [0, 2, 4, 6]
     average_age = trapz(age, times) / np.amax(times)
     assert np.isclose(average_age, 33.75, rtol=1e-1)
+
+
+
+
+
+def test_command_line_arguments():
+    # Define sample command-line arguments
+    dest_times = [0.5, 1.5, 2.5, 3.5, 4.5]
+    gen_times = [0.3, 0.8, 1.2, 1.6, 2.0]
+    lambha = 1
+
+    # Convert lists to strings
+    dest_times_str = ' '.join(map(str, dest_times))
+    gen_times_str = ' '.join(map(str, gen_times))
+
+    # Get the absolute path of your script
+    script_path = os.path.abspath("agenet/av_age.py")
+
+    # Run the script with the sample arguments
+    command = f"python {script_path} --lambha {lambha} --dest_times {dest_times_str} --gen_times {gen_times_str}"
+    result = subprocess.run(command, shell=True, capture_output=True, text=True)
+
+    # Check if the result contains the expected output (you may need to adjust this)
+    assert "Average Age of Information:" in result.stdout
+
+    # Add more specific checks as needed
+
+
