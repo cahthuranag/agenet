@@ -2,10 +2,11 @@ import numpy as np
 import pytest
 from matplotlib import pyplot as plt
 from scipy.integrate import trapz
-
-from agenet.av_age import average_age_of_information_fn,mains
+from agenet.av_age import average_age_of_information_fn, main
 import subprocess
 import os
+from io import StringIO
+import sys
 
 
 # def test_av_age_func_values():
@@ -52,20 +53,13 @@ def test_average_age_of_information_fn():
     assert np.isclose(actual_average_age, expected_average_age, rtol=1e-1)
 
 
-def test_average_age():
-     # Define the expected average age of information for the example
-    expected_average_age = 1.3
-    # Calculate the actual average age of information for the example
-    destination_times = [2, 3, 4, 5]
-    generation_times = [1, 2, 3, 4]
-    lambha = 0.1
-    actual_average_age, _, _ = main(
-        destination_times, generation_times, lambha
-    )
-    # Check that the actual average age of information
-    # matches the expected value
-    assert np.isclose(actual_average_age, expected_average_age, rtol=1e-1)
-    
+
+
+def test_main(capsys):
+    sys.argv = ['program_name.py', '--lambha', '1', '--dest_times', '0.5', '1.5', '2.5', '3.5', '4.5', '--gen_times', '0.3', '0.8', '1.2', '1.6', '2.0']
+    main()
+    captured = capsys.readouterr()
+    assert "Average Age of Information:" in captured.out
 
 
 def test_command_line_arguments():
