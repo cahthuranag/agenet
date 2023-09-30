@@ -30,7 +30,7 @@ ageprint = "agenet.printage:main"
 [project.optional-dependencies]
 dev = [
     "pdoc",
- "pytest", "pytest-cov", "pytest-console-scripts", "coverage", "codecov" ,"pre-commit"
+ "pytest", "pytest-cov", "pytest-console-scripts", "coverage", "codecov" ,"pre-commit", "subprocess","os"
 ]
 
 [tool.setuptools]
