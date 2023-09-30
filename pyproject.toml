@@ -30,7 +30,7 @@ ageprint = "agenet.printage:main"
 [project.optional-dependencies]
 dev = [
     "pdoc",
- "pytest", "pytest-cov", "pytest-console-scripts", "coverage", "codecov" ,"pre-commit"
+ "pytest", "pytest-cov", "pytest-console-scripts", "coverage", "codecov" ,"pre-commit", "black", "isort", "flake8", "flake8-docstrings", "flake8-bugbear", "flake8-comprehensions", "flake8-eradicate", "flake8-isort", "flake8-quotes", "flake8-string-format", "flake8-tidy-imports", "flake8-todo", "mypy", "pydocstyle", "sphinx", "sphinx-autodoc-typehints", "sphinx-rtd-theme", "sphinxcontrib-bibtex", "sphinxcontrib-napoleon", "sphinxcontrib-programoutput", "sphinxco
 ]
 
 [tool.setuptools]
