@@ -56,6 +56,7 @@ def test_average_age_of_information_fn():
 
 
 def test_main(capsys):
+    # Define sample command-line arguments
     sys.argv = ['program_name.py', '--lambha', '1', '--dest_times', '0.5', '1.5', '2.5', '3.5', '4.5', '--gen_times', '0.3', '0.8', '1.2', '1.6', '2.0']
     main()
     captured = capsys.readouterr()
