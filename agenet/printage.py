@@ -77,7 +77,10 @@ def generate_comparison_table(
             table_rows.append([val, theoretical, simulated])
 
         if file is not None:
-            file.write(tabulate(table_rows, headers=headers, tablefmt="grid") + "\n\n")
+            file.write(
+                tabulate(table_rows, headers=headers, tablefmt="grid")
+                + "\n\n"
+            )
         else:
             print(tabulate(table_rows, headers=headers, tablefmt="grid"))
             print("\n")
@@ -141,10 +144,16 @@ def main() -> None:
         help="Constant value for the active probability.",
     )
     parser.add_argument(
-        "--n_const", type=int, default=150, help="Constant value for the block length."
+        "--n_const",
+        type=int,
+        default=150,
+        help="Constant value for the block length.",
     )
     parser.add_argument(
-        "--k_const", type=int, default=100, help="Constant value for the update size."
+        "--k_const",
+        type=int,
+        default=100,
+        help="Constant value for the update size.",
     )
     parser.add_argument(
         "--P_const",
@@ -156,7 +165,9 @@ def main() -> None:
     parser.add_argument(
         "--numevnts", type=int, default=500, help="The number of events."
     )
-    parser.add_argument("--numruns", type=int, default=100, help="The number of runs.")
+    parser.add_argument(
+        "--numruns", type=int, default=100, help="The number of runs."
+    )
 
     parser.add_argument(
         "--num_nodes_vals",
@@ -190,7 +201,12 @@ def main() -> None:
         "--P_vals",
         nargs="+",
         type=float,
-        default=[2 * (10**-3), 4 * (10**-3), 6 * (10**-3), 8 * (10**-3)],
+        default=[
+            2 * (10**-3),
+            4 * (10**-3),
+            6 * (10**-3),
+            8 * (10**-3),
+        ],
         help="Values for the power.",
     )
     args = parser.parse_args()

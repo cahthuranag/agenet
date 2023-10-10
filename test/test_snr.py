@@ -1,7 +1,6 @@
 import os
 import subprocess
 import sys
-from io import StringIO
 
 from agenet.snr import main, snr
 
@@ -43,7 +42,8 @@ def test_command_line_arguments():
     script_path = os.path.abspath("agenet/snr.py")
     # Run the script with the sample command-line arguments
     command = f"python {script_path} -N0 0.1 -d 100 -P 1"
-    result = subprocess.run(command, shell=True, capture_output=True, text=True)
-
+    result = subprocess.run(
+        command, shell=True, capture_output=True, text=True
+    )
     assert "SNR:" in result.stdout
     assert "Theoretical SNR:" in result.stdout

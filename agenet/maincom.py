@@ -10,7 +10,12 @@ from agenet.bler import blercal, blercal_th
 
 
 def main(
-    num_nodes: int, active_prob: float, n: int, k: int, P: float, numevents: int
+    num_nodes: int,
+    active_prob: float,
+    n: int,
+    k: int,
+    P: float,
+    numevents: int,
 ) -> Tuple[float, float]:
     """
     Simulates a communication system and calculates the AAoI.
@@ -29,8 +34,12 @@ def main(
     """
     lambda1 = 1  # arrival for one transmission period
     num_events = numevents  # number of events
-    inter_arrival_times = (1 / lambda1) * (np.ones(num_events))  # inter arrival times
-    arrival_timestamps = np.cumsum(inter_arrival_times)  # arrival timestamps
+    inter_arrival_times = (1 / lambda1) * (
+        np.ones(num_events)
+    )  # inter arrival times
+    arrival_timestamps = np.cumsum(
+        inter_arrival_times
+    )  # arrival timestamps
     N0 = 1 * (10**-13)  # noise power
     d1 = 700  # disatance between source nodes and relay
     d2 = 700  # distance between the relay and destination
@@ -48,12 +57,16 @@ def main(
     )  # block error rate for the source nodes at the relay or access point
     er1_th = blercal_th(snr1_th, n1, k1)
     er2_th = blercal_th(snr2_th, n2, k2)
-    inter_service_times = (1 / lambda1) * np.ones((num_events))  # inter service times
+    inter_service_times = (1 / lambda1) * np.ones(
+        (num_events)
+    )  # inter service times
     server_timestamps_1 = np.zeros(
         num_events
     )  # Generating departure timestamps for the node 1
     departure_timestamps_s = np.zeros(num_events)
-    su_p_th = active_prob * (1 - er1_th) * ((1 - active_prob) ** (num_nodes - 1))
+    su_p_th = (
+        active_prob * (1 - er1_th) * ((1 - active_prob) ** (num_nodes - 1))
+    )
     er_f_th = 1 - su_p_th
     er_p_th = er_f_th + (er2_th * (er_f_th - 1))
     for i in range(0, num_events):
@@ -67,7 +80,11 @@ def main(
         er2 = blercal(
             snr2, n2, k2
         )  # block error rate for the relay or access point at the destination
-        su_p = active_prob * (1 - er1) * ((1 - active_prob) ** (num_nodes - 1))
+        su_p = (
+            active_prob
+            * (1 - er1)
+            * ((1 - active_prob) ** (num_nodes - 1))
+        )
         er_f = 1 - su_p
         er_p = er_f + (er2 * (er_f - 1))
         er_indi = int(random.random() > er_p)
@@ -75,7 +92,9 @@ def main(
             departure_timestamps_s[i] = 0
             server_timestamps_1[i] = 0
         else:
-            departure_timestamps_s[i] = arrival_timestamps[i] + inter_service_times[i]
+            departure_timestamps_s[i] = (
+                arrival_timestamps[i] + inter_service_times[i]
+            )
             server_timestamps_1[i] = arrival_timestamps[i]
 
     dep = [x for x in departure_timestamps_s if x != 0]
@@ -99,8 +118,12 @@ def main(
     else:
         t1 = [0] + sermat
 
-    system_time = 1 / lambda1  # system time (time which update in the system)
-    av_age_simulation, _, _ = av_age.average_age_of_information_fn(v1, t1, system_time)
+    system_time = (
+        1 / lambda1
+    )  # system time (time which update in the system)
+    av_age_simulation, _, _ = av_age.average_age_of_information_fn(
+        v1, t1, system_time
+    )
     av_age_theoretical = (1 / lambda1) * (0.5 + (1 / (1 - er_p_th)))
 
     return av_age_theoretical, av_age_simulation
@@ -147,7 +170,10 @@ def parse_arguments() -> argparse.Namespace:
     """Parse command-line arguments."""
     parser = argparse.ArgumentParser(description="AAoI Simulation")
     parser.add_argument(
-        "--num_nodes", type=int, default=2, help="Number of nodes in the network"
+        "--num_nodes",
+        type=int,
+        default=2,
+        help="Number of nodes in the network",
     )
     parser.add_argument(
         "--active_prob",
@@ -155,14 +181,23 @@ def parse_arguments() -> argparse.Namespace:
         default=0.5,
         help="Probability that a node is active in a given time slot",
     )
-    parser.add_argument("--n", type=int, default=200, help="Number of bits in a block")
+    parser.add_argument(
+        "--n", type=int, default=200, help="Number of bits in a block"
+    )
     parser.add_argument(
         "--k", type=int, default=150, help="Number of bits in a message"
     )
-    parser.add_argument("--P", type=float, default=0.1, help="Power of the nodes")
-    parser.add_argument("--numevents", type=int, default=1000, help="Number of events")
     parser.add_argument(
-        "--numruns", type=int, default=100, help="Number of times to run the simulation"
+        "--P", type=float, default=0.1, help="Power of the nodes"
+    )
+    parser.add_argument(
+        "--numevents", type=int, default=1000, help="Number of events"
+    )
+    parser.add_argument(
+        "--numruns",
+        type=int,
+        default=100,
+        help="Number of times to run the simulation",
     )
     return parser.parse_args()
 

@@ -1,5 +1,4 @@
 import sys
-from io import StringIO
 
 import pytest
 
@@ -13,7 +12,9 @@ test_cases = [
 
 
 # define pytest function to test main function with multiple test cases
-@pytest.mark.parametrize("num_nodes, active_prob, n, k, P,numevents", test_cases)
+@pytest.mark.parametrize(
+    "num_nodes, active_prob, n, k, P,numevents", test_cases
+)
 def test_main(num_nodes, active_prob, n, k, P, numevents):
     # call the main function
     result = main(num_nodes, active_prob, n, k, P, numevents)

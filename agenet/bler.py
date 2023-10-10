@@ -64,16 +64,27 @@ def blercal_th(snr: float, n: int, k: int) -> float:
     delta = sim_phi + (1 / (2 * beta * math.sqrt(n)))
     err_th = 1 - (
         (beta * math.sqrt(n) * snr)
-        * (math.exp(-1 * phi_bas * (1 / snr)) - math.exp(-1 * delta * (1 / snr)))
+        * (
+            math.exp(-1 * phi_bas * (1 / snr))
+            - math.exp(-1 * delta * (1 / snr))
+        )
     )
     return err_th
 
 
 def main():
-    parser = argparse.ArgumentParser(description="Block Error Rate Calculation")
-    parser.add_argument("--snr", type=float, help="Signal-to-Noise Ratio (SNR)")
-    parser.add_argument("--n", type=int, help="Number of bits in the block")
-    parser.add_argument("--k", type=int, help="Number of bits in the message")
+    parser = argparse.ArgumentParser(
+        description="Block Error Rate Calculation"
+    )
+    parser.add_argument(
+        "--snr", type=float, help="Signal-to-Noise Ratio (SNR)"
+    )
+    parser.add_argument(
+        "--n", type=int, help="Number of bits in the block"
+    )
+    parser.add_argument(
+        "--k", type=int, help="Number of bits in the message"
+    )
     parser.add_argument(
         "--theory",
         action="store_true",

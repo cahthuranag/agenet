@@ -5,7 +5,6 @@ from unittest import mock
 
 import matplotlib
 import matplotlib.pyplot as plt
-import pytest
 
 from agenet.plot import main, plot
 
@@ -166,11 +165,10 @@ def test_plot(monkeypatch):
     with mock.patch.object(plt, "show"):
         plot(args)
 
-    # Get the output
-    out = output.getvalue().strip()
 
-
-matplotlib.use("Agg")  # Use Agg backend to prevent plots from being displayed
+matplotlib.use(
+    "Agg"
+)  # Use Agg backend to prevent plots from being displayed
 
 
 def test_main():

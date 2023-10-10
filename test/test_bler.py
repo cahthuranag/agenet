@@ -1,11 +1,8 @@
 import math
 import sys
-from io import StringIO
-
 import numpy as np
 import pytest
 import scipy.special as sp
-
 from agenet.bler import blercal, blercal_th, main
 
 # Test blercal() function

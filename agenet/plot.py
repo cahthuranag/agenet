@@ -75,7 +75,9 @@ def plot_generate(
         ax.plot(
             var_vals,
             [
-                run_main(*(const_vals[:i] + [val] + const_vals[i + 1 :]))[0]
+                run_main(*(const_vals[:i] + [val] + const_vals[i + 1 :]))[
+                    0
+                ]
                 for val in var_vals
             ],
             label="Theoretical",
@@ -83,14 +85,18 @@ def plot_generate(
         ax.plot(
             var_vals,
             [
-                run_main(*(const_vals[:i] + [val] + const_vals[i + 1 :]))[1]
+                run_main(*(const_vals[:i] + [val] + const_vals[i + 1 :]))[
+                    1
+                ]
                 for val in var_vals
             ],
             label="Simulated",
         )
         ax.set_xlabel(var_name)
         ax.legend()
-        ax.set_title(f"Plot of Simulated and Theoretical Values respect to {var_name}")
+        ax.set_title(
+            f"Plot of Simulated and Theoretical Values respect to {var_name}"
+        )
 
         # update the minimum and maximum values for the x and y-axes
         x_min = min(x_min, min(var_vals))
@@ -100,7 +106,9 @@ def plot_generate(
             min(
                 min(
                     [
-                        run_main(*(const_vals[:i] + [val] + const_vals[i + 1 :]))
+                        run_main(
+                            *(const_vals[:i] + [val] + const_vals[i + 1 :])
+                        )
                         for val in var_vals
                     ]
                 )
@@ -111,7 +119,9 @@ def plot_generate(
             max(
                 max(
                     [
-                        run_main(*(const_vals[:i] + [val] + const_vals[i + 1 :]))
+                        run_main(
+                            *(const_vals[:i] + [val] + const_vals[i + 1 :])
+                        )
                         for val in var_vals
                     ]
                 )
@@ -196,10 +206,16 @@ def main() -> None:
         help="Constant value for the active probability.",
     )
     parser.add_argument(
-        "--n_const", type=int, default=150, help="Constant value for the block length."
+        "--n_const",
+        type=int,
+        default=150,
+        help="Constant value for the block length.",
     )
     parser.add_argument(
-        "--k_const", type=int, default=100, help="Constant value for the update size."
+        "--k_const",
+        type=int,
+        default=100,
+        help="Constant value for the update size.",
     )
     parser.add_argument(
         "--P_const",
@@ -211,7 +227,9 @@ def main() -> None:
     parser.add_argument(
         "--numevnts", type=int, default=1000, help="The number of events."
     )
-    parser.add_argument("--numruns", type=int, default=100, help="The number of runs.")
+    parser.add_argument(
+        "--numruns", type=int, default=100, help="The number of runs."
+    )
 
     parser.add_argument(
         "--num_nodes_vals",

@@ -21,7 +21,9 @@ def snr(N0: float, d: float, P: float) -> float:
     log_alpha: float = (20 * math.log10(d)) + (
         20 * math.log10((4 * f * math.pi) / C)
     )  # path loss in dB
-    alpha: float = 1 / (10 ** ((log_alpha) / 10))  # path loss in linear scale
+    alpha: float = 1 / (
+        10 ** ((log_alpha) / 10)
+    )  # path loss in linear scale
     snr: float = (alpha * P * np.random.exponential(1)) / N0
     return snr
 
@@ -43,7 +45,9 @@ def snr_th(N0: float, d: float, P: float) -> float:
     log_alpha: float = (20 * math.log10(d)) + (
         20 * math.log10((4 * f * math.pi) / C)
     )  # path loss in dB
-    alpha: float = 1 / (10 ** ((log_alpha) / 10))  # path loss in linear scale
+    alpha: float = 1 / (
+        10 ** ((log_alpha) / 10)
+    )  # path loss in linear scale
     snr_th: float = (alpha * P) / N0
     return snr_th
 
@@ -52,11 +56,17 @@ def main():
     parser = argparse.ArgumentParser(
         description="Calculate signal-to-noise ratio (SNR)."
     )
-    parser.add_argument("-N0", type=float, help="Power spectral density of the noise")
     parser.add_argument(
-        "-d", type=float, help="Distance between the transmitter and receiver"
+        "-N0", type=float, help="Power spectral density of the noise"
     )
-    parser.add_argument("-P", type=float, help="Power of the transmitted signal")
+    parser.add_argument(
+        "-d",
+        type=float,
+        help="Distance between the transmitter and receiver",
+    )
+    parser.add_argument(
+        "-P", type=float, help="Power of the transmitted signal"
+    )
     args = parser.parse_args()
 
     if args.N0 is not None and args.d is not None and args.P is not None:

@@ -1,18 +1,14 @@
 import argparse
 import io
-import sys
 from contextlib import redirect_stdout
-from io import StringIO
 from unittest.mock import patch
 
-import pytest
 from tabulate import tabulate
 
 from agenet.printage import generate_comparison_table, main, printage
 
+
 # this is a test for the generate_comparison_table function
-
-
 def assert_table_format(output_lines):
     header_line = output_lines[0].strip()
     row_lines = output_lines[1:-1]  # Skip header and separator lines
@@ -33,8 +29,9 @@ def assert_table_format(output_lines):
 
     # Check if the separator line matches the expected format
     columns = header_line.strip().split("|")[1:-1]
-    num_columns = len(columns)
-    expected_separator = "+".join("-" * (len(column.strip()) + 2) for column in columns)
+    expected_separator = "+".join(
+        "-" * (len(column.strip()) + 2) for column in columns
+    )
 
     # Adjust separator line if the header line has '+' characters at the beginning and end
     if header_line.startswith("+") and header_line.endswith("+"):
@@ -80,8 +77,13 @@ def test_generate_comparison_table():
 
     # Split the output into lines and check the format using tabulate
     output_lines = output_str.strip().split("\n")
-    headers = [header.strip() for header in output_lines[0].strip().split("|")[1:-1]]
-    table_data = [row.strip().split("|")[1:-1] for row in output_lines[2:-1]]
+    headers = [
+        header.strip()
+        for header in output_lines[0].strip().split("|")[1:-1]
+    ]
+    table_data = [
+        row.strip().split("|")[1:-1] for row in output_lines[2:-1]
+    ]
 
     expected_table = tabulate(table_data, headers=headers, tablefmt="grid")
     actual_table = tabulate(table_data, headers=headers, tablefmt="grid")
@@ -113,8 +115,13 @@ def test_printage():
 
     # Split the output into lines and check the format using tabulate
     output_lines = output_str.strip().split("\n")
-    headers = [header.strip() for header in output_lines[0].strip().split("|")[1:-1]]
-    table_data = [row.strip().split("|")[1:-1] for row in output_lines[2:-1]]
+    headers = [
+        header.strip()
+        for header in output_lines[0].strip().split("|")[1:-1]
+    ]
+    table_data = [
+        row.strip().split("|")[1:-1] for row in output_lines[2:-1]
+    ]
 
     expected_table = tabulate(table_data, headers=headers, tablefmt="grid")
     actual_table = tabulate(table_data, headers=headers, tablefmt="grid")
@@ -165,8 +172,13 @@ def test_main_output(capsys):
 
     # Split the output into lines and check the format using tabulate
     output_lines = output_str.strip().split("\n")
-    headers = [header.strip() for header in output_lines[0].strip().split("|")[1:-1]]
-    table_data = [row.strip().split("|")[1:-1] for row in output_lines[2:-1]]
+    headers = [
+        header.strip()
+        for header in output_lines[0].strip().split("|")[1:-1]
+    ]
+    table_data = [
+        row.strip().split("|")[1:-1] for row in output_lines[2:-1]
+    ]
 
     expected_table = tabulate(table_data, headers=headers, tablefmt="grid")
     actual_table = tabulate(table_data, headers=headers, tablefmt="grid")

@@ -7,7 +7,9 @@ from scipy.integrate import trapz
 
 # Define the average age of information function
 def average_age_of_information_fn(
-    destination_times: List[float], generation_times: List[float], lambha: float
+    destination_times: List[float],
+    generation_times: List[float],
+    lambha: float,
 ) -> Tuple[float, np.ndarray, np.ndarray]:
     """
     Calculate the average age of information given the destination times, generation times, and arrival rate.
@@ -29,7 +31,9 @@ def average_age_of_information_fn(
     # Loop through the rest of the destination times
     for i in range(1, len(destination_times)):
         # Generate an array of times between two consecutive destination times
-        dummy = np.arange(destination_times[i - 1], destination_times[i] + p, p)
+        dummy = np.arange(
+            destination_times[i - 1], destination_times[i] + p, p
+        )
         # Concatenate the times array with the dummy array
         times = np.concatenate((times, dummy))
     # Initialize a counter (ii) and an offset
@@ -60,7 +64,10 @@ def main():
         description="Calculate the average age of information."
     )
     parser.add_argument(
-        "--lambha", type=float, default=1, help="The arrival rate of information."
+        "--lambha",
+        type=float,
+        default=1,
+        help="The arrival rate of information.",
     )
     parser.add_argument(
         "--dest_times",
