@@ -1,6 +1,8 @@
 import sys
 
 import pytest
+import subprocess
+import os
 
 from agenet.maincom import main, main_fun
 
@@ -51,3 +53,33 @@ def test_main_fun(capsys):
     # Check if the output contains the expected string
     assert "Theoretical AAoI:" in captured.out
     assert "Simulation AAoI:" in captured.out
+
+def test_command_line_arguments():
+    # Define sample command-line arguments
+    num_nodes = 2
+    active_prob = 0.5
+    n = 200
+    k = 150
+    P = 0.1
+    numevents = 1000
+    numruns = 1
+
+    # Run the script with the sample command-line arguments
+    script_path = os.path.abspath("agenet/maincom.py")
+    command = f"python {script_path} " \
+              f"--num_nodes {num_nodes} " \
+              f"--active_prob {active_prob} " \
+              f"--n {n} " \
+              f"--k {k} " \
+              f"--P {P} " \
+              f"--numevents {numevents} " \
+              f"--numruns {numruns}"
+
+    result = subprocess.run(
+        command, shell=True, capture_output=True, text=True
+    )
+
+    # Check if the script ran successfully (return code 0)
+    assert result.returncode == 0
+    # Check if there is some output (stdout is not empty)
+    assert result.stdout.strip() != ""

@@ -74,8 +74,7 @@ def main():
         snr_th_val = snr_th(args.N0, args.d, args.P)
         print(f"SNR: {snr_val}")
         print(f"Theoretical SNR: {snr_th_val}")
-    else:
-        parser.print_help()
+
 
 
 if __name__ == "__main__":

@@ -3,7 +3,9 @@ import sys
 import numpy as np
 import pytest
 import scipy.special as sp
+import subprocess
 from agenet.bler import blercal, blercal_th, main
+import os
 
 # Test blercal() function
 
@@ -72,3 +74,20 @@ def test_main(capsys):
 
     # Check if the output contains the expected string
     assert "BLER:" in captured.out
+
+
+
+def test_command_line_arguments():
+    # Define sample command-line arguments
+
+    snr = 10
+    n = 100
+    k = 50
+    script_path = os.path.abspath("agenet/bler.py")
+    # Run the script with the sample command-line arguments
+    command = f"python {script_path} --snr {snr} --n {n} --k {k}"
+    result = subprocess.run(
+        command, shell=True, capture_output=True, text=True
+    )
+
+    assert "BLER:" in result.stdout

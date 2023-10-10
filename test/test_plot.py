@@ -173,7 +173,7 @@ matplotlib.use(
 
 def test_main():
     sys.argv = [
-        "your_script_name.py",
+        "agenet/plot.py",
         "--num_nodes_const",
         "2",
         "--active_prob_const",
