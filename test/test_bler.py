@@ -96,3 +96,9 @@ def test_command_line_arguments():
         command, shell=True, capture_output=True, text=True
     )
     assert "Theoretical BLER:" in result.stdout
+    command = f"python {script_path} --snr {snr} --n {n} --k {None} "
+    result = subprocess.run(
+        command, shell=True, capture_output=True, text=True
+    )
+
+    assert "usage: " in result.stderr
