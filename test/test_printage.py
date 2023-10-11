@@ -164,7 +164,7 @@ def test_printage():
         "0.003",
     ],
 )
-def test_main_output(capsys):
+def test_main_output():
     output = io.StringIO()
     with redirect_stdout(output):
         main()

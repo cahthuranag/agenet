@@ -85,7 +85,7 @@ def test_command_line_arguments():
     k = 50
     script_path = os.path.abspath("agenet/bler.py")
     # Run the script with the sample command-line arguments
-    command = f"python {script_path} --snr {snr} --n {n} --k {k}"
+    command = f"python {script_path} --snr {snr} --n {n} --k {k} --theory"
     result = subprocess.run(
         command, shell=True, capture_output=True, text=True
     )
