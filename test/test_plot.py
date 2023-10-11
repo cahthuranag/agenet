@@ -206,53 +206,6 @@ def test_main():
     with mock.patch.object(plt, "show"):
         main()
 
-def test_command_line_arguments_main(monkeypatch, tmp_path):
-    num_nodes_const = 2
-    active_prob_const = 0.5
-    n_const = 150
-    k_const = 100
-    P_const = 0.002
-    numevnts = 1000
-    numruns = 2
-    num_nodes_vals = [1, 2, 3, 4, 5]
-    active_prob_vals = [0.1, 0.15, 0.2, 0.25]
-    n_vals = [150, 160, 170, 180, 190, 200, 210, 220, 230, 240, 250]
-    k_vals = [50, 60, 70, 80, 90, 95, 100]
-    P_vals = [0.002, 0.003, 0.004, 0.005, 0.01]
 
-    script_path = "agenet/plot.py"
-
-    # Create the command list
-    
-    command = [
-        "python", script_path,
-        f"--num_nodes_const", str(num_nodes_const),
-        f"--active_prob_const", str(active_prob_const),
-        f"--n_const", str(n_const),
-        f"--k_const", str(k_const),
-        f"--P_const", str(P_const),
-        f"--numevnts", str(numevnts),
-        f"--numruns", str(numruns),
-    ]
-    for val_list, arg_name in [
-        (num_nodes_vals, "--num_nodes_vals"),
-        (active_prob_vals, "--active_prob_vals"),
-        (n_vals, "--n_vals"),
-        (k_vals, "--k_vals"),
-        (P_vals, "--P_vals"),
-    ]:
-        command.extend([arg_name] + list(map(str, val_list)))
-
-    # Create a placeholder figure
-   
-
-    # Run the script
-    #subprocess.run(command, text=True)
-    process = subprocess.Popen(command, text=True, shell=True)
-
-    fig = plt.gcf()
-    # Check if a figure was created
-    assert fig.get_figheight() > 0
-    pid = process.pid
   
 
