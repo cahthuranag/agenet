@@ -5,8 +5,8 @@ from unittest import mock
 import subprocess
 import matplotlib
 import matplotlib.pyplot as plt
-import time
 from agenet.plot import main, plot
+import os
 
 
 def test_plot(monkeypatch):
@@ -205,7 +205,24 @@ def test_main():
     ]
     with mock.patch.object(plt, "show"):
         main()
+        fig = plt.gcf()
+        assert fig.get_figheight() > 0
 
+def test_command_line_arguments():
+    matplotlib.use(
+    "Agg"
+ )
+    script_path = os.path.abspath("agenet/plot.py")
+    
+    # Run the script with the sample command-line arguments
+    with mock.patch.object(plt, "show"):
+        command = f"python {script_path} --numruns 1"
+        result = subprocess.Popen(
+            command, shell=True, text=True
+        )
+        fig = plt.gcf()
+        assert fig.get_figheight() > 0
 
+   
   
 
