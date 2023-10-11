@@ -182,6 +182,7 @@ def plot(args: argparse.Namespace) -> None:
         P_vals=P_vals,
     )
     plt.show()
+    plt.close("all")
 
 
 def main() -> None:
@@ -274,7 +275,5 @@ def main() -> None:
     )
     args = parser.parse_args()
     plot(args)
-
-
 if __name__ == "__main__":
     main()
