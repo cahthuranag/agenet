@@ -1,12 +1,14 @@
 import argparse
+import os
+import subprocess
 import sys
 from io import StringIO
 from unittest import mock
-import subprocess
+
 import matplotlib
 import matplotlib.pyplot as plt
+
 from agenet.plot import main, plot
-import os
 
 
 def test_plot(monkeypatch):
@@ -166,11 +168,8 @@ def test_plot(monkeypatch):
         plot(args)
 
 
-
 def test_main():
-    matplotlib.use(
-    "Agg"
- )
+    matplotlib.use("Agg")
     sys.argv = [
         "agenet/plot.py",
         "--num_nodes_const",
@@ -208,21 +207,16 @@ def test_main():
         fig = plt.gcf()
         assert fig.get_figheight() > 0
 
+
 def test_command_line_arguments():
-    matplotlib.use(
-    "Agg"
- )
+    matplotlib.use("Agg")
     script_path = os.path.abspath("agenet/plot.py")
-    
+
     # Run the script with the sample command-line arguments
     with mock.patch.object(plt, "show"):
         command = f"python {script_path} --numruns 1"
-        result = subprocess.Popen(
-            command, shell=True, text=True
-        )
+        process = subprocess.Popen(command, shell=True, text=True)
         fig = plt.gcf()
         assert fig.get_figheight() > 0
-
-   
-  
-
+        plt.close("all")
+        process.pid

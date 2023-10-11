@@ -1,11 +1,13 @@
 import math
+import os
+import subprocess
 import sys
+
 import numpy as np
 import pytest
 import scipy.special as sp
-import subprocess
+
 from agenet.bler import blercal, blercal_th, main
-import os
 
 # Test blercal() function
 
@@ -24,7 +26,9 @@ def test_blercal():
         blercal(10, 100, 0)
 
     # Test for k <= n
-    with pytest.raises(ValueError, match="k must be less than or equal to n"):
+    with pytest.raises(
+        ValueError, match="k must be less than or equal to n"
+    ):
         blercal(10, 50, 100)
 
     # Test for small SNR
@@ -66,7 +70,15 @@ def test_qfunc():
 
 def test_main(capsys):
     # Set up the arguments
-    sys.argv = ["program_name.py", "--snr", "10", "--n", "100", "--k", "50"]
+    sys.argv = [
+        "program_name.py",
+        "--snr",
+        "10",
+        "--n",
+        "100",
+        "--k",
+        "50",
+    ]
     main()
 
     # Capture the output
@@ -74,7 +86,6 @@ def test_main(capsys):
 
     # Check if the output contains the expected string
     assert "BLER:" in captured.out
-
 
 
 def test_command_line_arguments():

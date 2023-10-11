@@ -76,6 +76,5 @@ def main():
         print(f"Theoretical SNR: {snr_th_val}")
 
 
-
 if __name__ == "__main__":
     main()

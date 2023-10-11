@@ -57,7 +57,8 @@ def plot_generate(
             ],
         )
     ):
-        # create a list of the constant values with the loop variable set to None
+        # create a list of the constant values with the loop variable set to
+        # None
         const_vals = [
             num_nodes_const,
             active_prob_const,
@@ -75,7 +76,7 @@ def plot_generate(
         ax.plot(
             var_vals,
             [
-                run_main(*(const_vals[:i] + [val] + const_vals[i + 1 :]))[
+                run_main(*(const_vals[:i] + [val] + const_vals[i + 1:]))[
                     0
                 ]
                 for val in var_vals
@@ -85,7 +86,7 @@ def plot_generate(
         ax.plot(
             var_vals,
             [
-                run_main(*(const_vals[:i] + [val] + const_vals[i + 1 :]))[
+                run_main(*(const_vals[:i] + [val] + const_vals[i + 1:]))[
                     1
                 ]
                 for val in var_vals
@@ -107,7 +108,7 @@ def plot_generate(
                 min(
                     [
                         run_main(
-                            *(const_vals[:i] + [val] + const_vals[i + 1 :])
+                            *(const_vals[:i] + [val] + const_vals[i + 1:])
                         )
                         for val in var_vals
                     ]
@@ -120,7 +121,7 @@ def plot_generate(
                 max(
                     [
                         run_main(
-                            *(const_vals[:i] + [val] + const_vals[i + 1 :])
+                            *(const_vals[:i] + [val] + const_vals[i + 1:])
                         )
                         for val in var_vals
                     ]
@@ -128,7 +129,8 @@ def plot_generate(
             ),
         )
 
-    # set the x and y-axis limits based on the updated minimum and maximum values
+    # set the x and y-axis limits based on the updated minimum and maximum
+    # values
     ax.set_xlim(x_min, x_max)
     ax.set_ylim(y_min, y_max)
 
@@ -141,11 +143,11 @@ def plot(args: argparse.Namespace) -> None:
     Args:
         args (argparse.Namespace): Parsed command-line arguments.
         Num_nodes_const (int, optional): The number of nodes. Default is 2.
-        active_prob_const (float, optional): The active probability. 
-        n_const (int, optional): The block length. 
+        active_prob_const (float, optional): The active probability.
+        n_const (int, optional): The block length.
         k_const (int, optional): The update size.
-        P_const (float, optional): The power. 
-        numevnts (int, optional): The number of events. 
+        P_const (float, optional): The power.
+        numevnts (int, optional): The number of events.
         numruns (int, optional): The number of runs.
         num_nodes_vals (List[int], optional): The list of number of nodes.
         active_prob_vals (List[float], optional): The list of active probability.
@@ -192,8 +194,7 @@ def main() -> None:
         None
     """
     parser = argparse.ArgumentParser(
-        description="Prints a table comparing results for different input values."
-    )
+        description="Prints a table comparing results for different input values.")
     parser.add_argument(
         "--num_nodes_const",
         type=int,
@@ -275,5 +276,8 @@ def main() -> None:
     )
     args = parser.parse_args()
     plot(args)
+    plt.close("all")
+
+
 if __name__ == "__main__":
     main()

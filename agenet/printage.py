@@ -72,7 +72,7 @@ def generate_comparison_table(
         table_rows = []
         for val in var_vals:
             theoretical, simulated = run_main(
-                *(const_vals[:i] + [val] + const_vals[i + 1 :])
+                *(const_vals[:i] + [val] + const_vals[i + 1:])
             )
             table_rows.append([val, theoretical, simulated])
 
@@ -129,8 +129,7 @@ def main() -> None:
         None
     """
     parser = argparse.ArgumentParser(
-        description="Prints a table comparing results for different input values."
-    )
+        description="Prints a table comparing results for different input values.")
     parser.add_argument(
         "--num_nodes_const",
         type=int,
