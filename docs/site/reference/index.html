@@ -735,8 +735,14 @@
 <span class="normal">52</span>
 <span class="normal">53</span>
 <span class="normal">54</span>
-<span class="normal">55</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">average_age_of_information_fn</span><span class="p">(</span>
-    <span class="n">destination_times</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="nb">float</span><span class="p">],</span> <span class="n">generation_times</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="nb">float</span><span class="p">],</span> <span class="n">lambha</span><span class="p">:</span> <span class="nb">float</span>
+<span class="normal">55</span>
+<span class="normal">56</span>
+<span class="normal">57</span>
+<span class="normal">58</span>
+<span class="normal">59</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">average_age_of_information_fn</span><span class="p">(</span>
+    <span class="n">destination_times</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="nb">float</span><span class="p">],</span>
+    <span class="n">generation_times</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="nb">float</span><span class="p">],</span>
+    <span class="n">lambha</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span>
 <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Tuple</span><span class="p">[</span><span class="nb">float</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">]:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Calculate the average age of information given the destination times, generation times, and arrival rate.</span>
@@ -758,7 +764,9 @@
     <span class="c1"># Loop through the rest of the destination times</span>
     <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">destination_times</span><span class="p">)):</span>
         <span class="c1"># Generate an array of times between two consecutive destination times</span>
-        <span class="n">dummy</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="n">destination_times</span><span class="p">[</span><span class="n">i</span> <span class="o">-</span> <span class="mi">1</span><span class="p">],</span> <span class="n">destination_times</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">+</span> <span class="n">p</span><span class="p">,</span> <span class="n">p</span><span class="p">)</span>
+        <span class="n">dummy</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span>
+            <span class="n">destination_times</span><span class="p">[</span><span class="n">i</span> <span class="o">-</span> <span class="mi">1</span><span class="p">],</span> <span class="n">destination_times</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">+</span> <span class="n">p</span><span class="p">,</span> <span class="n">p</span>
+        <span class="p">)</span>
         <span class="c1"># Concatenate the times array with the dummy array</span>
         <span class="n">times</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">concatenate</span><span class="p">((</span><span class="n">times</span><span class="p">,</span> <span class="n">dummy</span><span class="p">))</span>
     <span class="c1"># Initialize a counter (ii) and an offset</span>
@@ -1091,7 +1099,10 @@
 <span class="normal">66</span>
 <span class="normal">67</span>
 <span class="normal">68</span>
-<span class="normal">69</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">blercal_th</span><span class="p">(</span><span class="n">snr</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span> <span class="n">n</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">k</span><span class="p">:</span> <span class="nb">int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">float</span><span class="p">:</span>
+<span class="normal">69</span>
+<span class="normal">70</span>
+<span class="normal">71</span>
+<span class="normal">72</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">blercal_th</span><span class="p">(</span><span class="n">snr</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span> <span class="n">n</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">k</span><span class="p">:</span> <span class="nb">int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">float</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Calculate the theoretical Block Error Rate (BLER) for the given SNR, n, k.</span>
 
@@ -1109,7 +1120,10 @@
     <span class="n">delta</span> <span class="o">=</span> <span class="n">sim_phi</span> <span class="o">+</span> <span class="p">(</span><span class="mi">1</span> <span class="o">/</span> <span class="p">(</span><span class="mi">2</span> <span class="o">*</span> <span class="n">beta</span> <span class="o">*</span> <span class="n">math</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="n">n</span><span class="p">)))</span>
     <span class="n">err_th</span> <span class="o">=</span> <span class="mi">1</span> <span class="o">-</span> <span class="p">(</span>
         <span class="p">(</span><span class="n">beta</span> <span class="o">*</span> <span class="n">math</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="n">n</span><span class="p">)</span> <span class="o">*</span> <span class="n">snr</span><span class="p">)</span>
-        <span class="o">*</span> <span class="p">(</span><span class="n">math</span><span class="o">.</span><span class="n">exp</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span> <span class="o">*</span> <span class="n">phi_bas</span> <span class="o">*</span> <span class="p">(</span><span class="mi">1</span> <span class="o">/</span> <span class="n">snr</span><span class="p">))</span> <span class="o">-</span> <span class="n">math</span><span class="o">.</span><span class="n">exp</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span> <span class="o">*</span> <span class="n">delta</span> <span class="o">*</span> <span class="p">(</span><span class="mi">1</span> <span class="o">/</span> <span class="n">snr</span><span class="p">)))</span>
+        <span class="o">*</span> <span class="p">(</span>
+            <span class="n">math</span><span class="o">.</span><span class="n">exp</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span> <span class="o">*</span> <span class="n">phi_bas</span> <span class="o">*</span> <span class="p">(</span><span class="mi">1</span> <span class="o">/</span> <span class="n">snr</span><span class="p">))</span>
+            <span class="o">-</span> <span class="n">math</span><span class="o">.</span><span class="n">exp</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span> <span class="o">*</span> <span class="n">delta</span> <span class="o">*</span> <span class="p">(</span><span class="mi">1</span> <span class="o">/</span> <span class="n">snr</span><span class="p">))</span>
+        <span class="p">)</span>
     <span class="p">)</span>
     <span class="k">return</span> <span class="n">err_th</span>
 </code></pre></div></td></tr></table></div>
@@ -1216,7 +1230,7 @@ of the standard normal distribution.</p>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="k">if</span> <span class="n">x</span> <span class="o">&lt;</span> <span class="mi">0</span><span class="p">:</span>
         <span class="k">return</span> <span class="mi">1</span>
-    <span class="k">return</span> <span class="mf">0.5</span> <span class="o">-</span> <span class="mf">0.5</span> <span class="o">*</span> <span class="n">sp</span><span class="o">.</span><span class="n">erf</span><span class="p">(</span><span class="n">x</span> <span class="o">/</span> <span class="n">math</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="mi">2</span><span class="p">))</span> <span class="c1"># pylint: disable=E1101</span>
+    <span class="k">return</span> <span class="mf">0.5</span> <span class="o">-</span> <span class="mf">0.5</span> <span class="o">*</span> <span class="n">sp</span><span class="o">.</span><span class="n">erf</span><span class="p">(</span><span class="n">x</span> <span class="o">/</span> <span class="n">math</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="mi">2</span><span class="p">))</span>  <span class="c1"># pylint: disable=E1101</span>
 </code></pre></div></td></tr></table></div>
           </details>
   </div>
@@ -1500,8 +1514,36 @@ of the standard normal distribution.</p>
 <span class="normal">103</span>
 <span class="normal">104</span>
 <span class="normal">105</span>
-<span class="normal">106</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">main</span><span class="p">(</span>
-    <span class="n">num_nodes</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">active_prob</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span> <span class="n">n</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">k</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">P</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span> <span class="n">numevents</span><span class="p">:</span> <span class="nb">int</span>
+<span class="normal">106</span>
+<span class="normal">107</span>
+<span class="normal">108</span>
+<span class="normal">109</span>
+<span class="normal">110</span>
+<span class="normal">111</span>
+<span class="normal">112</span>
+<span class="normal">113</span>
+<span class="normal">114</span>
+<span class="normal">115</span>
+<span class="normal">116</span>
+<span class="normal">117</span>
+<span class="normal">118</span>
+<span class="normal">119</span>
+<span class="normal">120</span>
+<span class="normal">121</span>
+<span class="normal">122</span>
+<span class="normal">123</span>
+<span class="normal">124</span>
+<span class="normal">125</span>
+<span class="normal">126</span>
+<span class="normal">127</span>
+<span class="normal">128</span>
+<span class="normal">129</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">main</span><span class="p">(</span>
+    <span class="n">num_nodes</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span>
+    <span class="n">active_prob</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span>
+    <span class="n">n</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span>
+    <span class="n">k</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span>
+    <span class="n">P</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span>
+    <span class="n">numevents</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span>
 <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Tuple</span><span class="p">[</span><span class="nb">float</span><span class="p">,</span> <span class="nb">float</span><span class="p">]:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Simulates a communication system and calculates the AAoI.</span>
@@ -1520,8 +1562,12 @@ of the standard normal distribution.</p>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">lambda1</span> <span class="o">=</span> <span class="mi">1</span>  <span class="c1"># arrival for one transmission period</span>
     <span class="n">num_events</span> <span class="o">=</span> <span class="n">numevents</span>  <span class="c1"># number of events</span>
-    <span class="n">inter_arrival_times</span> <span class="o">=</span> <span class="p">(</span><span class="mi">1</span> <span class="o">/</span> <span class="n">lambda1</span><span class="p">)</span> <span class="o">*</span> <span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">ones</span><span class="p">(</span><span class="n">num_events</span><span class="p">))</span>  <span class="c1"># inter arrival times</span>
-    <span class="n">arrival_timestamps</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">cumsum</span><span class="p">(</span><span class="n">inter_arrival_times</span><span class="p">)</span>  <span class="c1"># arrival timestamps</span>
+    <span class="n">inter_arrival_times</span> <span class="o">=</span> <span class="p">(</span><span class="mi">1</span> <span class="o">/</span> <span class="n">lambda1</span><span class="p">)</span> <span class="o">*</span> <span class="p">(</span>
+        <span class="n">np</span><span class="o">.</span><span class="n">ones</span><span class="p">(</span><span class="n">num_events</span><span class="p">)</span>
+    <span class="p">)</span>  <span class="c1"># inter arrival times</span>
+    <span class="n">arrival_timestamps</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">cumsum</span><span class="p">(</span>
+        <span class="n">inter_arrival_times</span>
+    <span class="p">)</span>  <span class="c1"># arrival timestamps</span>
     <span class="n">N0</span> <span class="o">=</span> <span class="mi">1</span> <span class="o">*</span> <span class="p">(</span><span class="mi">10</span><span class="o">**-</span><span class="mi">13</span><span class="p">)</span>  <span class="c1"># noise power</span>
     <span class="n">d1</span> <span class="o">=</span> <span class="mi">700</span>  <span class="c1"># disatance between source nodes and relay</span>
     <span class="n">d2</span> <span class="o">=</span> <span class="mi">700</span>  <span class="c1"># distance between the relay and destination</span>
@@ -1539,12 +1585,16 @@ of the standard normal distribution.</p>
     <span class="p">)</span>  <span class="c1"># block error rate for the source nodes at the relay or access point</span>
     <span class="n">er1_th</span> <span class="o">=</span> <span class="n">blercal_th</span><span class="p">(</span><span class="n">snr1_th</span><span class="p">,</span> <span class="n">n1</span><span class="p">,</span> <span class="n">k1</span><span class="p">)</span>
     <span class="n">er2_th</span> <span class="o">=</span> <span class="n">blercal_th</span><span class="p">(</span><span class="n">snr2_th</span><span class="p">,</span> <span class="n">n2</span><span class="p">,</span> <span class="n">k2</span><span class="p">)</span>
-    <span class="n">inter_service_times</span> <span class="o">=</span> <span class="p">(</span><span class="mi">1</span> <span class="o">/</span> <span class="n">lambda1</span><span class="p">)</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">ones</span><span class="p">((</span><span class="n">num_events</span><span class="p">))</span>  <span class="c1"># inter service times</span>
+    <span class="n">inter_service_times</span> <span class="o">=</span> <span class="p">(</span><span class="mi">1</span> <span class="o">/</span> <span class="n">lambda1</span><span class="p">)</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">ones</span><span class="p">(</span>
+        <span class="p">(</span><span class="n">num_events</span><span class="p">)</span>
+    <span class="p">)</span>  <span class="c1"># inter service times</span>
     <span class="n">server_timestamps_1</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span>
         <span class="n">num_events</span>
     <span class="p">)</span>  <span class="c1"># Generating departure timestamps for the node 1</span>
     <span class="n">departure_timestamps_s</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="n">num_events</span><span class="p">)</span>
-    <span class="n">su_p_th</span> <span class="o">=</span> <span class="n">active_prob</span> <span class="o">*</span> <span class="p">(</span><span class="mi">1</span> <span class="o">-</span> <span class="n">er1_th</span><span class="p">)</span> <span class="o">*</span> <span class="p">((</span><span class="mi">1</span> <span class="o">-</span> <span class="n">active_prob</span><span class="p">)</span> <span class="o">**</span> <span class="p">(</span><span class="n">num_nodes</span> <span class="o">-</span> <span class="mi">1</span><span class="p">))</span>
+    <span class="n">su_p_th</span> <span class="o">=</span> <span class="p">(</span>
+        <span class="n">active_prob</span> <span class="o">*</span> <span class="p">(</span><span class="mi">1</span> <span class="o">-</span> <span class="n">er1_th</span><span class="p">)</span> <span class="o">*</span> <span class="p">((</span><span class="mi">1</span> <span class="o">-</span> <span class="n">active_prob</span><span class="p">)</span> <span class="o">**</span> <span class="p">(</span><span class="n">num_nodes</span> <span class="o">-</span> <span class="mi">1</span><span class="p">))</span>
+    <span class="p">)</span>
     <span class="n">er_f_th</span> <span class="o">=</span> <span class="mi">1</span> <span class="o">-</span> <span class="n">su_p_th</span>
     <span class="n">er_p_th</span> <span class="o">=</span> <span class="n">er_f_th</span> <span class="o">+</span> <span class="p">(</span><span class="n">er2_th</span> <span class="o">*</span> <span class="p">(</span><span class="n">er_f_th</span> <span class="o">-</span> <span class="mi">1</span><span class="p">))</span>
     <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">num_events</span><span class="p">):</span>
@@ -1558,7 +1608,11 @@ of the standard normal distribution.</p>
         <span class="n">er2</span> <span class="o">=</span> <span class="n">blercal</span><span class="p">(</span>
             <span class="n">snr2</span><span class="p">,</span> <span class="n">n2</span><span class="p">,</span> <span class="n">k2</span>
         <span class="p">)</span>  <span class="c1"># block error rate for the relay or access point at the destination</span>
-        <span class="n">su_p</span> <span class="o">=</span> <span class="n">active_prob</span> <span class="o">*</span> <span class="p">(</span><span class="mi">1</span> <span class="o">-</span> <span class="n">er1</span><span class="p">)</span> <span class="o">*</span> <span class="p">((</span><span class="mi">1</span> <span class="o">-</span> <span class="n">active_prob</span><span class="p">)</span> <span class="o">**</span> <span class="p">(</span><span class="n">num_nodes</span> <span class="o">-</span> <span class="mi">1</span><span class="p">))</span>
+        <span class="n">su_p</span> <span class="o">=</span> <span class="p">(</span>
+            <span class="n">active_prob</span>
+            <span class="o">*</span> <span class="p">(</span><span class="mi">1</span> <span class="o">-</span> <span class="n">er1</span><span class="p">)</span>
+            <span class="o">*</span> <span class="p">((</span><span class="mi">1</span> <span class="o">-</span> <span class="n">active_prob</span><span class="p">)</span> <span class="o">**</span> <span class="p">(</span><span class="n">num_nodes</span> <span class="o">-</span> <span class="mi">1</span><span class="p">))</span>
+        <span class="p">)</span>
         <span class="n">er_f</span> <span class="o">=</span> <span class="mi">1</span> <span class="o">-</span> <span class="n">su_p</span>
         <span class="n">er_p</span> <span class="o">=</span> <span class="n">er_f</span> <span class="o">+</span> <span class="p">(</span><span class="n">er2</span> <span class="o">*</span> <span class="p">(</span><span class="n">er_f</span> <span class="o">-</span> <span class="mi">1</span><span class="p">))</span>
         <span class="n">er_indi</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">random</span><span class="o">.</span><span class="n">random</span><span class="p">()</span> <span class="o">&gt;</span> <span class="n">er_p</span><span class="p">)</span>
@@ -1566,7 +1620,9 @@ of the standard normal distribution.</p>
             <span class="n">departure_timestamps_s</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="mi">0</span>
             <span class="n">server_timestamps_1</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="mi">0</span>
         <span class="k">else</span><span class="p">:</span>
-            <span class="n">departure_timestamps_s</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="n">arrival_timestamps</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">+</span> <span class="n">inter_service_times</span><span class="p">[</span><span class="n">i</span><span class="p">]</span>
+            <span class="n">departure_timestamps_s</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span>
+                <span class="n">arrival_timestamps</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">+</span> <span class="n">inter_service_times</span><span class="p">[</span><span class="n">i</span><span class="p">]</span>
+            <span class="p">)</span>
             <span class="n">server_timestamps_1</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="n">arrival_timestamps</span><span class="p">[</span><span class="n">i</span><span class="p">]</span>
 
     <span class="n">dep</span> <span class="o">=</span> <span class="p">[</span><span class="n">x</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">departure_timestamps_s</span> <span class="k">if</span> <span class="n">x</span> <span class="o">!=</span> <span class="mi">0</span><span class="p">]</span>
@@ -1590,8 +1646,12 @@ of the standard normal distribution.</p>
     <span class="k">else</span><span class="p">:</span>
         <span class="n">t1</span> <span class="o">=</span> <span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">+</span> <span class="n">sermat</span>
 
-    <span class="n">system_time</span> <span class="o">=</span> <span class="mi">1</span> <span class="o">/</span> <span class="n">lambda1</span>  <span class="c1"># system time (time which update in the system)</span>
-    <span class="n">av_age_simulation</span><span class="p">,</span> <span class="n">_</span><span class="p">,</span> <span class="n">_</span> <span class="o">=</span> <span class="n">av_age</span><span class="o">.</span><span class="n">average_age_of_information_fn</span><span class="p">(</span><span class="n">v1</span><span class="p">,</span> <span class="n">t1</span><span class="p">,</span> <span class="n">system_time</span><span class="p">)</span>
+    <span class="n">system_time</span> <span class="o">=</span> <span class="p">(</span>
+        <span class="mi">1</span> <span class="o">/</span> <span class="n">lambda1</span>
+    <span class="p">)</span>  <span class="c1"># system time (time which update in the system)</span>
+    <span class="n">av_age_simulation</span><span class="p">,</span> <span class="n">_</span><span class="p">,</span> <span class="n">_</span> <span class="o">=</span> <span class="n">av_age</span><span class="o">.</span><span class="n">average_age_of_information_fn</span><span class="p">(</span>
+        <span class="n">v1</span><span class="p">,</span> <span class="n">t1</span><span class="p">,</span> <span class="n">system_time</span>
+    <span class="p">)</span>
     <span class="n">av_age_theoretical</span> <span class="o">=</span> <span class="p">(</span><span class="mi">1</span> <span class="o">/</span> <span class="n">lambda1</span><span class="p">)</span> <span class="o">*</span> <span class="p">(</span><span class="mf">0.5</span> <span class="o">+</span> <span class="p">(</span><span class="mi">1</span> <span class="o">/</span> <span class="p">(</span><span class="mi">1</span> <span class="o">-</span> <span class="n">er_p_th</span><span class="p">)))</span>
 
     <span class="k">return</span> <span class="n">av_age_theoretical</span><span class="p">,</span> <span class="n">av_age_simulation</span>
@@ -1618,32 +1678,47 @@ of the standard normal distribution.</p>
 
           <details class="quote">
             <summary>Source code in <code>C:\Users\chathuranga\AppData\Local\Programs\Python\Python311\Lib\site-packages\agenet\maincom.py</code></summary>
-            <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">146</span>
-<span class="normal">147</span>
-<span class="normal">148</span>
-<span class="normal">149</span>
-<span class="normal">150</span>
-<span class="normal">151</span>
-<span class="normal">152</span>
-<span class="normal">153</span>
-<span class="normal">154</span>
-<span class="normal">155</span>
-<span class="normal">156</span>
-<span class="normal">157</span>
-<span class="normal">158</span>
-<span class="normal">159</span>
-<span class="normal">160</span>
-<span class="normal">161</span>
-<span class="normal">162</span>
-<span class="normal">163</span>
-<span class="normal">164</span>
-<span class="normal">165</span>
-<span class="normal">166</span>
-<span class="normal">167</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">parse_arguments</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="n">argparse</span><span class="o">.</span><span class="n">Namespace</span><span class="p">:</span>
+            <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">169</span>
+<span class="normal">170</span>
+<span class="normal">171</span>
+<span class="normal">172</span>
+<span class="normal">173</span>
+<span class="normal">174</span>
+<span class="normal">175</span>
+<span class="normal">176</span>
+<span class="normal">177</span>
+<span class="normal">178</span>
+<span class="normal">179</span>
+<span class="normal">180</span>
+<span class="normal">181</span>
+<span class="normal">182</span>
+<span class="normal">183</span>
+<span class="normal">184</span>
+<span class="normal">185</span>
+<span class="normal">186</span>
+<span class="normal">187</span>
+<span class="normal">188</span>
+<span class="normal">189</span>
+<span class="normal">190</span>
+<span class="normal">191</span>
+<span class="normal">192</span>
+<span class="normal">193</span>
+<span class="normal">194</span>
+<span class="normal">195</span>
+<span class="normal">196</span>
+<span class="normal">197</span>
+<span class="normal">198</span>
+<span class="normal">199</span>
+<span class="normal">200</span>
+<span class="normal">201</span>
+<span class="normal">202</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">parse_arguments</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="n">argparse</span><span class="o">.</span><span class="n">Namespace</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Parse command-line arguments.&quot;&quot;&quot;</span>
     <span class="n">parser</span> <span class="o">=</span> <span class="n">argparse</span><span class="o">.</span><span class="n">ArgumentParser</span><span class="p">(</span><span class="n">description</span><span class="o">=</span><span class="s2">&quot;AAoI Simulation&quot;</span><span class="p">)</span>
     <span class="n">parser</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span>
-        <span class="s2">&quot;--num_nodes&quot;</span><span class="p">,</span> <span class="nb">type</span><span class="o">=</span><span class="nb">int</span><span class="p">,</span> <span class="n">default</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span> <span class="n">help</span><span class="o">=</span><span class="s2">&quot;Number of nodes in the network&quot;</span>
+        <span class="s2">&quot;--num_nodes&quot;</span><span class="p">,</span>
+        <span class="nb">type</span><span class="o">=</span><span class="nb">int</span><span class="p">,</span>
+        <span class="n">default</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span>
+        <span class="n">help</span><span class="o">=</span><span class="s2">&quot;Number of nodes in the network&quot;</span><span class="p">,</span>
     <span class="p">)</span>
     <span class="n">parser</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span>
         <span class="s2">&quot;--active_prob&quot;</span><span class="p">,</span>
@@ -1651,14 +1726,23 @@ of the standard normal distribution.</p>
         <span class="n">default</span><span class="o">=</span><span class="mf">0.5</span><span class="p">,</span>
         <span class="n">help</span><span class="o">=</span><span class="s2">&quot;Probability that a node is active in a given time slot&quot;</span><span class="p">,</span>
     <span class="p">)</span>
-    <span class="n">parser</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span><span class="s2">&quot;--n&quot;</span><span class="p">,</span> <span class="nb">type</span><span class="o">=</span><span class="nb">int</span><span class="p">,</span> <span class="n">default</span><span class="o">=</span><span class="mi">200</span><span class="p">,</span> <span class="n">help</span><span class="o">=</span><span class="s2">&quot;Number of bits in a block&quot;</span><span class="p">)</span>
+    <span class="n">parser</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span>
+        <span class="s2">&quot;--n&quot;</span><span class="p">,</span> <span class="nb">type</span><span class="o">=</span><span class="nb">int</span><span class="p">,</span> <span class="n">default</span><span class="o">=</span><span class="mi">200</span><span class="p">,</span> <span class="n">help</span><span class="o">=</span><span class="s2">&quot;Number of bits in a block&quot;</span>
+    <span class="p">)</span>
     <span class="n">parser</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span>
         <span class="s2">&quot;--k&quot;</span><span class="p">,</span> <span class="nb">type</span><span class="o">=</span><span class="nb">int</span><span class="p">,</span> <span class="n">default</span><span class="o">=</span><span class="mi">150</span><span class="p">,</span> <span class="n">help</span><span class="o">=</span><span class="s2">&quot;Number of bits in a message&quot;</span>
     <span class="p">)</span>
-    <span class="n">parser</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span><span class="s2">&quot;--P&quot;</span><span class="p">,</span> <span class="nb">type</span><span class="o">=</span><span class="nb">float</span><span class="p">,</span> <span class="n">default</span><span class="o">=</span><span class="mf">0.1</span><span class="p">,</span> <span class="n">help</span><span class="o">=</span><span class="s2">&quot;Power of the nodes&quot;</span><span class="p">)</span>
-    <span class="n">parser</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span><span class="s2">&quot;--numevents&quot;</span><span class="p">,</span> <span class="nb">type</span><span class="o">=</span><span class="nb">int</span><span class="p">,</span> <span class="n">default</span><span class="o">=</span><span class="mi">1000</span><span class="p">,</span> <span class="n">help</span><span class="o">=</span><span class="s2">&quot;Number of events&quot;</span><span class="p">)</span>
     <span class="n">parser</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span>
-        <span class="s2">&quot;--numruns&quot;</span><span class="p">,</span> <span class="nb">type</span><span class="o">=</span><span class="nb">int</span><span class="p">,</span> <span class="n">default</span><span class="o">=</span><span class="mi">100</span><span class="p">,</span> <span class="n">help</span><span class="o">=</span><span class="s2">&quot;Number of times to run the simulation&quot;</span>
+        <span class="s2">&quot;--P&quot;</span><span class="p">,</span> <span class="nb">type</span><span class="o">=</span><span class="nb">float</span><span class="p">,</span> <span class="n">default</span><span class="o">=</span><span class="mf">0.1</span><span class="p">,</span> <span class="n">help</span><span class="o">=</span><span class="s2">&quot;Power of the nodes&quot;</span>
+    <span class="p">)</span>
+    <span class="n">parser</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span>
+        <span class="s2">&quot;--numevents&quot;</span><span class="p">,</span> <span class="nb">type</span><span class="o">=</span><span class="nb">int</span><span class="p">,</span> <span class="n">default</span><span class="o">=</span><span class="mi">1000</span><span class="p">,</span> <span class="n">help</span><span class="o">=</span><span class="s2">&quot;Number of events&quot;</span>
+    <span class="p">)</span>
+    <span class="n">parser</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span>
+        <span class="s2">&quot;--numruns&quot;</span><span class="p">,</span>
+        <span class="nb">type</span><span class="o">=</span><span class="nb">int</span><span class="p">,</span>
+        <span class="n">default</span><span class="o">=</span><span class="mi">100</span><span class="p">,</span>
+        <span class="n">help</span><span class="o">=</span><span class="s2">&quot;Number of times to run the simulation&quot;</span><span class="p">,</span>
     <span class="p">)</span>
     <span class="k">return</span> <span class="n">parser</span><span class="o">.</span><span class="n">parse_args</span><span class="p">()</span>
 </code></pre></div></td></tr></table></div>
@@ -1822,30 +1906,7 @@ of the standard normal distribution.</p>
 
           <details class="quote">
             <summary>Source code in <code>C:\Users\chathuranga\AppData\Local\Programs\Python\Python311\Lib\site-packages\agenet\maincom.py</code></summary>
-            <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">109</span>
-<span class="normal">110</span>
-<span class="normal">111</span>
-<span class="normal">112</span>
-<span class="normal">113</span>
-<span class="normal">114</span>
-<span class="normal">115</span>
-<span class="normal">116</span>
-<span class="normal">117</span>
-<span class="normal">118</span>
-<span class="normal">119</span>
-<span class="normal">120</span>
-<span class="normal">121</span>
-<span class="normal">122</span>
-<span class="normal">123</span>
-<span class="normal">124</span>
-<span class="normal">125</span>
-<span class="normal">126</span>
-<span class="normal">127</span>
-<span class="normal">128</span>
-<span class="normal">129</span>
-<span class="normal">130</span>
-<span class="normal">131</span>
-<span class="normal">132</span>
+            <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">132</span>
 <span class="normal">133</span>
 <span class="normal">134</span>
 <span class="normal">135</span>
@@ -1856,7 +1917,30 @@ of the standard normal distribution.</p>
 <span class="normal">140</span>
 <span class="normal">141</span>
 <span class="normal">142</span>
-<span class="normal">143</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">run_main</span><span class="p">(</span>
+<span class="normal">143</span>
+<span class="normal">144</span>
+<span class="normal">145</span>
+<span class="normal">146</span>
+<span class="normal">147</span>
+<span class="normal">148</span>
+<span class="normal">149</span>
+<span class="normal">150</span>
+<span class="normal">151</span>
+<span class="normal">152</span>
+<span class="normal">153</span>
+<span class="normal">154</span>
+<span class="normal">155</span>
+<span class="normal">156</span>
+<span class="normal">157</span>
+<span class="normal">158</span>
+<span class="normal">159</span>
+<span class="normal">160</span>
+<span class="normal">161</span>
+<span class="normal">162</span>
+<span class="normal">163</span>
+<span class="normal">164</span>
+<span class="normal">165</span>
+<span class="normal">166</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">run_main</span><span class="p">(</span>
     <span class="n">num_nodes</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span>
     <span class="n">active_prob</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span>
     <span class="n">n</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span>
@@ -1970,18 +2054,7 @@ of the standard normal distribution.</p>
 
           <details class="quote">
             <summary>Source code in <code>C:\Users\chathuranga\AppData\Local\Programs\Python\Python311\Lib\site-packages\agenet\plot.py</code></summary>
-            <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">177</span>
-<span class="normal">178</span>
-<span class="normal">179</span>
-<span class="normal">180</span>
-<span class="normal">181</span>
-<span class="normal">182</span>
-<span class="normal">183</span>
-<span class="normal">184</span>
-<span class="normal">185</span>
-<span class="normal">186</span>
-<span class="normal">187</span>
-<span class="normal">188</span>
+            <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">188</span>
 <span class="normal">189</span>
 <span class="normal">190</span>
 <span class="normal">191</span>
@@ -2051,7 +2124,26 @@ of the standard normal distribution.</p>
 <span class="normal">255</span>
 <span class="normal">256</span>
 <span class="normal">257</span>
-<span class="normal">258</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">main</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<span class="normal">258</span>
+<span class="normal">259</span>
+<span class="normal">260</span>
+<span class="normal">261</span>
+<span class="normal">262</span>
+<span class="normal">263</span>
+<span class="normal">264</span>
+<span class="normal">265</span>
+<span class="normal">266</span>
+<span class="normal">267</span>
+<span class="normal">268</span>
+<span class="normal">269</span>
+<span class="normal">270</span>
+<span class="normal">271</span>
+<span class="normal">272</span>
+<span class="normal">273</span>
+<span class="normal">274</span>
+<span class="normal">275</span>
+<span class="normal">276</span>
+<span class="normal">277</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">main</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Main function that parses the command-line arguments and calls the printage function.</span>
 <span class="sd">    Returns:</span>
@@ -2073,10 +2165,16 @@ of the standard normal distribution.</p>
         <span class="n">help</span><span class="o">=</span><span class="s2">&quot;Constant value for the active probability.&quot;</span><span class="p">,</span>
     <span class="p">)</span>
     <span class="n">parser</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span>
-        <span class="s2">&quot;--n_const&quot;</span><span class="p">,</span> <span class="nb">type</span><span class="o">=</span><span class="nb">int</span><span class="p">,</span> <span class="n">default</span><span class="o">=</span><span class="mi">150</span><span class="p">,</span> <span class="n">help</span><span class="o">=</span><span class="s2">&quot;Constant value for the block length.&quot;</span>
+        <span class="s2">&quot;--n_const&quot;</span><span class="p">,</span>
+        <span class="nb">type</span><span class="o">=</span><span class="nb">int</span><span class="p">,</span>
+        <span class="n">default</span><span class="o">=</span><span class="mi">150</span><span class="p">,</span>
+        <span class="n">help</span><span class="o">=</span><span class="s2">&quot;Constant value for the block length.&quot;</span><span class="p">,</span>
     <span class="p">)</span>
     <span class="n">parser</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span>
-        <span class="s2">&quot;--k_const&quot;</span><span class="p">,</span> <span class="nb">type</span><span class="o">=</span><span class="nb">int</span><span class="p">,</span> <span class="n">default</span><span class="o">=</span><span class="mi">100</span><span class="p">,</span> <span class="n">help</span><span class="o">=</span><span class="s2">&quot;Constant value for the update size.&quot;</span>
+        <span class="s2">&quot;--k_const&quot;</span><span class="p">,</span>
+        <span class="nb">type</span><span class="o">=</span><span class="nb">int</span><span class="p">,</span>
+        <span class="n">default</span><span class="o">=</span><span class="mi">100</span><span class="p">,</span>
+        <span class="n">help</span><span class="o">=</span><span class="s2">&quot;Constant value for the update size.&quot;</span><span class="p">,</span>
     <span class="p">)</span>
     <span class="n">parser</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span>
         <span class="s2">&quot;--P_const&quot;</span><span class="p">,</span>
@@ -2088,7 +2186,9 @@ of the standard normal distribution.</p>
     <span class="n">parser</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span>
         <span class="s2">&quot;--numevnts&quot;</span><span class="p">,</span> <span class="nb">type</span><span class="o">=</span><span class="nb">int</span><span class="p">,</span> <span class="n">default</span><span class="o">=</span><span class="mi">1000</span><span class="p">,</span> <span class="n">help</span><span class="o">=</span><span class="s2">&quot;The number of events.&quot;</span>
     <span class="p">)</span>
-    <span class="n">parser</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span><span class="s2">&quot;--numruns&quot;</span><span class="p">,</span> <span class="nb">type</span><span class="o">=</span><span class="nb">int</span><span class="p">,</span> <span class="n">default</span><span class="o">=</span><span class="mi">100</span><span class="p">,</span> <span class="n">help</span><span class="o">=</span><span class="s2">&quot;The number of runs.&quot;</span><span class="p">)</span>
+    <span class="n">parser</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span>
+        <span class="s2">&quot;--numruns&quot;</span><span class="p">,</span> <span class="nb">type</span><span class="o">=</span><span class="nb">int</span><span class="p">,</span> <span class="n">default</span><span class="o">=</span><span class="mi">100</span><span class="p">,</span> <span class="n">help</span><span class="o">=</span><span class="s2">&quot;The number of runs.&quot;</span>
+    <span class="p">)</span>
 
     <span class="n">parser</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span>
         <span class="s2">&quot;--num_nodes_vals&quot;</span><span class="p">,</span>
@@ -2336,7 +2436,17 @@ of the standard normal distribution.</p>
 <span class="normal">120</span>
 <span class="normal">121</span>
 <span class="normal">122</span>
-<span class="normal">123</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">plot_generate</span><span class="p">(</span>
+<span class="normal">123</span>
+<span class="normal">124</span>
+<span class="normal">125</span>
+<span class="normal">126</span>
+<span class="normal">127</span>
+<span class="normal">128</span>
+<span class="normal">129</span>
+<span class="normal">130</span>
+<span class="normal">131</span>
+<span class="normal">132</span>
+<span class="normal">133</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">plot_generate</span><span class="p">(</span>
     <span class="n">num_nodes_const</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span>
     <span class="n">active_prob_const</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span>
     <span class="n">n_const</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span>
@@ -2403,7 +2513,9 @@ of the standard normal distribution.</p>
         <span class="n">ax</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span>
             <span class="n">var_vals</span><span class="p">,</span>
             <span class="p">[</span>
-                <span class="n">run_main</span><span class="p">(</span><span class="o">*</span><span class="p">(</span><span class="n">const_vals</span><span class="p">[:</span><span class="n">i</span><span class="p">]</span> <span class="o">+</span> <span class="p">[</span><span class="n">val</span><span class="p">]</span> <span class="o">+</span> <span class="n">const_vals</span><span class="p">[</span><span class="n">i</span> <span class="o">+</span> <span class="mi">1</span> <span class="p">:]))[</span><span class="mi">0</span><span class="p">]</span>
+                <span class="n">run_main</span><span class="p">(</span><span class="o">*</span><span class="p">(</span><span class="n">const_vals</span><span class="p">[:</span><span class="n">i</span><span class="p">]</span> <span class="o">+</span> <span class="p">[</span><span class="n">val</span><span class="p">]</span> <span class="o">+</span> <span class="n">const_vals</span><span class="p">[</span><span class="n">i</span> <span class="o">+</span> <span class="mi">1</span> <span class="p">:]))[</span>
+                    <span class="mi">0</span>
+                <span class="p">]</span>
                 <span class="k">for</span> <span class="n">val</span> <span class="ow">in</span> <span class="n">var_vals</span>
             <span class="p">],</span>
             <span class="n">label</span><span class="o">=</span><span class="s2">&quot;Theoretical&quot;</span><span class="p">,</span>
@@ -2411,14 +2523,18 @@ of the standard normal distribution.</p>
         <span class="n">ax</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span>
             <span class="n">var_vals</span><span class="p">,</span>
             <span class="p">[</span>
-                <span class="n">run_main</span><span class="p">(</span><span class="o">*</span><span class="p">(</span><span class="n">const_vals</span><span class="p">[:</span><span class="n">i</span><span class="p">]</span> <span class="o">+</span> <span class="p">[</span><span class="n">val</span><span class="p">]</span> <span class="o">+</span> <span class="n">const_vals</span><span class="p">[</span><span class="n">i</span> <span class="o">+</span> <span class="mi">1</span> <span class="p">:]))[</span><span class="mi">1</span><span class="p">]</span>
+                <span class="n">run_main</span><span class="p">(</span><span class="o">*</span><span class="p">(</span><span class="n">const_vals</span><span class="p">[:</span><span class="n">i</span><span class="p">]</span> <span class="o">+</span> <span class="p">[</span><span class="n">val</span><span class="p">]</span> <span class="o">+</span> <span class="n">const_vals</span><span class="p">[</span><span class="n">i</span> <span class="o">+</span> <span class="mi">1</span> <span class="p">:]))[</span>
+                    <span class="mi">1</span>
+                <span class="p">]</span>
                 <span class="k">for</span> <span class="n">val</span> <span class="ow">in</span> <span class="n">var_vals</span>
             <span class="p">],</span>
             <span class="n">label</span><span class="o">=</span><span class="s2">&quot;Simulated&quot;</span><span class="p">,</span>
         <span class="p">)</span>
         <span class="n">ax</span><span class="o">.</span><span class="n">set_xlabel</span><span class="p">(</span><span class="n">var_name</span><span class="p">)</span>
         <span class="n">ax</span><span class="o">.</span><span class="n">legend</span><span class="p">()</span>
-        <span class="n">ax</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Plot of Simulated and Theoretical Values respect to </span><span class="si">{</span><span class="n">var_name</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+        <span class="n">ax</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span>
+            <span class="sa">f</span><span class="s2">&quot;Plot of Simulated and Theoretical Values respect to </span><span class="si">{</span><span class="n">var_name</span><span class="si">}</span><span class="s2">&quot;</span>
+        <span class="p">)</span>
 
         <span class="c1"># update the minimum and maximum values for the x and y-axes</span>
         <span class="n">x_min</span> <span class="o">=</span> <span class="nb">min</span><span class="p">(</span><span class="n">x_min</span><span class="p">,</span> <span class="nb">min</span><span class="p">(</span><span class="n">var_vals</span><span class="p">))</span>
@@ -2428,7 +2544,9 @@ of the standard normal distribution.</p>
             <span class="nb">min</span><span class="p">(</span>
                 <span class="nb">min</span><span class="p">(</span>
                     <span class="p">[</span>
-                        <span class="n">run_main</span><span class="p">(</span><span class="o">*</span><span class="p">(</span><span class="n">const_vals</span><span class="p">[:</span><span class="n">i</span><span class="p">]</span> <span class="o">+</span> <span class="p">[</span><span class="n">val</span><span class="p">]</span> <span class="o">+</span> <span class="n">const_vals</span><span class="p">[</span><span class="n">i</span> <span class="o">+</span> <span class="mi">1</span> <span class="p">:]))</span>
+                        <span class="n">run_main</span><span class="p">(</span>
+                            <span class="o">*</span><span class="p">(</span><span class="n">const_vals</span><span class="p">[:</span><span class="n">i</span><span class="p">]</span> <span class="o">+</span> <span class="p">[</span><span class="n">val</span><span class="p">]</span> <span class="o">+</span> <span class="n">const_vals</span><span class="p">[</span><span class="n">i</span> <span class="o">+</span> <span class="mi">1</span> <span class="p">:])</span>
+                        <span class="p">)</span>
                         <span class="k">for</span> <span class="n">val</span> <span class="ow">in</span> <span class="n">var_vals</span>
                     <span class="p">]</span>
                 <span class="p">)</span>
@@ -2439,7 +2557,9 @@ of the standard normal distribution.</p>
             <span class="nb">max</span><span class="p">(</span>
                 <span class="nb">max</span><span class="p">(</span>
                     <span class="p">[</span>
-                        <span class="n">run_main</span><span class="p">(</span><span class="o">*</span><span class="p">(</span><span class="n">const_vals</span><span class="p">[:</span><span class="n">i</span><span class="p">]</span> <span class="o">+</span> <span class="p">[</span><span class="n">val</span><span class="p">]</span> <span class="o">+</span> <span class="n">const_vals</span><span class="p">[</span><span class="n">i</span> <span class="o">+</span> <span class="mi">1</span> <span class="p">:]))</span>
+                        <span class="n">run_main</span><span class="p">(</span>
+                            <span class="o">*</span><span class="p">(</span><span class="n">const_vals</span><span class="p">[:</span><span class="n">i</span><span class="p">]</span> <span class="o">+</span> <span class="p">[</span><span class="n">val</span><span class="p">]</span> <span class="o">+</span> <span class="n">const_vals</span><span class="p">[</span><span class="n">i</span> <span class="o">+</span> <span class="mi">1</span> <span class="p">:])</span>
+                        <span class="p">)</span>
                         <span class="k">for</span> <span class="n">val</span> <span class="ow">in</span> <span class="n">var_vals</span>
                     <span class="p">]</span>
                 <span class="p">)</span>
@@ -2774,9 +2894,8 @@ of the standard normal distribution.</p>
 <span class="normal">82</span>
 <span class="normal">83</span>
 <span class="normal">84</span>
-<span class="normal">85</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">generate_comparison_table</span><span class="p">(</span>
-
-
+<span class="normal">85</span>
+<span class="normal">86</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">generate_comparison_table</span><span class="p">(</span>
     <span class="n">num_nodes_const</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span>
     <span class="n">active_prob_const</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span>
     <span class="n">n_const</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span>
@@ -2806,7 +2925,7 @@ of the standard normal distribution.</p>
 <span class="sd">        k_vals (List[int]): Values for the update size.</span>
 <span class="sd">        P_vals (List[float]): Values for the power.</span>
 <span class="sd">    Returns:</span>
-<span class="sd">        Thus funtion will return a table comparing the theoretical and simulated values for the given input values.            </span>
+<span class="sd">        Thus funtion will return a table comparing the theoretical and simulated values for the given input values.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="p">(</span><span class="n">var_name</span><span class="p">,</span> <span class="n">var_vals</span><span class="p">)</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span>
         <span class="nb">zip</span><span class="p">(</span>
@@ -2847,7 +2966,10 @@ of the standard normal distribution.</p>
             <span class="n">table_rows</span><span class="o">.</span><span class="n">append</span><span class="p">([</span><span class="n">val</span><span class="p">,</span> <span class="n">theoretical</span><span class="p">,</span> <span class="n">simulated</span><span class="p">])</span>
 
         <span class="k">if</span> <span class="n">file</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
-            <span class="n">file</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="n">tabulate</span><span class="p">(</span><span class="n">table_rows</span><span class="p">,</span> <span class="n">headers</span><span class="o">=</span><span class="n">headers</span><span class="p">,</span> <span class="n">tablefmt</span><span class="o">=</span><span class="s2">&quot;grid&quot;</span><span class="p">)</span> <span class="o">+</span> <span class="s2">&quot;</span><span class="se">\n\n</span><span class="s2">&quot;</span><span class="p">)</span>
+            <span class="n">file</span><span class="o">.</span><span class="n">write</span><span class="p">(</span>
+                <span class="n">tabulate</span><span class="p">(</span><span class="n">table_rows</span><span class="p">,</span> <span class="n">headers</span><span class="o">=</span><span class="n">headers</span><span class="p">,</span> <span class="n">tablefmt</span><span class="o">=</span><span class="s2">&quot;grid&quot;</span><span class="p">)</span>
+                <span class="o">+</span> <span class="s2">&quot;</span><span class="se">\n\n</span><span class="s2">&quot;</span>
+            <span class="p">)</span>
         <span class="k">else</span><span class="p">:</span>
             <span class="nb">print</span><span class="p">(</span><span class="n">tabulate</span><span class="p">(</span><span class="n">table_rows</span><span class="p">,</span> <span class="n">headers</span><span class="o">=</span><span class="n">headers</span><span class="p">,</span> <span class="n">tablefmt</span><span class="o">=</span><span class="s2">&quot;grid&quot;</span><span class="p">))</span>
             <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">)</span>
@@ -2973,7 +3095,20 @@ of the standard normal distribution.</p>
 <span class="normal">197</span>
 <span class="normal">198</span>
 <span class="normal">199</span>
-<span class="normal">200</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">main</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<span class="normal">200</span>
+<span class="normal">201</span>
+<span class="normal">202</span>
+<span class="normal">203</span>
+<span class="normal">204</span>
+<span class="normal">205</span>
+<span class="normal">206</span>
+<span class="normal">207</span>
+<span class="normal">208</span>
+<span class="normal">209</span>
+<span class="normal">210</span>
+<span class="normal">211</span>
+<span class="normal">212</span>
+<span class="normal">213</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">main</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Main function that parses the command-line arguments and calls the printage function.</span>
 <span class="sd">    Returns:</span>
@@ -2995,10 +3130,16 @@ of the standard normal distribution.</p>
         <span class="n">help</span><span class="o">=</span><span class="s2">&quot;Constant value for the active probability.&quot;</span><span class="p">,</span>
     <span class="p">)</span>
     <span class="n">parser</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span>
-        <span class="s2">&quot;--n_const&quot;</span><span class="p">,</span> <span class="nb">type</span><span class="o">=</span><span class="nb">int</span><span class="p">,</span> <span class="n">default</span><span class="o">=</span><span class="mi">150</span><span class="p">,</span> <span class="n">help</span><span class="o">=</span><span class="s2">&quot;Constant value for the block length.&quot;</span>
+        <span class="s2">&quot;--n_const&quot;</span><span class="p">,</span>
+        <span class="nb">type</span><span class="o">=</span><span class="nb">int</span><span class="p">,</span>
+        <span class="n">default</span><span class="o">=</span><span class="mi">150</span><span class="p">,</span>
+        <span class="n">help</span><span class="o">=</span><span class="s2">&quot;Constant value for the block length.&quot;</span><span class="p">,</span>
     <span class="p">)</span>
     <span class="n">parser</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span>
-        <span class="s2">&quot;--k_const&quot;</span><span class="p">,</span> <span class="nb">type</span><span class="o">=</span><span class="nb">int</span><span class="p">,</span> <span class="n">default</span><span class="o">=</span><span class="mi">100</span><span class="p">,</span> <span class="n">help</span><span class="o">=</span><span class="s2">&quot;Constant value for the update size.&quot;</span>
+        <span class="s2">&quot;--k_const&quot;</span><span class="p">,</span>
+        <span class="nb">type</span><span class="o">=</span><span class="nb">int</span><span class="p">,</span>
+        <span class="n">default</span><span class="o">=</span><span class="mi">100</span><span class="p">,</span>
+        <span class="n">help</span><span class="o">=</span><span class="s2">&quot;Constant value for the update size.&quot;</span><span class="p">,</span>
     <span class="p">)</span>
     <span class="n">parser</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span>
         <span class="s2">&quot;--P_const&quot;</span><span class="p">,</span>
@@ -3010,7 +3151,9 @@ of the standard normal distribution.</p>
     <span class="n">parser</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span>
         <span class="s2">&quot;--numevnts&quot;</span><span class="p">,</span> <span class="nb">type</span><span class="o">=</span><span class="nb">int</span><span class="p">,</span> <span class="n">default</span><span class="o">=</span><span class="mi">500</span><span class="p">,</span> <span class="n">help</span><span class="o">=</span><span class="s2">&quot;The number of events.&quot;</span>
     <span class="p">)</span>
-    <span class="n">parser</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span><span class="s2">&quot;--numruns&quot;</span><span class="p">,</span> <span class="nb">type</span><span class="o">=</span><span class="nb">int</span><span class="p">,</span> <span class="n">default</span><span class="o">=</span><span class="mi">100</span><span class="p">,</span> <span class="n">help</span><span class="o">=</span><span class="s2">&quot;The number of runs.&quot;</span><span class="p">)</span>
+    <span class="n">parser</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span>
+        <span class="s2">&quot;--numruns&quot;</span><span class="p">,</span> <span class="nb">type</span><span class="o">=</span><span class="nb">int</span><span class="p">,</span> <span class="n">default</span><span class="o">=</span><span class="mi">100</span><span class="p">,</span> <span class="n">help</span><span class="o">=</span><span class="s2">&quot;The number of runs.&quot;</span>
+    <span class="p">)</span>
 
     <span class="n">parser</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span>
         <span class="s2">&quot;--num_nodes_vals&quot;</span><span class="p">,</span>
@@ -3044,7 +3187,12 @@ of the standard normal distribution.</p>
         <span class="s2">&quot;--P_vals&quot;</span><span class="p">,</span>
         <span class="n">nargs</span><span class="o">=</span><span class="s2">&quot;+&quot;</span><span class="p">,</span>
         <span class="nb">type</span><span class="o">=</span><span class="nb">float</span><span class="p">,</span>
-        <span class="n">default</span><span class="o">=</span><span class="p">[</span><span class="mi">2</span> <span class="o">*</span> <span class="p">(</span><span class="mi">10</span><span class="o">**-</span><span class="mi">3</span><span class="p">),</span> <span class="mi">4</span> <span class="o">*</span> <span class="p">(</span><span class="mi">10</span><span class="o">**-</span><span class="mi">3</span><span class="p">),</span> <span class="mi">6</span> <span class="o">*</span> <span class="p">(</span><span class="mi">10</span><span class="o">**-</span><span class="mi">3</span><span class="p">),</span> <span class="mi">8</span> <span class="o">*</span> <span class="p">(</span><span class="mi">10</span><span class="o">**-</span><span class="mi">3</span><span class="p">)],</span>
+        <span class="n">default</span><span class="o">=</span><span class="p">[</span>
+            <span class="mi">2</span> <span class="o">*</span> <span class="p">(</span><span class="mi">10</span><span class="o">**-</span><span class="mi">3</span><span class="p">),</span>
+            <span class="mi">4</span> <span class="o">*</span> <span class="p">(</span><span class="mi">10</span><span class="o">**-</span><span class="mi">3</span><span class="p">),</span>
+            <span class="mi">6</span> <span class="o">*</span> <span class="p">(</span><span class="mi">10</span><span class="o">**-</span><span class="mi">3</span><span class="p">),</span>
+            <span class="mi">8</span> <span class="o">*</span> <span class="p">(</span><span class="mi">10</span><span class="o">**-</span><span class="mi">3</span><span class="p">),</span>
+        <span class="p">],</span>
         <span class="n">help</span><span class="o">=</span><span class="s2">&quot;Values for the power.&quot;</span><span class="p">,</span>
     <span class="p">)</span>
     <span class="n">args</span> <span class="o">=</span> <span class="n">parser</span><span class="o">.</span><span class="n">parse_args</span><span class="p">()</span>
@@ -3349,7 +3497,9 @@ of the standard normal distribution.</p>
 <span class="normal">23</span>
 <span class="normal">24</span>
 <span class="normal">25</span>
-<span class="normal">26</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">snr</span><span class="p">(</span><span class="n">N0</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span> <span class="n">d</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span> <span class="n">P</span><span class="p">:</span> <span class="nb">float</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">float</span><span class="p">:</span>
+<span class="normal">26</span>
+<span class="normal">27</span>
+<span class="normal">28</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">snr</span><span class="p">(</span><span class="n">N0</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span> <span class="n">d</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span> <span class="n">P</span><span class="p">:</span> <span class="nb">float</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">float</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Calculates the signal-to-noise ratio (SNR) of the received signal.</span>
 
@@ -3366,7 +3516,9 @@ of the standard normal distribution.</p>
     <span class="n">log_alpha</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="p">(</span><span class="mi">20</span> <span class="o">*</span> <span class="n">math</span><span class="o">.</span><span class="n">log10</span><span class="p">(</span><span class="n">d</span><span class="p">))</span> <span class="o">+</span> <span class="p">(</span>
         <span class="mi">20</span> <span class="o">*</span> <span class="n">math</span><span class="o">.</span><span class="n">log10</span><span class="p">((</span><span class="mi">4</span> <span class="o">*</span> <span class="n">f</span> <span class="o">*</span> <span class="n">math</span><span class="o">.</span><span class="n">pi</span><span class="p">)</span> <span class="o">/</span> <span class="n">C</span><span class="p">)</span>
     <span class="p">)</span>  <span class="c1"># path loss in dB</span>
-    <span class="n">alpha</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mi">1</span> <span class="o">/</span> <span class="p">(</span><span class="mi">10</span> <span class="o">**</span> <span class="p">((</span><span class="n">log_alpha</span><span class="p">)</span> <span class="o">/</span> <span class="mi">10</span><span class="p">))</span>  <span class="c1"># path loss in linear scale</span>
+    <span class="n">alpha</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mi">1</span> <span class="o">/</span> <span class="p">(</span>
+        <span class="mi">10</span> <span class="o">**</span> <span class="p">((</span><span class="n">log_alpha</span><span class="p">)</span> <span class="o">/</span> <span class="mi">10</span><span class="p">)</span>
+    <span class="p">)</span>  <span class="c1"># path loss in linear scale</span>
     <span class="n">snr</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="p">(</span><span class="n">alpha</span> <span class="o">*</span> <span class="n">P</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">exponential</span><span class="p">(</span><span class="mi">1</span><span class="p">))</span> <span class="o">/</span> <span class="n">N0</span>
     <span class="k">return</span> <span class="n">snr</span>
 </code></pre></div></td></tr></table></div>
@@ -3474,9 +3626,7 @@ of the standard normal distribution.</p>
 
           <details class="quote">
             <summary>Source code in <code>C:\Users\chathuranga\AppData\Local\Programs\Python\Python311\Lib\site-packages\agenet\snr.py</code></summary>
-            <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">29</span>
-<span class="normal">30</span>
-<span class="normal">31</span>
+            <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">31</span>
 <span class="normal">32</span>
 <span class="normal">33</span>
 <span class="normal">34</span>
@@ -3493,7 +3643,11 @@ of the standard normal distribution.</p>
 <span class="normal">45</span>
 <span class="normal">46</span>
 <span class="normal">47</span>
-<span class="normal">48</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">snr_th</span><span class="p">(</span><span class="n">N0</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span> <span class="n">d</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span> <span class="n">P</span><span class="p">:</span> <span class="nb">float</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">float</span><span class="p">:</span>
+<span class="normal">48</span>
+<span class="normal">49</span>
+<span class="normal">50</span>
+<span class="normal">51</span>
+<span class="normal">52</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">snr_th</span><span class="p">(</span><span class="n">N0</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span> <span class="n">d</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span> <span class="n">P</span><span class="p">:</span> <span class="nb">float</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">float</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Calculates the theoretical SNR of the received signal.</span>
 
@@ -3510,7 +3664,9 @@ of the standard normal distribution.</p>
     <span class="n">log_alpha</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="p">(</span><span class="mi">20</span> <span class="o">*</span> <span class="n">math</span><span class="o">.</span><span class="n">log10</span><span class="p">(</span><span class="n">d</span><span class="p">))</span> <span class="o">+</span> <span class="p">(</span>
         <span class="mi">20</span> <span class="o">*</span> <span class="n">math</span><span class="o">.</span><span class="n">log10</span><span class="p">((</span><span class="mi">4</span> <span class="o">*</span> <span class="n">f</span> <span class="o">*</span> <span class="n">math</span><span class="o">.</span><span class="n">pi</span><span class="p">)</span> <span class="o">/</span> <span class="n">C</span><span class="p">)</span>
     <span class="p">)</span>  <span class="c1"># path loss in dB</span>
-    <span class="n">alpha</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mi">1</span> <span class="o">/</span> <span class="p">(</span><span class="mi">10</span> <span class="o">**</span> <span class="p">((</span><span class="n">log_alpha</span><span class="p">)</span> <span class="o">/</span> <span class="mi">10</span><span class="p">))</span>  <span class="c1"># path loss in linear scale</span>
+    <span class="n">alpha</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mi">1</span> <span class="o">/</span> <span class="p">(</span>
+        <span class="mi">10</span> <span class="o">**</span> <span class="p">((</span><span class="n">log_alpha</span><span class="p">)</span> <span class="o">/</span> <span class="mi">10</span><span class="p">)</span>
+    <span class="p">)</span>  <span class="c1"># path loss in linear scale</span>
     <span class="n">snr_th</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="p">(</span><span class="n">alpha</span> <span class="o">*</span> <span class="n">P</span><span class="p">)</span> <span class="o">/</span> <span class="n">N0</span>
     <span class="k">return</span> <span class="n">snr_th</span>
 </code></pre></div></td></tr></table></div>
