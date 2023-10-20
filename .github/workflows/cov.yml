@@ -3,10 +3,10 @@ name: Coverage
 on:
   pull_request:
     branches: [main]
-    paths: [ 'agenet/**', 'tests/**', '.github/workflows/cov.yml', '.github/workflows/**' ]
+    paths: [ 'agenet/**', 'tests/**', '.github/workflows/cov.yml' ]
   push:
     branches: [main]
-    paths: [ 'agenet/**', 'tests/**', '.github/workflows/cov.yml', '.github/workflows/**']
+    paths: [ 'agenet/**', 'tests/**', '.github/workflows/cov.yml' ]
     tags: '*'
 
 jobs:
@@ -24,7 +24,7 @@ jobs:
         pip install pip --upgrade
         pip install .[dev]
     - name: Test with pytest and create coverage report
-      run: pytest --cov=agenet --cov-report=xml 
+      run: pytest --cov=agenet --cov-report=xml
     - name: Upload coverage to Codecov
       uses: codecov/codecov-action@v3
       with:
