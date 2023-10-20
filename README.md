@@ -6,7 +6,7 @@
 ![GitHub Repo stars](https://img.shields.io/github/stars/cahthuranag/agenet?style=social)
 ![GitHub last commit](https://img.shields.io/github/last-commit/cahthuranag/agenet)
 [![Coverage](https://github.com/cahthuranag/agenet/actions/workflows/cov.yml/badge.svg)](https://github.com/cahthuranag/agenet/actions/workflows/cov.yml)
-[![Upload Python Package](https://github.com/cahthuranag/agenet/actions/workflows/python-publish.yml/badge.svg)](https://github.com/cahthuranag/agenet/actions/workflows/python-publish.yml)
+[![Upload Python Package](https://github.com/cahthuranag/agenet/actions/workflows/publish.yml/badge.svg)](https://github.com/cahthuranag/agenet/actions/workflows/publish.yml)
 
 # agenet
 
