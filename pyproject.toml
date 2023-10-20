@@ -8,39 +8,46 @@ version = "0.0.1"
 description = "Age of Information Model for wireless networks"
 readme = "README.md"
 requires-python = ">=3.8"
-keywords = ["age of inforamation ", "URLLC", "age of inforamation model"]
+keywords = ["age of information ", "URLLC", "age of information model", "AoI"]
 license = {text = "MIT"}
-authors = [ { name = "Chathuranga Basanayaka", email = "chathurangab@sltc.ac.lk" }, 
-{name = "Nuno Fachada", email = "nuno.fachada@ulusofona.pt" }]
-dependencies = [ "numpy", "pandas" , "tabulate", "matplotlib", "scipy"] # Not really required
+authors = [
+    { name = "Chathuranga Basanayaka", email = "chathurangab@sltc.ac.lk" },
+    {name = "Nuno Fachada", email = "nuno.fachada@ulusofona.pt" } ]
+dependencies = ["numpy", "pandas", "tabulate", "matplotlib", "scipy"]
 classifiers = [
     "License :: OSI Approved :: MIT License",
     "Operating System :: OS Independent",
     "Programming Language :: Python",
     "Intended Audience :: Science/Research",
     "Topic :: Scientific/Engineering" ]
+
 [project.scripts]
 ageplot = "agenet.plot:main"
 ageprint = "agenet.printage:main"
+
 [project.urls]
 "Homepage" = "https://github.com/cahthuranag/agenet"
-#"Bug Tracker" = ""
+"Bug Reports" = "https://github.com/cahthuranag/agenet/issues"
 "Documentation" = "https://cahthuranag.github.io/agenet/"
 
 [project.optional-dependencies]
 dev = [
     "pdoc",
- "pytest", "pytest-cov", "pytest-console-scripts", "coverage", "codecov" ,"pre-commit", "pytest-mypy"
-]
+    "pytest",
+    "pytest-cov",
+    "pytest-console-scripts",
+    "coverage",
+    "codecov",
+    "pre-commit",
+    "pytest-mypy" ]
 
 [tool.setuptools]
-
+packages = ["agenet"]
 
 [tool.pytest.ini_options]
 minversion = "6.0"
 addopts = "-v --tb=short --strict-markers"
 testpaths = [ "tests" ]
-#xfail_strict = "true"
 markers = [
     "critical: The most critical tests",
     "get: Test functions which return some value",
@@ -73,7 +80,4 @@ exclude = [
     "*.egg",
     "docs" ]
 # flake8-docstrings
-docstring-convention = "google"  
-
-
-
+docstring-convention = "google"
