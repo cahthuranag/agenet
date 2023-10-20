@@ -1,1 +1,23 @@
 
+name: Publish
+
+on:
+  push:
+    tags: 'v*'
+
+jobs:
+  build-and-publish:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout package
+        uses: actions/checkout@v3
+      - name: Install build and publish dependencies
+        run: |
+          pip3 install --upgrade build
+      - name: Build package
+        run: |
+          python3 -m build
+      - name: Publish to PyPI
+        uses: pypa/gh-action-pypi-publish@release/v1
+        with:
+          password: ${{ secrets.PYPI_API_TOKEN }}
