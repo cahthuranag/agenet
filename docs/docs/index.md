@@ -5,6 +5,7 @@
 [![Docs](https://img.shields.io/badge/docs-stable-blue.svg)](https://cahthuranag.github.io/agenet/)
 ![GitHub Repo stars](https://img.shields.io/github/stars/cahthuranag/agenet?style=social)
 ![GitHub last commit](https://img.shields.io/github/last-commit/cahthuranag/agenet)
+[![Upload Python Package](https://github.com/cahthuranag/agenet/actions/workflows/python-publish.yml/badge.svg)](https://github.com/cahthuranag/agenet/actions/workflows/python-publish.yml)
 # agenet
 A Python 3.8 implementation of the System Model estimate the average AoI (AAoI) in an ultra-reliable low latency communication (URLLC) enabled  wireless  communication system with slotted aloha scheme  over the quasi-static Rayleigh block fading channels. A packet communication scheme is used to meet both the reliability and latency requirements of the  proposed wireless network. By resorting to finite block length information theory, queuing theory and stochastic processes, theoretical results were obtained for this research software.
 ## System Model
