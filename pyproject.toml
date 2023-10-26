@@ -40,7 +40,8 @@ dev = [
     "codecov",
     "pre-commit",
     "pytest-mypy",
-    "mkdocstrings" ]
+    "mkdocstrings",
+    "mkdocs-material", ]
 
 [tool.setuptools]
 packages = ["agenet"]
