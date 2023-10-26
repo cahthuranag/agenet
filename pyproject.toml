@@ -39,7 +39,8 @@ dev = [
     "coverage",
     "codecov",
     "pre-commit",
-    "pytest-mypy" ]
+    "pytest-mypy",
+    "mkdocstrings" ]
 
 [tool.setuptools]
 packages = ["agenet"]
