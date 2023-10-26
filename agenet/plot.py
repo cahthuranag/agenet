@@ -5,7 +5,7 @@ from typing import List
 
 import matplotlib.pyplot as plt
 
-from agenet.maincom import run_main
+#from agenet.maincom import run_main
 
 
 def plot_generate(

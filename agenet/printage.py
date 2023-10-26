@@ -3,7 +3,7 @@ from typing import List
 
 from tabulate import tabulate
 
-from agenet.maincom import run_main
+#from agenet.maincom import run_main
 
 
 def generate_comparison_table(
