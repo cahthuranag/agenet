@@ -32,7 +32,6 @@ ageprint = "agenet.printage:main"
 
 [project.optional-dependencies]
 dev = [
-    "mkdocs",
     "pytest",
     "pytest-cov",
     "pytest-console-scripts",
@@ -40,8 +39,8 @@ dev = [
     "codecov",
     "pre-commit",
     "pytest-mypy",
-    "mkdocstrings",
-    "mkdocs-material", ]
+    "mkdocs-material>=7.1.11",
+    "mkdocstrings[python]>=0.19.0" ]
 
 [tool.setuptools]
 packages = ["agenet"]
