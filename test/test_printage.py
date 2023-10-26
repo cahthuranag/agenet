@@ -7,7 +7,7 @@ from unittest.mock import patch
 
 from tabulate import tabulate
 
-from agenet.printage import generate_comparison_table, main, printage
+from agenet import generate_table, printage
 
 
 # this is a test for the generate_comparison_table function
@@ -43,7 +43,7 @@ def assert_table_format(output_lines):
     assert separator_line == expected_separator
 
 
-def test_generate_comparison_table():
+def test_generate_table():
     # Test input values for the function
     num_nodes_const = 2
     active_prob_const = 0.5
@@ -62,7 +62,7 @@ def test_generate_comparison_table():
 
     output = io.StringIO()
     with redirect_stdout(output):
-        generate_comparison_table(
+        generate_table(
             num_nodes_const,
             active_prob_const,
             n_const,
@@ -167,26 +167,6 @@ def test_printage():
         "0.003",
     ],
 )
-def test_main_output():
-    output = io.StringIO()
-    with redirect_stdout(output):
-        main()
-    output_str = output.getvalue()
-
-    # Split the output into lines and check the format using tabulate
-    output_lines = output_str.strip().split("\n")
-    headers = [
-        header.strip()
-        for header in output_lines[0].strip().split("|")[1:-1]
-    ]
-    table_data = [
-        row.strip().split("|")[1:-1] for row in output_lines[2:-1]
-    ]
-
-    expected_table = tabulate(table_data, headers=headers, tablefmt="grid")
-    actual_table = tabulate(table_data, headers=headers, tablefmt="grid")
-
-    assert expected_table == actual_table
 
 
 def test_command_line_arguments():

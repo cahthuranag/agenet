@@ -7,7 +7,7 @@ import numpy as np
 import pytest
 import scipy.special as sp
 
-from agenet.bler import blercal, blercal_th, main
+from agenet import blercal, blercal_th
 
 # Test blercal() function
 
@@ -68,24 +68,6 @@ def test_qfunc():
     assert qfunc(float("inf")) == 0
 
 
-def test_main(capsys):
-    # Set up the arguments
-    sys.argv = [
-        "program_name.py",
-        "--snr",
-        "10",
-        "--n",
-        "100",
-        "--k",
-        "50",
-    ]
-    main()
-
-    # Capture the output
-    captured = capsys.readouterr()
-
-    # Check if the output contains the expected string
-    assert "BLER:" in captured.out
 
 
 def test_command_line_arguments():

@@ -72,7 +72,7 @@ def blercal_th(snr: float, n: int, k: int) -> float:
     return err_th
 
 
-def main():
+def _parse_args():
     parser = argparse.ArgumentParser(
         description="Block Error Rate Calculation"
     )
@@ -110,4 +110,4 @@ def main():
 
 
 if __name__ == "__main__":
-    main()
+    _parse_args()

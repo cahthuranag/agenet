@@ -4,9 +4,7 @@ from typing import Tuple
 
 import numpy as np
 
-import agenet.av_age as av_age
-import agenet.snr as snr
-#from agenet.bler import blercal, blercal_th
+from agenet  import blercal, blercal_th, snr, snr_th, av_age_fn
 
 
 def main(
@@ -49,10 +47,10 @@ def main(
     n2 = n  # number of bits in the block for the relay or access point
     k1 = k  # number of bits in the message for the source nodes
     k2 = k  # number of bits in the message for the relay or access point
-    snr1_th = snr.snr_th(
+    snr1_th = snr_th(
         N0, d1, P1
     )  # block error rate for the relay or access point at the destination
-    snr2_th = snr.snr_th(
+    snr2_th = snr_th(
         N0, d2, P2
     )  # block error rate for the source nodes at the relay or access point
     er1_th = blercal_th(snr1_th, n1, k1)
@@ -70,10 +68,10 @@ def main(
     er_f_th = 1 - su_p_th
     er_p_th = er_f_th + (er2_th * (er_f_th - 1))
     for i in range(0, num_events):
-        snr1 = snr.snr(
+        snr1 = snr(
             N0, d1, P1
         )  # snr for the source nodes at the relay or access point
-        snr2 = snr.snr(N0, d2, P2)
+        snr2 = snr(N0, d2, P2)
         er1 = blercal(
             snr1, n1, k1
         )  # block error rate for the source nodes at the relay or access point
@@ -121,7 +119,7 @@ def main(
     system_time = (
         1 / lambda1
     )  # system time (time which update in the system)
-    av_age_simulation, _, _ = av_age.average_age_of_information_fn(
+    av_age_simulation, _, _ = av_age_fn(
         v1, t1, system_time
     )
     av_age_theoretical = (1 / lambda1) * (0.5 + (1 / (1 - er_p_th)))
@@ -166,8 +164,10 @@ def run_main(
     return av_age_theoretical_run, av_age_simulation_run
 
 
-def parse_arguments() -> argparse.Namespace:
-    """Parse command-line arguments."""
+
+
+def _parse_args() -> argparse.Namespace:
+    """Parse command-line arguments and run the simulation."""
     parser = argparse.ArgumentParser(description="AAoI Simulation")
     parser.add_argument(
         "--num_nodes",
@@ -199,11 +199,9 @@ def parse_arguments() -> argparse.Namespace:
         default=100,
         help="Number of times to run the simulation",
     )
-    return parser.parse_args()
-
-
-def main_fun():
-    args = parse_arguments()
+    
+    args = parser.parse_args()
+    
     theoretical_aaoi, simulation_aaoi = run_main(
         args.num_nodes,
         args.active_prob,
@@ -215,7 +213,5 @@ def main_fun():
     )
     print("Theoretical AAoI:", theoretical_aaoi)
     print("Simulation AAoI:", simulation_aaoi)
-
-
 if __name__ == "__main__":
-    main_fun()
+    _parse_args()

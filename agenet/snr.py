@@ -52,7 +52,7 @@ def snr_th(N0: float, d: float, P: float) -> float:
     return snr_th
 
 
-def main():
+def _parse_args():
     parser = argparse.ArgumentParser(
         description="Calculate signal-to-noise ratio (SNR)."
     )
@@ -77,4 +77,4 @@ def main():
 
 
 if __name__ == "__main__":
-    main()
+    _parse_args()

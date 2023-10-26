@@ -3,10 +3,10 @@ from typing import List
 
 from tabulate import tabulate
 
-#from agenet.maincom import run_main
+from agenet import run_main
 
 
-def generate_comparison_table(
+def generate_table(
     num_nodes_const: int,
     active_prob_const: float,
     n_const: int,
@@ -106,23 +106,23 @@ def printage(args: argparse.Namespace) -> None:
     k_vals = args.k_vals
     P_vals = args.P_vals
 
-    generate_comparison_table(
-        num_nodes_const=num_nodes_const,
-        active_prob_const=active_prob_const,
-        n_const=n_const,
-        k_const=k_const,
-        P_const=P_const,
-        numevnts=args.numevnts,
-        numruns=args.numruns,
-        num_nodes_vals=num_nodes_vals,
-        active_prob_vals=active_prob_vals,
-        n_vals=n_vals,
-        k_vals=k_vals,
-        P_vals=P_vals,
-    )
+    generate_table(
+         num_nodes_const=num_nodes_const,
+         active_prob_const=active_prob_const,
+         n_const=n_const,
+         k_const=k_const,
+         P_const=P_const,
+         numevnts=args.numevnts,
+         numruns=args.numruns,
+         num_nodes_vals=num_nodes_vals,
+         active_prob_vals=active_prob_vals,
+         n_vals=n_vals,
+         k_vals=k_vals,
+         P_vals=P_vals,
+     )
+  
 
-
-def main() -> None:
+def _parse_args() -> None:
     """
     Main function that parses the command-line arguments and calls the printage function.
     Returns:
@@ -213,4 +213,4 @@ def main() -> None:
 
 
 if __name__ == "__main__":
-    main()
+   _parse_args()

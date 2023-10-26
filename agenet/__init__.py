@@ -10,13 +10,18 @@ __all__ = [
     "bler",
     "blercal",
     "blercal_th",
-    "run_main"
-    av_age,
+    "av_age_fn",
+    "snr_th",
+    "printage",
+    "generate_table",
+    "run_main",
+
 ]
 
-
+from agenet.snr import snr,snr_th
+from agenet.bler import blercal, blercal_th
+from agenet.av_age import av_age_fn
 from agenet.maincom import main, run_main
 from agenet.plot import plot
-from agenet.av_age import av_age
-from agenet.snr import snr
-from agenet.bler import  blercal, blercal_th
+from agenet.printage import printage, generate_table
+

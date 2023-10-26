@@ -6,7 +6,7 @@ from scipy.integrate import trapz
 
 
 # Define the average age of information function
-def average_age_of_information_fn(
+def av_age_fn(
     destination_times: List[float],
     generation_times: List[float],
     lambha: float,
@@ -59,7 +59,7 @@ def average_age_of_information_fn(
     return average_age, age, times
 
 
-def main():
+def _parse_args():
     parser = argparse.ArgumentParser(
         description="Calculate the average age of information."
     )
@@ -91,7 +91,7 @@ def main():
     lambha = args.lambha  # Changed variable name to 'lambdha'
 
     # Call the function with the provided arguments
-    average_age, _, _ = average_age_of_information_fn(
+    average_age, _, _ = av_age_fn(
         destination_times, generation_times, lambha
     )
 
@@ -100,4 +100,4 @@ def main():
 
 
 if __name__ == "__main__":
-    main()
+  _parse_args()

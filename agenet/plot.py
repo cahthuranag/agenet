@@ -5,7 +5,7 @@ from typing import List
 
 import matplotlib.pyplot as plt
 
-#from agenet.maincom import run_main
+from agenet import run_main
 
 
 def plot_generate(
@@ -187,7 +187,7 @@ def plot(args: argparse.Namespace) -> None:
     plt.close("all")
 
 
-def main() -> None:
+def _parse_args() -> None:
     """
     Main function that parses the command-line arguments and calls the printage function.
     Returns:
@@ -280,4 +280,4 @@ def main() -> None:
 
 
 if __name__ == "__main__":
-    main()
+    _parse_args()

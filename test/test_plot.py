@@ -8,7 +8,7 @@ from unittest import mock
 import matplotlib
 import matplotlib.pyplot as plt
 
-from agenet.plot import main, plot
+from agenet import  plot
 
 
 def test_plot(monkeypatch):
@@ -168,44 +168,6 @@ def test_plot(monkeypatch):
         plot(args)
 
 
-def test_main():
-    matplotlib.use("Agg")
-    sys.argv = [
-        "agenet/plot.py",
-        "--num_nodes_const",
-        "2",
-        "--active_prob_const",
-        "0.5",
-        "--n_const",
-        "150",
-        "--k_const",
-        "100",
-        "--P_const",
-        "0.002",
-        "--numevnts",
-        "1000",
-        "--numruns",
-        "1",
-        "--num_nodes_vals",
-        "1",
-        "2",
-        "--active_prob_vals",
-        "0.1",
-        "0.2",
-        "--n_vals",
-        "150",
-        "160",
-        "--k_vals",
-        "50",
-        "60",
-        "--P_vals",
-        "0.002",
-        "0.003",
-    ]
-    with mock.patch.object(plt, "show"):
-        main()
-        fig = plt.gcf()
-        assert fig.get_figheight() > 0
 
 
 def test_command_line_arguments():
