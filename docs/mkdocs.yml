@@ -24,7 +24,7 @@ theme:
 nav:
 - Home: index.md
 #- Theory: theory.md
-- "API": reference.md
+- "Reference": reference.md
 - "Usage": usage.md
 
 plugins:
