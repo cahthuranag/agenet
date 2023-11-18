@@ -1,9 +1,9 @@
 import argparse
 from typing import List
-
 from tabulate import tabulate
-
+import matplotlib.pyplot as plt
 from agenet import run_main
+import os
 
 
 def generate_table(
@@ -122,6 +122,199 @@ def printage(args: argparse.Namespace) -> None:
      )
   
 
+
+def plot_generate(
+    num_nodes_const: int,
+    active_prob_const: float,
+    n_const: int,
+    k_const: int,
+    P_const: float,
+    numevnts: int,
+    numruns: int,
+    num_nodes_vals: List[int],
+    active_prob_vals: List[float],
+    n_vals: List[int],
+    k_vals: List[int],
+    P_vals: List[float],
+) -> plt.Figure:
+    """
+    Plot the simulated and theoretical for each variable.
+
+    Args:
+        numevnts (int, optional): The number of events. Default is 1000.
+        numruns (int, optional): The number of runs. Default is 100.
+
+    Returns:
+        plt.Figure: The generated figure.
+    """
+
+    # initialize the minimum and maximum values for the x and y-axes
+    x_min, x_max = float("inf"), float("-inf")
+    y_min, y_max = float("inf"), float("-inf")
+
+    for i, (var_name, var_vals) in enumerate(
+        zip(
+            [
+                "number of nodes",
+                "active probability",
+                "block length",
+                "update size",
+                "Power",
+            ],
+            [
+                num_nodes_vals,
+                active_prob_vals,
+                n_vals,
+                k_vals,
+                P_vals,
+                numevnts,
+                numruns,
+            ],
+        )
+    ):
+        # create a list of the constant values with the loop variable set to
+        # None
+        const_vals = [
+            num_nodes_const,
+            active_prob_const,
+            n_const,
+            k_const,
+            P_const,
+            numevnts,
+            numruns,
+        ]
+        const_vals[i] = None
+
+        # create a new figure and plot the simulated and theoretical values
+        # with the constant values
+        fig, ax = plt.subplots()
+        ax.plot(
+            var_vals,
+            [
+                run_main(*(const_vals[:i] + [val] + const_vals[i + 1:]))[
+                    0
+                ]
+                for val in var_vals
+            ],
+            label="Theoretical",
+        )
+        ax.plot(
+            var_vals,
+            [
+                run_main(*(const_vals[:i] + [val] + const_vals[i + 1:]))[
+                    1
+                ]
+                for val in var_vals
+            ],
+            label="Simulated",
+        )
+        ax.set_xlabel(var_name)
+        ax.legend()
+        ax.set_title(
+            f"Plot of Simulated and Theoretical Values respect to {var_name}"
+        )
+
+        # update the minimum and maximum values for the x and y-axes
+        x_min = min(x_min, min(var_vals))
+        x_max = max(x_max, max(var_vals))
+        y_min = min(
+            y_min,
+            min(
+                min(
+                    [
+                        run_main(
+                            *(const_vals[:i] + [val] + const_vals[i + 1:])
+                        )
+                        for val in var_vals
+                    ]
+                )
+            ),
+        )
+        y_max = max(
+            y_max,
+            max(
+                max(
+                    [
+                        run_main(
+                            *(const_vals[:i] + [val] + const_vals[i + 1:])
+                        )
+                        for val in var_vals
+                    ]
+                )
+            ),
+        )
+
+    # set the x and y-axis limits based on the updated minimum and maximum
+    # values
+    ax.set_xlim(x_min, x_max)
+    ax.set_ylim(y_min, y_max)
+
+
+def plot(args: argparse.Namespace, plots_folder=None) -> None:
+    import matplotlib.pyplot as plt
+
+    """
+    Plot the simulated and theoretical for each variable.
+    Args:
+        args (argparse.Namespace): Parsed command-line arguments.
+        Num_nodes_const (int, optional): The number of nodes. Default is 2.
+        active_prob_const (float, optional): The active probability.
+        n_const (int, optional): The block length.
+        k_const (int, optional): The update size.
+        P_const (float, optional): The power.
+        numevnts (int, optional): The number of events.
+        numruns (int, optional): The number of runs.
+        num_nodes_vals (List[int], optional): The list of number of nodes.
+        active_prob_vals (List[float], optional): The list of active probability.
+        n_vals (List[int], optional): The list of block length.
+        k_vals (List[int], optional): The list of update size.
+        P_vals (List[float], optional): The list of power.
+    Returns:
+     plt.Figure: The generated figure.
+    """
+    num_nodes_const = args.num_nodes_const
+    active_prob_const = args.active_prob_const
+    n_const = args.n_const
+    k_const = args.k_const
+    P_const = args.P_const
+
+    num_nodes_vals = args.num_nodes_vals
+    active_prob_vals = args.active_prob_vals
+    n_vals = args.n_vals
+    k_vals = args.k_vals
+    P_vals = args.P_vals
+
+    fig= plot_generate(
+        num_nodes_const=num_nodes_const,
+        active_prob_const=active_prob_const,
+        n_const=n_const,
+        k_const=k_const,
+        P_const=P_const,
+        numevnts=args.numevnts,
+        numruns=args.numruns,
+        num_nodes_vals=num_nodes_vals,
+        active_prob_vals=active_prob_vals,
+        n_vals=n_vals,
+        k_vals=k_vals,
+        P_vals=P_vals,
+    )
+    if plots_folder:
+        if not os.path.exists(plots_folder):
+            os.makedirs(plots_folder)
+        fig.savefig(os.path.join(plots_folder, "plot.png"))
+    
+    if args.plots:
+        plt.show()
+    plt.close()
+
+
+
+
+
+
+
+
+
 def _parse_args() -> None:
     """
     Main function that parses the command-line arguments and calls the printage function.
@@ -208,8 +401,18 @@ def _parse_args() -> None:
         ],
         help="Values for the power.",
     )
+    parser.add_argument("--quiet", action="store_true", help="Omit tables")
+    parser.add_argument("--plots", action="store_true", help="Show plots")
+    parser.add_argument("--plots-folder", type=str, help="Folder to save plots")
+    
     args = parser.parse_args()
-    printage(args)
+
+    if not args.quiet:
+        printage(args)
+
+    if args.plots or args.plots_folder:
+        plot(args, args.plots_folder)
+
 
 
 if __name__ == "__main__":
