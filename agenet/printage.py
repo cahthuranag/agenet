@@ -310,11 +310,6 @@ def plot(args: argparse.Namespace, plots_folder=None) -> None:
 
 
 
-
-
-
-
-
 def _parse_args() -> None:
     """
     Main function that parses the command-line arguments and calls the printage function.

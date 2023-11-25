@@ -22,6 +22,5 @@ from agenet.snr import snr,snr_th
 from agenet.bler import blercal, blercal_th
 from agenet.av_age import av_age_fn
 from agenet.maincom import main, run_main
-from agenet.plot import plot
-from agenet.printage import printage, generate_table
+from agenet.printage import printage, generate_table, plot
 
