@@ -136,26 +136,15 @@ def plot_generate(
     n_vals: List[int],
     k_vals: List[int],
     P_vals: List[float],
-) -> plt.Figure:
+    plots_folder: str = None
+) -> None:
     """
     Plot the simulated and theoretical values for each variable.
-
     Args:
-        num_nodes_const (int): Constant number of nodes.
-        active_prob_const (float): Constant active probability.
-        n_const (int): Constant block length.
-        k_const (int): Constant update size.
-        P_const (float): Constant power.
-        numevnts (int): Number of events.
-        numruns (int): Number of runs.
-        num_nodes_vals (List[int]): List of values for the number of nodes.
-        active_prob_vals (List[float]): List of values for active probability.
-        n_vals (List[int]): List of values for block length.
-        k_vals (List[int]): List of values for update size.
-        P_vals (List[float]): List of values for power.
-
-    Returns:
-        plt.Figure: The generated figure with plots.
+        num_nodes_const, active_prob_const, n_const, k_const, P_const: Constants for the model.
+        numevnts, numruns: Number of events and runs.
+        num_nodes_vals, active_prob_vals, n_vals, k_vals, P_vals: Lists of values to iterate over.
+        plots_folder: Folder to save the plots.
     """
 
     for i, (var_name, var_vals) in enumerate(
@@ -186,36 +175,25 @@ def plot_generate(
         ax.legend()
         ax.grid(True)
 
-        # Optionally, save or show the plot here
-        # plt.savefig(f'{var_name}_plot.png')
-        # plt.show()
+        # Save each plot with a unique filename
+        if plots_folder:
+            if not os.path.exists(plots_folder):
+                os.makedirs(plots_folder)
+            fig.savefig(os.path.join(plots_folder, f"{var_name}_plot.png"))
 
-    return fig
+        plt.close(fig)  # Close the plot after saving
+
 
 
 
 def plot(args: argparse.Namespace, plots_folder=None) -> None:
-    import matplotlib.pyplot as plt
-
     """
-    Plot the simulated and theoretical for each variable.
+    Plot the simulated and theoretical values for each variable and save the plots.
     Args:
         args (argparse.Namespace): Parsed command-line arguments.
-        Num_nodes_const (int, optional): The number of nodes. Default is 2.
-        active_prob_const (float, optional): The active probability.
-        n_const (int, optional): The block length.
-        k_const (int, optional): The update size.
-        P_const (float, optional): The power.
-        numevnts (int, optional): The number of events.
-        numruns (int, optional): The number of runs.
-        num_nodes_vals (List[int], optional): The list of number of nodes.
-        active_prob_vals (List[float], optional): The list of active probability.
-        n_vals (List[int], optional): The list of block length.
-        k_vals (List[int], optional): The list of update size.
-        P_vals (List[float], optional): The list of power.
-    Returns:
-     plt.Figure: The generated figure.
+        plots_folder (str): Folder to save plots
     """
+    # Extracting values from the args
     num_nodes_const = args.num_nodes_const
     active_prob_const = args.active_prob_const
     n_const = args.n_const
@@ -228,7 +206,8 @@ def plot(args: argparse.Namespace, plots_folder=None) -> None:
     k_vals = args.k_vals
     P_vals = args.P_vals
 
-    fig= plot_generate(
+    # Call plot_generate to create and save plots
+    plot_generate(
         num_nodes_const=num_nodes_const,
         active_prob_const=active_prob_const,
         n_const=n_const,
@@ -241,15 +220,8 @@ def plot(args: argparse.Namespace, plots_folder=None) -> None:
         n_vals=n_vals,
         k_vals=k_vals,
         P_vals=P_vals,
+        plots_folder=plots_folder
     )
-    if plots_folder:
-        if not os.path.exists(plots_folder):
-            os.makedirs(plots_folder)
-        fig.savefig(os.path.join(plots_folder, "plot.png"))
-    
-    if args.plots:
-        plt.show()
-    plt.close()
 
 
 
