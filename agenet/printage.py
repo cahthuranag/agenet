@@ -138,116 +138,60 @@ def plot_generate(
     P_vals: List[float],
 ) -> plt.Figure:
     """
-    Plot the simulated and theoretical for each variable.
+    Plot the simulated and theoretical values for each variable.
 
     Args:
-        numevnts (int, optional): The number of events. Default is 1000.
-        numruns (int, optional): The number of runs. Default is 100.
+        num_nodes_const (int): Constant number of nodes.
+        active_prob_const (float): Constant active probability.
+        n_const (int): Constant block length.
+        k_const (int): Constant update size.
+        P_const (float): Constant power.
+        numevnts (int): Number of events.
+        numruns (int): Number of runs.
+        num_nodes_vals (List[int]): List of values for the number of nodes.
+        active_prob_vals (List[float]): List of values for active probability.
+        n_vals (List[int]): List of values for block length.
+        k_vals (List[int]): List of values for update size.
+        P_vals (List[float]): List of values for power.
 
     Returns:
-        plt.Figure: The generated figure.
+        plt.Figure: The generated figure with plots.
     """
-
-    # initialize the minimum and maximum values for the x and y-axes
-    x_min, x_max = float("inf"), float("-inf")
-    y_min, y_max = float("inf"), float("-inf")
 
     for i, (var_name, var_vals) in enumerate(
         zip(
-            [
-                "number of nodes",
-                "active probability",
-                "block length",
-                "update size",
-                "Power",
-            ],
-            [
-                num_nodes_vals,
-                active_prob_vals,
-                n_vals,
-                k_vals,
-                P_vals,
-                numevnts,
-                numruns,
-            ],
+            ["number of nodes", "active probability", "block length", "update size", "Power"],
+            [num_nodes_vals, active_prob_vals, n_vals, k_vals, P_vals]
         )
     ):
-        # create a list of the constant values with the loop variable set to
-        # None
-        const_vals = [
-            num_nodes_const,
-            active_prob_const,
-            n_const,
-            k_const,
-            P_const,
-            numevnts,
-            numruns,
-        ]
-        const_vals[i] = None
+        const_vals = [num_nodes_const, active_prob_const, n_const, k_const, P_const, numevnts, numruns]
+        const_vals[i] = None  # Set the variable being varied to None
 
-        # create a new figure and plot the simulated and theoretical values
-        # with the constant values
+        theoretical_vals = []
+        simulated_vals = []
+
+        # Gather data for each value of the variable
+        for val in var_vals:
+            theoretical, simulated = run_main(*(const_vals[:i] + [val] + const_vals[i + 1:]))
+            theoretical_vals.append(theoretical)
+            simulated_vals.append(simulated)
+
+        # Create a new plot for each variable
         fig, ax = plt.subplots()
-        ax.plot(
-            var_vals,
-            [
-                run_main(*(const_vals[:i] + [val] + const_vals[i + 1:]))[
-                    0
-                ]
-                for val in var_vals
-            ],
-            label="Theoretical",
-        )
-        ax.plot(
-            var_vals,
-            [
-                run_main(*(const_vals[:i] + [val] + const_vals[i + 1:]))[
-                    1
-                ]
-                for val in var_vals
-            ],
-            label="Simulated",
-        )
+        ax.plot(var_vals, theoretical_vals, label="Theoretical", marker='o')
+        ax.plot(var_vals, simulated_vals, label="Simulated", marker='x')
         ax.set_xlabel(var_name)
+        ax.set_ylabel('Values')
+        ax.set_title(f'Theoretical vs Simulated Values for Varying {var_name}')
         ax.legend()
-        ax.set_title(
-            f"Plot of Simulated and Theoretical Values respect to {var_name}"
-        )
+        ax.grid(True)
 
-        # update the minimum and maximum values for the x and y-axes
-        x_min = min(x_min, min(var_vals))
-        x_max = max(x_max, max(var_vals))
-        y_min = min(
-            y_min,
-            min(
-                min(
-                    [
-                        run_main(
-                            *(const_vals[:i] + [val] + const_vals[i + 1:])
-                        )
-                        for val in var_vals
-                    ]
-                )
-            ),
-        )
-        y_max = max(
-            y_max,
-            max(
-                max(
-                    [
-                        run_main(
-                            *(const_vals[:i] + [val] + const_vals[i + 1:])
-                        )
-                        for val in var_vals
-                    ]
-                )
-            ),
-        )
+        # Optionally, save or show the plot here
+        # plt.savefig(f'{var_name}_plot.png')
+        # plt.show()
 
-    # set the x and y-axis limits based on the updated minimum and maximum
-    # values
-    ax.set_xlim(x_min, x_max)
-    ax.set_ylim(y_min, y_max)
+    return fig
+
 
 
 def plot(args: argparse.Namespace, plots_folder=None) -> None:
@@ -398,7 +342,7 @@ def _parse_args() -> None:
     )
     parser.add_argument("--quiet", action="store_true", help="Omit tables")
     parser.add_argument("--plots", action="store_true", help="Show plots")
-    parser.add_argument("--plots-folder", type=str, help="Folder to save plots")
+    parser.add_argument("--plots_folder", type=str, help="Folder to save plots")
     
     args = parser.parse_args()
 
