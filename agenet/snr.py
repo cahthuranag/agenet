@@ -6,7 +6,7 @@ import numpy as np
 
 def snr(N0: float, d: float, P: float) -> float:
     """
-    Calculates the signal-to-noise ratio (SNR) of the received signal.
+    Calculates the SNR of the received signal.
 
     Args:
         N0 (float): The power spectral density of the noise.
@@ -16,14 +16,7 @@ def snr(N0: float, d: float, P: float) -> float:
     Returns:
         float: The SNR of the received signal in linear scale.
     """
-    f: float = 6 * (10**9)  # frequency of the signal
-    C: float = 3 * (10**8)  # speed of light
-    log_alpha: float = (20 * math.log10(d)) + (
-        20 * math.log10((4 * f * math.pi) / C)
-    )  # path loss in dB
-    alpha: float = 1 / (
-        10 ** ((log_alpha) / 10)
-    )  # path loss in linear scale
+    alpha = _alpha(d)
     snr: float = (alpha * P * np.random.exponential(1)) / N0
     return snr
 
@@ -31,14 +24,30 @@ def snr(N0: float, d: float, P: float) -> float:
 def snr_th(N0: float, d: float, P: float) -> float:
     """
     Calculates the theoretical SNR of the received signal.
-
+    
     Args:
         N0 (float): The power spectral density of the noise.
         d (float): The distance between the transmitter and receiver.
         P (float): The power of the transmitted signal.
+        
+        Returns:
+            float: The theoretical SNR of the received signal in linear scale.
+            """
+    
+    alpha= _alpha(d)
+    snr_th: float = (alpha * P) / N0
+    return snr_th
+
+
+def _alpha(d: float) -> float:
+    """
+    Calculates the path loss in linear scale.
+
+    Args:
+        d (float): The distance between the transmitter and receiver.
 
     Returns:
-        float: The theoretical SNR of the received signal in linear scale.
+        float: The path loss in linear scale.
     """
     f: float = 6 * (10**9)  # frequency of the signal
     C: float = 3 * (10**8)  # speed of light
@@ -48,9 +57,7 @@ def snr_th(N0: float, d: float, P: float) -> float:
     alpha: float = 1 / (
         10 ** ((log_alpha) / 10)
     )  # path loss in linear scale
-    snr_th: float = (alpha * P) / N0
-    return snr_th
-
+    return alpha
 
 def _parse_args():
     parser = argparse.ArgumentParser(
