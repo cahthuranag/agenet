@@ -12,6 +12,9 @@ def generate_table(
     n_const: int,
     k_const: int,
     P_const: float,
+    d_const: int,
+    N0_const: float,
+    fr_const: float,
     numevnts: int,
     numruns: int,
     num_nodes_vals: List[int],
@@ -62,6 +65,9 @@ def generate_table(
             n_const,
             k_const,
             P_const,
+            d_const,
+            N0_const,
+            fr_const,
             numevnts,
             numruns,
         ]
@@ -99,6 +105,9 @@ def printage(args: argparse.Namespace) -> None:
     n_const = args.n_const
     k_const = args.k_const
     P_const = args.P_const
+    d_const = args.d_const
+    N0_const = args.N0_const
+    fr_const = args.fr_const
 
     num_nodes_vals = args.num_nodes_vals
     active_prob_vals = args.active_prob_vals
@@ -112,6 +121,9 @@ def printage(args: argparse.Namespace) -> None:
          n_const=n_const,
          k_const=k_const,
          P_const=P_const,
+         d_const=d_const,
+         N0_const=N0_const,
+         fr_const=fr_const,
          numevnts=args.numevnts,
          numruns=args.numruns,
          num_nodes_vals=num_nodes_vals,
@@ -129,6 +141,9 @@ def plot_generate(
     n_const: int,
     k_const: int,
     P_const: float,
+    d_const: int,
+    N0_const: float,
+    fr_const: float,
     numevnts: int,
     numruns: int,
     num_nodes_vals: List[int],
@@ -153,7 +168,7 @@ def plot_generate(
             [num_nodes_vals, active_prob_vals, n_vals, k_vals, P_vals]
         )
     ):
-        const_vals = [num_nodes_const, active_prob_const, n_const, k_const, P_const, numevnts, numruns]
+        const_vals = [num_nodes_const, active_prob_const, n_const, k_const, P_const, d_const,N0_const, fr_const,numevnts, numruns]
         const_vals[i] = None  # Set the variable being varied to None
 
         theoretical_vals = []
@@ -199,6 +214,9 @@ def plot(args: argparse.Namespace, plots_folder=None) -> None:
     n_const = args.n_const
     k_const = args.k_const
     P_const = args.P_const
+    d_const = args.d_const
+    N0_const = args.N0_const
+    fr_const = args.fr_const
 
     num_nodes_vals = args.num_nodes_vals
     active_prob_vals = args.active_prob_vals
@@ -213,6 +231,9 @@ def plot(args: argparse.Namespace, plots_folder=None) -> None:
         n_const=n_const,
         k_const=k_const,
         P_const=P_const,
+        d_const=d_const,
+        N0_const=N0_const,
+        fr_const=fr_const,
         numevnts=args.numevnts,
         numruns=args.numruns,
         num_nodes_vals=num_nodes_vals,
@@ -264,7 +285,24 @@ def _parse_args() -> None:
         default=2 * (10**-3),
         help="Constant value for the power.",
     )
-
+    parser.add_argument(
+        "--d_const",
+        type=int,
+        default=700,
+        help="Constant value for the distance between nodes.",
+    )
+    parser.add_argument(
+        "--N0_const",
+        type=float,
+        default=1 * (10**-13),
+        help="Constant value for the noise power.",
+    )
+    parser.add_argument(
+        "--fr_const",
+        type=float,
+        default=6 * (10**9),
+        help="Constant value for the frequency of the signal.",
+    )
     parser.add_argument(
         "--numevnts", type=int, default=500, help="The number of events."
     )

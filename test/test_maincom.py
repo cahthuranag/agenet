@@ -8,18 +8,18 @@ from agenet import main
 
 # define test cases
 test_cases = [
-    (2, 0.9, 300, 100, 10**-3, 1000),  # test case 1
-    (4, 0.5, 500, 50, 50**-3, 1000),  # test case 2
+    (2, 0.9, 300, 100, 10**-3, 700, 1 * (10**-13),6 * (10**9), 1000),  # test case 1
+    (4, 0.5, 500, 50, 50**-3, 700, 1 * (10**-13),6 * (10**9),1000),  # test case 2
 ]
 
 
 # define pytest function to test main function with multiple test cases
 @pytest.mark.parametrize(
-    "num_nodes, active_prob, n, k, P,numevents", test_cases
+    "num_nodes, active_prob, n, k, P, d, N0, fr, numevents", test_cases
 )
-def test_main(num_nodes, active_prob, n, k, P, numevents):
+def test_main(num_nodes, active_prob, n, k, P,d,N0,fr, numevents):
     # call the main function
-    result = main(num_nodes, active_prob, n, k, P, numevents)
+    result = main(num_nodes, active_prob, n, k, P, d, N0, fr, numevents)
     # assert that the result is not None
     assert result is not None
 
@@ -30,6 +30,9 @@ def test_command_line_arguments():
     n = 200
     k = 150
     P = 0.1
+    d = 700
+    N0 = 1 * (10**-13)
+    fr = 6 * (10**9)
     numevents = 1000
     numruns = 1
 
@@ -42,6 +45,9 @@ def test_command_line_arguments():
         f"--n {n} "
         f"--k {k} "
         f"--P {P} "
+        f"--d {d} "
+        f"--N0 {N0} "
+        f"--fr {fr} "
         f"--numevents {numevents} "
         f"--numruns {numruns}"
     )

@@ -4,7 +4,6 @@
 
 __all__ = [
     "main",
-    "plot",
     "av_age",
     "snr",
     "bler",
@@ -15,6 +14,7 @@ __all__ = [
     "printage",
     "generate_table",
     "run_main",
+    "plot",
 
 ]
 

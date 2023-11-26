@@ -13,7 +13,11 @@ def main(
     n: int,
     k: int,
     P: float,
+    d: int,
+    N0: float,
+    fr: float,
     numevents: int,
+   
 ) -> Tuple[float, float]:
     """
     Simulates a communication system and calculates the AAoI.
@@ -38,9 +42,8 @@ def main(
     arrival_timestamps = np.cumsum(
         inter_arrival_times
     )  # arrival timestamps
-    N0 = 1 * (10**-13)  # noise power
-    d1 = 700  # disatance between source nodes and relay
-    d2 = 700  # distance between the relay and destination
+    d1 = d  # disatance between source nodes and relay
+    d2 = d  # distance between the relay and destination
     P1 = P  # power of the source nodes
     P2 = P  # power of the relay or access point
     n1 = n  # number of bits in the block for the source nodes
@@ -48,10 +51,10 @@ def main(
     k1 = k  # number of bits in the message for the source nodes
     k2 = k  # number of bits in the message for the relay or access point
     snr1_th = snr_th(
-        N0, d1, P1
+        N0, d1, P1, fr
     )  # block error rate for the relay or access point at the destination
     snr2_th = snr_th(
-        N0, d2, P2
+        N0, d2, P2, fr
     )  # block error rate for the source nodes at the relay or access point
     er1_th = blercal_th(snr1_th, n1, k1)
     er2_th = blercal_th(snr2_th, n2, k2)
@@ -69,9 +72,9 @@ def main(
     er_p_th = er_f_th + (er2_th * (er_f_th - 1))
     for i in range(0, num_events):
         snr1 = snr(
-            N0, d1, P1
+            N0, d1, P1, fr
         )  # snr for the source nodes at the relay or access point
-        snr2 = snr(N0, d2, P2)
+        snr2 = snr(N0, d2, P2, fr)
         er1 = blercal(
             snr1, n1, k1
         )  # block error rate for the source nodes at the relay or access point
@@ -133,6 +136,9 @@ def run_main(
     n: int,
     k: int,
     P: float,
+    d: int,
+    N0: float,
+    fr: float,
     numevnts: int,
     numruns: int,
 ) -> Tuple[float, float]:
@@ -155,7 +161,7 @@ def run_main(
     av_age_simulation_run = 0
     for i in range(num_runs):
         av_age_theoretical_i, av_age_simulation_i = main(
-            num_nodes, active_prob, n, k, P, numevnts
+            num_nodes, active_prob, n, k, P,d,N0,fr, numevnts
         )
         av_age_theoretical_run += av_age_theoretical_i
         av_age_simulation_run += av_age_simulation_i
@@ -199,7 +205,15 @@ def _parse_args() -> argparse.Namespace:
         default=100,
         help="Number of times to run the simulation",
     )
-    
+    parser.add_argument(
+        "--d", type=int, default=700, help="Distance between nodes"
+    )
+    parser.add_argument(
+        "--N0", type=float, default= 1 * (10**-13), help="Noise power"
+    )
+    parser.add_argument(
+        "--fr", type=float, default= 6 * (10**9), help="Frequency of the signal"
+    )
     args = parser.parse_args()
     
     theoretical_aaoi, simulation_aaoi = run_main(
@@ -208,6 +222,9 @@ def _parse_args() -> argparse.Namespace:
         args.n,
         args.k,
         args.P,
+        args.d,
+        args.N0,
+        args.fr,
         args.numevents,
         args.numruns,
     )

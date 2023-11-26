@@ -54,6 +54,9 @@ def test_generate_table():
     n_const = 150
     k_const = 100
     P_const = 2 * (10**-3)
+    d_const = 700
+    N0_const = 1 * (10**-13)
+    fr_const = 6 * (10**9)
     numevnts = 100
     numruns = 100
     num_nodes_vals = [1, 2, 3]
@@ -72,6 +75,9 @@ def test_generate_table():
             n_const,
             k_const,
             P_const,
+            d_const,
+            N0_const,
+            fr_const,
             numevnts,
             numruns,
             num_nodes_vals,
@@ -105,6 +111,9 @@ def test_printage():
         n_const=150,
         k_const=100,
         P_const=2 * (10**-3),
+        d_const=700,
+        N0_const=1 * (10**-13),
+        fr_const=6 * (10**9),
         numevnts=500,
         numruns=1,
         num_nodes_vals=[1, 2, 3],
@@ -150,6 +159,12 @@ def test_printage():
         "100",
         "--P_const",
         "0.002",
+        "--d_const",
+        "700",
+        "--N0_const",
+        "1 * (10**-13)",
+        "--fr_const",
+        "6 * (10**9)",
         "--numevnts",
         "1000",
         "--numruns",
@@ -204,6 +219,24 @@ def test_plot(monkeypatch):
         type=float,
         default=2 * (10**-3),
         help="Constant value for the power.",
+    )
+    parser.add_argument(
+        "--d_const",
+        type=int,
+        default=700,
+        help="Constant value for the distance.",
+    )
+    parser.add_argument(
+        "--N0_const",
+        type=float,
+        default=1 * (10**-13),
+        help="Constant value for the noise power.",
+    )
+    parser.add_argument(
+        "--fr_const",
+        type=float,
+        default=6 * (10**9),
+        help="Constant value for the frequency.",
     )
     parser.add_argument(
         "--numevnts",
