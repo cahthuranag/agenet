@@ -22,7 +22,7 @@
       
       
       <link rel="icon" href="../assets/images/favicon.png">
-      <meta name="generator" content="mkdocs-1.5.3, mkdocs-material-9.4.12">
+      <meta name="generator" content="mkdocs-1.5.3, mkdocs-material-9.4.14">
     
     
       
@@ -256,6 +256,7 @@
   
   
   
+  
     <li class="md-nav__item">
       <a href=".." class="md-nav__link">
         
@@ -275,6 +276,7 @@
   
   
     
+  
   
   
     <li class="md-nav__item md-nav__item--active">
@@ -366,6 +368,15 @@
   <a href="#agenet.main" class="md-nav__link">
     <span class="md-ellipsis">
       main()
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#agenet.plot" class="md-nav__link">
+    <span class="md-ellipsis">
+      plot()
     </span>
   </a>
   
@@ -508,6 +519,15 @@
 </li>
         
           <li class="md-nav__item">
+  <a href="#agenet.printage.plot" class="md-nav__link">
+    <span class="md-ellipsis">
+      plot()
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
   <a href="#agenet.printage.plot_generate" class="md-nav__link">
     <span class="md-ellipsis">
       plot_generate()
@@ -573,6 +593,7 @@
     
       
       
+  
   
   
   
@@ -1161,7 +1182,7 @@
 
 
 <h2 id="agenet.generate_table" class="doc doc-heading">
-          <code class="highlight language-python"><span class="n">generate_table</span><span class="p">(</span><span class="n">num_nodes_const</span><span class="p">,</span> <span class="n">active_prob_const</span><span class="p">,</span> <span class="n">n_const</span><span class="p">,</span> <span class="n">k_const</span><span class="p">,</span> <span class="n">P_const</span><span class="p">,</span> <span class="n">numevnts</span><span class="p">,</span> <span class="n">numruns</span><span class="p">,</span> <span class="n">num_nodes_vals</span><span class="p">,</span> <span class="n">active_prob_vals</span><span class="p">,</span> <span class="n">n_vals</span><span class="p">,</span> <span class="n">k_vals</span><span class="p">,</span> <span class="n">P_vals</span><span class="p">,</span> <span class="n">file</span><span class="o">=</span><span class="kc">None</span><span class="p">)</span></code>
+          <code class="highlight language-python"><span class="n">generate_table</span><span class="p">(</span><span class="n">num_nodes_const</span><span class="p">,</span> <span class="n">active_prob_const</span><span class="p">,</span> <span class="n">n_const</span><span class="p">,</span> <span class="n">k_const</span><span class="p">,</span> <span class="n">P_const</span><span class="p">,</span> <span class="n">d_const</span><span class="p">,</span> <span class="n">N0_const</span><span class="p">,</span> <span class="n">fr_const</span><span class="p">,</span> <span class="n">numevnts</span><span class="p">,</span> <span class="n">numruns</span><span class="p">,</span> <span class="n">num_nodes_vals</span><span class="p">,</span> <span class="n">active_prob_vals</span><span class="p">,</span> <span class="n">n_vals</span><span class="p">,</span> <span class="n">k_vals</span><span class="p">,</span> <span class="n">P_vals</span><span class="p">,</span> <span class="n">file</span><span class="o">=</span><span class="kc">None</span><span class="p">)</span></code>
 
 </h2>
 
@@ -1263,12 +1284,21 @@ Returns:
 <span class="normal">83</span>
 <span class="normal">84</span>
 <span class="normal">85</span>
-<span class="normal">86</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">generate_table</span><span class="p">(</span>
+<span class="normal">86</span>
+<span class="normal">87</span>
+<span class="normal">88</span>
+<span class="normal">89</span>
+<span class="normal">90</span>
+<span class="normal">91</span>
+<span class="normal">92</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">generate_table</span><span class="p">(</span>
     <span class="n">num_nodes_const</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span>
     <span class="n">active_prob_const</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span>
     <span class="n">n_const</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span>
     <span class="n">k_const</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span>
     <span class="n">P_const</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span>
+    <span class="n">d_const</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span>
+    <span class="n">N0_const</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span>
+    <span class="n">fr_const</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span>
     <span class="n">numevnts</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span>
     <span class="n">numruns</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span>
     <span class="n">num_nodes_vals</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="nb">int</span><span class="p">],</span>
@@ -1319,6 +1349,9 @@ Returns:
             <span class="n">n_const</span><span class="p">,</span>
             <span class="n">k_const</span><span class="p">,</span>
             <span class="n">P_const</span><span class="p">,</span>
+            <span class="n">d_const</span><span class="p">,</span>
+            <span class="n">N0_const</span><span class="p">,</span>
+            <span class="n">fr_const</span><span class="p">,</span>
             <span class="n">numevnts</span><span class="p">,</span>
             <span class="n">numruns</span><span class="p">,</span>
         <span class="p">]</span>
@@ -1354,7 +1387,7 @@ Returns:
 
 
 <h2 id="agenet.main" class="doc doc-heading">
-          <code class="highlight language-python"><span class="n">main</span><span class="p">(</span><span class="n">num_nodes</span><span class="p">,</span> <span class="n">active_prob</span><span class="p">,</span> <span class="n">n</span><span class="p">,</span> <span class="n">k</span><span class="p">,</span> <span class="n">P</span><span class="p">,</span> <span class="n">numevents</span><span class="p">)</span></code>
+          <code class="highlight language-python"><span class="n">main</span><span class="p">(</span><span class="n">num_nodes</span><span class="p">,</span> <span class="n">active_prob</span><span class="p">,</span> <span class="n">n</span><span class="p">,</span> <span class="n">k</span><span class="p">,</span> <span class="n">P</span><span class="p">,</span> <span class="n">d</span><span class="p">,</span> <span class="n">N0</span><span class="p">,</span> <span class="n">fr</span><span class="p">,</span> <span class="n">numevents</span><span class="p">)</span></code>
 
 </h2>
 
@@ -1616,13 +1649,20 @@ Returns:
 <span class="normal">124</span>
 <span class="normal">125</span>
 <span class="normal">126</span>
-<span class="normal">127</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">main</span><span class="p">(</span>
+<span class="normal">127</span>
+<span class="normal">128</span>
+<span class="normal">129</span>
+<span class="normal">130</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">main</span><span class="p">(</span>
     <span class="n">num_nodes</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span>
     <span class="n">active_prob</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span>
     <span class="n">n</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span>
     <span class="n">k</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span>
     <span class="n">P</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span>
+    <span class="n">d</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span>
+    <span class="n">N0</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span>
+    <span class="n">fr</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span>
     <span class="n">numevents</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span>
+
 <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Tuple</span><span class="p">[</span><span class="nb">float</span><span class="p">,</span> <span class="nb">float</span><span class="p">]:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Simulates a communication system and calculates the AAoI.</span>
@@ -1647,9 +1687,8 @@ Returns:
     <span class="n">arrival_timestamps</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">cumsum</span><span class="p">(</span>
         <span class="n">inter_arrival_times</span>
     <span class="p">)</span>  <span class="c1"># arrival timestamps</span>
-    <span class="n">N0</span> <span class="o">=</span> <span class="mi">1</span> <span class="o">*</span> <span class="p">(</span><span class="mi">10</span><span class="o">**-</span><span class="mi">13</span><span class="p">)</span>  <span class="c1"># noise power</span>
-    <span class="n">d1</span> <span class="o">=</span> <span class="mi">700</span>  <span class="c1"># disatance between source nodes and relay</span>
-    <span class="n">d2</span> <span class="o">=</span> <span class="mi">700</span>  <span class="c1"># distance between the relay and destination</span>
+    <span class="n">d1</span> <span class="o">=</span> <span class="n">d</span>  <span class="c1"># disatance between source nodes and relay</span>
+    <span class="n">d2</span> <span class="o">=</span> <span class="n">d</span>  <span class="c1"># distance between the relay and destination</span>
     <span class="n">P1</span> <span class="o">=</span> <span class="n">P</span>  <span class="c1"># power of the source nodes</span>
     <span class="n">P2</span> <span class="o">=</span> <span class="n">P</span>  <span class="c1"># power of the relay or access point</span>
     <span class="n">n1</span> <span class="o">=</span> <span class="n">n</span>  <span class="c1"># number of bits in the block for the source nodes</span>
@@ -1657,10 +1696,10 @@ Returns:
     <span class="n">k1</span> <span class="o">=</span> <span class="n">k</span>  <span class="c1"># number of bits in the message for the source nodes</span>
     <span class="n">k2</span> <span class="o">=</span> <span class="n">k</span>  <span class="c1"># number of bits in the message for the relay or access point</span>
     <span class="n">snr1_th</span> <span class="o">=</span> <span class="n">snr_th</span><span class="p">(</span>
-        <span class="n">N0</span><span class="p">,</span> <span class="n">d1</span><span class="p">,</span> <span class="n">P1</span>
+        <span class="n">N0</span><span class="p">,</span> <span class="n">d1</span><span class="p">,</span> <span class="n">P1</span><span class="p">,</span> <span class="n">fr</span>
     <span class="p">)</span>  <span class="c1"># block error rate for the relay or access point at the destination</span>
     <span class="n">snr2_th</span> <span class="o">=</span> <span class="n">snr_th</span><span class="p">(</span>
-        <span class="n">N0</span><span class="p">,</span> <span class="n">d2</span><span class="p">,</span> <span class="n">P2</span>
+        <span class="n">N0</span><span class="p">,</span> <span class="n">d2</span><span class="p">,</span> <span class="n">P2</span><span class="p">,</span> <span class="n">fr</span>
     <span class="p">)</span>  <span class="c1"># block error rate for the source nodes at the relay or access point</span>
     <span class="n">er1_th</span> <span class="o">=</span> <span class="n">blercal_th</span><span class="p">(</span><span class="n">snr1_th</span><span class="p">,</span> <span class="n">n1</span><span class="p">,</span> <span class="n">k1</span><span class="p">)</span>
     <span class="n">er2_th</span> <span class="o">=</span> <span class="n">blercal_th</span><span class="p">(</span><span class="n">snr2_th</span><span class="p">,</span> <span class="n">n2</span><span class="p">,</span> <span class="n">k2</span><span class="p">)</span>
@@ -1678,9 +1717,9 @@ Returns:
     <span class="n">er_p_th</span> <span class="o">=</span> <span class="n">er_f_th</span> <span class="o">+</span> <span class="p">(</span><span class="n">er2_th</span> <span class="o">*</span> <span class="p">(</span><span class="n">er_f_th</span> <span class="o">-</span> <span class="mi">1</span><span class="p">))</span>
     <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">num_events</span><span class="p">):</span>
         <span class="n">snr1</span> <span class="o">=</span> <span class="n">snr</span><span class="p">(</span>
-            <span class="n">N0</span><span class="p">,</span> <span class="n">d1</span><span class="p">,</span> <span class="n">P1</span>
+            <span class="n">N0</span><span class="p">,</span> <span class="n">d1</span><span class="p">,</span> <span class="n">P1</span><span class="p">,</span> <span class="n">fr</span>
         <span class="p">)</span>  <span class="c1"># snr for the source nodes at the relay or access point</span>
-        <span class="n">snr2</span> <span class="o">=</span> <span class="n">snr</span><span class="p">(</span><span class="n">N0</span><span class="p">,</span> <span class="n">d2</span><span class="p">,</span> <span class="n">P2</span><span class="p">)</span>
+        <span class="n">snr2</span> <span class="o">=</span> <span class="n">snr</span><span class="p">(</span><span class="n">N0</span><span class="p">,</span> <span class="n">d2</span><span class="p">,</span> <span class="n">P2</span><span class="p">,</span> <span class="n">fr</span><span class="p">)</span>
         <span class="n">er1</span> <span class="o">=</span> <span class="n">blercal</span><span class="p">(</span>
             <span class="n">snr1</span><span class="p">,</span> <span class="n">n1</span><span class="p">,</span> <span class="n">k1</span>
         <span class="p">)</span>  <span class="c1"># block error rate for the source nodes at the relay or access point</span>
@@ -1746,8 +1785,118 @@ Returns:
 
 
 
+<h2 id="agenet.plot" class="doc doc-heading">
+          <code class="highlight language-python"><span class="n">plot</span><span class="p">(</span><span class="n">args</span><span class="p">,</span> <span class="n">plots_folder</span><span class="o">=</span><span class="kc">None</span><span class="p">)</span></code>
+
+</h2>
+
+
+  <div class="doc doc-contents ">
+  
+      <p>Plot the simulated and theoretical values for each variable and save the plots.
+Args:
+    args (argparse.Namespace): Parsed command-line arguments.
+    plots_folder (str): Folder to save plots</p>
+
+          <details class="quote">
+            <summary>Source code in <code>agenet/printage.py</code></summary>
+            <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">204</span>
+<span class="normal">205</span>
+<span class="normal">206</span>
+<span class="normal">207</span>
+<span class="normal">208</span>
+<span class="normal">209</span>
+<span class="normal">210</span>
+<span class="normal">211</span>
+<span class="normal">212</span>
+<span class="normal">213</span>
+<span class="normal">214</span>
+<span class="normal">215</span>
+<span class="normal">216</span>
+<span class="normal">217</span>
+<span class="normal">218</span>
+<span class="normal">219</span>
+<span class="normal">220</span>
+<span class="normal">221</span>
+<span class="normal">222</span>
+<span class="normal">223</span>
+<span class="normal">224</span>
+<span class="normal">225</span>
+<span class="normal">226</span>
+<span class="normal">227</span>
+<span class="normal">228</span>
+<span class="normal">229</span>
+<span class="normal">230</span>
+<span class="normal">231</span>
+<span class="normal">232</span>
+<span class="normal">233</span>
+<span class="normal">234</span>
+<span class="normal">235</span>
+<span class="normal">236</span>
+<span class="normal">237</span>
+<span class="normal">238</span>
+<span class="normal">239</span>
+<span class="normal">240</span>
+<span class="normal">241</span>
+<span class="normal">242</span>
+<span class="normal">243</span>
+<span class="normal">244</span>
+<span class="normal">245</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">plot</span><span class="p">(</span><span class="n">args</span><span class="p">:</span> <span class="n">argparse</span><span class="o">.</span><span class="n">Namespace</span><span class="p">,</span> <span class="n">plots_folder</span><span class="o">=</span><span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Plot the simulated and theoretical values for each variable and save the plots.</span>
+<span class="sd">    Args:</span>
+<span class="sd">        args (argparse.Namespace): Parsed command-line arguments.</span>
+<span class="sd">        plots_folder (str): Folder to save plots</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="c1"># Extracting values from the args</span>
+    <span class="n">num_nodes_const</span> <span class="o">=</span> <span class="n">args</span><span class="o">.</span><span class="n">num_nodes_const</span>
+    <span class="n">active_prob_const</span> <span class="o">=</span> <span class="n">args</span><span class="o">.</span><span class="n">active_prob_const</span>
+    <span class="n">n_const</span> <span class="o">=</span> <span class="n">args</span><span class="o">.</span><span class="n">n_const</span>
+    <span class="n">k_const</span> <span class="o">=</span> <span class="n">args</span><span class="o">.</span><span class="n">k_const</span>
+    <span class="n">P_const</span> <span class="o">=</span> <span class="n">args</span><span class="o">.</span><span class="n">P_const</span>
+    <span class="n">d_const</span> <span class="o">=</span> <span class="n">args</span><span class="o">.</span><span class="n">d_const</span>
+    <span class="n">N0_const</span> <span class="o">=</span> <span class="n">args</span><span class="o">.</span><span class="n">N0_const</span>
+    <span class="n">fr_const</span> <span class="o">=</span> <span class="n">args</span><span class="o">.</span><span class="n">fr_const</span>
+
+    <span class="n">num_nodes_vals</span> <span class="o">=</span> <span class="n">args</span><span class="o">.</span><span class="n">num_nodes_vals</span>
+    <span class="n">active_prob_vals</span> <span class="o">=</span> <span class="n">args</span><span class="o">.</span><span class="n">active_prob_vals</span>
+    <span class="n">n_vals</span> <span class="o">=</span> <span class="n">args</span><span class="o">.</span><span class="n">n_vals</span>
+    <span class="n">k_vals</span> <span class="o">=</span> <span class="n">args</span><span class="o">.</span><span class="n">k_vals</span>
+    <span class="n">P_vals</span> <span class="o">=</span> <span class="n">args</span><span class="o">.</span><span class="n">P_vals</span>
+
+    <span class="c1"># Call plot_generate to create and save plots</span>
+    <span class="n">plot_generate</span><span class="p">(</span>
+        <span class="n">num_nodes_const</span><span class="o">=</span><span class="n">num_nodes_const</span><span class="p">,</span>
+        <span class="n">active_prob_const</span><span class="o">=</span><span class="n">active_prob_const</span><span class="p">,</span>
+        <span class="n">n_const</span><span class="o">=</span><span class="n">n_const</span><span class="p">,</span>
+        <span class="n">k_const</span><span class="o">=</span><span class="n">k_const</span><span class="p">,</span>
+        <span class="n">P_const</span><span class="o">=</span><span class="n">P_const</span><span class="p">,</span>
+        <span class="n">d_const</span><span class="o">=</span><span class="n">d_const</span><span class="p">,</span>
+        <span class="n">N0_const</span><span class="o">=</span><span class="n">N0_const</span><span class="p">,</span>
+        <span class="n">fr_const</span><span class="o">=</span><span class="n">fr_const</span><span class="p">,</span>
+        <span class="n">numevnts</span><span class="o">=</span><span class="n">args</span><span class="o">.</span><span class="n">numevnts</span><span class="p">,</span>
+        <span class="n">numruns</span><span class="o">=</span><span class="n">args</span><span class="o">.</span><span class="n">numruns</span><span class="p">,</span>
+        <span class="n">num_nodes_vals</span><span class="o">=</span><span class="n">num_nodes_vals</span><span class="p">,</span>
+        <span class="n">active_prob_vals</span><span class="o">=</span><span class="n">active_prob_vals</span><span class="p">,</span>
+        <span class="n">n_vals</span><span class="o">=</span><span class="n">n_vals</span><span class="p">,</span>
+        <span class="n">k_vals</span><span class="o">=</span><span class="n">k_vals</span><span class="p">,</span>
+        <span class="n">P_vals</span><span class="o">=</span><span class="n">P_vals</span><span class="p">,</span>
+        <span class="n">plots_folder</span><span class="o">=</span><span class="n">plots_folder</span>
+    <span class="p">)</span>
+</code></pre></div></td></tr></table></div>
+          </details>
+  </div>
+
+</div>
+
+
+<div class="doc doc-object doc-function">
+
+
+
+
 <h2 id="agenet.run_main" class="doc doc-heading">
-          <code class="highlight language-python"><span class="n">run_main</span><span class="p">(</span><span class="n">num_nodes</span><span class="p">,</span> <span class="n">active_prob</span><span class="p">,</span> <span class="n">n</span><span class="p">,</span> <span class="n">k</span><span class="p">,</span> <span class="n">P</span><span class="p">,</span> <span class="n">numevnts</span><span class="p">,</span> <span class="n">numruns</span><span class="p">)</span></code>
+          <code class="highlight language-python"><span class="n">run_main</span><span class="p">(</span><span class="n">num_nodes</span><span class="p">,</span> <span class="n">active_prob</span><span class="p">,</span> <span class="n">n</span><span class="p">,</span> <span class="n">k</span><span class="p">,</span> <span class="n">P</span><span class="p">,</span> <span class="n">d</span><span class="p">,</span> <span class="n">N0</span><span class="p">,</span> <span class="n">fr</span><span class="p">,</span> <span class="n">numevnts</span><span class="p">,</span> <span class="n">numruns</span><span class="p">)</span></code>
 
 </h2>
 
@@ -1896,10 +2045,7 @@ Returns:
 
           <details class="quote">
             <summary>Source code in <code>agenet/maincom.py</code></summary>
-            <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">130</span>
-<span class="normal">131</span>
-<span class="normal">132</span>
-<span class="normal">133</span>
+            <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">133</span>
 <span class="normal">134</span>
 <span class="normal">135</span>
 <span class="normal">136</span>
@@ -1930,12 +2076,21 @@ Returns:
 <span class="normal">161</span>
 <span class="normal">162</span>
 <span class="normal">163</span>
-<span class="normal">164</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">run_main</span><span class="p">(</span>
+<span class="normal">164</span>
+<span class="normal">165</span>
+<span class="normal">166</span>
+<span class="normal">167</span>
+<span class="normal">168</span>
+<span class="normal">169</span>
+<span class="normal">170</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">run_main</span><span class="p">(</span>
     <span class="n">num_nodes</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span>
     <span class="n">active_prob</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span>
     <span class="n">n</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span>
     <span class="n">k</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span>
     <span class="n">P</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span>
+    <span class="n">d</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span>
+    <span class="n">N0</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span>
+    <span class="n">fr</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span>
     <span class="n">numevnts</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span>
     <span class="n">numruns</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span>
 <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Tuple</span><span class="p">[</span><span class="nb">float</span><span class="p">,</span> <span class="nb">float</span><span class="p">]:</span>
@@ -1958,7 +2113,7 @@ Returns:
     <span class="n">av_age_simulation_run</span> <span class="o">=</span> <span class="mi">0</span>
     <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">num_runs</span><span class="p">):</span>
         <span class="n">av_age_theoretical_i</span><span class="p">,</span> <span class="n">av_age_simulation_i</span> <span class="o">=</span> <span class="n">main</span><span class="p">(</span>
-            <span class="n">num_nodes</span><span class="p">,</span> <span class="n">active_prob</span><span class="p">,</span> <span class="n">n</span><span class="p">,</span> <span class="n">k</span><span class="p">,</span> <span class="n">P</span><span class="p">,</span> <span class="n">numevnts</span>
+            <span class="n">num_nodes</span><span class="p">,</span> <span class="n">active_prob</span><span class="p">,</span> <span class="n">n</span><span class="p">,</span> <span class="n">k</span><span class="p">,</span> <span class="n">P</span><span class="p">,</span><span class="n">d</span><span class="p">,</span><span class="n">N0</span><span class="p">,</span><span class="n">fr</span><span class="p">,</span> <span class="n">numevnts</span>
         <span class="p">)</span>
         <span class="n">av_age_theoretical_run</span> <span class="o">+=</span> <span class="n">av_age_theoretical_i</span>
         <span class="n">av_age_simulation_run</span> <span class="o">+=</span> <span class="n">av_age_simulation_i</span>
@@ -1978,7 +2133,7 @@ Returns:
 
 
 <h2 id="agenet.snr_th" class="doc doc-heading">
-          <code class="highlight language-python"><span class="n">snr_th</span><span class="p">(</span><span class="n">N0</span><span class="p">,</span> <span class="n">d</span><span class="p">,</span> <span class="n">P</span><span class="p">)</span></code>
+          <code class="highlight language-python"><span class="n">snr_th</span><span class="p">(</span><span class="n">N0</span><span class="p">,</span> <span class="n">d</span><span class="p">,</span> <span class="n">P</span><span class="p">,</span> <span class="n">fr</span><span class="p">)</span></code>
 
 </h2>
 
@@ -2042,28 +2197,31 @@ Returns:
               <em>required</em>
           </td>
         </tr>
-    </tbody>
-  </table>
-
-
-
-  <p><strong>Returns:</strong></p>
-  <table>
-    <thead>
-      <tr>
-<th>Name</th>        <th>Type</th>
-        <th>Description</th>
-      </tr>
-    </thead>
-    <tbody>
         <tr>
-<td><code>float</code></td>          <td>
+          <td><code>fr</code></td>
+          <td>
                 <code>float</code>
           </td>
           <td>
             <div class="doc-md-description">
-              <p>The theoretical SNR of the received signal in linear scale.</p>
+              <p>The frequency of the signal.</p>
             </div>
+          </td>
+          <td>
+              <em>required</em>
+          </td>
+        </tr>
+        <tr>
+          <td><code>Returns</code></td>
+          <td>
+          </td>
+          <td>
+            <div class="doc-md-description">
+              <p>float: The theoretical SNR of the received signal in linear scale.</p>
+            </div>
+          </td>
+          <td>
+              <em>required</em>
           </td>
         </tr>
     </tbody>
@@ -2071,7 +2229,13 @@ Returns:
 
           <details class="quote">
             <summary>Source code in <code>agenet/snr.py</code></summary>
-            <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">31</span>
+            <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">25</span>
+<span class="normal">26</span>
+<span class="normal">27</span>
+<span class="normal">28</span>
+<span class="normal">29</span>
+<span class="normal">30</span>
+<span class="normal">31</span>
 <span class="normal">32</span>
 <span class="normal">33</span>
 <span class="normal">34</span>
@@ -2081,18 +2245,7 @@ Returns:
 <span class="normal">38</span>
 <span class="normal">39</span>
 <span class="normal">40</span>
-<span class="normal">41</span>
-<span class="normal">42</span>
-<span class="normal">43</span>
-<span class="normal">44</span>
-<span class="normal">45</span>
-<span class="normal">46</span>
-<span class="normal">47</span>
-<span class="normal">48</span>
-<span class="normal">49</span>
-<span class="normal">50</span>
-<span class="normal">51</span>
-<span class="normal">52</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">snr_th</span><span class="p">(</span><span class="n">N0</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span> <span class="n">d</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span> <span class="n">P</span><span class="p">:</span> <span class="nb">float</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">float</span><span class="p">:</span>
+<span class="normal">41</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">snr_th</span><span class="p">(</span><span class="n">N0</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span> <span class="n">d</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span> <span class="n">P</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span> <span class="n">fr</span><span class="p">:</span><span class="nb">float</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">float</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Calculates the theoretical SNR of the received signal.</span>
 
@@ -2100,18 +2253,13 @@ Returns:
 <span class="sd">        N0 (float): The power spectral density of the noise.</span>
 <span class="sd">        d (float): The distance between the transmitter and receiver.</span>
 <span class="sd">        P (float): The power of the transmitted signal.</span>
+<span class="sd">        fr (float): The frequency of the signal.</span>
 
-<span class="sd">    Returns:</span>
-<span class="sd">        float: The theoretical SNR of the received signal in linear scale.</span>
-<span class="sd">    &quot;&quot;&quot;</span>
-    <span class="n">f</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mi">6</span> <span class="o">*</span> <span class="p">(</span><span class="mi">10</span><span class="o">**</span><span class="mi">9</span><span class="p">)</span>  <span class="c1"># frequency of the signal</span>
-    <span class="n">C</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mi">3</span> <span class="o">*</span> <span class="p">(</span><span class="mi">10</span><span class="o">**</span><span class="mi">8</span><span class="p">)</span>  <span class="c1"># speed of light</span>
-    <span class="n">log_alpha</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="p">(</span><span class="mi">20</span> <span class="o">*</span> <span class="n">math</span><span class="o">.</span><span class="n">log10</span><span class="p">(</span><span class="n">d</span><span class="p">))</span> <span class="o">+</span> <span class="p">(</span>
-        <span class="mi">20</span> <span class="o">*</span> <span class="n">math</span><span class="o">.</span><span class="n">log10</span><span class="p">((</span><span class="mi">4</span> <span class="o">*</span> <span class="n">f</span> <span class="o">*</span> <span class="n">math</span><span class="o">.</span><span class="n">pi</span><span class="p">)</span> <span class="o">/</span> <span class="n">C</span><span class="p">)</span>
-    <span class="p">)</span>  <span class="c1"># path loss in dB</span>
-    <span class="n">alpha</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mi">1</span> <span class="o">/</span> <span class="p">(</span>
-        <span class="mi">10</span> <span class="o">**</span> <span class="p">((</span><span class="n">log_alpha</span><span class="p">)</span> <span class="o">/</span> <span class="mi">10</span><span class="p">)</span>
-    <span class="p">)</span>  <span class="c1"># path loss in linear scale</span>
+<span class="sd">        Returns:</span>
+<span class="sd">            float: The theoretical SNR of the received signal in linear scale.</span>
+<span class="sd">            &quot;&quot;&quot;</span>
+
+    <span class="n">alpha</span><span class="o">=</span> <span class="n">_alpha</span><span class="p">(</span><span class="n">d</span><span class="p">,</span><span class="n">fr</span><span class="p">)</span>
     <span class="n">snr_th</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="p">(</span><span class="n">alpha</span> <span class="o">*</span> <span class="n">P</span><span class="p">)</span> <span class="o">/</span> <span class="n">N0</span>
     <span class="k">return</span> <span class="n">snr_th</span>
 </code></pre></div></td></tr></table></div>
@@ -2848,7 +2996,7 @@ of the standard normal distribution.</p>
 
 
 <h3 id="agenet.maincom.main" class="doc doc-heading">
-          <code class="highlight language-python"><span class="n">main</span><span class="p">(</span><span class="n">num_nodes</span><span class="p">,</span> <span class="n">active_prob</span><span class="p">,</span> <span class="n">n</span><span class="p">,</span> <span class="n">k</span><span class="p">,</span> <span class="n">P</span><span class="p">,</span> <span class="n">numevents</span><span class="p">)</span></code>
+          <code class="highlight language-python"><span class="n">main</span><span class="p">(</span><span class="n">num_nodes</span><span class="p">,</span> <span class="n">active_prob</span><span class="p">,</span> <span class="n">n</span><span class="p">,</span> <span class="n">k</span><span class="p">,</span> <span class="n">P</span><span class="p">,</span> <span class="n">d</span><span class="p">,</span> <span class="n">N0</span><span class="p">,</span> <span class="n">fr</span><span class="p">,</span> <span class="n">numevents</span><span class="p">)</span></code>
 
 </h3>
 
@@ -3110,13 +3258,20 @@ of the standard normal distribution.</p>
 <span class="normal">124</span>
 <span class="normal">125</span>
 <span class="normal">126</span>
-<span class="normal">127</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">main</span><span class="p">(</span>
+<span class="normal">127</span>
+<span class="normal">128</span>
+<span class="normal">129</span>
+<span class="normal">130</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">main</span><span class="p">(</span>
     <span class="n">num_nodes</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span>
     <span class="n">active_prob</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span>
     <span class="n">n</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span>
     <span class="n">k</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span>
     <span class="n">P</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span>
+    <span class="n">d</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span>
+    <span class="n">N0</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span>
+    <span class="n">fr</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span>
     <span class="n">numevents</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span>
+
 <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Tuple</span><span class="p">[</span><span class="nb">float</span><span class="p">,</span> <span class="nb">float</span><span class="p">]:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Simulates a communication system and calculates the AAoI.</span>
@@ -3141,9 +3296,8 @@ of the standard normal distribution.</p>
     <span class="n">arrival_timestamps</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">cumsum</span><span class="p">(</span>
         <span class="n">inter_arrival_times</span>
     <span class="p">)</span>  <span class="c1"># arrival timestamps</span>
-    <span class="n">N0</span> <span class="o">=</span> <span class="mi">1</span> <span class="o">*</span> <span class="p">(</span><span class="mi">10</span><span class="o">**-</span><span class="mi">13</span><span class="p">)</span>  <span class="c1"># noise power</span>
-    <span class="n">d1</span> <span class="o">=</span> <span class="mi">700</span>  <span class="c1"># disatance between source nodes and relay</span>
-    <span class="n">d2</span> <span class="o">=</span> <span class="mi">700</span>  <span class="c1"># distance between the relay and destination</span>
+    <span class="n">d1</span> <span class="o">=</span> <span class="n">d</span>  <span class="c1"># disatance between source nodes and relay</span>
+    <span class="n">d2</span> <span class="o">=</span> <span class="n">d</span>  <span class="c1"># distance between the relay and destination</span>
     <span class="n">P1</span> <span class="o">=</span> <span class="n">P</span>  <span class="c1"># power of the source nodes</span>
     <span class="n">P2</span> <span class="o">=</span> <span class="n">P</span>  <span class="c1"># power of the relay or access point</span>
     <span class="n">n1</span> <span class="o">=</span> <span class="n">n</span>  <span class="c1"># number of bits in the block for the source nodes</span>
@@ -3151,10 +3305,10 @@ of the standard normal distribution.</p>
     <span class="n">k1</span> <span class="o">=</span> <span class="n">k</span>  <span class="c1"># number of bits in the message for the source nodes</span>
     <span class="n">k2</span> <span class="o">=</span> <span class="n">k</span>  <span class="c1"># number of bits in the message for the relay or access point</span>
     <span class="n">snr1_th</span> <span class="o">=</span> <span class="n">snr_th</span><span class="p">(</span>
-        <span class="n">N0</span><span class="p">,</span> <span class="n">d1</span><span class="p">,</span> <span class="n">P1</span>
+        <span class="n">N0</span><span class="p">,</span> <span class="n">d1</span><span class="p">,</span> <span class="n">P1</span><span class="p">,</span> <span class="n">fr</span>
     <span class="p">)</span>  <span class="c1"># block error rate for the relay or access point at the destination</span>
     <span class="n">snr2_th</span> <span class="o">=</span> <span class="n">snr_th</span><span class="p">(</span>
-        <span class="n">N0</span><span class="p">,</span> <span class="n">d2</span><span class="p">,</span> <span class="n">P2</span>
+        <span class="n">N0</span><span class="p">,</span> <span class="n">d2</span><span class="p">,</span> <span class="n">P2</span><span class="p">,</span> <span class="n">fr</span>
     <span class="p">)</span>  <span class="c1"># block error rate for the source nodes at the relay or access point</span>
     <span class="n">er1_th</span> <span class="o">=</span> <span class="n">blercal_th</span><span class="p">(</span><span class="n">snr1_th</span><span class="p">,</span> <span class="n">n1</span><span class="p">,</span> <span class="n">k1</span><span class="p">)</span>
     <span class="n">er2_th</span> <span class="o">=</span> <span class="n">blercal_th</span><span class="p">(</span><span class="n">snr2_th</span><span class="p">,</span> <span class="n">n2</span><span class="p">,</span> <span class="n">k2</span><span class="p">)</span>
@@ -3172,9 +3326,9 @@ of the standard normal distribution.</p>
     <span class="n">er_p_th</span> <span class="o">=</span> <span class="n">er_f_th</span> <span class="o">+</span> <span class="p">(</span><span class="n">er2_th</span> <span class="o">*</span> <span class="p">(</span><span class="n">er_f_th</span> <span class="o">-</span> <span class="mi">1</span><span class="p">))</span>
     <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">num_events</span><span class="p">):</span>
         <span class="n">snr1</span> <span class="o">=</span> <span class="n">snr</span><span class="p">(</span>
-            <span class="n">N0</span><span class="p">,</span> <span class="n">d1</span><span class="p">,</span> <span class="n">P1</span>
+            <span class="n">N0</span><span class="p">,</span> <span class="n">d1</span><span class="p">,</span> <span class="n">P1</span><span class="p">,</span> <span class="n">fr</span>
         <span class="p">)</span>  <span class="c1"># snr for the source nodes at the relay or access point</span>
-        <span class="n">snr2</span> <span class="o">=</span> <span class="n">snr</span><span class="p">(</span><span class="n">N0</span><span class="p">,</span> <span class="n">d2</span><span class="p">,</span> <span class="n">P2</span><span class="p">)</span>
+        <span class="n">snr2</span> <span class="o">=</span> <span class="n">snr</span><span class="p">(</span><span class="n">N0</span><span class="p">,</span> <span class="n">d2</span><span class="p">,</span> <span class="n">P2</span><span class="p">,</span> <span class="n">fr</span><span class="p">)</span>
         <span class="n">er1</span> <span class="o">=</span> <span class="n">blercal</span><span class="p">(</span>
             <span class="n">snr1</span><span class="p">,</span> <span class="n">n1</span><span class="p">,</span> <span class="n">k1</span>
         <span class="p">)</span>  <span class="c1"># block error rate for the source nodes at the relay or access point</span>
@@ -3241,7 +3395,7 @@ of the standard normal distribution.</p>
 
 
 <h3 id="agenet.maincom.run_main" class="doc doc-heading">
-          <code class="highlight language-python"><span class="n">run_main</span><span class="p">(</span><span class="n">num_nodes</span><span class="p">,</span> <span class="n">active_prob</span><span class="p">,</span> <span class="n">n</span><span class="p">,</span> <span class="n">k</span><span class="p">,</span> <span class="n">P</span><span class="p">,</span> <span class="n">numevnts</span><span class="p">,</span> <span class="n">numruns</span><span class="p">)</span></code>
+          <code class="highlight language-python"><span class="n">run_main</span><span class="p">(</span><span class="n">num_nodes</span><span class="p">,</span> <span class="n">active_prob</span><span class="p">,</span> <span class="n">n</span><span class="p">,</span> <span class="n">k</span><span class="p">,</span> <span class="n">P</span><span class="p">,</span> <span class="n">d</span><span class="p">,</span> <span class="n">N0</span><span class="p">,</span> <span class="n">fr</span><span class="p">,</span> <span class="n">numevnts</span><span class="p">,</span> <span class="n">numruns</span><span class="p">)</span></code>
 
 </h3>
 
@@ -3390,10 +3544,7 @@ of the standard normal distribution.</p>
 
           <details class="quote">
             <summary>Source code in <code>agenet/maincom.py</code></summary>
-            <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">130</span>
-<span class="normal">131</span>
-<span class="normal">132</span>
-<span class="normal">133</span>
+            <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">133</span>
 <span class="normal">134</span>
 <span class="normal">135</span>
 <span class="normal">136</span>
@@ -3424,12 +3575,21 @@ of the standard normal distribution.</p>
 <span class="normal">161</span>
 <span class="normal">162</span>
 <span class="normal">163</span>
-<span class="normal">164</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">run_main</span><span class="p">(</span>
+<span class="normal">164</span>
+<span class="normal">165</span>
+<span class="normal">166</span>
+<span class="normal">167</span>
+<span class="normal">168</span>
+<span class="normal">169</span>
+<span class="normal">170</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">run_main</span><span class="p">(</span>
     <span class="n">num_nodes</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span>
     <span class="n">active_prob</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span>
     <span class="n">n</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span>
     <span class="n">k</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span>
     <span class="n">P</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span>
+    <span class="n">d</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span>
+    <span class="n">N0</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span>
+    <span class="n">fr</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span>
     <span class="n">numevnts</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span>
     <span class="n">numruns</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span>
 <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Tuple</span><span class="p">[</span><span class="nb">float</span><span class="p">,</span> <span class="nb">float</span><span class="p">]:</span>
@@ -3452,7 +3612,7 @@ of the standard normal distribution.</p>
     <span class="n">av_age_simulation_run</span> <span class="o">=</span> <span class="mi">0</span>
     <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">num_runs</span><span class="p">):</span>
         <span class="n">av_age_theoretical_i</span><span class="p">,</span> <span class="n">av_age_simulation_i</span> <span class="o">=</span> <span class="n">main</span><span class="p">(</span>
-            <span class="n">num_nodes</span><span class="p">,</span> <span class="n">active_prob</span><span class="p">,</span> <span class="n">n</span><span class="p">,</span> <span class="n">k</span><span class="p">,</span> <span class="n">P</span><span class="p">,</span> <span class="n">numevnts</span>
+            <span class="n">num_nodes</span><span class="p">,</span> <span class="n">active_prob</span><span class="p">,</span> <span class="n">n</span><span class="p">,</span> <span class="n">k</span><span class="p">,</span> <span class="n">P</span><span class="p">,</span><span class="n">d</span><span class="p">,</span><span class="n">N0</span><span class="p">,</span><span class="n">fr</span><span class="p">,</span> <span class="n">numevnts</span>
         <span class="p">)</span>
         <span class="n">av_age_theoretical_run</span> <span class="o">+=</span> <span class="n">av_age_theoretical_i</span>
         <span class="n">av_age_simulation_run</span> <span class="o">+=</span> <span class="n">av_age_simulation_i</span>
@@ -3505,7 +3665,7 @@ of the standard normal distribution.</p>
 
 
 <h3 id="agenet.printage.generate_table" class="doc doc-heading">
-          <code class="highlight language-python"><span class="n">generate_table</span><span class="p">(</span><span class="n">num_nodes_const</span><span class="p">,</span> <span class="n">active_prob_const</span><span class="p">,</span> <span class="n">n_const</span><span class="p">,</span> <span class="n">k_const</span><span class="p">,</span> <span class="n">P_const</span><span class="p">,</span> <span class="n">numevnts</span><span class="p">,</span> <span class="n">numruns</span><span class="p">,</span> <span class="n">num_nodes_vals</span><span class="p">,</span> <span class="n">active_prob_vals</span><span class="p">,</span> <span class="n">n_vals</span><span class="p">,</span> <span class="n">k_vals</span><span class="p">,</span> <span class="n">P_vals</span><span class="p">,</span> <span class="n">file</span><span class="o">=</span><span class="kc">None</span><span class="p">)</span></code>
+          <code class="highlight language-python"><span class="n">generate_table</span><span class="p">(</span><span class="n">num_nodes_const</span><span class="p">,</span> <span class="n">active_prob_const</span><span class="p">,</span> <span class="n">n_const</span><span class="p">,</span> <span class="n">k_const</span><span class="p">,</span> <span class="n">P_const</span><span class="p">,</span> <span class="n">d_const</span><span class="p">,</span> <span class="n">N0_const</span><span class="p">,</span> <span class="n">fr_const</span><span class="p">,</span> <span class="n">numevnts</span><span class="p">,</span> <span class="n">numruns</span><span class="p">,</span> <span class="n">num_nodes_vals</span><span class="p">,</span> <span class="n">active_prob_vals</span><span class="p">,</span> <span class="n">n_vals</span><span class="p">,</span> <span class="n">k_vals</span><span class="p">,</span> <span class="n">P_vals</span><span class="p">,</span> <span class="n">file</span><span class="o">=</span><span class="kc">None</span><span class="p">)</span></code>
 
 </h3>
 
@@ -3607,12 +3767,21 @@ Returns:
 <span class="normal">83</span>
 <span class="normal">84</span>
 <span class="normal">85</span>
-<span class="normal">86</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">generate_table</span><span class="p">(</span>
+<span class="normal">86</span>
+<span class="normal">87</span>
+<span class="normal">88</span>
+<span class="normal">89</span>
+<span class="normal">90</span>
+<span class="normal">91</span>
+<span class="normal">92</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">generate_table</span><span class="p">(</span>
     <span class="n">num_nodes_const</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span>
     <span class="n">active_prob_const</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span>
     <span class="n">n_const</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span>
     <span class="n">k_const</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span>
     <span class="n">P_const</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span>
+    <span class="n">d_const</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span>
+    <span class="n">N0_const</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span>
+    <span class="n">fr_const</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span>
     <span class="n">numevnts</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span>
     <span class="n">numruns</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span>
     <span class="n">num_nodes_vals</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="nb">int</span><span class="p">],</span>
@@ -3663,6 +3832,9 @@ Returns:
             <span class="n">n_const</span><span class="p">,</span>
             <span class="n">k_const</span><span class="p">,</span>
             <span class="n">P_const</span><span class="p">,</span>
+            <span class="n">d_const</span><span class="p">,</span>
+            <span class="n">N0_const</span><span class="p">,</span>
+            <span class="n">fr_const</span><span class="p">,</span>
             <span class="n">numevnts</span><span class="p">,</span>
             <span class="n">numruns</span><span class="p">,</span>
         <span class="p">]</span>
@@ -3697,239 +3869,134 @@ Returns:
 
 
 
-<h3 id="agenet.printage.plot_generate" class="doc doc-heading">
-          <code class="highlight language-python"><span class="n">plot_generate</span><span class="p">(</span><span class="n">num_nodes_const</span><span class="p">,</span> <span class="n">active_prob_const</span><span class="p">,</span> <span class="n">n_const</span><span class="p">,</span> <span class="n">k_const</span><span class="p">,</span> <span class="n">P_const</span><span class="p">,</span> <span class="n">numevnts</span><span class="p">,</span> <span class="n">numruns</span><span class="p">,</span> <span class="n">num_nodes_vals</span><span class="p">,</span> <span class="n">active_prob_vals</span><span class="p">,</span> <span class="n">n_vals</span><span class="p">,</span> <span class="n">k_vals</span><span class="p">,</span> <span class="n">P_vals</span><span class="p">)</span></code>
+<h3 id="agenet.printage.plot" class="doc doc-heading">
+          <code class="highlight language-python"><span class="n">plot</span><span class="p">(</span><span class="n">args</span><span class="p">,</span> <span class="n">plots_folder</span><span class="o">=</span><span class="kc">None</span><span class="p">)</span></code>
 
 </h3>
 
 
   <div class="doc doc-contents ">
   
-      <p>Plot the simulated and theoretical values for each variable.</p>
-
-
-
-  <p><strong>Parameters:</strong></p>
-  <table>
-    <thead>
-      <tr>
-        <th>Name</th>
-        <th>Type</th>
-        <th>Description</th>
-        <th>Default</th>
-      </tr>
-    </thead>
-    <tbody>
-        <tr>
-          <td><code>num_nodes_const</code></td>
-          <td>
-                <code>int</code>
-          </td>
-          <td>
-            <div class="doc-md-description">
-              <p>Constant number of nodes.</p>
-            </div>
-          </td>
-          <td>
-              <em>required</em>
-          </td>
-        </tr>
-        <tr>
-          <td><code>active_prob_const</code></td>
-          <td>
-                <code>float</code>
-          </td>
-          <td>
-            <div class="doc-md-description">
-              <p>Constant active probability.</p>
-            </div>
-          </td>
-          <td>
-              <em>required</em>
-          </td>
-        </tr>
-        <tr>
-          <td><code>n_const</code></td>
-          <td>
-                <code>int</code>
-          </td>
-          <td>
-            <div class="doc-md-description">
-              <p>Constant block length.</p>
-            </div>
-          </td>
-          <td>
-              <em>required</em>
-          </td>
-        </tr>
-        <tr>
-          <td><code>k_const</code></td>
-          <td>
-                <code>int</code>
-          </td>
-          <td>
-            <div class="doc-md-description">
-              <p>Constant update size.</p>
-            </div>
-          </td>
-          <td>
-              <em>required</em>
-          </td>
-        </tr>
-        <tr>
-          <td><code>P_const</code></td>
-          <td>
-                <code>float</code>
-          </td>
-          <td>
-            <div class="doc-md-description">
-              <p>Constant power.</p>
-            </div>
-          </td>
-          <td>
-              <em>required</em>
-          </td>
-        </tr>
-        <tr>
-          <td><code>numevnts</code></td>
-          <td>
-                <code>int</code>
-          </td>
-          <td>
-            <div class="doc-md-description">
-              <p>Number of events.</p>
-            </div>
-          </td>
-          <td>
-              <em>required</em>
-          </td>
-        </tr>
-        <tr>
-          <td><code>numruns</code></td>
-          <td>
-                <code>int</code>
-          </td>
-          <td>
-            <div class="doc-md-description">
-              <p>Number of runs.</p>
-            </div>
-          </td>
-          <td>
-              <em>required</em>
-          </td>
-        </tr>
-        <tr>
-          <td><code>num_nodes_vals</code></td>
-          <td>
-                <code><span title="typing.List">List</span>[int]</code>
-          </td>
-          <td>
-            <div class="doc-md-description">
-              <p>List of values for the number of nodes.</p>
-            </div>
-          </td>
-          <td>
-              <em>required</em>
-          </td>
-        </tr>
-        <tr>
-          <td><code>active_prob_vals</code></td>
-          <td>
-                <code><span title="typing.List">List</span>[float]</code>
-          </td>
-          <td>
-            <div class="doc-md-description">
-              <p>List of values for active probability.</p>
-            </div>
-          </td>
-          <td>
-              <em>required</em>
-          </td>
-        </tr>
-        <tr>
-          <td><code>n_vals</code></td>
-          <td>
-                <code><span title="typing.List">List</span>[int]</code>
-          </td>
-          <td>
-            <div class="doc-md-description">
-              <p>List of values for block length.</p>
-            </div>
-          </td>
-          <td>
-              <em>required</em>
-          </td>
-        </tr>
-        <tr>
-          <td><code>k_vals</code></td>
-          <td>
-                <code><span title="typing.List">List</span>[int]</code>
-          </td>
-          <td>
-            <div class="doc-md-description">
-              <p>List of values for update size.</p>
-            </div>
-          </td>
-          <td>
-              <em>required</em>
-          </td>
-        </tr>
-        <tr>
-          <td><code>P_vals</code></td>
-          <td>
-                <code><span title="typing.List">List</span>[float]</code>
-          </td>
-          <td>
-            <div class="doc-md-description">
-              <p>List of values for power.</p>
-            </div>
-          </td>
-          <td>
-              <em>required</em>
-          </td>
-        </tr>
-    </tbody>
-  </table>
-
-
-
-  <p><strong>Returns:</strong></p>
-  <table>
-    <thead>
-      <tr>
-        <th>Type</th>
-        <th>Description</th>
-      </tr>
-    </thead>
-    <tbody>
-        <tr>
-          <td>
-                <code><span title="matplotlib.Figure">Figure</span></code>
-          </td>
-          <td>
-            <div class="doc-md-description">
-              <p>plt.Figure: The generated figure with plots.</p>
-            </div>
-          </td>
-        </tr>
-    </tbody>
-  </table>
+      <p>Plot the simulated and theoretical values for each variable and save the plots.
+Args:
+    args (argparse.Namespace): Parsed command-line arguments.
+    plots_folder (str): Folder to save plots</p>
 
           <details class="quote">
             <summary>Source code in <code>agenet/printage.py</code></summary>
-            <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">126</span>
-<span class="normal">127</span>
-<span class="normal">128</span>
-<span class="normal">129</span>
-<span class="normal">130</span>
-<span class="normal">131</span>
-<span class="normal">132</span>
-<span class="normal">133</span>
-<span class="normal">134</span>
-<span class="normal">135</span>
-<span class="normal">136</span>
-<span class="normal">137</span>
-<span class="normal">138</span>
+            <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">204</span>
+<span class="normal">205</span>
+<span class="normal">206</span>
+<span class="normal">207</span>
+<span class="normal">208</span>
+<span class="normal">209</span>
+<span class="normal">210</span>
+<span class="normal">211</span>
+<span class="normal">212</span>
+<span class="normal">213</span>
+<span class="normal">214</span>
+<span class="normal">215</span>
+<span class="normal">216</span>
+<span class="normal">217</span>
+<span class="normal">218</span>
+<span class="normal">219</span>
+<span class="normal">220</span>
+<span class="normal">221</span>
+<span class="normal">222</span>
+<span class="normal">223</span>
+<span class="normal">224</span>
+<span class="normal">225</span>
+<span class="normal">226</span>
+<span class="normal">227</span>
+<span class="normal">228</span>
+<span class="normal">229</span>
+<span class="normal">230</span>
+<span class="normal">231</span>
+<span class="normal">232</span>
+<span class="normal">233</span>
+<span class="normal">234</span>
+<span class="normal">235</span>
+<span class="normal">236</span>
+<span class="normal">237</span>
+<span class="normal">238</span>
+<span class="normal">239</span>
+<span class="normal">240</span>
+<span class="normal">241</span>
+<span class="normal">242</span>
+<span class="normal">243</span>
+<span class="normal">244</span>
+<span class="normal">245</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">plot</span><span class="p">(</span><span class="n">args</span><span class="p">:</span> <span class="n">argparse</span><span class="o">.</span><span class="n">Namespace</span><span class="p">,</span> <span class="n">plots_folder</span><span class="o">=</span><span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Plot the simulated and theoretical values for each variable and save the plots.</span>
+<span class="sd">    Args:</span>
+<span class="sd">        args (argparse.Namespace): Parsed command-line arguments.</span>
+<span class="sd">        plots_folder (str): Folder to save plots</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="c1"># Extracting values from the args</span>
+    <span class="n">num_nodes_const</span> <span class="o">=</span> <span class="n">args</span><span class="o">.</span><span class="n">num_nodes_const</span>
+    <span class="n">active_prob_const</span> <span class="o">=</span> <span class="n">args</span><span class="o">.</span><span class="n">active_prob_const</span>
+    <span class="n">n_const</span> <span class="o">=</span> <span class="n">args</span><span class="o">.</span><span class="n">n_const</span>
+    <span class="n">k_const</span> <span class="o">=</span> <span class="n">args</span><span class="o">.</span><span class="n">k_const</span>
+    <span class="n">P_const</span> <span class="o">=</span> <span class="n">args</span><span class="o">.</span><span class="n">P_const</span>
+    <span class="n">d_const</span> <span class="o">=</span> <span class="n">args</span><span class="o">.</span><span class="n">d_const</span>
+    <span class="n">N0_const</span> <span class="o">=</span> <span class="n">args</span><span class="o">.</span><span class="n">N0_const</span>
+    <span class="n">fr_const</span> <span class="o">=</span> <span class="n">args</span><span class="o">.</span><span class="n">fr_const</span>
+
+    <span class="n">num_nodes_vals</span> <span class="o">=</span> <span class="n">args</span><span class="o">.</span><span class="n">num_nodes_vals</span>
+    <span class="n">active_prob_vals</span> <span class="o">=</span> <span class="n">args</span><span class="o">.</span><span class="n">active_prob_vals</span>
+    <span class="n">n_vals</span> <span class="o">=</span> <span class="n">args</span><span class="o">.</span><span class="n">n_vals</span>
+    <span class="n">k_vals</span> <span class="o">=</span> <span class="n">args</span><span class="o">.</span><span class="n">k_vals</span>
+    <span class="n">P_vals</span> <span class="o">=</span> <span class="n">args</span><span class="o">.</span><span class="n">P_vals</span>
+
+    <span class="c1"># Call plot_generate to create and save plots</span>
+    <span class="n">plot_generate</span><span class="p">(</span>
+        <span class="n">num_nodes_const</span><span class="o">=</span><span class="n">num_nodes_const</span><span class="p">,</span>
+        <span class="n">active_prob_const</span><span class="o">=</span><span class="n">active_prob_const</span><span class="p">,</span>
+        <span class="n">n_const</span><span class="o">=</span><span class="n">n_const</span><span class="p">,</span>
+        <span class="n">k_const</span><span class="o">=</span><span class="n">k_const</span><span class="p">,</span>
+        <span class="n">P_const</span><span class="o">=</span><span class="n">P_const</span><span class="p">,</span>
+        <span class="n">d_const</span><span class="o">=</span><span class="n">d_const</span><span class="p">,</span>
+        <span class="n">N0_const</span><span class="o">=</span><span class="n">N0_const</span><span class="p">,</span>
+        <span class="n">fr_const</span><span class="o">=</span><span class="n">fr_const</span><span class="p">,</span>
+        <span class="n">numevnts</span><span class="o">=</span><span class="n">args</span><span class="o">.</span><span class="n">numevnts</span><span class="p">,</span>
+        <span class="n">numruns</span><span class="o">=</span><span class="n">args</span><span class="o">.</span><span class="n">numruns</span><span class="p">,</span>
+        <span class="n">num_nodes_vals</span><span class="o">=</span><span class="n">num_nodes_vals</span><span class="p">,</span>
+        <span class="n">active_prob_vals</span><span class="o">=</span><span class="n">active_prob_vals</span><span class="p">,</span>
+        <span class="n">n_vals</span><span class="o">=</span><span class="n">n_vals</span><span class="p">,</span>
+        <span class="n">k_vals</span><span class="o">=</span><span class="n">k_vals</span><span class="p">,</span>
+        <span class="n">P_vals</span><span class="o">=</span><span class="n">P_vals</span><span class="p">,</span>
+        <span class="n">plots_folder</span><span class="o">=</span><span class="n">plots_folder</span>
+    <span class="p">)</span>
+</code></pre></div></td></tr></table></div>
+          </details>
+  </div>
+
+</div>
+
+
+<div class="doc doc-object doc-function">
+
+
+
+
+<h3 id="agenet.printage.plot_generate" class="doc doc-heading">
+          <code class="highlight language-python"><span class="n">plot_generate</span><span class="p">(</span><span class="n">num_nodes_const</span><span class="p">,</span> <span class="n">active_prob_const</span><span class="p">,</span> <span class="n">n_const</span><span class="p">,</span> <span class="n">k_const</span><span class="p">,</span> <span class="n">P_const</span><span class="p">,</span> <span class="n">d_const</span><span class="p">,</span> <span class="n">N0_const</span><span class="p">,</span> <span class="n">fr_const</span><span class="p">,</span> <span class="n">numevnts</span><span class="p">,</span> <span class="n">numruns</span><span class="p">,</span> <span class="n">num_nodes_vals</span><span class="p">,</span> <span class="n">active_prob_vals</span><span class="p">,</span> <span class="n">n_vals</span><span class="p">,</span> <span class="n">k_vals</span><span class="p">,</span> <span class="n">P_vals</span><span class="p">,</span> <span class="n">plots_folder</span><span class="o">=</span><span class="kc">None</span><span class="p">)</span></code>
+
+</h3>
+
+
+  <div class="doc doc-contents ">
+  
+      <p>Plot the simulated and theoretical values for each variable.
+Args:
+    num_nodes_const, active_prob_const, n_const, k_const, P_const: Constants for the model.
+    numevnts, numruns: Number of events and runs.
+    num_nodes_vals, active_prob_vals, n_vals, k_vals, P_vals: Lists of values to iterate over.
+    plots_folder: Folder to save the plots.</p>
+
+          <details class="quote">
+            <summary>Source code in <code>agenet/printage.py</code></summary>
+            <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">138</span>
 <span class="normal">139</span>
 <span class="normal">140</span>
 <span class="normal">141</span>
@@ -3984,12 +4051,21 @@ Returns:
 <span class="normal">190</span>
 <span class="normal">191</span>
 <span class="normal">192</span>
-<span class="normal">193</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">plot_generate</span><span class="p">(</span>
+<span class="normal">193</span>
+<span class="normal">194</span>
+<span class="normal">195</span>
+<span class="normal">196</span>
+<span class="normal">197</span>
+<span class="normal">198</span>
+<span class="normal">199</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">plot_generate</span><span class="p">(</span>
     <span class="n">num_nodes_const</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span>
     <span class="n">active_prob_const</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span>
     <span class="n">n_const</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span>
     <span class="n">k_const</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span>
     <span class="n">P_const</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span>
+    <span class="n">d_const</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span>
+    <span class="n">N0_const</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span>
+    <span class="n">fr_const</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span>
     <span class="n">numevnts</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span>
     <span class="n">numruns</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span>
     <span class="n">num_nodes_vals</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="nb">int</span><span class="p">],</span>
@@ -3997,26 +4073,15 @@ Returns:
     <span class="n">n_vals</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="nb">int</span><span class="p">],</span>
     <span class="n">k_vals</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="nb">int</span><span class="p">],</span>
     <span class="n">P_vals</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="nb">float</span><span class="p">],</span>
-<span class="p">)</span> <span class="o">-&gt;</span> <span class="n">plt</span><span class="o">.</span><span class="n">Figure</span><span class="p">:</span>
+    <span class="n">plots_folder</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="kc">None</span>
+<span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Plot the simulated and theoretical values for each variable.</span>
-
 <span class="sd">    Args:</span>
-<span class="sd">        num_nodes_const (int): Constant number of nodes.</span>
-<span class="sd">        active_prob_const (float): Constant active probability.</span>
-<span class="sd">        n_const (int): Constant block length.</span>
-<span class="sd">        k_const (int): Constant update size.</span>
-<span class="sd">        P_const (float): Constant power.</span>
-<span class="sd">        numevnts (int): Number of events.</span>
-<span class="sd">        numruns (int): Number of runs.</span>
-<span class="sd">        num_nodes_vals (List[int]): List of values for the number of nodes.</span>
-<span class="sd">        active_prob_vals (List[float]): List of values for active probability.</span>
-<span class="sd">        n_vals (List[int]): List of values for block length.</span>
-<span class="sd">        k_vals (List[int]): List of values for update size.</span>
-<span class="sd">        P_vals (List[float]): List of values for power.</span>
-
-<span class="sd">    Returns:</span>
-<span class="sd">        plt.Figure: The generated figure with plots.</span>
+<span class="sd">        num_nodes_const, active_prob_const, n_const, k_const, P_const: Constants for the model.</span>
+<span class="sd">        numevnts, numruns: Number of events and runs.</span>
+<span class="sd">        num_nodes_vals, active_prob_vals, n_vals, k_vals, P_vals: Lists of values to iterate over.</span>
+<span class="sd">        plots_folder: Folder to save the plots.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
     <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="p">(</span><span class="n">var_name</span><span class="p">,</span> <span class="n">var_vals</span><span class="p">)</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span>
@@ -4025,7 +4090,7 @@ Returns:
             <span class="p">[</span><span class="n">num_nodes_vals</span><span class="p">,</span> <span class="n">active_prob_vals</span><span class="p">,</span> <span class="n">n_vals</span><span class="p">,</span> <span class="n">k_vals</span><span class="p">,</span> <span class="n">P_vals</span><span class="p">]</span>
         <span class="p">)</span>
     <span class="p">):</span>
-        <span class="n">const_vals</span> <span class="o">=</span> <span class="p">[</span><span class="n">num_nodes_const</span><span class="p">,</span> <span class="n">active_prob_const</span><span class="p">,</span> <span class="n">n_const</span><span class="p">,</span> <span class="n">k_const</span><span class="p">,</span> <span class="n">P_const</span><span class="p">,</span> <span class="n">numevnts</span><span class="p">,</span> <span class="n">numruns</span><span class="p">]</span>
+        <span class="n">const_vals</span> <span class="o">=</span> <span class="p">[</span><span class="n">num_nodes_const</span><span class="p">,</span> <span class="n">active_prob_const</span><span class="p">,</span> <span class="n">n_const</span><span class="p">,</span> <span class="n">k_const</span><span class="p">,</span> <span class="n">P_const</span><span class="p">,</span> <span class="n">d_const</span><span class="p">,</span><span class="n">N0_const</span><span class="p">,</span> <span class="n">fr_const</span><span class="p">,</span><span class="n">numevnts</span><span class="p">,</span> <span class="n">numruns</span><span class="p">]</span>
         <span class="n">const_vals</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span>  <span class="c1"># Set the variable being varied to None</span>
 
         <span class="n">theoretical_vals</span> <span class="o">=</span> <span class="p">[]</span>
@@ -4047,11 +4112,13 @@ Returns:
         <span class="n">ax</span><span class="o">.</span><span class="n">legend</span><span class="p">()</span>
         <span class="n">ax</span><span class="o">.</span><span class="n">grid</span><span class="p">(</span><span class="kc">True</span><span class="p">)</span>
 
-        <span class="c1"># Optionally, save or show the plot here</span>
-        <span class="c1"># plt.savefig(f&#39;{var_name}_plot.png&#39;)</span>
-        <span class="c1"># plt.show()</span>
+        <span class="c1"># Save each plot with a unique filename</span>
+        <span class="k">if</span> <span class="n">plots_folder</span><span class="p">:</span>
+            <span class="k">if</span> <span class="ow">not</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">exists</span><span class="p">(</span><span class="n">plots_folder</span><span class="p">):</span>
+                <span class="n">os</span><span class="o">.</span><span class="n">makedirs</span><span class="p">(</span><span class="n">plots_folder</span><span class="p">)</span>
+            <span class="n">fig</span><span class="o">.</span><span class="n">savefig</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">plots_folder</span><span class="p">,</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">var_name</span><span class="si">}</span><span class="s2">_plot.png&quot;</span><span class="p">))</span>
 
-    <span class="k">return</span> <span class="n">fig</span>
+        <span class="n">plt</span><span class="o">.</span><span class="n">close</span><span class="p">(</span><span class="n">fig</span><span class="p">)</span>  <span class="c1"># Close the plot after saving</span>
 </code></pre></div></td></tr></table></div>
           </details>
   </div>
@@ -4080,13 +4147,7 @@ Returns:
 
           <details class="quote">
             <summary>Source code in <code>agenet/printage.py</code></summary>
-            <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"> 89</span>
-<span class="normal"> 90</span>
-<span class="normal"> 91</span>
-<span class="normal"> 92</span>
-<span class="normal"> 93</span>
-<span class="normal"> 94</span>
-<span class="normal"> 95</span>
+            <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"> 95</span>
 <span class="normal"> 96</span>
 <span class="normal"> 97</span>
 <span class="normal"> 98</span>
@@ -4113,7 +4174,19 @@ Returns:
 <span class="normal">119</span>
 <span class="normal">120</span>
 <span class="normal">121</span>
-<span class="normal">122</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">printage</span><span class="p">(</span><span class="n">args</span><span class="p">:</span> <span class="n">argparse</span><span class="o">.</span><span class="n">Namespace</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<span class="normal">122</span>
+<span class="normal">123</span>
+<span class="normal">124</span>
+<span class="normal">125</span>
+<span class="normal">126</span>
+<span class="normal">127</span>
+<span class="normal">128</span>
+<span class="normal">129</span>
+<span class="normal">130</span>
+<span class="normal">131</span>
+<span class="normal">132</span>
+<span class="normal">133</span>
+<span class="normal">134</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">printage</span><span class="p">(</span><span class="n">args</span><span class="p">:</span> <span class="n">argparse</span><span class="o">.</span><span class="n">Namespace</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Prints a table comparing results for different input values based on the command-line arguments.</span>
 <span class="sd">    Args:</span>
@@ -4126,6 +4199,9 @@ Returns:
     <span class="n">n_const</span> <span class="o">=</span> <span class="n">args</span><span class="o">.</span><span class="n">n_const</span>
     <span class="n">k_const</span> <span class="o">=</span> <span class="n">args</span><span class="o">.</span><span class="n">k_const</span>
     <span class="n">P_const</span> <span class="o">=</span> <span class="n">args</span><span class="o">.</span><span class="n">P_const</span>
+    <span class="n">d_const</span> <span class="o">=</span> <span class="n">args</span><span class="o">.</span><span class="n">d_const</span>
+    <span class="n">N0_const</span> <span class="o">=</span> <span class="n">args</span><span class="o">.</span><span class="n">N0_const</span>
+    <span class="n">fr_const</span> <span class="o">=</span> <span class="n">args</span><span class="o">.</span><span class="n">fr_const</span>
 
     <span class="n">num_nodes_vals</span> <span class="o">=</span> <span class="n">args</span><span class="o">.</span><span class="n">num_nodes_vals</span>
     <span class="n">active_prob_vals</span> <span class="o">=</span> <span class="n">args</span><span class="o">.</span><span class="n">active_prob_vals</span>
@@ -4139,6 +4215,9 @@ Returns:
          <span class="n">n_const</span><span class="o">=</span><span class="n">n_const</span><span class="p">,</span>
          <span class="n">k_const</span><span class="o">=</span><span class="n">k_const</span><span class="p">,</span>
          <span class="n">P_const</span><span class="o">=</span><span class="n">P_const</span><span class="p">,</span>
+         <span class="n">d_const</span><span class="o">=</span><span class="n">d_const</span><span class="p">,</span>
+         <span class="n">N0_const</span><span class="o">=</span><span class="n">N0_const</span><span class="p">,</span>
+         <span class="n">fr_const</span><span class="o">=</span><span class="n">fr_const</span><span class="p">,</span>
          <span class="n">numevnts</span><span class="o">=</span><span class="n">args</span><span class="o">.</span><span class="n">numevnts</span><span class="p">,</span>
          <span class="n">numruns</span><span class="o">=</span><span class="n">args</span><span class="o">.</span><span class="n">numruns</span><span class="p">,</span>
          <span class="n">num_nodes_vals</span><span class="o">=</span><span class="n">num_nodes_vals</span><span class="p">,</span>
@@ -4193,14 +4272,14 @@ Returns:
 
 
 <h3 id="agenet.snr.snr" class="doc doc-heading">
-          <code class="highlight language-python"><span class="n">snr</span><span class="p">(</span><span class="n">N0</span><span class="p">,</span> <span class="n">d</span><span class="p">,</span> <span class="n">P</span><span class="p">)</span></code>
+          <code class="highlight language-python"><span class="n">snr</span><span class="p">(</span><span class="n">N0</span><span class="p">,</span> <span class="n">d</span><span class="p">,</span> <span class="n">P</span><span class="p">,</span> <span class="n">fr</span><span class="p">)</span></code>
 
 </h3>
 
 
   <div class="doc doc-contents ">
   
-      <p>Calculates the signal-to-noise ratio (SNR) of the received signal.</p>
+      <p>Calculates the SNR of the received signal.</p>
 
 
 
@@ -4257,6 +4336,20 @@ Returns:
               <em>required</em>
           </td>
         </tr>
+        <tr>
+          <td><code>fr</code></td>
+          <td>
+                <code>float</code>
+          </td>
+          <td>
+            <div class="doc-md-description">
+              <p>The frequency of the signal.</p>
+            </div>
+          </td>
+          <td>
+              <em>required</em>
+          </td>
+        </tr>
     </tbody>
   </table>
 
@@ -4301,32 +4394,20 @@ Returns:
 <span class="normal">19</span>
 <span class="normal">20</span>
 <span class="normal">21</span>
-<span class="normal">22</span>
-<span class="normal">23</span>
-<span class="normal">24</span>
-<span class="normal">25</span>
-<span class="normal">26</span>
-<span class="normal">27</span>
-<span class="normal">28</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">snr</span><span class="p">(</span><span class="n">N0</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span> <span class="n">d</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span> <span class="n">P</span><span class="p">:</span> <span class="nb">float</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">float</span><span class="p">:</span>
+<span class="normal">22</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">snr</span><span class="p">(</span><span class="n">N0</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span> <span class="n">d</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span> <span class="n">P</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span> <span class="n">fr</span><span class="p">:</span> <span class="nb">float</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">float</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    Calculates the signal-to-noise ratio (SNR) of the received signal.</span>
+<span class="sd">    Calculates the SNR of the received signal.</span>
 
 <span class="sd">    Args:</span>
 <span class="sd">        N0 (float): The power spectral density of the noise.</span>
 <span class="sd">        d (float): The distance between the transmitter and receiver.</span>
 <span class="sd">        P (float): The power of the transmitted signal.</span>
+<span class="sd">        fr (float): The frequency of the signal.</span>
 
 <span class="sd">    Returns:</span>
 <span class="sd">        float: The SNR of the received signal in linear scale.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
-    <span class="n">f</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mi">6</span> <span class="o">*</span> <span class="p">(</span><span class="mi">10</span><span class="o">**</span><span class="mi">9</span><span class="p">)</span>  <span class="c1"># frequency of the signal</span>
-    <span class="n">C</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mi">3</span> <span class="o">*</span> <span class="p">(</span><span class="mi">10</span><span class="o">**</span><span class="mi">8</span><span class="p">)</span>  <span class="c1"># speed of light</span>
-    <span class="n">log_alpha</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="p">(</span><span class="mi">20</span> <span class="o">*</span> <span class="n">math</span><span class="o">.</span><span class="n">log10</span><span class="p">(</span><span class="n">d</span><span class="p">))</span> <span class="o">+</span> <span class="p">(</span>
-        <span class="mi">20</span> <span class="o">*</span> <span class="n">math</span><span class="o">.</span><span class="n">log10</span><span class="p">((</span><span class="mi">4</span> <span class="o">*</span> <span class="n">f</span> <span class="o">*</span> <span class="n">math</span><span class="o">.</span><span class="n">pi</span><span class="p">)</span> <span class="o">/</span> <span class="n">C</span><span class="p">)</span>
-    <span class="p">)</span>  <span class="c1"># path loss in dB</span>
-    <span class="n">alpha</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mi">1</span> <span class="o">/</span> <span class="p">(</span>
-        <span class="mi">10</span> <span class="o">**</span> <span class="p">((</span><span class="n">log_alpha</span><span class="p">)</span> <span class="o">/</span> <span class="mi">10</span><span class="p">)</span>
-    <span class="p">)</span>  <span class="c1"># path loss in linear scale</span>
+    <span class="n">alpha</span> <span class="o">=</span> <span class="n">_alpha</span><span class="p">(</span><span class="n">d</span><span class="p">,</span> <span class="n">fr</span><span class="p">)</span>
     <span class="n">snr</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="p">(</span><span class="n">alpha</span> <span class="o">*</span> <span class="n">P</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">exponential</span><span class="p">(</span><span class="mi">1</span><span class="p">))</span> <span class="o">/</span> <span class="n">N0</span>
     <span class="k">return</span> <span class="n">snr</span>
 </code></pre></div></td></tr></table></div>
@@ -4342,7 +4423,7 @@ Returns:
 
 
 <h3 id="agenet.snr.snr_th" class="doc doc-heading">
-          <code class="highlight language-python"><span class="n">snr_th</span><span class="p">(</span><span class="n">N0</span><span class="p">,</span> <span class="n">d</span><span class="p">,</span> <span class="n">P</span><span class="p">)</span></code>
+          <code class="highlight language-python"><span class="n">snr_th</span><span class="p">(</span><span class="n">N0</span><span class="p">,</span> <span class="n">d</span><span class="p">,</span> <span class="n">P</span><span class="p">,</span> <span class="n">fr</span><span class="p">)</span></code>
 
 </h3>
 
@@ -4406,28 +4487,31 @@ Returns:
               <em>required</em>
           </td>
         </tr>
-    </tbody>
-  </table>
-
-
-
-  <p><strong>Returns:</strong></p>
-  <table>
-    <thead>
-      <tr>
-<th>Name</th>        <th>Type</th>
-        <th>Description</th>
-      </tr>
-    </thead>
-    <tbody>
         <tr>
-<td><code>float</code></td>          <td>
+          <td><code>fr</code></td>
+          <td>
                 <code>float</code>
           </td>
           <td>
             <div class="doc-md-description">
-              <p>The theoretical SNR of the received signal in linear scale.</p>
+              <p>The frequency of the signal.</p>
             </div>
+          </td>
+          <td>
+              <em>required</em>
+          </td>
+        </tr>
+        <tr>
+          <td><code>Returns</code></td>
+          <td>
+          </td>
+          <td>
+            <div class="doc-md-description">
+              <p>float: The theoretical SNR of the received signal in linear scale.</p>
+            </div>
+          </td>
+          <td>
+              <em>required</em>
           </td>
         </tr>
     </tbody>
@@ -4435,7 +4519,13 @@ Returns:
 
           <details class="quote">
             <summary>Source code in <code>agenet/snr.py</code></summary>
-            <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">31</span>
+            <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">25</span>
+<span class="normal">26</span>
+<span class="normal">27</span>
+<span class="normal">28</span>
+<span class="normal">29</span>
+<span class="normal">30</span>
+<span class="normal">31</span>
 <span class="normal">32</span>
 <span class="normal">33</span>
 <span class="normal">34</span>
@@ -4445,18 +4535,7 @@ Returns:
 <span class="normal">38</span>
 <span class="normal">39</span>
 <span class="normal">40</span>
-<span class="normal">41</span>
-<span class="normal">42</span>
-<span class="normal">43</span>
-<span class="normal">44</span>
-<span class="normal">45</span>
-<span class="normal">46</span>
-<span class="normal">47</span>
-<span class="normal">48</span>
-<span class="normal">49</span>
-<span class="normal">50</span>
-<span class="normal">51</span>
-<span class="normal">52</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">snr_th</span><span class="p">(</span><span class="n">N0</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span> <span class="n">d</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span> <span class="n">P</span><span class="p">:</span> <span class="nb">float</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">float</span><span class="p">:</span>
+<span class="normal">41</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">snr_th</span><span class="p">(</span><span class="n">N0</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span> <span class="n">d</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span> <span class="n">P</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span> <span class="n">fr</span><span class="p">:</span><span class="nb">float</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">float</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Calculates the theoretical SNR of the received signal.</span>
 
@@ -4464,18 +4543,13 @@ Returns:
 <span class="sd">        N0 (float): The power spectral density of the noise.</span>
 <span class="sd">        d (float): The distance between the transmitter and receiver.</span>
 <span class="sd">        P (float): The power of the transmitted signal.</span>
+<span class="sd">        fr (float): The frequency of the signal.</span>
 
-<span class="sd">    Returns:</span>
-<span class="sd">        float: The theoretical SNR of the received signal in linear scale.</span>
-<span class="sd">    &quot;&quot;&quot;</span>
-    <span class="n">f</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mi">6</span> <span class="o">*</span> <span class="p">(</span><span class="mi">10</span><span class="o">**</span><span class="mi">9</span><span class="p">)</span>  <span class="c1"># frequency of the signal</span>
-    <span class="n">C</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mi">3</span> <span class="o">*</span> <span class="p">(</span><span class="mi">10</span><span class="o">**</span><span class="mi">8</span><span class="p">)</span>  <span class="c1"># speed of light</span>
-    <span class="n">log_alpha</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="p">(</span><span class="mi">20</span> <span class="o">*</span> <span class="n">math</span><span class="o">.</span><span class="n">log10</span><span class="p">(</span><span class="n">d</span><span class="p">))</span> <span class="o">+</span> <span class="p">(</span>
-        <span class="mi">20</span> <span class="o">*</span> <span class="n">math</span><span class="o">.</span><span class="n">log10</span><span class="p">((</span><span class="mi">4</span> <span class="o">*</span> <span class="n">f</span> <span class="o">*</span> <span class="n">math</span><span class="o">.</span><span class="n">pi</span><span class="p">)</span> <span class="o">/</span> <span class="n">C</span><span class="p">)</span>
-    <span class="p">)</span>  <span class="c1"># path loss in dB</span>
-    <span class="n">alpha</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mi">1</span> <span class="o">/</span> <span class="p">(</span>
-        <span class="mi">10</span> <span class="o">**</span> <span class="p">((</span><span class="n">log_alpha</span><span class="p">)</span> <span class="o">/</span> <span class="mi">10</span><span class="p">)</span>
-    <span class="p">)</span>  <span class="c1"># path loss in linear scale</span>
+<span class="sd">        Returns:</span>
+<span class="sd">            float: The theoretical SNR of the received signal in linear scale.</span>
+<span class="sd">            &quot;&quot;&quot;</span>
+
+    <span class="n">alpha</span><span class="o">=</span> <span class="n">_alpha</span><span class="p">(</span><span class="n">d</span><span class="p">,</span><span class="n">fr</span><span class="p">)</span>
     <span class="n">snr_th</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="p">(</span><span class="n">alpha</span> <span class="o">*</span> <span class="n">P</span><span class="p">)</span> <span class="o">/</span> <span class="n">N0</span>
     <span class="k">return</span> <span class="n">snr_th</span>
 </code></pre></div></td></tr></table></div>
@@ -4543,7 +4617,7 @@ Returns:
     <script id="__config" type="application/json">{"base": "..", "features": ["navigation.instant", "navigation.expand", "navigation.indexes", "navigation.tabs", "navigation.tabs.sticky", "toc.integrate"], "search": "../assets/javascripts/workers/search.f886a092.min.js", "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}}</script>
     
     
-      <script src="../assets/javascripts/bundle.6c14ae12.min.js"></script>
+      <script src="../assets/javascripts/bundle.cd18aaf1.min.js"></script>
       
         <script src="../javascripts/mathjax.js"></script>
       
