@@ -49,10 +49,6 @@ packages = ["agenet"]
 minversion = "6.0"
 addopts = "-v --tb=short --strict-markers"
 testpaths = [ "tests" ]
-markers = [
-    "critical: The most critical tests",
-    "get: Test functions which return some value",
-    "fast: The fast tests" ]
 [tool.black]
 line-length = 75
 
