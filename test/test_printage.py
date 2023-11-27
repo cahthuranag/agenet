@@ -11,7 +11,7 @@ from io import StringIO
 from unittest import mock
 import matplotlib
 import matplotlib.pyplot as plt
-from agenet import  plot
+from agenet import  plot,  plot_generate
 
 
 # this is a test for the generate_comparison_table function
@@ -379,6 +379,9 @@ def test_command_line_arguments():
     n_const = 150
     k_const = 100
     P_const = 2 * (10**-3)
+    d_const = 700
+    N0_const = 1 * (10**-13)
+    fr_const = 6 * (10**9)
 
     numevnts = 1000
     numruns = 5
@@ -403,6 +406,9 @@ def test_command_line_arguments():
         f"--n_const {n_const} "
         f"--k_const {k_const} "
         f"--P_const {P_const} "
+        f"--d_const {d_const} "
+        f"--N0_const {N0_const} "
+        f"--fr_const {fr_const} "
         f"--numevnts {numevnts} "
         f"--numruns {numruns} "
         f"--num_nodes_vals {' '.join(map(str, num_nodes_vals))} "
@@ -418,3 +424,52 @@ def test_command_line_arguments():
 
     # Assert that the stdout is not empty (indicating that there's some output)
     assert result.stdout.strip() != ""
+
+
+def test_plot_save(mocker):
+    # Mock the necessary methods
+    mock_exists = mocker.patch('os.path.exists', return_value=False)
+    mock_makedirs = mocker.patch('os.makedirs')
+    mock_savefig = mocker.patch('matplotlib.pyplot.Figure.savefig')
+
+    # Define constants and variables for the test
+    num_nodes_const = 2
+    active_prob_const = 0.5
+    n_const = 150
+    k_const = 100
+    P_const = 2 * (10**-3)
+    d_const = 700
+    N0_const = 1 * (10**-13)
+    fr_const = 6 * (10**9)
+
+    numevnts = 1000
+    numruns = 5
+
+    num_nodes_vals = [1, 2, 3, 4, 5]
+    active_prob_vals = [0.1, 0.15, 0.2, 0.25]
+    n_vals = [150, 160, 170, 180, 190, 200, 210, 220, 230, 240, 250]
+    k_vals = [50, 60, 70, 80, 90, 95, 100]
+    P_vals = [
+        2 * (10**-3),
+        4 * (10**-3),
+        6 * (10**-3),
+        8 * (10**-3),
+    ]
+
+    test_plots_folder = "test_plots"
+
+    # Run the function under test
+    plot_generate(num_nodes_const, active_prob_const, n_const, k_const, P_const,
+                  d_const, N0_const, fr_const, numevnts, numruns, num_nodes_vals,
+                  active_prob_vals, n_vals, k_vals, P_vals, test_plots_folder)
+
+    # Assuming "Power" is the actual first variable in the iteration
+    expected_filename = os.path.join(test_plots_folder, f"Power_plot.png")
+
+    # Assert that savefig was called with the expected filename
+    mock_savefig.assert_called_with(expected_filename)
+
+    # Optionally, you can also assert that the directory creation was attempted
+    # if the directory did not exist
+    if not mock_exists.return_value:
+        mock_makedirs.assert_called_with(test_plots_folder)
