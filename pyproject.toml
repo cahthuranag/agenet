@@ -49,14 +49,14 @@ packages = ["agenet"]
 [tool.pytest.ini_options]
 minversion = "6.0"
 addopts = "-v --tb=short --strict-markers"
-testpaths = [ "tests" ]
+testpaths = [ "test" ]
 [tool.black]
 line-length = 75
 
 [tool.isort]
 # https://pycqa.github.io/isort/docs/configuration/options.html
 profile = "black"
-src_paths = ["agenet", "tests"]
+src_paths = ["agenet", "test"]
 line_length = 75
 skip_gitignore = "True"
 
