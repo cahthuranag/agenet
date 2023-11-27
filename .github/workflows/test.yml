@@ -6,10 +6,10 @@ name: Tests
 on:
   pull_request:
     branches: [main]
-    paths: [ 'agenet/**', 'tests/**', 'pyproject.toml', '.github/workflows/test.yml' ]
+    paths: [ 'agenet/**', 'test/**', 'pyproject.toml', '.github/workflows/test.yml' ]
   push:
     branches: [main]
-    paths: [ 'agenet/**', 'tests/**', 'pyproject.toml', '.github/workflows/test.yml' ]
+    paths: [ 'agenet/**', 'test/**', 'pyproject.toml', '.github/workflows/test.yml' ]
     tags: '*'
 
 jobs:
