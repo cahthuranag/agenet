@@ -35,6 +35,7 @@ dev = [
     "pytest",
     "pytest-cov",
     "pytest-console-scripts",
+    "pytest-mock",
     "coverage",
     "codecov",
     "pre-commit",
