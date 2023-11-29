@@ -1,5 +1,5 @@
 # Theory
-## overview 
+## overview
 
 
 This section explains the theoretical basis for this system model. In this system, we analyze the age of information of a wireless communication model with several nodes. 
@@ -20,5 +20,3 @@ In the maincom function, we consider the following parameters when calculating t
 | $N0$                  |noise power  at each node                 |
 | $P_{1}$         |  power of the source nodes                  |
 | $P_{2}$       | power of the relay or access point|
-
-

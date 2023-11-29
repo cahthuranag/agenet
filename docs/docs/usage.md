@@ -5,7 +5,7 @@ To run a simulation with default parameters, the user can use a provided command
 ageprint
 ```
 
-In addition to the tables, the simulation results can also be displayed as plots using the command 
+In addition to the tables, the simulation results can also be displayed as plots using the command
 ```
 ageplot
 ```
@@ -70,5 +70,5 @@ This Python script generates and prints comparison tables for theoretical and si
 ### Running the Script
 Example code to run the script:
 ```
-python print.py --num_nodes_const 2 --active_prob_const 0.5 --n_const 150 --k_const 100 --P_const 0.002 --numevnts 500 --numruns 100 --num_nodes_vals 1 2 3 4 5 --active_prob_vals 0.1 0.15 0.2 0.25 --n_vals 150 160 170 180 190 200 210 220 230 240 250 --k_vals 50 60 70 
+python print.py --num_nodes_const 2 --active_prob_const 0.5 --n_const 150 --k_const 100 --P_const 0.002 --numevnts 500 --numruns 100 --num_nodes_vals 1 2 3 4 5 --active_prob_vals 0.1 0.15 0.2 0.25 --n_vals 150 160 170 180 190 200 210 220 230 240 250 --k_vals 50 60 70
 ```
