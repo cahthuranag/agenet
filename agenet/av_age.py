@@ -1,3 +1,4 @@
+"""Calculate the average age of information."""
 import argparse
 from typing import List, Tuple
 
@@ -12,16 +13,16 @@ def av_age_fn(
     lambha: float,
 ) -> Tuple[float, np.ndarray, np.ndarray]:
     """
-    Calculate the average age of information given the destination times, generation times, and arrival rate.
+    Calculate the AAoI given the parameters.
 
     Args:
         destination_times (List[float]): A sorted list of destination times.
-        generation_times (List[float]): A list of the corresponding generation times for each destination time.
+        generation_times (List[float]): A list of the  generation times.
         lambha (float): The arrival rate of information.
 
     Returns:
-        Tuple[float, np.ndarray, np.ndarray]: A tuple containing the average age of information, the array of ages
-        for each time step, and the corresponding time step array.
+        Tuple[float, np.ndarray, np.ndarray]:  A tuple containing the aaoi, the
+        array of ages for each time step, and the corresponding time step array.
     """
     # Define the time step (p) as a constant (lambha)
     p = lambha * 0.01

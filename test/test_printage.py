@@ -1,21 +1,22 @@
-import subprocess
-import os
+"""Tests for the printage.py script."""
 import argparse
 import io
+import os
+import subprocess
 from contextlib import redirect_stdout
-from unittest.mock import patch
-from tabulate import tabulate
-from agenet import generate_table, printage, plot
-import sys
 from io import StringIO
 from unittest import mock
-import matplotlib
+from unittest.mock import patch
+
 import matplotlib.pyplot as plt
-from agenet import plot, plot_generate
+from tabulate import tabulate
+
+from agenet import generate_table, plot, plot_generate, printage
 
 
 # this is a test for the generate_comparison_table function
 def assert_table_format(output_lines):
+    """Assert that the output lines match the expected table format."""
     header_line = output_lines[0].strip()
     row_lines = output_lines[1:-1]  # Skip header and separator lines
     separator_line = output_lines[-1].strip()
@@ -48,6 +49,7 @@ def assert_table_format(output_lines):
 
 
 def test_generate_table():
+    """Test the generate_table() function."""
     # Test input values for the function
     num_nodes_const = 2
     active_prob_const = 0.5
@@ -105,6 +107,7 @@ def test_generate_table():
 
 
 def test_printage():
+    """Test the printage() function."""
     args = argparse.Namespace(
         num_nodes_const=2,
         active_prob_const=0.5,
@@ -187,6 +190,7 @@ def test_printage():
     ],
 )
 def test_plot(monkeypatch):
+    """Test the plot() function."""
     parser = argparse.ArgumentParser()
     parser.add_argument(
         "--num_nodes_const",
@@ -367,6 +371,7 @@ def test_plot(monkeypatch):
 
 
 def test_command_line_arguments():
+    """Test the command-line arguments for the plot() function."""
     # Define sample command-line arguments
     num_nodes_const = 2
     active_prob_const = 0.5

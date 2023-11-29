@@ -1,3 +1,4 @@
+"""Signal-to-noise ratio (SNR) calculator."""
 import argparse
 import math
 
@@ -6,7 +7,7 @@ import numpy as np
 
 def snr(N0: float, d: float, P: float, fr: float) -> float:
     """
-    Calculates the SNR of the received signal.
+     Computes the SNR of the received signal.
 
     Args:
         N0 (float): The power spectral density of the noise.

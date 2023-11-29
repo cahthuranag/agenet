@@ -1,6 +1,6 @@
+"""This file contains the test cases for the maincom.py file."""
 import os
 import subprocess
-import sys
 
 import pytest
 
@@ -38,6 +38,7 @@ test_cases = [
     "num_nodes, active_prob, n, k, P, d, N0, fr, numevents", test_cases
 )
 def test_main(num_nodes, active_prob, n, k, P, d, N0, fr, numevents):
+    """Test the main function for some known inputs and expected outputs."""
     # call the main function
     result = main(num_nodes, active_prob, n, k, P, d, N0, fr, numevents)
     # assert that the result is not None
@@ -45,6 +46,7 @@ def test_main(num_nodes, active_prob, n, k, P, d, N0, fr, numevents):
 
 
 def test_command_line_arguments():
+    """Test the command-line arguments for the main module."""
     # Define sample command-line arguments
     num_nodes = 2
     active_prob = 0.5

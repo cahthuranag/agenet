@@ -42,13 +42,17 @@ dev = [
     "pytest-mypy",
     "mkdocs-material>=7.1.11",
     "mkdocstrings[python]>=0.19.0",
-    "flake8",
-    "flake8-docstrings",
+    "black",
+    "flake8 >= 6.0.0",
+    "flake8-black",
+    "flake8-builtins",
     "flake8-bugbear",
     "flake8-comprehensions",
-    "flake8-eradicate",
+    "flake8-docstrings",
     "flake8-isort",
-    "black",
+    "Flake8-pyproject",
+    "flake8-pytest-style",
+    "flake8-simplify",
     "isort",
     "pre-commit",]
 
@@ -73,7 +77,7 @@ skip_gitignore = "True"
 extend-select = ["B9", "C4"]
 max-line-length = 88
 max-doc-length = 88
-ignore = [ "B018", "SIM106", "W503", "E501" ]
+ignore = [ "B018", "SIM106", "W503", "E501", "PT006" ]
 doctests = true
 exclude = [
     ".git",
