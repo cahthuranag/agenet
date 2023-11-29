@@ -22,21 +22,21 @@ def snr(N0: float, d: float, P: float, fr: float) -> float:
     return snr
 
 
-def snr_th(N0: float, d: float, P: float, fr:float) -> float:
+def snr_th(N0: float, d: float, P: float, fr: float) -> float:
     """
     Calculates the theoretical SNR of the received signal.
-    
+
     Args:
         N0 (float): The power spectral density of the noise.
         d (float): The distance between the transmitter and receiver.
         P (float): The power of the transmitted signal.
         fr (float): The frequency of the signal.
-        
+
         Returns:
             float: The theoretical SNR of the received signal in linear scale.
-            """
-    
-    alpha= _alpha(d,fr)
+    """
+
+    alpha = _alpha(d, fr)
     snr_th: float = (alpha * P) / N0
     return snr_th
 
@@ -51,7 +51,7 @@ def _alpha(d: float, fr: float) -> float:
     Returns:
         float: The path loss in linear scale.
     """
-    f= fr  # frequency of the signal
+    f = fr  # frequency of the signal
     C: float = 3 * (10**8)  # speed of light
     log_alpha: float = (20 * math.log10(d)) + (
         20 * math.log10((4 * f * math.pi) / C)
@@ -60,6 +60,7 @@ def _alpha(d: float, fr: float) -> float:
         10 ** ((log_alpha) / 10)
     )  # path loss in linear scale
     return alpha
+
 
 def _parse_args():
     parser = argparse.ArgumentParser(
@@ -73,9 +74,7 @@ def _parse_args():
         type=float,
         help="Distance between the transmitter and receiver",
     )
-    parser.add_argument(
-        "-fr", type=float, help="Frequency of the signal"
-    )
+    parser.add_argument("-fr", type=float, help="Frequency of the signal")
     parser.add_argument(
         "-P", type=float, help="Power of the transmitted signal"
     )

@@ -4,7 +4,7 @@ from typing import Tuple
 
 import numpy as np
 
-from agenet  import blercal, blercal_th, snr, snr_th, av_age_fn
+from agenet import blercal, blercal_th, snr, snr_th, av_age_fn
 
 
 def main(
@@ -17,7 +17,6 @@ def main(
     N0: float,
     fr: float,
     numevents: int,
-   
 ) -> Tuple[float, float]:
     """
     Simulates a communication system and calculates the AAoI.
@@ -122,9 +121,7 @@ def main(
     system_time = (
         1 / lambda1
     )  # system time (time which update in the system)
-    av_age_simulation, _, _ = av_age_fn(
-        v1, t1, system_time
-    )
+    av_age_simulation, _, _ = av_age_fn(v1, t1, system_time)
     av_age_theoretical = (1 / lambda1) * (0.5 + (1 / (1 - er_p_th)))
 
     return av_age_theoretical, av_age_simulation
@@ -161,15 +158,13 @@ def run_main(
     av_age_simulation_run = 0
     for i in range(num_runs):
         av_age_theoretical_i, av_age_simulation_i = main(
-            num_nodes, active_prob, n, k, P,d,N0,fr, numevnts
+            num_nodes, active_prob, n, k, P, d, N0, fr, numevnts
         )
         av_age_theoretical_run += av_age_theoretical_i
         av_age_simulation_run += av_age_simulation_i
     av_age_theoretical_run /= num_runs
     av_age_simulation_run /= num_runs
     return av_age_theoretical_run, av_age_simulation_run
-
-
 
 
 def _parse_args() -> argparse.Namespace:
@@ -209,13 +204,16 @@ def _parse_args() -> argparse.Namespace:
         "--d", type=int, default=700, help="Distance between nodes"
     )
     parser.add_argument(
-        "--N0", type=float, default= 1 * (10**-13), help="Noise power"
+        "--N0", type=float, default=1 * (10**-13), help="Noise power"
     )
     parser.add_argument(
-        "--fr", type=float, default= 6 * (10**9), help="Frequency of the signal"
+        "--fr",
+        type=float,
+        default=6 * (10**9),
+        help="Frequency of the signal",
     )
     args = parser.parse_args()
-    
+
     theoretical_aaoi, simulation_aaoi = run_main(
         args.num_nodes,
         args.active_prob,
@@ -230,5 +228,7 @@ def _parse_args() -> argparse.Namespace:
     )
     print("Theoretical AAoI:", theoretical_aaoi)
     print("Simulation AAoI:", simulation_aaoi)
+
+
 if __name__ == "__main__":
     _parse_args()

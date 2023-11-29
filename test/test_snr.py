@@ -9,7 +9,7 @@ def test_snr():
     N0 = 1 * (10**-13)
     d = 1000
     P = 1 * (10**-3)
-    fr= 6 * (10**9)
+    fr = 6 * (10**9)
     result = snr(N0, d, P, fr)
     assert isinstance(result, float)
     assert result >= 0
@@ -19,10 +19,11 @@ def test_snr_th():
     N0 = 1 * (10**-13)
     d = 1000
     P = 1 * (10**-3)
-    fr= 6 * (10**9)
+    fr = 6 * (10**9)
     result = snr(N0, d, P, fr)
     assert isinstance(result, float)
     assert result >= 0
+
 
 def test_command_line_arguments():
     script_path = os.path.abspath("agenet/snr.py")
@@ -33,4 +34,3 @@ def test_command_line_arguments():
     )
     assert "SNR:" in result.stdout
     assert "Theoretical SNR:" in result.stdout
-

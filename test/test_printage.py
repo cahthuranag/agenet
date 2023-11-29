@@ -11,7 +11,7 @@ from io import StringIO
 from unittest import mock
 import matplotlib
 import matplotlib.pyplot as plt
-from agenet import  plot,  plot_generate
+from agenet import plot, plot_generate
 
 
 # this is a test for the generate_comparison_table function
@@ -186,8 +186,6 @@ def test_printage():
         "0.003",
     ],
 )
-
-
 def test_plot(monkeypatch):
     parser = argparse.ArgumentParser()
     parser.add_argument(
@@ -292,10 +290,10 @@ def test_plot(monkeypatch):
         help="Values for the power.",
     )
     parser.add_argument(
-    "--plots",
-    action='store_true',  # Assuming 'plots' is a boolean flag
-    help="Flag to indicate if plots should be generated."
-)
+        "--plots",
+        action="store_true",  # Assuming 'plots' is a boolean flag
+        help="Flag to indicate if plots should be generated.",
+    )
     # Add other necessary arguments to the parser
 
     # Mock the command-line arguments
@@ -368,10 +366,6 @@ def test_plot(monkeypatch):
         plot(args)
 
 
-
-
-
-
 def test_command_line_arguments():
     # Define sample command-line arguments
     num_nodes_const = 2
@@ -428,9 +422,9 @@ def test_command_line_arguments():
 
 def test_plot_save(mocker):
     # Mock the necessary methods
-    mock_exists = mocker.patch('os.path.exists', return_value=False)
-    mock_makedirs = mocker.patch('os.makedirs')
-    mock_savefig = mocker.patch('matplotlib.pyplot.Figure.savefig')
+    mock_exists = mocker.patch("os.path.exists", return_value=False)
+    mock_makedirs = mocker.patch("os.makedirs")
+    mock_savefig = mocker.patch("matplotlib.pyplot.Figure.savefig")
 
     # Define constants and variables for the test
     num_nodes_const = 2
@@ -459,9 +453,24 @@ def test_plot_save(mocker):
     test_plots_folder = "test_plots"
 
     # Run the function under test
-    plot_generate(num_nodes_const, active_prob_const, n_const, k_const, P_const,
-                  d_const, N0_const, fr_const, numevnts, numruns, num_nodes_vals,
-                  active_prob_vals, n_vals, k_vals, P_vals, test_plots_folder)
+    plot_generate(
+        num_nodes_const,
+        active_prob_const,
+        n_const,
+        k_const,
+        P_const,
+        d_const,
+        N0_const,
+        fr_const,
+        numevnts,
+        numruns,
+        num_nodes_vals,
+        active_prob_vals,
+        n_vals,
+        k_vals,
+        P_vals,
+        test_plots_folder,
+    )
 
     # Assuming "Power" is the actual first variable in the iteration
     expected_filename = os.path.join(test_plots_folder, f"Power_plot.png")

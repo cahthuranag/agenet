@@ -8,8 +8,28 @@ from agenet import main
 
 # define test cases
 test_cases = [
-    (2, 0.9, 300, 100, 10**-3, 700, 1 * (10**-13),6 * (10**9), 1000),  # test case 1
-    (4, 0.5, 500, 50, 50**-3, 700, 1 * (10**-13),6 * (10**9),1000),  # test case 2
+    (
+        2,
+        0.9,
+        300,
+        100,
+        10**-3,
+        700,
+        1 * (10**-13),
+        6 * (10**9),
+        1000,
+    ),  # test case 1
+    (
+        4,
+        0.5,
+        500,
+        50,
+        50**-3,
+        700,
+        1 * (10**-13),
+        6 * (10**9),
+        1000,
+    ),  # test case 2
 ]
 
 
@@ -17,11 +37,12 @@ test_cases = [
 @pytest.mark.parametrize(
     "num_nodes, active_prob, n, k, P, d, N0, fr, numevents", test_cases
 )
-def test_main(num_nodes, active_prob, n, k, P,d,N0,fr, numevents):
+def test_main(num_nodes, active_prob, n, k, P, d, N0, fr, numevents):
     # call the main function
     result = main(num_nodes, active_prob, n, k, P, d, N0, fr, numevents)
     # assert that the result is not None
     assert result is not None
+
 
 def test_command_line_arguments():
     # Define sample command-line arguments

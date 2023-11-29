@@ -55,9 +55,6 @@ def test_av_age_fn():
     assert np.isclose(actual_average_age, expected_average_age, rtol=1e-1)
 
 
-
-
-
 def test_command_line_arguments():
     # Define sample command-line arguments
 

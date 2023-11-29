@@ -78,7 +78,7 @@ def generate_table(
         table_rows = []
         for val in var_vals:
             theoretical, simulated = run_main(
-                *(const_vals[:i] + [val] + const_vals[i + 1:])
+                *(const_vals[:i] + [val] + const_vals[i + 1 :])
             )
             table_rows.append([val, theoretical, simulated])
 
@@ -116,23 +116,22 @@ def printage(args: argparse.Namespace) -> None:
     P_vals = args.P_vals
 
     generate_table(
-         num_nodes_const=num_nodes_const,
-         active_prob_const=active_prob_const,
-         n_const=n_const,
-         k_const=k_const,
-         P_const=P_const,
-         d_const=d_const,
-         N0_const=N0_const,
-         fr_const=fr_const,
-         numevnts=args.numevnts,
-         numruns=args.numruns,
-         num_nodes_vals=num_nodes_vals,
-         active_prob_vals=active_prob_vals,
-         n_vals=n_vals,
-         k_vals=k_vals,
-         P_vals=P_vals,
-     )
-  
+        num_nodes_const=num_nodes_const,
+        active_prob_const=active_prob_const,
+        n_const=n_const,
+        k_const=k_const,
+        P_const=P_const,
+        d_const=d_const,
+        N0_const=N0_const,
+        fr_const=fr_const,
+        numevnts=args.numevnts,
+        numruns=args.numruns,
+        num_nodes_vals=num_nodes_vals,
+        active_prob_vals=active_prob_vals,
+        n_vals=n_vals,
+        k_vals=k_vals,
+        P_vals=P_vals,
+    )
 
 
 def plot_generate(
@@ -151,7 +150,7 @@ def plot_generate(
     n_vals: List[int],
     k_vals: List[int],
     P_vals: List[float],
-    plots_folder: str = None
+    plots_folder: str = None,
 ) -> None:
     """
     Plot the simulated and theoretical values for each variable.
@@ -164,11 +163,28 @@ def plot_generate(
 
     for i, (var_name, var_vals) in enumerate(
         zip(
-            ["number of nodes", "active probability", "block length", "update size", "Power"],
-            [num_nodes_vals, active_prob_vals, n_vals, k_vals, P_vals]
+            [
+                "number of nodes",
+                "active probability",
+                "block length",
+                "update size",
+                "Power",
+            ],
+            [num_nodes_vals, active_prob_vals, n_vals, k_vals, P_vals],
         )
     ):
-        const_vals = [num_nodes_const, active_prob_const, n_const, k_const, P_const, d_const,N0_const, fr_const,numevnts, numruns]
+        const_vals = [
+            num_nodes_const,
+            active_prob_const,
+            n_const,
+            k_const,
+            P_const,
+            d_const,
+            N0_const,
+            fr_const,
+            numevnts,
+            numruns,
+        ]
         const_vals[i] = None  # Set the variable being varied to None
 
         theoretical_vals = []
@@ -176,17 +192,23 @@ def plot_generate(
 
         # Gather data for each value of the variable
         for val in var_vals:
-            theoretical, simulated = run_main(*(const_vals[:i] + [val] + const_vals[i + 1:]))
+            theoretical, simulated = run_main(
+                *(const_vals[:i] + [val] + const_vals[i + 1 :])
+            )
             theoretical_vals.append(theoretical)
             simulated_vals.append(simulated)
 
         # Create a new plot for each variable
         fig, ax = plt.subplots()
-        ax.plot(var_vals, theoretical_vals, label="Theoretical", marker='o')
-        ax.plot(var_vals, simulated_vals, label="Simulated", marker='x')
+        ax.plot(
+            var_vals, theoretical_vals, label="Theoretical", marker="o"
+        )
+        ax.plot(var_vals, simulated_vals, label="Simulated", marker="x")
         ax.set_xlabel(var_name)
-        ax.set_ylabel('Values')
-        ax.set_title(f'Theoretical vs Simulated Values for Varying {var_name}')
+        ax.set_ylabel("Values")
+        ax.set_title(
+            f"Theoretical vs Simulated Values for Varying {var_name}"
+        )
         ax.legend()
         ax.grid(True)
 
@@ -197,8 +219,6 @@ def plot_generate(
             fig.savefig(os.path.join(plots_folder, f"{var_name}_plot.png"))
 
         plt.close(fig)  # Close the plot after saving
-
-
 
 
 def plot(args: argparse.Namespace, plots_folder=None) -> None:
@@ -241,10 +261,8 @@ def plot(args: argparse.Namespace, plots_folder=None) -> None:
         n_vals=n_vals,
         k_vals=k_vals,
         P_vals=P_vals,
-        plots_folder=plots_folder
+        plots_folder=plots_folder,
     )
-
-
 
 
 def _parse_args() -> None:
@@ -254,7 +272,8 @@ def _parse_args() -> None:
         None
     """
     parser = argparse.ArgumentParser(
-        description="Prints a table comparing results for different input values.")
+        description="Prints a table comparing results for different input values."
+    )
     parser.add_argument(
         "--num_nodes_const",
         type=int,
@@ -352,8 +371,10 @@ def _parse_args() -> None:
     )
     parser.add_argument("--quiet", action="store_true", help="Omit tables")
     parser.add_argument("--plots", action="store_true", help="Show plots")
-    parser.add_argument("--plots_folder", type=str, help="Folder to save plots")
-    
+    parser.add_argument(
+        "--plots_folder", type=str, help="Folder to save plots"
+    )
+
     args = parser.parse_args()
 
     if not args.quiet:
@@ -363,6 +384,5 @@ def _parse_args() -> None:
         plot(args, args.plots_folder)
 
 
-
 if __name__ == "__main__":
-   _parse_args()
+    _parse_args()

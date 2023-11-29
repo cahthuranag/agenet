@@ -68,8 +68,6 @@ def test_qfunc():
     assert qfunc(float("inf")) == 0
 
 
-
-
 def test_command_line_arguments():
     # Define sample command-line arguments
 
