@@ -27,6 +27,9 @@ def main(
         n (int): Number of bits in a block.
         k (int): Number of bits in a message.
         P (float): Power of the nodes.
+        d (int): Distance between nodes.
+        N0 (float): Noise power.
+        fr (float): Frequency of the signal.
         numevents (int): Number of events to simulate.
 
     Returns:

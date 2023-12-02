@@ -426,6 +426,7 @@ def test_command_line_arguments():
 
 
 def test_plot_save(mocker):
+    """Test the plot() function."""
     # Mock the necessary methods
     mock_exists = mocker.patch("os.path.exists", return_value=False)
     mock_makedirs = mocker.patch("os.makedirs")

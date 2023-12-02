@@ -31,6 +31,9 @@ def generate_table(
         n_const (int): Constant value for the block length.
         k_const (int): Constant value for the update size.
         P_const (float): Constant value for the power.
+        d_const (int): Constant value for the distance between nodes.
+        N0_const (float): Constant value for the noise power.
+        fr_const (float): Constant value for the frequency of the signal.
         numevnts (int): The number of events.
         numruns (int): The number of runs.
         num_nodes_vals (List[int]): Values for the number of nodes.

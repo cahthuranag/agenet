@@ -1,3 +1,4 @@
+"""Tests for the bler module."""
 import math
 import os
 import subprocess
@@ -12,6 +13,7 @@ from agenet import blercal, blercal_th
 
 
 def test_blercal():
+    """Test the blercal function for some known inputs and expected outputs."""
     # Test for non-negative SNR
     with pytest.raises(ValueError, match="SNR must be non-negative"):
         blercal(-1, 100, 50)
@@ -41,6 +43,7 @@ def test_blercal():
 
 
 def test_blercal_th():
+    """Test the blercal_th function for some known inputs and expected outputs."""
     # Test for small SNR
     assert np.isclose(blercal_th(1e-6, 300, 280), 1, rtol=1e-1)
 
@@ -49,12 +52,14 @@ def test_blercal_th():
 
 
 def qfunc(x):
+    """Calculates the Q-function."""
     if x < 0:
         return 1
     return 0.5 - 0.5 * sp.erf(x / math.sqrt(2))
 
 
 def test_qfunc():
+    """Test the qfunc function for some known inputs and expected outputs."""
     # Test the qfunc function for some known inputs and expected outputs
     assert qfunc(-10) == 1
     assert qfunc(-1) == 1
@@ -68,6 +73,7 @@ def test_qfunc():
 
 
 def test_command_line_arguments():
+    """Test the command-line arguments for the bler module."""
     # Define sample command-line arguments
 
     snr = 10

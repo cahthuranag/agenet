@@ -1,3 +1,4 @@
+"""Block Error Rate (BLER) Calculation."""
 import argparse
 import math
 

@@ -6,8 +6,7 @@ import numpy as np
 
 
 def snr(N0: float, d: float, P: float, fr: float) -> float:
-    """
-     Computes the SNR of the received signal.
+    """Computes the SNR of the received signal.
 
     Args:
         N0 (float): The power spectral density of the noise.
@@ -24,8 +23,7 @@ def snr(N0: float, d: float, P: float, fr: float) -> float:
 
 
 def snr_th(N0: float, d: float, P: float, fr: float) -> float:
-    """
-    Calculates the theoretical SNR of the received signal.
+    """Calculates the theoretical SNR of the received signal.
 
     Args:
         N0 (float): The power spectral density of the noise.
@@ -33,18 +31,16 @@ def snr_th(N0: float, d: float, P: float, fr: float) -> float:
         P (float): The power of the transmitted signal.
         fr (float): The frequency of the signal.
 
-        Returns:
+    Returns:
             float: The theoretical SNR of the received signal in linear scale.
     """
-
     alpha = _alpha(d, fr)
     snr_th: float = (alpha * P) / N0
     return snr_th
 
 
 def _alpha(d: float, fr: float) -> float:
-    """
-    Calculates the path loss in linear scale.
+    """Calculates the path loss in linear scale.
 
     Args:
         d (float): The distance between the transmitter and receiver.

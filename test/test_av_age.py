@@ -1,6 +1,6 @@
+"""Tests for the average age of information function."""
 import os
 import subprocess
-import sys
 
 import numpy as np
 import pytest
@@ -15,12 +15,15 @@ from agenet import av_age_fn
     "v,T, expected", [([2, 3, 4, 5], [1, 2, 3, 4], 1.3)]
 )
 def test_av_age_func_values(v, T, expected):
+    """Test the av_age_func function."""
     age, _, _ = av_age_fn(v, T, 0.1)
     assert round(age, 1) == expected
 
 
 @pytest.fixture(scope="function")
 def plot_fn():
+    """Fixture to test plotting."""
+
     def _plot(points):
         plt.plot(points)
         yield plt.show()
@@ -30,17 +33,20 @@ def plot_fn():
 
 
 def test_plot_fn(plot_fn):
+    """Test the plot_fn function."""
     points = [1, 2, 3]
     plot_fn(points)
     assert True
 
 
 def test_zero_division():
+    """Test the zero division error."""
     with pytest.raises(ZeroDivisionError):
         1 / 0
 
 
 def test_av_age_fn():
+    """Test the av_age_fn function"""
     # Define the expected average age of information for the example
     expected_average_age = 1.3
     # Calculate the actual average age of information for the example
@@ -56,6 +62,7 @@ def test_av_age_fn():
 
 
 def test_command_line_arguments():
+    """Test the command-line arguments for the av_age module."""
     # Define sample command-line arguments
 
     dest_times = [0.5, 1.5, 2.5, 3.5, 4.5]
