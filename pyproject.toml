@@ -22,8 +22,7 @@ classifiers = [
     "Topic :: Scientific/Engineering" ]
 
 [project.scripts]
-ageplot = "agenet.plot:_parse_args"
-ageprint = "agenet.printage:_parse_args"
+agenet = "agenet.printplot:_parse_args"
 
 [project.urls]
 "Homepage" = "https://github.com/cahthuranag/agenet"

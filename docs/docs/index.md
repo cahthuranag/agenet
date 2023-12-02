@@ -44,14 +44,6 @@ Additionally, a command-line script is included in the package that allows for e
 $ ageprint
 ```
 
-In addition to the tables, the simulation results can also be displayed as plots using the command:
-
-```
-$ ageplot
-```
-
-In both cases, adding the `--help` option displays the model's configurable parameters.
-
 ## Requirements
 
 The implementation requires Python 3.8+ to run.
