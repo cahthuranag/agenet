@@ -397,7 +397,7 @@ def test_command_line_arguments():
     ]
 
     # Run the script with the sample command-line arguments
-    script_path = os.path.abspath("agenet/printage.py")
+    script_path = os.path.abspath("agenet/printplot.py")
     command = (
         f"python {script_path} "
         f"--num_nodes_const {num_nodes_const} "
