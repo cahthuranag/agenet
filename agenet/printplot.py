@@ -65,7 +65,6 @@ def generate_table(
                 k_vals,
                 P_vals,
             ],
-            strict=True,
         )
     ):
         const_vals = [
@@ -180,7 +179,6 @@ def plot_generate(
                 "Power",
             ],
             [num_nodes_vals, active_prob_vals, n_vals, k_vals, P_vals],
-            strict=True,
         )
     ):
         const_vals = [
