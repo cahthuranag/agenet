@@ -12,8 +12,7 @@ def av_age_fn(
     generation_times: List[float],
     lambha: float,
 ) -> Tuple[float, np.ndarray, np.ndarray]:
-    """
-    Calculate the AAoI given the parameters.
+    """Calculate the AAoI given the parameters.
 
     Args:
         destination_times (List[float]): A sorted list of destination times.

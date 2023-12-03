@@ -1,10 +1,11 @@
+"""Main file for the communication system simulation."""
 import argparse
 import random
 from typing import Tuple
 
 import numpy as np
 
-from agenet import blercal, blercal_th, snr, snr_th, av_age_fn
+from agenet import av_age_fn, blercal, blercal_th, snr, snr_th
 
 
 def main(
@@ -18,8 +19,7 @@ def main(
     fr: float,
     numevents: int,
 ) -> Tuple[float, float]:
-    """
-    Simulates a communication system and calculates the AAoI.
+    """Simulates a communication system and calculates the AAoI.
 
     Args:
         num_nodes (int): Number of nodes in the system
@@ -143,7 +143,7 @@ def run_main(
     num_runs = numruns
     av_age_theoretical_run = 0
     av_age_simulation_run = 0
-    for i in range(num_runs):
+    for _ in range(num_runs):
         av_age_theoretical_i, av_age_simulation_i = main(
             num_nodes, active_prob, n, k, P, d, N0, fr, numevnts
         )

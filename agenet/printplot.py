@@ -1,10 +1,12 @@
-"""This module contains functions to print tables and plots. """
+"""This module contains functions to print tables and plots."""
 import argparse
-from typing import List
-from tabulate import tabulate
-import matplotlib.pyplot as plt
-from agenet import run_main
 import os
+from typing import List
+
+import matplotlib.pyplot as plt
+from tabulate import tabulate
+
+from agenet import run_main
 
 
 def generate_table(
@@ -25,9 +27,10 @@ def generate_table(
     P_vals: List[float],
     file=None,
 ) -> None:
-    """
-    Generates a table comparing the theoretical and simulated values for the given input values.
-    Args: num_nodes_const (int): Constant value for the number of nodes.
+    """Generates a table comparing the theoretical and simulated values.
+
+    Args:
+        num_nodes_const (int): Constant value for the number of nodes.
         active_prob_const (float): Constant value for the active probability.
         n_const (int): Constant value for the block length.
         k_const (int): Constant value for the update size.
@@ -42,8 +45,9 @@ def generate_table(
         n_vals (List[int]): Values for the block length.
         k_vals (List[int]): Values for the update size.
         P_vals (List[float]): Values for the power.
+
     Returns:
-        Thus funtion will return a table comparing the theoretical and simulated values for the given input values.
+        Thus funtion will return a table comparing the theoretical and simulated values.
     """
     for i, (var_name, var_vals) in enumerate(
         zip(
@@ -61,6 +65,7 @@ def generate_table(
                 k_vals,
                 P_vals,
             ],
+            strict=True,
         )
     ):
         const_vals = [
@@ -94,10 +99,11 @@ def generate_table(
 
 
 def printage(args: argparse.Namespace) -> None:
-    """
-    Prints a table comparing results for different input values based on the command-line arguments.
+    """Prints a table comparing results for different input values.
+
     Args:
         args (argparse.Namespace): Parsed command-line arguments.
+
     Returns:
         None
     """
@@ -153,15 +159,17 @@ def plot_generate(
     P_vals: List[float],
     plots_folder: str = None,
 ) -> None:
-    """
-    Plot the simulated and theoretical values for each variable.
-    Args:
-        num_nodes_const, active_prob_const, n_const, k_const, P_const: Constants for the model.
-        numevnts, numruns: Number of events and runs.
-        num_nodes_vals, active_prob_vals, n_vals, k_vals, P_vals: Lists of values to iterate over.
-        plots_folder: Folder to save the plots.
-    """
+    """Plot the simulated and theoretical values for each variable.
 
+    Args:
+        num_nodes_const, active_prob_const, n_const, k_const, P_const: Constants.
+        numevnts, numruns: Number of events and runs.
+        num_nodes_vals, active_prob_vals, n_vals, k_vals, P_vals: variables.
+        plots_folder: Folder to save the plots.
+
+    Returns:
+        None
+    """
     for i, (var_name, var_vals) in enumerate(
         zip(
             [
@@ -172,6 +180,7 @@ def plot_generate(
                 "Power",
             ],
             [num_nodes_vals, active_prob_vals, n_vals, k_vals, P_vals],
+            strict=True,
         )
     ):
         const_vals = [
@@ -220,11 +229,14 @@ def plot_generate(
 
 
 def plot(args: argparse.Namespace, plots_folder=None) -> None:
-    """
-    Plot the simulated and theoretical values for each variable and save the plots.
+    """Plot the simulated and theoretical values for each variable and save the plots.
+
     Args:
         args (argparse.Namespace): Parsed command-line arguments.
         plots_folder (str): Folder to save plots
+
+    Returns:
+        Plot the simulated and theoretical values for each variable and save the plots.
     """
     # Extracting values from the args
     num_nodes_const = args.num_nodes_const
@@ -264,8 +276,10 @@ def plot(args: argparse.Namespace, plots_folder=None) -> None:
 
 
 def _parse_args() -> None:
-    """
-    Main function that parses the command-line arguments and calls the printage function.
+    """Command-line arguments and calls the printage function.
+
+    Args:
+        None
     Returns:
         None
     """
