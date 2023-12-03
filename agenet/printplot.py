@@ -1,3 +1,4 @@
+"""This module contains functions to print tables and plots. """
 import argparse
 from typing import List
 from tabulate import tabulate
