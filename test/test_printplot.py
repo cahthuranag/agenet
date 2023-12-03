@@ -21,15 +21,18 @@ def assert_table_format(output_lines):
     row_lines = output_lines[1:-1]  # Skip header and separator lines
     separator_line = output_lines[-1].strip()
 
-    # Check if the header line starts and ends with '+'
-    assert header_line.startswith("+") and header_line.endswith("+")
+    # Check if the header line starts with '+'
+    assert header_line.startswith("+")
+    # Check if the header line ends with '+'
+    assert header_line.endswith("+")
 
     # Check if there is a '+' in the middle of the header line
     assert "+" in header_line[1:-1]
 
     # Check if all row lines start and end with '|'
     for row_line in row_lines:
-        assert row_line.startswith("|") and row_line.endswith("|")
+        assert row_line.startswith("|")
+        assert row_line.endswith("|")
 
         # Check if there is a '|' in the middle of each row line
         assert "|" in row_line[1:-1]
@@ -465,7 +468,7 @@ def test_plot_save(mocker):
     )
 
     # Assuming "Power" is the actual first variable in the iteration
-    expected_filename = os.path.join(test_plots_folder, f"Power_plot.png")
+    expected_filename = os.path.join(test_plots_folder, "Power_plot.png")
 
     # Assert that savefig was called with the expected filename
     mock_savefig.assert_called_with(expected_filename)

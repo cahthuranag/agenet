@@ -6,9 +6,7 @@ import scipy.special as sp
 
 
 def qfunc(x: float) -> float:
-    """
-    The Q-function is a mathematical function that gives the tail probability
-    of the standard normal distribution.
+    """The Q-function gives the tail probability of the std.
 
     Args:
       x (float): input value for Q-function.
@@ -22,8 +20,7 @@ def qfunc(x: float) -> float:
 
 
 def blercal(snr: float, n: int, k: int) -> float:
-    """
-    Calculate the Block Error Rate (BLER) for the given SNR, n, k.
+    """Calculate the Block Error Rate (BLER) for the given SNR, n, k.
 
     Args:
        snr (float): Signal-to-Noise Ratio (SNR).
@@ -48,8 +45,7 @@ def blercal(snr: float, n: int, k: int) -> float:
 
 
 def blercal_th(snr: float, n: int, k: int) -> float:
-    """
-    Calculate the theoretical Block Error Rate (BLER) for the given SNR, n, k.
+    """Calculate the theoretical Block Error Rate (BLER) for the given SNR, n, k.
 
     Args:
       snr (float): Signal-to-Noise Ratio (SNR).

@@ -1,24 +1,25 @@
 """API reference for the functions exported by agenet."""
 
+
+from agenet.av_age import av_age_fn
+from agenet.snr import snr, snr_th
+from agenet.bler import blercal, blercal_th
+from agenet.maincom import main, run_main
+from agenet.printplot import generate_table, plot, plot_generate, printage
+
 __all__ = [
-    "main",
     "av_age",
-    "snr",
+    "av_age_fn",
     "bler",
     "blercal",
     "blercal_th",
-    "av_age_fn",
+    "snr",
     "snr_th",
+    "main",
+    "run_main",
     "printplot",
     "generate_table",
-    "run_main",
     "plot",
     "plot_generate",
+    "printage",
 ]
-
-
-from agenet.snr import snr, snr_th
-from agenet.bler import blercal, blercal_th
-from agenet.av_age import av_age_fn
-from agenet.maincom import main, run_main
-from agenet.printplot import printage, generate_table, plot, plot_generate

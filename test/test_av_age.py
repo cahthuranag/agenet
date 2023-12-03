@@ -11,14 +11,14 @@ from agenet import av_age_fn
 
 # def test_av_age_func_values():
 #     assert av_age_func([2,3,4,5], [1,2,3,4]) == 1.3
-@pytest.mark.parametrize("v,T, expected", [([2, 3, 4, 5], [1, 2, 3, 4], 1.3)])
+@pytest.mark.parametrize("v, T, expected", [([2, 3, 4, 5], [1, 2, 3, 4], 1.3)])
 def test_av_age_func_values(v, T, expected):
     """Test the av_age_func function."""
     age, _, _ = av_age_fn(v, T, 0.1)
     assert round(age, 1) == expected
 
 
-@pytest.fixture(scope="function")
+@pytest.fixture()
 def plot_fn():
     """Fixture to test plotting."""
 
@@ -44,7 +44,7 @@ def test_zero_division():
 
 
 def test_av_age_fn():
-    """Test the av_age_fn function"""
+    """Test the av_age_fn function."""
     # Define the expected average age of information for the example
     expected_average_age = 1.3
     # Calculate the actual average age of information for the example
@@ -71,7 +71,12 @@ def test_command_line_arguments():
 
     script_path = os.path.abspath("agenet/av_age.py")
     # Run the script with the sample command-line arguments
-    command = f"python {script_path} --lambha {lambha} --dest_times {dest_times_str} --gen_times {gen_times_str}"
+    command = (
+        f"python {script_path} --lambha {lambha} "
+        f"--dest_times {dest_times_str} "
+        f"--gen_times {gen_times_str}"
+    )
+
     result = subprocess.run(command, shell=True, capture_output=True, text=True)
 
     assert "Average Age of Information:" in result.stdout
