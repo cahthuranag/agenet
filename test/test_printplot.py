@@ -36,9 +36,7 @@ def assert_table_format(output_lines):
 
     # Check if the separator line matches the expected format
     columns = header_line.strip().split("|")[1:-1]
-    expected_separator = "+".join(
-        "-" * (len(column.strip()) + 2) for column in columns
-    )
+    expected_separator = "+".join("-" * (len(column.strip()) + 2) for column in columns)
 
     # Adjust separator line if the header line has '+' characters at the
     # beginning and end
@@ -92,13 +90,8 @@ def test_generate_table():
 
     # Split the output into lines and check the format using tabulate
     output_lines = output_str.strip().split("\n")
-    headers = [
-        header.strip()
-        for header in output_lines[0].strip().split("|")[1:-1]
-    ]
-    table_data = [
-        row.strip().split("|")[1:-1] for row in output_lines[2:-1]
-    ]
+    headers = [header.strip() for header in output_lines[0].strip().split("|")[1:-1]]
+    table_data = [row.strip().split("|")[1:-1] for row in output_lines[2:-1]]
 
     expected_table = tabulate(table_data, headers=headers, tablefmt="grid")
     actual_table = tabulate(table_data, headers=headers, tablefmt="grid")
@@ -134,13 +127,8 @@ def test_printage():
 
     # Split the output into lines and check the format using tabulate
     output_lines = output_str.strip().split("\n")
-    headers = [
-        header.strip()
-        for header in output_lines[0].strip().split("|")[1:-1]
-    ]
-    table_data = [
-        row.strip().split("|")[1:-1] for row in output_lines[2:-1]
-    ]
+    headers = [header.strip() for header in output_lines[0].strip().split("|")[1:-1]]
+    table_data = [row.strip().split("|")[1:-1] for row in output_lines[2:-1]]
 
     expected_table = tabulate(table_data, headers=headers, tablefmt="grid")
     actual_table = tabulate(table_data, headers=headers, tablefmt="grid")
@@ -417,9 +405,7 @@ def test_command_line_arguments():
         f"--P_vals {' '.join(map(str, P_vals))}"
     )
 
-    result = subprocess.run(
-        command, shell=True, capture_output=True, text=True
-    )
+    result = subprocess.run(command, shell=True, capture_output=True, text=True)
 
     # Assert that the stdout is not empty (indicating that there's some output)
     assert result.stdout.strip() != ""

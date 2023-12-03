@@ -53,9 +53,7 @@ def _alpha(d: float, fr: float) -> float:
     log_alpha: float = (20 * math.log10(d)) + (
         20 * math.log10((4 * f * math.pi) / C)
     )  # path loss in dB
-    alpha: float = 1 / (
-        10 ** ((log_alpha) / 10)
-    )  # path loss in linear scale
+    alpha: float = 1 / (10 ** ((log_alpha) / 10))  # path loss in linear scale
     return alpha
 
 
@@ -63,18 +61,14 @@ def _parse_args():
     parser = argparse.ArgumentParser(
         description="Calculate signal-to-noise ratio (SNR)."
     )
-    parser.add_argument(
-        "-N0", type=float, help="Power spectral density of the noise"
-    )
+    parser.add_argument("-N0", type=float, help="Power spectral density of the noise")
     parser.add_argument(
         "-d",
         type=float,
         help="Distance between the transmitter and receiver",
     )
     parser.add_argument("-fr", type=float, help="Frequency of the signal")
-    parser.add_argument(
-        "-P", type=float, help="Power of the transmitted signal"
-    )
+    parser.add_argument("-P", type=float, help="Power of the transmitted signal")
     args = parser.parse_args()
 
     if args.N0 is not None and args.d is not None and args.P is not None:

@@ -27,9 +27,7 @@ def test_blercal():
         blercal(10, 100, 0)
 
     # Test for k <= n
-    with pytest.raises(
-        ValueError, match="k must be less than or equal to n"
-    ):
+    with pytest.raises(ValueError, match="k must be less than or equal to n"):
         blercal(10, 50, 100)
 
     # Test for small SNR
@@ -82,19 +80,13 @@ def test_command_line_arguments():
     script_path = os.path.abspath("agenet/bler.py")
     # Run the script with the sample command-line arguments
     command = f"python {script_path} --snr {snr} --n {n} --k {k}"
-    result = subprocess.run(
-        command, shell=True, capture_output=True, text=True
-    )
+    result = subprocess.run(command, shell=True, capture_output=True, text=True)
 
     assert "BLER:" in result.stdout
     command = f"python {script_path} --snr {snr} --n {n} --k {k} --theory"
-    result = subprocess.run(
-        command, shell=True, capture_output=True, text=True
-    )
+    result = subprocess.run(command, shell=True, capture_output=True, text=True)
     assert "Theoretical BLER:" in result.stdout
     command = f"python {script_path} --snr {snr} --n {n} --k {None} "
-    result = subprocess.run(
-        command, shell=True, capture_output=True, text=True
-    )
+    result = subprocess.run(command, shell=True, capture_output=True, text=True)
 
     assert "usage: " in result.stderr

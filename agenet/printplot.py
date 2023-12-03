@@ -86,10 +86,7 @@ def generate_table(
             table_rows.append([val, theoretical, simulated])
 
         if file is not None:
-            file.write(
-                tabulate(table_rows, headers=headers, tablefmt="grid")
-                + "\n\n"
-            )
+            file.write(tabulate(table_rows, headers=headers, tablefmt="grid") + "\n\n")
         else:
             print(tabulate(table_rows, headers=headers, tablefmt="grid"))
             print("\n")
@@ -203,15 +200,11 @@ def plot_generate(
 
         # Create a new plot for each variable
         fig, ax = plt.subplots()
-        ax.plot(
-            var_vals, theoretical_vals, label="Theoretical", marker="o"
-        )
+        ax.plot(var_vals, theoretical_vals, label="Theoretical", marker="o")
         ax.plot(var_vals, simulated_vals, label="Simulated", marker="x")
         ax.set_xlabel(var_name)
         ax.set_ylabel("Values")
-        ax.set_title(
-            f"Theoretical vs Simulated Values for Varying {var_name}"
-        )
+        ax.set_title(f"Theoretical vs Simulated Values for Varying {var_name}")
         ax.legend()
         ax.grid(True)
 
@@ -223,6 +216,8 @@ def plot_generate(
             plt.close(fig)  # Close the plot after saving
         else:
             plt.show()
+
+
 def plot(args: argparse.Namespace, plots_folder=None) -> None:
     """
     Plot the simulated and theoretical values for each variable and save the plots.
@@ -327,9 +322,7 @@ def _parse_args() -> None:
     parser.add_argument(
         "--numevnts", type=int, default=500, help="The number of events."
     )
-    parser.add_argument(
-        "--numruns", type=int, default=100, help="The number of runs."
-    )
+    parser.add_argument("--numruns", type=int, default=100, help="The number of runs.")
 
     parser.add_argument(
         "--num_nodes_vals",
@@ -373,9 +366,7 @@ def _parse_args() -> None:
     )
     parser.add_argument("--quiet", action="store_true", help="Omit tables")
     parser.add_argument("--plots", action="store_true", help="Show plots")
-    parser.add_argument(
-        "--plots_folder", type=str, help="Folder to save plots"
-    )
+    parser.add_argument("--plots_folder", type=str, help="Folder to save plots")
 
     args = parser.parse_args()
 
@@ -384,6 +375,7 @@ def _parse_args() -> None:
 
     if args.plots or args.plots_folder:
         plot(args, args.plots_folder if args.plots_folder else None)
+
 
 if __name__ == "__main__":
     _parse_args()

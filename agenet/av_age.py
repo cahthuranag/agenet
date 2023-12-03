@@ -32,9 +32,7 @@ def av_age_fn(
     # Loop through the rest of the destination times
     for i in range(1, len(destination_times)):
         # Generate an array of times between two consecutive destination times
-        dummy = np.arange(
-            destination_times[i - 1], destination_times[i] + p, p
-        )
+        dummy = np.arange(destination_times[i - 1], destination_times[i] + p, p)
         # Concatenate the times array with the dummy array
         times = np.concatenate((times, dummy))
     # Initialize a counter (ii) and an offset
@@ -92,9 +90,7 @@ def _parse_args():
     lambha = args.lambha  # Changed variable name to 'lambdha'
 
     # Call the function with the provided arguments
-    average_age, _, _ = av_age_fn(
-        destination_times, generation_times, lambha
-    )
+    average_age, _, _ = av_age_fn(destination_times, generation_times, lambha)
 
     # Print the results
     print("Average Age of Information:", average_age)

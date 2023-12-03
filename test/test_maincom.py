@@ -75,9 +75,7 @@ def test_command_line_arguments():
         f"--numruns {numruns}"
     )
 
-    result = subprocess.run(
-        command, shell=True, capture_output=True, text=True
-    )
+    result = subprocess.run(command, shell=True, capture_output=True, text=True)
 
     # Check if the script ran successfully (return code 0)
     assert result.returncode == 0
