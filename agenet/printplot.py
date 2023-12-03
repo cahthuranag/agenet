@@ -383,8 +383,7 @@ def _parse_args() -> None:
         printage(args)
 
     if args.plots or args.plots_folder:
-        plot(args, args.plots_folder)
-
+        plot(args, args.plots_folder if args.plots_folder else None)
 
 if __name__ == "__main__":
     _parse_args()
