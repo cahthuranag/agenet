@@ -34,7 +34,7 @@ plugins:
     handlers:
       python:
         options:
-          show_submodules: true
+          show_submodules: false
 
 markdown_extensions:
   - pymdownx.arithmatex:
