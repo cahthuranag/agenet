@@ -220,10 +220,9 @@ def plot_generate(
             if not os.path.exists(plots_folder):
                 os.makedirs(plots_folder)
             fig.savefig(os.path.join(plots_folder, f"{var_name}_plot.png"))
-
-        plt.close(fig)  # Close the plot after saving
-
-
+            plt.close(fig)  # Close the plot after saving
+        else:
+            plt.show()
 def plot(args: argparse.Namespace, plots_folder=None) -> None:
     """
     Plot the simulated and theoretical values for each variable and save the plots.
