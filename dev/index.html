@@ -76,6 +76,11 @@
     <label class="md-overlay" for="__drawer"></label>
     <div data-md-component="skip">
       
+        
+        <a href="#development" class="md-skip">
+          Skip to content
+        </a>
+      
     </div>
     <div data-md-component="announce">
       
@@ -334,6 +339,19 @@
       <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
       
       
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  <span class="md-ellipsis">
+    Development
+  </span>
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
       
       <a href="./" class="md-nav__link md-nav__link--active">
         
@@ -344,6 +362,61 @@
   
 
       </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#installing-for-development-andor-improving-the-package" class="md-nav__link">
+    <span class="md-ellipsis">
+      Installing for development and/or improving the package
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#run-tests" class="md-nav__link">
+    <span class="md-ellipsis">
+      Run tests
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#build-docs" class="md-nav__link">
+    <span class="md-ellipsis">
+      Build docs
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#code-style" class="md-nav__link">
+    <span class="md-ellipsis">
+      Code style
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
       
     </li>
   
@@ -367,9 +440,45 @@
   
 
 
-  <h1>Development</h1>
-
-
+<h1 id="development">Development</h1>
+<h2 id="installing-for-development-andor-improving-the-package">Installing for development and/or improving the package</h2>
+<pre><code class="language-text">$ git clone https://github.com/cahthuranag/agenet.git
+$ cd agenet
+$ python -m venv env
+$ source env/bin/activate
+$ pip install -e .[dev]
+$ pre-commit install
+</code></pre>
+<p>On Windows replace <code>source env/bin/activate</code> with <code>. env\Scripts\activate</code>.</p>
+<h2 id="run-tests">Run tests</h2>
+<p>Tests can be executed with the following command:</p>
+<pre><code class="language-text">$ pytest
+</code></pre>
+<p>The previous command runs the tests at <code>normal</code> level by default. This test
+level can also be specified explicitly:</p>
+<pre><code class="language-text">$ pytest --test-level=normal
+</code></pre>
+<p>To generate a test coverage report, run pytest as follows:</p>
+<pre><code class="language-text">$ pytest --cov=agenet --cov-report=html --test-level=ci
+</code></pre>
+<h2 id="build-docs">Build docs</h2>
+<p>Considering we're in the <code>agenet</code> folder, run the following commands:</p>
+<pre><code class="language-text">$ cd docs
+$ mkdocs build
+</code></pre>
+<p>The generated documentation will be placed in <code>docs/site</code>. Alternatively, the
+documentation can be generated and served locally with:</p>
+<pre><code>$ mkdocs serve
+</code></pre>
+<h2 id="code-style">Code style</h2>
+<p>Code style is enforced with <a href="https://flake8.pycqa.org/en/latest/">flake8</a> (and a number of plugins), <a href="https://black.readthedocs.io/en/stable/">black</a>, and
+<a href="https://pycqa.github.io/isort/">isort</a>. Some highlights include, but are not limited to:</p>
+<ul>
+<li>Encoding: UTF-8</li>
+<li>Indentation: 4 spaces (no tabs)</li>
+<li>Line size limit: 88 chars</li>
+<li>Newlines: Unix style, i.e. LF or \n</li>
+</ul>
 
 
 
