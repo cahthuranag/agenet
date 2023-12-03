@@ -4,12 +4,6 @@ To run a simulation with default parameters, the user can use a provided command
 ```
 ageprint
 ```
-
-In addition to the tables, the simulation results can also be displayed as plots using the command
-```
-ageplot
-```
-
 ### How to use manincom module
 #### Description of the Simulation Parameters
 

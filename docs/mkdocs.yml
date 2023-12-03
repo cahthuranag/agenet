@@ -26,6 +26,7 @@ nav:
 #- Theory: theory.md
 - "Reference": reference.md
 - "Usage": usage.md
+- "Development": dev.md
 
 plugins:
 - mkdocstrings:
