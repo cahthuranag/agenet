@@ -6,6 +6,11 @@
          <changefreq>daily</changefreq>
     </url>
     <url>
+         <loc>https://cahthuranag.github.io/agenet/dev/</loc>
+         <lastmod>2023-12-03</lastmod>
+         <changefreq>daily</changefreq>
+    </url>
+    <url>
          <loc>https://cahthuranag.github.io/agenet/reference/</loc>
          <lastmod>2023-12-03</lastmod>
          <changefreq>daily</changefreq>
