@@ -5,7 +5,7 @@ import math
 import scipy.special as sp
 
 
-def qfunc(x: float) -> float:
+def _qfunc(x: float) -> float:
     """The Q-function gives the tail probability of the std.
 
     Args:
@@ -40,7 +40,7 @@ def blercal(snr: float, n: int, k: int) -> float:
         raise ValueError("k must be less than or equal to n")
     c = math.log2(1 + snr)
     v = 0.5 * (1 - (1 / (1 + snr) ** 2)) * ((math.log2(math.exp(1))) ** 2)
-    err = qfunc(((n * c) - k) / math.sqrt(n * v))
+    err = _qfunc(((n * c) - k) / math.sqrt(n * v))
     return err
 
 
