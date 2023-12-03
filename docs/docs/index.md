@@ -41,7 +41,7 @@ The **agenet** package contains several functions that can be used to study the 
 Additionally, a command-line script is included in the package that allows for easy experimentation with the model with default or user-defined parameters. The simulation can generate both theoretical and simulated values for various factors such as block lengths, power allocations, packet sizes, activation probabilities, and number of nodes in the network. These values can be presented in the form of tables using the following command.
 
 ```
-$ ageprint
+$ agenet
 ```
 
 ## Requirements
@@ -94,3 +94,8 @@ This way, the package is installed in development mode. As a result, development
 ## References
 
 [1] [*Age of Information in an URLLC-enabled Decode-and-Forward Wireless Communication System*](https://ieeexplore.ieee.org/document/9449007)
+
+## Also in this documentation
+
+* [Reference](reference.md)
+* [Developing this package](dev.md)
