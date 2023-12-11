@@ -1,6 +1,6 @@
 """Calculate the average age of information."""
 import argparse
-from typing import List, Tuple
+from typing import Tuple
 
 import numpy as np
 from scipy.integrate import trapz
@@ -8,8 +8,8 @@ from scipy.integrate import trapz
 
 # Define the average age of information function
 def av_age_fn(
-    destination_times: List[float],
-    generation_times: List[float],
+    destination_times: list[float],
+    generation_times: list[float],
     lambha: float,
 ) -> Tuple[float, np.ndarray, np.ndarray]:
     """Calculate the AAoI given the parameters.
@@ -36,7 +36,7 @@ def av_age_fn(
         times = np.concatenate((times, dummy))
     # Initialize a counter (ii) and an offset
     ii = 0
-    offset = 0
+    offset = 0.0
     # Initialize the age array as the times array
     age = times.copy()
     # Loop through the times array
