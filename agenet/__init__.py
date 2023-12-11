@@ -2,10 +2,10 @@
 
 
 from agenet.av_age import av_age_fn
-from agenet.snratio import snr, snr_th
 from agenet.bler import blercal, blercal_th
 from agenet.maincom import main, run_main
 from agenet.printplot import generate_table, plot, plot_generate, printage
+from agenet.snratio import snr, snr_th
 
 __all__ = [
     "av_age",

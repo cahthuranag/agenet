@@ -1,4 +1,6 @@
 """Calculate the average age of information."""
+from __future__ import annotations
+
 import argparse
 from typing import Tuple
 
