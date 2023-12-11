@@ -8,7 +8,7 @@ from typing import Any, Union, cast
 import matplotlib.pyplot as plt
 from tabulate import tabulate
 
-from agenet import run_main
+from .maincom import run_main
 
 
 def generate_table(

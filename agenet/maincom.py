@@ -6,7 +6,9 @@ import random
 
 import numpy as np
 
-from agenet import av_age_fn, blercal, blercal_th, snr, snr_th
+from .av_age import av_age_fn
+from .bler import blercal, blercal_th
+from .snratio import snr, snr_th
 
 
 def main(
