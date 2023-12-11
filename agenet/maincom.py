@@ -22,19 +22,18 @@ def main(
     """Simulates a communication system and calculates the AAoI.
 
     Args:
-        num_nodes (int): Number of nodes in the system
-        active_prob (float): Probability that a node is active.
-        n (int): Number of bits in a block.
-        k (int): Number of bits in a message.
-        P (float): Power of the nodes.
-        d (int): Distance between nodes.
-        N0 (float): Noise power.
-        fr (float): Frequency of the signal.
-        numevents (int): Number of events to simulate.
+      num_nodes: Number of nodes in the system
+      active_prob: Probability that a node is active.
+      n: Number of bits in a block.
+      k: Number of bits in a message.
+      P: Power of the nodes.
+      d: Distance between nodes.
+      N0: Noise power.
+      fr: Frequency of the signal.
+      numevents: Number of events to simulate.
 
     Returns:
-        Tuple[float, float]: A tuple of two floats.
-        theoretical AAoI and simulation AAoI.
+       Theoretical AAoI and simulation AAoI.
     """
     lambda1 = 1  # arrival for one transmission period
     num_events = numevents  # number of events
@@ -129,16 +128,16 @@ def run_main(
     """Run the simulation `numruns` times and return the AAoI.
 
     Args:
-        num_nodes: Number of nodes in the network.
-        active_prob: Probability that a node is active in a given time slot.
-        n (int): Number of bits in a block.
-        k (int): Number of bits in a message.
-        P (float): Power of the nodes.
-        numevnts: Number of events.
-        numruns: Number of times to run the simulation.
+      num_nodes: Number of nodes in the network.
+      active_prob: Probability that a node is active in a given time slot.
+      n: Number of bits in a block.
+      k: Number of bits in a message.
+      P: Power of the nodes.
+      numevnts: Number of events.
+      numruns: Number of times to run the simulation.
 
     Returns:
-        A tuple containing the theoretical AAoI and the simulation AAoI.
+      A tuple containing the theoretical AAoI and the simulation AAoI.
     """
     num_runs = numruns
     av_age_theoretical_run = 0
