@@ -228,7 +228,7 @@ def plot_generate(
             plt.show()
 
 
-def plot(args: argparse.Namespace, plots_folder=None) -> None:
+def plot(args: argparse.Namespace, plots_folder: str | None = None) -> None:
     """Plot the simulated and theoretical values for each variable and save the plots.
 
     Args:
