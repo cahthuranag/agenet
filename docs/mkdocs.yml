@@ -24,7 +24,6 @@ theme:
   - toc.integrate
 nav:
 - Home: index.md
-#- Theory: theory.md
 - "Reference": reference.md
 - "Usage": usage.md
 - "Development": dev.md
