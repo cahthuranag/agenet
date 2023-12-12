@@ -2,7 +2,6 @@
 from __future__ import annotations
 
 import argparse
-from typing import Tuple
 
 import numpy as np
 from scipy.integrate import trapz
@@ -13,7 +12,7 @@ def av_age_fn(
     destination_times: list[float],
     generation_times: list[float],
     lambha: float,
-) -> Tuple[float, np.ndarray, np.ndarray]:
+) -> tuple[float, np.ndarray, np.ndarray]:
     """Calculate the AAoI given the parameters.
 
     Args:
