@@ -52,14 +52,20 @@ dev = [
     "flake8-pytest-style",
     "flake8-simplify",
     "isort",
-    "pre-commit"]
+    "pre-commit",
+    "types-tabulate"]
 
 [tool.setuptools]
 packages = ["agenet"]
 
+[tool.mypy]
+python_version = "3.8"
+warn_unused_ignores = true
+ignore_missing_imports = true
+
 [tool.pytest.ini_options]
 minversion = "6.0"
-addopts = "-v --tb=short --strict-markers"
+addopts = "-v --tb=short --strict-markers --mypy"
 testpaths = [ "test" ]
 [tool.black]
 line-length = 88

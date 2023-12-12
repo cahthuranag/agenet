@@ -1,11 +1,14 @@
 """Main file for the communication system simulation."""
+from __future__ import annotations
+
 import argparse
 import random
-from typing import Tuple
 
 import numpy as np
 
-from agenet import av_age_fn, blercal, blercal_th, snr, snr_th
+from .av_age import av_age_fn
+from .bler import blercal, blercal_th
+from .snratio import snr, snr_th
 
 
 def main(
@@ -18,7 +21,7 @@ def main(
     N0: float,
     fr: float,
     numevents: int,
-) -> Tuple[float, float]:
+) -> tuple[float, float]:
     """Simulates a communication system and calculates the AAoI.
 
     Args:
@@ -124,7 +127,7 @@ def run_main(
     fr: float,
     numevnts: int,
     numruns: int,
-) -> Tuple[float, float]:
+) -> tuple[float, float]:
     """Run the simulation `numruns` times and return the AAoI.
 
     Args:
@@ -140,8 +143,8 @@ def run_main(
       A tuple containing the theoretical AAoI and the simulation AAoI.
     """
     num_runs = numruns
-    av_age_theoretical_run = 0
-    av_age_simulation_run = 0
+    av_age_theoretical_run = 0.0
+    av_age_simulation_run = 0.0
     for _ in range(num_runs):
         av_age_theoretical_i, av_age_simulation_i = main(
             num_nodes, active_prob, n, k, P, d, N0, fr, numevnts
@@ -153,7 +156,7 @@ def run_main(
     return av_age_theoretical_run, av_age_simulation_run
 
 
-def _parse_args() -> argparse.Namespace:
+def _parse_args() -> None:
     """Parse command-line arguments and run the simulation."""
     parser = argparse.ArgumentParser(description="AAoI Simulation")
     parser.add_argument(

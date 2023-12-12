@@ -1,12 +1,14 @@
 """This module contains functions to print tables and plots."""
+from __future__ import annotations
+
 import argparse
 import os
-from typing import List
+from typing import Any, Union, cast
 
 import matplotlib.pyplot as plt
 from tabulate import tabulate
 
-from agenet import run_main
+from .maincom import run_main
 
 
 def generate_table(
@@ -20,11 +22,11 @@ def generate_table(
     fr_const: float,
     numevnts: int,
     numruns: int,
-    num_nodes_vals: List[int],
-    active_prob_vals: List[float],
-    n_vals: List[int],
-    k_vals: List[int],
-    P_vals: List[float],
+    num_nodes_vals: list[int],
+    active_prob_vals: list[float],
+    n_vals: list[int],
+    k_vals: list[int],
+    P_vals: list[float],
     file=None,
 ) -> None:
     """Print a table comparing the theoretical and simulated values.
@@ -47,25 +49,24 @@ def generate_table(
       P_vals: Values for the power.
       file: File where to save table instead of printing it to standard output.
     """
-    for i, (var_name, var_vals) in enumerate(
-        zip(
-            [
-                "number of nodes",
-                "active probability",
-                "block length",
-                "update size",
-                "Power",
-            ],
-            [
-                num_nodes_vals,
-                active_prob_vals,
-                n_vals,
-                k_vals,
-                P_vals,
-            ],
-        )
+    for i, var_name, var_vals in zip(
+        range(5),
+        [
+            "number of nodes",
+            "active probability",
+            "block length",
+            "update size",
+            "Power",
+        ],
+        [
+            num_nodes_vals,
+            active_prob_vals,
+            n_vals,
+            k_vals,
+            P_vals,
+        ],
     ):
-        const_vals = [
+        const_vals: list[Any] = [
             num_nodes_const,
             active_prob_const,
             n_const,
@@ -77,12 +78,11 @@ def generate_table(
             numevnts,
             numruns,
         ]
-        const_vals[i] = None
 
         headers = [var_name, "Theoretical", "Simulated"]
 
         table_rows = []
-        for val in var_vals:
+        for val in cast(list[Union[int, float]], var_vals):
             theoretical, simulated = run_main(
                 *(const_vals[:i] + [val] + const_vals[i + 1 :])
             )
@@ -146,12 +146,12 @@ def plot_generate(
     fr_const: float,
     numevnts: int,
     numruns: int,
-    num_nodes_vals: List[int],
-    active_prob_vals: List[float],
-    n_vals: List[int],
-    k_vals: List[int],
-    P_vals: List[float],
-    plots_folder: str = None,
+    num_nodes_vals: list[int],
+    active_prob_vals: list[float],
+    n_vals: list[int],
+    k_vals: list[int],
+    P_vals: list[float],
+    plots_folder: str | None = None,
 ) -> None:
     """Plot the simulated and theoretical values for each variable.
 
@@ -173,19 +173,18 @@ def plot_generate(
       P_vals: Values for the power.
       plots_folder: Folder to save the plots.
     """
-    for i, (var_name, var_vals) in enumerate(
-        zip(
-            [
-                "number of nodes",
-                "active probability",
-                "block length",
-                "update size",
-                "Power",
-            ],
-            [num_nodes_vals, active_prob_vals, n_vals, k_vals, P_vals],
-        )
+    for i, var_name, var_vals in zip(
+        range(5),
+        [
+            "number of nodes",
+            "active probability",
+            "block length",
+            "update size",
+            "Power",
+        ],
+        [num_nodes_vals, active_prob_vals, n_vals, k_vals, P_vals],
     ):
-        const_vals = [
+        const_vals: list[Any] = [
             num_nodes_const,
             active_prob_const,
             n_const,
@@ -197,13 +196,12 @@ def plot_generate(
             numevnts,
             numruns,
         ]
-        const_vals[i] = None  # Set the variable being varied to None
 
         theoretical_vals = []
         simulated_vals = []
 
         # Gather data for each value of the variable
-        for val in var_vals:
+        for val in cast(list[Union[int, float]], var_vals):
             theoretical, simulated = run_main(
                 *(const_vals[:i] + [val] + const_vals[i + 1 :])
             )
@@ -230,7 +228,7 @@ def plot_generate(
             plt.show()
 
 
-def plot(args: argparse.Namespace, plots_folder=None) -> None:
+def plot(args: argparse.Namespace, plots_folder: str | None = None) -> None:
     """Plot the simulated and theoretical values for each variable and save the plots.
 
     Args:
