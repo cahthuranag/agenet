@@ -1,12 +1,10 @@
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://github.com/cahthuranag/Agewire/blob/3000891c482e715b3006264a88dfcf4ed4aedc7c/LICENSE)
-![.github/workflows/test.yml](https://github.com/github/docs/actions/workflows/test.yml/badge.svg)
+[![Tests](https://github.com/cahthuranag/agenet/actions/workflows/test.yml/badge.svg)](https://github.com/cahthuranag/agenet/actions/workflows/test.yml)
 [![codecov](https://codecov.io/gh/cahthuranag/agenet/branch/main/graph/badge.svg?token=k8Ix6Zv8x9)](https://codecov.io/gh/cahthuranag/agenet)
 [![Code style: black](https://img.shields.io/badge/code%20style-black-000000.svg)](https://github.com/psf/black)
 [![Docs](https://img.shields.io/badge/docs-stable-blue.svg)](https://cahthuranag.github.io/agenet/)
 ![GitHub Repo stars](https://img.shields.io/github/stars/cahthuranag/agenet?style=social)
 ![GitHub last commit](https://img.shields.io/github/last-commit/cahthuranag/agenet)
-[![Coverage](https://github.com/cahthuranag/agenet/actions/workflows/cov.yml/badge.svg)](https://github.com/cahthuranag/agenet/actions/workflows/cov.yml)
-
 
 # agenet
 
@@ -38,26 +36,7 @@ The **agenet** package contains several functions that can be used to study the 
 
 - Estimate the average AoI value for a given update generation time and receiving time, which is a useful metric for evaluating the performance of any network.
 
-Additionally, a command-line script is included in the package that allows for easy experimentation with the model with default or user-defined parameters. The simulation can generate both theoretical and simulated values for various factors such as block lengths, power allocations, packet sizes, activation probabilities, and number of nodes in the network. These values can be presented in the form of tables using the following command.
-
-```
-$ agenet
-```
-
-## Requirements
-
-The implementation requires Python 3.8+ to run.
-The following libraries are also required:
-
-- `numpy`
-- `matplotlib`
-- `pandas`
-- `tabulate`
-- `argparse`
-- `itertools`
-- `math`
-- `scipy`
-- `random`
+Additionally, the `agenet` command-line script is included in the package, allowing for easy experimentation with the model with default or user-defined parameters. The simulation can generate both theoretical and simulated values for various factors such as block lengths, power allocations, packet sizes, activation probabilities, and number of nodes in the network.
 
 ## How to install
 
