@@ -6,7 +6,6 @@
 ![GitHub Repo stars](https://img.shields.io/github/stars/cahthuranag/agenet?style=social)
 ![GitHub last commit](https://img.shields.io/github/last-commit/cahthuranag/agenet)
 
-
 # agenet
 
 A Python 3.8 implementation of a system model to estimate the average Age of Information (AoI) in an ultra-reliable low latency communication (URLLC) enabled wireless communication system with Slotted ALOHA scheme over the quasi-static Rayleigh block fading channels. A packet communication scheme is used to meet both the reliability and latency requirements of the proposed wireless network. By resorting to finite block length information theory, queuing theory, and stochastic processes, theoretical results can be obtained with this research software.
@@ -37,26 +36,7 @@ The **agenet** package contains several functions that can be used to study the 
 
 - Estimate the average AoI value for a given update generation time and receiving time, which is a useful metric for evaluating the performance of any network.
 
-Additionally, a command-line script is included in the package that allows for easy experimentation with the model with default or user-defined parameters. The simulation can generate both theoretical and simulated values for various factors such as block lengths, power allocations, packet sizes, activation probabilities, and number of nodes in the network. These values can be presented in the form of tables using the following command.
-
-```
-$ ageprint
-```
-
-## Requirements
-
-The implementation requires Python 3.8+ to run.
-The following libraries are also required:
-
-- `numpy`
-- `matplotlib`
-- `pandas`
-- `tabulate`
-- `argparse`
-- `itertools`
-- `math`
-- `scipy`
-- `random`
+Additionally, the `agenet` command-line script is included in the package, allowing for easy experimentation with the model with default or user-defined parameters. The simulation can generate both theoretical and simulated values for various factors such as block lengths, power allocations, packet sizes, activation probabilities, and number of nodes in the network.
 
 ## How to install
 
