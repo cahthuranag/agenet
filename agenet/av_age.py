@@ -15,13 +15,13 @@ def av_age_fn(
     """Calculate the AAoI given the parameters.
 
     Args:
-        destination_times (List[float]): A sorted list of destination times.
-        generation_times (List[float]): A list of the  generation times.
-        lambha (float): The arrival rate of information.
+      destination_times: A sorted list of destination times.
+      generation_times: A list of the  generation times.
+      lambha: The arrival rate of information.
 
     Returns:
-        Tuple[float, np.ndarray, np.ndarray]:  A tuple containing the aaoi, the
-        array of ages for each time step, and the corresponding time step array.
+      A tuple containing the AAoI, the array of ages for each time step, and
+        the corresponding time step array.
     """
     # Define the time step (p) as a constant (lambha)
     p = lambha * 0.01

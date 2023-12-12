@@ -21,19 +21,10 @@ Tests can be executed with the following command:
 $ pytest
 ```
 
-The previous command runs the tests at `normal` level by default. This test
-level can also be specified explicitly:
-
-```text
-$ pytest --test-level=normal
-```
-
-
-
 To generate a test coverage report, run pytest as follows:
 
 ```text
-$ pytest --cov=agenet --cov-report=html --test-level=ci
+$ pytest --cov=agenet --cov-report=html
 ```
 
 ## Build docs

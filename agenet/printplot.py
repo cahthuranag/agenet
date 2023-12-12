@@ -27,27 +27,25 @@ def generate_table(
     P_vals: List[float],
     file=None,
 ) -> None:
-    """Generates a table comparing the theoretical and simulated values.
+    """Print a table comparing the theoretical and simulated values.
 
     Args:
-        num_nodes_const (int): Constant value for the number of nodes.
-        active_prob_const (float): Constant value for the active probability.
-        n_const (int): Constant value for the block length.
-        k_const (int): Constant value for the update size.
-        P_const (float): Constant value for the power.
-        d_const (int): Constant value for the distance between nodes.
-        N0_const (float): Constant value for the noise power.
-        fr_const (float): Constant value for the frequency of the signal.
-        numevnts (int): The number of events.
-        numruns (int): The number of runs.
-        num_nodes_vals (List[int]): Values for the number of nodes.
-        active_prob_vals (List[float]): Values for the active probability.
-        n_vals (List[int]): Values for the block length.
-        k_vals (List[int]): Values for the update size.
-        P_vals (List[float]): Values for the power.
-
-    Returns:
-        Thus funtion will return a table comparing the theoretical and simulated values.
+      num_nodes_const: Constant value for the number of nodes.
+      active_prob_const: Constant value for the active probability.
+      n_const: Constant value for the block length.
+      k_const: Constant value for the update size.
+      P_const: Constant value for the power.
+      d_const: Constant value for the distance between nodes.
+      N0_const: Constant value for the noise power.
+      fr_const: Constant value for the frequency of the signal.
+      numevnts: The number of events.
+      numruns: The number of runs.
+      num_nodes_vals: Values for the number of nodes.
+      active_prob_vals: Values for the active probability.
+      n_vals: Values for the block length.
+      k_vals: Values for the update size.
+      P_vals: Values for the power.
+      file: File where to save table instead of printing it to standard output.
     """
     for i, (var_name, var_vals) in enumerate(
         zip(
@@ -101,10 +99,7 @@ def printage(args: argparse.Namespace) -> None:
     """Prints a table comparing results for different input values.
 
     Args:
-        args (argparse.Namespace): Parsed command-line arguments.
-
-    Returns:
-        None
+      args: Parsed command-line arguments.
     """
     num_nodes_const = args.num_nodes_const
     active_prob_const = args.active_prob_const
@@ -161,13 +156,22 @@ def plot_generate(
     """Plot the simulated and theoretical values for each variable.
 
     Args:
-        num_nodes_const, active_prob_const, n_const, k_const, P_const: Constants.
-        numevnts, numruns: Number of events and runs.
-        num_nodes_vals, active_prob_vals, n_vals, k_vals, P_vals: variables.
-        plots_folder: Folder to save the plots.
-
-    Returns:
-        None
+      num_nodes_const: Constant value for the number of nodes.
+      active_prob_const: Constant value for the active probability.
+      n_const: Constant value for the block length.
+      k_const: Constant value for the update size.
+      P_const: Constant value for the power.
+      d_const: Constant value for the distance between nodes.
+      N0_const: Constant value for the noise power.
+      fr_const: Constant value for the frequency of the signal.
+      numevnts: Number of events.
+      numruns: Number of runs.
+      num_nodes_vals: Values for the number of nodes.
+      active_prob_vals: Values for the active probability.
+      n_vals: Values for the block length.
+      k_vals: Values for the update size.
+      P_vals: Values for the power.
+      plots_folder: Folder to save the plots.
     """
     for i, (var_name, var_vals) in enumerate(
         zip(
@@ -230,11 +234,8 @@ def plot(args: argparse.Namespace, plots_folder=None) -> None:
     """Plot the simulated and theoretical values for each variable and save the plots.
 
     Args:
-        args (argparse.Namespace): Parsed command-line arguments.
-        plots_folder (str): Folder to save plots
-
-    Returns:
-        Plot the simulated and theoretical values for each variable and save the plots.
+        args: Parsed command-line arguments.
+        plots_folder: Folder to save plots
     """
     # Extracting values from the args
     num_nodes_const = args.num_nodes_const
@@ -274,13 +275,7 @@ def plot(args: argparse.Namespace, plots_folder=None) -> None:
 
 
 def _parse_args() -> None:
-    """Command-line arguments and calls the printage function.
-
-    Args:
-        None
-    Returns:
-        None
-    """
+    """Command-line arguments and calls the printage function."""
     parser = argparse.ArgumentParser(
         description="Prints a table comparing results for different input values."
     )
