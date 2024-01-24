@@ -4,7 +4,7 @@ import subprocess
 
 import pytest
 
-from agenet import main
+from agenet import simulation
 
 # define test cases
 test_cases = [
@@ -33,20 +33,20 @@ test_cases = [
 ]
 
 
-# define pytest function to test main function with multiple test cases
+# define pytest function to test simulation function with multiple test cases
 @pytest.mark.parametrize(
     "num_nodes, active_prob, n, k, P, d, N0, fr, numevents", test_cases
 )
-def test_main(num_nodes, active_prob, n, k, P, d, N0, fr, numevents):
-    """Test the main function for some known inputs and expected outputs."""
-    # call the main function
-    result = main(num_nodes, active_prob, n, k, P, d, N0, fr, numevents)
+def test_simulation(num_nodes, active_prob, n, k, P, d, N0, fr, numevents):
+    """Test the simulation function for some known inputs and expected outputs."""
+    # call the simulation function
+    result = simulation(num_nodes, active_prob, n, k, P, d, N0, fr, numevents)
     # assert that the result is not None
     assert result is not None
 
 
 def test_command_line_arguments():
-    """Test the command-line arguments for the main module."""
+    """Test the command-line arguments for the simulation module."""
     # Define sample command-line arguments
     num_nodes = 2
     active_prob = 0.5
