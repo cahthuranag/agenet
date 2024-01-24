@@ -11,7 +11,7 @@ from .bler import blercal, blercal_th
 from .snratio import snr, snr_th
 
 
-def main(
+def simulation(
     num_nodes: int,
     active_prob: float,
     n: int,
@@ -116,7 +116,7 @@ def main(
     return av_age_theoretical, av_age_simulation
 
 
-def run_main(
+def run_simulation(
     num_nodes: int,
     active_prob: float,
     n: int,
@@ -146,7 +146,7 @@ def run_main(
     av_age_theoretical_run = 0.0
     av_age_simulation_run = 0.0
     for _ in range(num_runs):
-        av_age_theoretical_i, av_age_simulation_i = main(
+        av_age_theoretical_i, av_age_simulation_i = simulation(
             num_nodes, active_prob, n, k, P, d, N0, fr, numevnts
         )
         av_age_theoretical_run += av_age_theoretical_i
@@ -193,7 +193,7 @@ def _parse_args() -> None:
     )
     args = parser.parse_args()
 
-    theoretical_aaoi, simulation_aaoi = run_main(
+    theoretical_aaoi, simulation_aaoi = run_simulation(
         args.num_nodes,
         args.active_prob,
         args.n,

@@ -8,7 +8,7 @@ from typing import Any, Union, cast
 import matplotlib.pyplot as plt
 from tabulate import tabulate
 
-from .maincom import run_main
+from .maincom import run_simulation
 
 
 def generate_table(
@@ -83,7 +83,7 @@ def generate_table(
 
         table_rows = []
         for val in cast(list[Union[int, float]], var_vals):
-            theoretical, simulated = run_main(
+            theoretical, simulated = run_simulation(
                 *(const_vals[:i] + [val] + const_vals[i + 1 :])
             )
             table_rows.append([val, theoretical, simulated])
@@ -202,7 +202,7 @@ def plot_generate(
 
         # Gather data for each value of the variable
         for val in cast(list[Union[int, float]], var_vals):
-            theoretical, simulated = run_main(
+            theoretical, simulated = run_simulation(
                 *(const_vals[:i] + [val] + const_vals[i + 1 :])
             )
             theoretical_vals.append(theoretical)
