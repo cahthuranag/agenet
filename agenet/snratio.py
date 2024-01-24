@@ -77,6 +77,3 @@ def _parse_args():
         print(f"SNR: {snr_val}")
         print(f"Theoretical SNR: {snr_th_val}")
 
-
-if __name__ == "__main__":
-    _parse_args()

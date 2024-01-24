@@ -208,6 +208,3 @@ def _parse_args() -> None:
     print("Theoretical AAoI:", theoretical_aaoi)
     print("Simulation AAoI:", simulation_aaoi)
 
-
-if __name__ == "__main__":
-    _parse_args()

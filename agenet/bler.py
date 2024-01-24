@@ -94,6 +94,3 @@ def _parse_args():
             err = blercal(snr, n, k)
             print(f"BLER: {err}")
 
-
-if __name__ == "__main__":
-    _parse_args()
