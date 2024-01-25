@@ -3,7 +3,7 @@ from __future__ import annotations
 
 import argparse
 import os
-from typing import Any, Union, cast
+from typing import List, Union, cast
 
 import matplotlib.pyplot as plt
 from tabulate import tabulate
@@ -82,7 +82,7 @@ def generate_table(
         headers = [var_name, "Theoretical", "Simulated"]
 
         table_rows = []
-        for val in cast(list[Union[int, float]], var_vals):
+        for val in cast(List[Union[int, float]], var_vals):
             theoretical, simulated = run_simulation(
                 *(const_vals[:i] + [val] + const_vals[i + 1 :])
             )
@@ -201,7 +201,7 @@ def plot_generate(
         simulated_vals = []
 
         # Gather data for each value of the variable
-        for val in cast(list[Union[int, float]], var_vals):
+        for val in cast(List[Union[int, float]], var_vals):
             theoretical, simulated = run_simulation(
                 *(const_vals[:i] + [val] + const_vals[i + 1 :])
             )
