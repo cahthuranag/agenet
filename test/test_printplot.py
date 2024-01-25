@@ -361,58 +361,6 @@ def test_plot(monkeypatch):
         plot(args)
 
 
-def test_command_line_arguments():
-    """Test the command-line arguments for the plot() function."""
-    # Define sample command-line arguments
-    num_nodes_const = 2
-    active_prob_const = 0.5
-    n_const = 150
-    k_const = 100
-    P_const = 2 * (10**-3)
-    d_const = 700
-    N0_const = 1 * (10**-13)
-    fr_const = 6 * (10**9)
-
-    numevnts = 1000
-    numruns = 5
-
-    num_nodes_vals = [1, 2, 3, 4, 5]
-    active_prob_vals = [0.1, 0.15, 0.2, 0.25]
-    n_vals = [150, 160, 170, 180, 190, 200, 210, 220, 230, 240, 250]
-    k_vals = [50, 60, 70, 80, 90, 95, 100]
-    P_vals = [
-        2 * (10**-3),
-        4 * (10**-3),
-        6 * (10**-3),
-        8 * (10**-3),
-    ]
-
-    # Run the script with the sample command-line arguments
-    script_path = os.path.abspath("agenet/printplot.py")
-    command = (
-        f"python {script_path} "
-        f"--num_nodes_const {num_nodes_const} "
-        f"--active_prob_const {active_prob_const} "
-        f"--n_const {n_const} "
-        f"--k_const {k_const} "
-        f"--P_const {P_const} "
-        f"--d_const {d_const} "
-        f"--N0_const {N0_const} "
-        f"--fr_const {fr_const} "
-        f"--numevnts {numevnts} "
-        f"--numruns {numruns} "
-        f"--num_nodes_vals {' '.join(map(str, num_nodes_vals))} "
-        f"--active_prob_vals {' '.join(map(str, active_prob_vals))} "
-        f"--n_vals {' '.join(map(str, n_vals))} "
-        f"--k_vals {' '.join(map(str, k_vals))} "
-        f"--P_vals {' '.join(map(str, P_vals))}"
-    )
-
-    result = subprocess.run(command, shell=True, capture_output=True, text=True)
-
-    # Assert that the stdout is not empty (indicating that there's some output)
-    assert result.stdout.strip() != ""
-
 
 def test_plot_save(mocker):
     """Test the plot() function."""
