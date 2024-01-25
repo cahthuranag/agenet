@@ -69,7 +69,6 @@ def test_generate_table():
     P_vals = [2 * (10**-3), 4 * (10**-3)]
 
     # Capture the printed output
-
     output = io.StringIO()
     with redirect_stdout(output):
         generate_table(
@@ -89,6 +88,7 @@ def test_generate_table():
             k_vals,
             P_vals,
         )
+
     output_str = output.getvalue()
 
     # Split the output into lines and check the format using tabulate
@@ -96,10 +96,14 @@ def test_generate_table():
     headers = [header.strip() for header in output_lines[0].strip().split("|")[1:-1]]
     table_data = [row.strip().split("|")[1:-1] for row in output_lines[2:-1]]
 
-    expected_table = tabulate(table_data, headers=headers, tablefmt="grid")
     actual_table = tabulate(table_data, headers=headers, tablefmt="grid")
 
-    assert expected_table == actual_table
+    # Define the expected output
+    expected_table = "..."  # String of the expected table output
+
+    # Assert if the generated table matches the expected table
+    assert actual_table == expected_table
+
 
 
 def test_printage():
