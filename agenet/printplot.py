@@ -3,7 +3,7 @@ from __future__ import annotations
 
 import argparse
 import os
-from typing import List, Union, cast
+from typing import List, Union, cast, Any
 
 import matplotlib.pyplot as plt
 from tabulate import tabulate
