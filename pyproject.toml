@@ -22,7 +22,7 @@ classifiers = [
     "Topic :: Scientific/Engineering" ]
 
 [project.scripts]
-agenet = "agenet.printplot:_parse_args"
+agenet = "agenet.cli:_main"
 
 [project.urls]
 "Homepage" = "https://github.com/cahthuranag/agenet"
