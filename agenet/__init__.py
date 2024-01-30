@@ -11,12 +11,11 @@ __all__ = [
     "generate_table",
     "plot",
     "plot_generate",
-    "printage",
 ]
 
 
 from agenet.av_age import av_age_fn
 from agenet.bler import blercal, blercal_th
 from agenet.maincom import simulation, run_simulation
-from agenet.printplot import generate_table, plot, plot_generate, printage
+from agenet.printplot import generate_table, plot, plot_generate
 from agenet.snratio import snr, snr_th

@@ -1,6 +1,6 @@
 
 import argparse
-from .printplot import printage, plot
+from .printplot import  plot, generate_table
 from .bler import  blercal_th
 from .snratio import  snr_th
 
@@ -122,4 +122,20 @@ def _main() -> None:
        print(f"Theoretical Block Error Rate: {ber_th}")
 
     else:
-        printage(args)
+        generate_table(
+            args.num_nodes_const,
+            args.active_prob_const,
+            args.n_const,
+            args.k_const,
+            args.P_const,
+            args.d_const,
+            args.N0_const,
+            args.fr_const,
+            args.numevnts,
+            args.numruns,
+            args.num_nodes_vals,
+            args.active_prob_vals,
+            args.n_vals,
+            args.k_vals,
+            args.P_vals,
+        )

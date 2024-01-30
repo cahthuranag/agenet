@@ -10,6 +10,8 @@ from tabulate import tabulate
 
 from .maincom import run_simulation
 
+import csv
+
 
 def generate_table(
     num_nodes_const: int,
@@ -89,50 +91,14 @@ def generate_table(
             table_rows.append([val, theoretical, simulated])
 
         if file is not None:
-            file.write(tabulate(table_rows, headers=headers, tablefmt="grid") + "\n\n")
+            csv_writer = csv.writer(file)
+            csv_writer.writerow(headers)  # Write the header
+            csv_writer.writerows(table_rows)  # Write the data rows
         else:
             print(tabulate(table_rows, headers=headers, tablefmt="grid"))
             print("\n")
 
 
-def printage(args: argparse.Namespace) -> None:
-    """Prints a table comparing results for different input values.
-
-    Args:
-      args: Parsed command-line arguments.
-    """
-    num_nodes_const = args.num_nodes_const
-    active_prob_const = args.active_prob_const
-    n_const = args.n_const
-    k_const = args.k_const
-    P_const = args.P_const
-    d_const = args.d_const
-    N0_const = args.N0_const
-    fr_const = args.fr_const
-
-    num_nodes_vals = args.num_nodes_vals
-    active_prob_vals = args.active_prob_vals
-    n_vals = args.n_vals
-    k_vals = args.k_vals
-    P_vals = args.P_vals
-
-    generate_table(
-        num_nodes_const=num_nodes_const,
-        active_prob_const=active_prob_const,
-        n_const=n_const,
-        k_const=k_const,
-        P_const=P_const,
-        d_const=d_const,
-        N0_const=N0_const,
-        fr_const=fr_const,
-        numevnts=args.numevnts,
-        numruns=args.numruns,
-        num_nodes_vals=num_nodes_vals,
-        active_prob_vals=active_prob_vals,
-        n_vals=n_vals,
-        k_vals=k_vals,
-        P_vals=P_vals,
-    )
 
 
 def plot_generate(
