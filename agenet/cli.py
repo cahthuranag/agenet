@@ -1,6 +1,8 @@
 
 import argparse
 from .printplot import printage, plot
+from .bler import  blercal_th
+from .snratio import  snr_th
 
 def _main() -> None:
     """Command-line arguments and calls the printage function."""
@@ -103,11 +105,21 @@ def _main() -> None:
     parser.add_argument("--quiet", action="store_true", help="Omit tables")
     parser.add_argument("--plots", action="store_true", help="Show plots")
     parser.add_argument("--plots_folder", type=str, help="Folder to save plots")
+    parser.add_argument("--blockerror", action="store_true", help="Show theoretical block error")
+    parser.add_argument("--snr", action="store_true", help="Show snr")
 
     args = parser.parse_args()
 
-    if not args.quiet:
-        printage(args)
 
     if args.plots or args.plots_folder:
         plot(args, args.plots_folder if args.plots_folder else None)
+
+    if args.snr:
+        snr_th_val = snr_th(args.N0_const, args.d_const, args.P_const, args.fr_const)
+        print(f"Theoretical SNR: {snr_th_val}")
+    if args.blockerror:
+       ber_th= blercal_th(args.snr, args.n_const, args.k_const)
+       print(f"Theoretical Block Error Rate: {ber_th}")
+
+    else:
+        printage(args)

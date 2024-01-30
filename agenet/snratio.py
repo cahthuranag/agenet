@@ -57,23 +57,3 @@ def _alpha(d: float, fr: float) -> float:
     return alpha
 
 
-def _parse_args():
-    parser = argparse.ArgumentParser(
-        description="Calculate signal-to-noise ratio (SNR)."
-    )
-    parser.add_argument("-N0", type=float, help="Power spectral density of the noise")
-    parser.add_argument(
-        "-d",
-        type=float,
-        help="Distance between the transmitter and receiver",
-    )
-    parser.add_argument("-fr", type=float, help="Frequency of the signal")
-    parser.add_argument("-P", type=float, help="Power of the transmitted signal")
-    args = parser.parse_args()
-
-    if args.N0 is not None and args.d is not None and args.P is not None:
-        snr_val = snr(args.N0, args.d, args.P, args.fr)
-        snr_th_val = snr_th(args.N0, args.d, args.P, args.fr)
-        print(f"SNR: {snr_val}")
-        print(f"Theoretical SNR: {snr_th_val}")
-
