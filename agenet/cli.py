@@ -102,6 +102,7 @@ def _main() -> None:
         ],
         help="Values for the power.",
     )
+
     parser.add_argument("--quiet", action="store_true", help="Omit tables")
     parser.add_argument("--plots", action="store_true", help="Show plots")
     parser.add_argument("--plots_folder", type=str, help="Folder to save plots")
