@@ -31,49 +31,58 @@ def generate_table(
     P_vals: list[float],
     csv_folder=None,
 ) -> None:
-    """Save a table comparing the theoretical and simulated values in a single CSV format.
+    """Save a table comparing the theoretical and simulated values in CSV format.
 
     Args as described in the initial function.
     """
-    # Define CSV file name and path
-    csv_file_name = "combined_simulation_results.csv"
-    if csv_folder:
-        if not os.path.exists(csv_folder):
-            os.makedirs(csv_folder)  # Create the folder if it doesn't exist
-        csv_file_path = os.path.join(csv_folder, csv_file_name)
-    else:
-        csv_file_path = csv_file_name  # Save in the current directory if no folder specified
+    if csv_folder is not None and not os.path.exists(csv_folder):
+        os.makedirs(csv_folder)  # Create the folder if it doesn't exist
 
-    with open(csv_file_path, mode='w', newline='') as csv_file:
-        csv_writer = csv.writer(csv_file)
-        # Write the header only once
-        headers = ["Variable", "Value", "Theoretical", "Simulated"]
-        csv_writer.writerow(headers)
+    for i, var_name, var_vals in zip(
+        range(5),
+        [
+            "number of nodes",
+            "active probability",
+            "block length",
+            "update size",
+            "Power",
+        ],
+        [
+            num_nodes_vals,
+            active_prob_vals,
+            n_vals,
+            k_vals,
+            P_vals,
+        ],
+    ):
+        const_vals = [
+            num_nodes_const,
+            active_prob_const,
+            n_const,
+            k_const,
+            P_const,
+            d_const,
+            N0_const,
+            fr_const,
+            numevnts,
+            numruns,
+        ]
 
-        for i, var_name, var_vals in zip(
-            range(5),
-            ["number of nodes", "active probability", "block length", "update size", "Power"],
-            [num_nodes_vals, active_prob_vals, n_vals, k_vals, P_vals],
-        ):
-            const_vals = [
-                num_nodes_const,
-                active_prob_const,
-                n_const,
-                k_const,
-                P_const,
-                d_const,
-                N0_const,
-                fr_const,
-                numevnts,
-                numruns,
-            ]
+        headers = [var_name, "Theoretical", "Simulated"]
+        table_rows = []
 
-            for val in var_vals:
-                theoretical, simulated = run_simulation(
-                    *(const_vals[:i] + [val] + const_vals[i + 1 :])
-                )
-                # Write each row as it's generated
-                csv_writer.writerow([var_name, val, theoretical, simulated])
+        for val in var_vals:
+            theoretical, simulated = run_simulation(
+                *(const_vals[:i] + [val] + const_vals[i + 1 :])
+            )
+            table_rows.append([val, theoretical, simulated])
+
+        if csv_folder is not None:
+            csv_file_path = os.path.join(csv_folder, f"{var_name.replace(' ', '_')}.csv")
+            with open(csv_file_path, mode='w', newline='') as csv_file:
+                csv_writer = csv.writer(csv_file)
+                csv_writer.writerow(headers)  # Write the header
+                csv_writer.writerows(table_rows)  # Write the data rows
 
 
 
