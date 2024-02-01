@@ -3,7 +3,7 @@ from __future__ import annotations
 
 import argparse
 import os
-from typing import List, Union, cast, Any
+from typing import List, Union, cast, Any, Optional
 
 import matplotlib.pyplot as plt
 from tabulate import tabulate
@@ -29,9 +29,28 @@ def generate_table(
     n_vals: list[int],
     k_vals: list[int],
     P_vals: list[float],
-    csv_location: str = None,
+    csv_location: Optional[str] = None,
 ) -> None:
-    first_iteration = True  # Flag to track if it's the first iteration
+    """Print the simulated and theoretical values for each variable.
+    
+    Args:
+      num_nodes_const: Constant value for the number of nodes.
+      active_prob_const: Constant value for the active probability.
+      n_const: Constant value for the block length.
+      k_const: Constant value for the update size.
+      P_const: Constant value for the power.
+      d_const: Constant value for the distance between nodes.
+      N0_const: Constant value for the noise power.
+      fr_const: Constant value for the frequency of the signal.
+      numevnts: Number of events.
+      numruns: Number of runs.
+      num_nodes_vals: Values for the number of nodes.
+      active_prob_vals: Values for the active probability.
+      n_vals: Values for the block length.
+      k_vals: Values for the update size.
+      P_vals: Values for the power.
+      csv_location: Location to save csv file
+      """
     for i, var_name, var_vals in zip(
         range(5),
         [
