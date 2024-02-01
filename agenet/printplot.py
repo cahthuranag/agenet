@@ -31,17 +31,14 @@ def generate_table(
     P_vals: list[float],
     csv_location: str = None,
 ) -> None:
-    if csv_location is not None and not os.path.exists(csv_location):
-        # Create the file to ensure it exists before appending
-        open(csv_location, 'a').close()
-    
+    first_iteration = True  # Flag to track if it's the first iteration
     for i, var_name, var_vals in zip(
         range(5),
         [
-            "Number of Nodes",
-            "Active Probability",
-            "Block Length",
-            "Update Size",
+            "number of nodes",
+            "active probability",
+            "block length",
+            "update size",
             "Power",
         ],
         [
@@ -65,7 +62,7 @@ def generate_table(
             numruns,
         ]
 
-        headers = ["Variable", var_name, "Theoretical", "Simulated"]
+        headers = [var_name, "Theoretical", "Simulated"]
 
         table_rows = []
         for val in cast(List[Union[int, float]], var_vals):
@@ -74,16 +71,28 @@ def generate_table(
             )
             table_rows.append([val, theoretical, simulated])
         
-        with open(csv_location, mode='a', newline='') as csvfile:
-            writer = csv.writer(csvfile)
-            # Write a blank row for separation and then the headers for this set
-            writer.writerow([''])  # Optional: remove if you don't want a blank row for separation
-            writer.writerow(headers)
-            writer.writerows(table_rows)
-    else:
-        # If no CSV location is provided, or to additionally print the result:
-        print(tabulate(table_rows, headers=headers, tablefmt="grid"))
-        print("\n")
+        if csv_location is not None:
+            # Open the CSV file in append mode
+            with open(csv_location, mode='a', newline='') as csvfile:
+                writer = csv.writer(csvfile)
+                
+                # Write a separator and headers for each set of variable simulations
+                # Check if the file is not empty and add a newline for separation
+                if os.path.getsize(csv_location) > 0:
+                    writer.writerow([''])  # Optional: adds an empty row for visual separation
+
+                # Update headers to include the variable name dynamically
+                updated_headers = [var_name, 'Theoretical', ' Simulated']
+                writer.writerow(updated_headers)
+                
+                for val in var_vals:
+                    theoretical, simulated = run_simulation(*(const_vals[:i] + [val] + const_vals[i + 1 :]))
+                    writer.writerow([val, theoretical, simulated])
+        else:
+            # If no CSV location is provided, or to additionally print the result:
+            print(tabulate(table_rows, headers=headers, tablefmt="grid"))
+            print("\n")
+            
 def plot_generate(
     num_nodes_const: int,
     active_prob_const: float,
