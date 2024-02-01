@@ -108,6 +108,7 @@ def _main() -> None:
     parser.add_argument("--plots_folder", type=str, help="Folder to save plots")
     parser.add_argument("--blockerror", action="store_true", help="Show theoretical block error")
     parser.add_argument("--snr", action="store_true", help="Show snr")
+    parser.add_argument("--csv_location", type=str, help="Location to save csv file")
 
     args = parser.parse_args()
 
@@ -139,4 +140,5 @@ def _main() -> None:
             args.n_vals,
             args.k_vals,
             args.P_vals,
+            args.csv_location if args.csv_location else None,
         )

@@ -29,15 +29,17 @@ def generate_table(
     n_vals: list[int],
     k_vals: list[int],
     P_vals: list[float],
-    csv_folder=None,
+    csv_location: str = None,
 ) -> None:
-    """Save a table comparing the theoretical and simulated values in CSV format.
+    """Print a table comparing the theoretical and simulated values.
 
-    Args as described in the initial function.
+    Args:
+        num_nodes_const, active_prob_const, n_const, k_const, P_const, d_const, N0_const, fr_const: Constant simulation parameters.
+        numevnts: The number of events.
+        numruns: The number of runs.
+        num_nodes_vals, active_prob_vals, n_vals, k_vals, P_vals: Lists of parameter values to simulate.
+        csv_location: Optional; path to save the table to a CSV file.
     """
-    if csv_folder is not None and not os.path.exists(csv_folder):
-        os.makedirs(csv_folder)  # Create the folder if it doesn't exist
-
     for i, var_name, var_vals in zip(
         range(5),
         [
@@ -55,7 +57,7 @@ def generate_table(
             P_vals,
         ],
     ):
-        const_vals = [
+        const_vals: list[Any] = [
             num_nodes_const,
             active_prob_const,
             n_const,
@@ -69,23 +71,27 @@ def generate_table(
         ]
 
         headers = [var_name, "Theoretical", "Simulated"]
-        table_rows = []
 
-        for val in var_vals:
+        table_rows = []
+        for val in cast(List[Union[int, float]], var_vals):
             theoretical, simulated = run_simulation(
                 *(const_vals[:i] + [val] + const_vals[i + 1 :])
             )
             table_rows.append([val, theoretical, simulated])
-
-        if csv_folder is not None:
-            csv_file_path = os.path.join(csv_folder, f"{var_name.replace(' ', '_')}.csv")
-            with open(csv_file_path, mode='w', newline='') as csv_file:
-                csv_writer = csv.writer(csv_file)
-                csv_writer.writerow(headers)  # Write the header
-                csv_writer.writerows(table_rows)  # Write the data rows
-
-
-
+        
+        if csv_location is not None:
+            # Ensure the directory exists
+            os.makedirs(os.path.dirname(csv_location), exist_ok=True)
+            
+            with open(csv_location, mode='w', newline='') as csvfile:
+                writer = csv.writer(csvfile)
+                writer.writerow(headers)
+                writer.writerows(table_rows)
+        else:
+            # If no CSV location is provided, or to additionally print the result:
+            from tabulate import tabulate  # You might need to install this package
+            print(tabulate(table_rows, headers=headers, tablefmt="grid"))
+            print("\n")
 
 def plot_generate(
     num_nodes_const: int,
