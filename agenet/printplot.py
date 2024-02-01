@@ -31,15 +31,7 @@ def generate_table(
     P_vals: list[float],
     csv_location: str = None,
 ) -> None:
-    """Print a table comparing the theoretical and simulated values.
-
-    Args:
-        num_nodes_const, active_prob_const, n_const, k_const, P_const, d_const, N0_const, fr_const: Constant simulation parameters.
-        numevnts: The number of events.
-        numruns: The number of runs.
-        num_nodes_vals, active_prob_vals, n_vals, k_vals, P_vals: Lists of parameter values to simulate.
-        csv_location: Optional; path to save the table to a CSV file.
-    """
+    first_iteration = True  # Flag to track if it's the first iteration
     for i, var_name, var_vals in zip(
         range(5),
         [
@@ -80,19 +72,18 @@ def generate_table(
             table_rows.append([val, theoretical, simulated])
         
         if csv_location is not None:
-            # Ensure the directory exists
-            os.makedirs(os.path.dirname(csv_location), exist_ok=True)
-            
-            with open(csv_location, mode='w', newline='') as csvfile:
+            # Append mode; check if headers need to be written
+            mode = 'a' if os.path.exists(csv_location) and os.path.getsize(csv_location) > 0 else 'w'
+            with open(csv_location, mode=mode, newline='') as csvfile:
                 writer = csv.writer(csvfile)
-                writer.writerow(headers)
+                if first_iteration or mode == 'w':  # Write headers only for the first table or if the file is new
+                    writer.writerow(headers)
                 writer.writerows(table_rows)
+                first_iteration = False  # Update flag after the first iteration
         else:
             # If no CSV location is provided, or to additionally print the result:
-            from tabulate import tabulate  # You might need to install this package
             print(tabulate(table_rows, headers=headers, tablefmt="grid"))
             print("\n")
-
 def plot_generate(
     num_nodes_const: int,
     active_prob_const: float,
