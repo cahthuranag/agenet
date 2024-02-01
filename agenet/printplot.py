@@ -31,14 +31,17 @@ def generate_table(
     P_vals: list[float],
     csv_location: str = None,
 ) -> None:
-    first_iteration = True  # Flag to track if it's the first iteration
+    if csv_location is not None and not os.path.exists(csv_location):
+        # Create the file to ensure it exists before appending
+        open(csv_location, 'a').close()
+    
     for i, var_name, var_vals in zip(
         range(5),
         [
-            "number of nodes",
-            "active probability",
-            "block length",
-            "update size",
+            "Number of Nodes",
+            "Active Probability",
+            "Block Length",
+            "Update Size",
             "Power",
         ],
         [
@@ -62,7 +65,7 @@ def generate_table(
             numruns,
         ]
 
-        headers = [var_name, "Theoretical", "Simulated"]
+        headers = ["Variable", var_name, "Theoretical", "Simulated"]
 
         table_rows = []
         for val in cast(List[Union[int, float]], var_vals):
@@ -71,19 +74,16 @@ def generate_table(
             )
             table_rows.append([val, theoretical, simulated])
         
-        if csv_location is not None:
-            # Append mode; check if headers need to be written
-            mode = 'a' if os.path.exists(csv_location) and os.path.getsize(csv_location) > 0 else 'w'
-            with open(csv_location, mode=mode, newline='') as csvfile:
-                writer = csv.writer(csvfile)
-                if first_iteration or mode == 'w':  # Write headers only for the first table or if the file is new
-                    writer.writerow(headers)
-                writer.writerows(table_rows)
-                first_iteration = False  # Update flag after the first iteration
-        else:
-            # If no CSV location is provided, or to additionally print the result:
-            print(tabulate(table_rows, headers=headers, tablefmt="grid"))
-            print("\n")
+        with open(csv_location, mode='a', newline='') as csvfile:
+            writer = csv.writer(csvfile)
+            # Write a blank row for separation and then the headers for this set
+            writer.writerow([''])  # Optional: remove if you don't want a blank row for separation
+            writer.writerow(headers)
+            writer.writerows(table_rows)
+    else:
+        # If no CSV location is provided, or to additionally print the result:
+        print(tabulate(table_rows, headers=headers, tablefmt="grid"))
+        print("\n")
 def plot_generate(
     num_nodes_const: int,
     active_prob_const: float,
