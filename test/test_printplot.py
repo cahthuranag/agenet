@@ -88,6 +88,7 @@ def test_generate_table():
             n_vals,
             k_vals,
             P_vals,
+            
         )
     output_str = output.getvalue()
 

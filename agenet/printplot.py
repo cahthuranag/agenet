@@ -103,8 +103,7 @@ def generate_table(
                 # Update headers to include the variable name dynamically
                 updated_headers = [var_name, 'Theoretical', ' Simulated']
                 writer.writerow(updated_headers)
-                
-                for val in var_vals:
+            for val in cast(List[Union[int, float]], var_vals):  
                     theoretical, simulated = run_simulation(*(const_vals[:i] + [val] + const_vals[i + 1 :]))
                     writer.writerow([val, theoretical, simulated])
         else:

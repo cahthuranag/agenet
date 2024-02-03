@@ -53,7 +53,8 @@ dev = [
     "flake8-simplify",
     "isort",
     "pre-commit",
-    "types-tabulate"]
+    "types-tabulate",
+    "typing"]
 
 [tool.setuptools]
 packages = ["agenet"]
