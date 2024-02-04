@@ -105,6 +105,7 @@ def test_generate_table():
 
 def test_generate_csv():
     # Define some sample input values for testing
+
     num_nodes_const = 10
     active_prob_const = 0.5
     n_const = 100
