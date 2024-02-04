@@ -152,16 +152,19 @@ def test_generate_csv():
             )
     
     # Check if the temporary CSV file contains the expected headings
-    expected_headings = [
+    expected_headings = (
         'number of nodes,Theoretical, Simulated',
         'active probability,Theoretical, Simulated',
         'block length,Theoretical, Simulated',
         'update size,Theoretical, Simulated',
         'Power,Theoretical, Simulated'
-    ]
+    )
+    
+    # Combine the expected headings with multiple newline characters
+    expected_headings_str = '\n'.join(expected_headings) + '\n'
     
     # Assert that the mock open was called with the expected data
-    m().write.assert_any_call('\n'.join(expected_headings))
+    m().write.assert_any_call(expected_headings_str)
 
 def test_plot(monkeypatch):
     """Test the plot() function."""
