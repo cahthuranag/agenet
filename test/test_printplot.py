@@ -104,7 +104,7 @@ def test_generate_table():
     assert expected_table == actual_table
 
 def test_generate_csv():
-       # Define some sample input values for testing
+    # Define some sample input values for testing
     num_nodes_const = 10
     active_prob_const = 0.5
     n_const = 100
@@ -124,11 +124,11 @@ def test_generate_csv():
     # Define a temporary CSV location for testing
     temp_csv_location = 'temp_test_results.csv'
     
-    try:
-        # Create a temporary CSV file and close it
-        with open(temp_csv_location, mode='w', newline='') as temp_csvfile:
-            pass  # Just open and close it to create the file
+    # Open the CSV file in append mode before calling generate_table
+    with open(temp_csv_location, mode='w', newline='') as temp_csvfile:
+        pass  # Just open and close it to create the file
             
+    try:
         # Execute the generate_table function with the temporary CSV location
         generate_table(
             num_nodes_const,
