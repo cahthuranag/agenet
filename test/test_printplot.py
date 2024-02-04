@@ -104,7 +104,7 @@ def test_generate_table():
     assert expected_table == actual_table
 
 def test_generate_csv():
-      # Define some sample input values for testing
+    # Define some sample input values for testing
     num_nodes_const = 10
     active_prob_const = 0.5
     n_const = 100
@@ -127,27 +127,29 @@ def test_generate_csv():
     # Create a mock open() function to simulate file operations
     m = mock_open()
     
-    # Use patch to replace the built-in open() function with the mock
-    with patch('builtins.open', m):
-        # Execute the generate_table function with the temporary CSV location
-        generate_table(
-            num_nodes_const,
-            active_prob_const,
-            n_const,
-            k_const,
-            P_const,
-            d_const,
-            N0_const,
-            fr_const,
-            numevnts,
-            numruns,
-            num_nodes_vals,
-            active_prob_vals,
-            n_vals,
-            k_vals,
-            P_vals,
-            temp_csv_location,  # Use the temporary CSV location
-        )
+    # Mock os.path.getsize to return a predefined size or zero
+    with patch('os.path.getsize', return_value=0):
+        # Use patch to replace the built-in open() function with the mock
+        with patch('builtins.open', m):
+            # Execute the generate_table function with the temporary CSV location
+            generate_table(
+                num_nodes_const,
+                active_prob_const,
+                n_const,
+                k_const,
+                P_const,
+                d_const,
+                N0_const,
+                fr_const,
+                numevnts,
+                numruns,
+                num_nodes_vals,
+                active_prob_vals,
+                n_vals,
+                k_vals,
+                P_vals,
+                temp_csv_location,  # Use the temporary CSV location
+            )
     
     # Check if the temporary CSV file contains the expected headings
     expected_headings = [
