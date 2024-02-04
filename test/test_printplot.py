@@ -166,6 +166,7 @@ def test_generate_csv():
         # Clean up: remove the temporary CSV file
         os.remove(temp_csv_location)
 
+
 def test_plot(monkeypatch):
     """Test the plot() function."""
     parser = argparse.ArgumentParser()
