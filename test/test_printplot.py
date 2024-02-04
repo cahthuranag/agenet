@@ -114,11 +114,8 @@ def test_generate_csv():
     with patch('os.path.getsize', return_value=0):
         # Use patch to replace the built-in open() function with the mock
         with patch('builtins.open', m):
-            # Execute the generate_table function with the temporary CSV location
-            generate_table(
-                # Pass any necessary arguments here
-                csv_location=temp_csv_location,  # Use the temporary CSV location
-            )
+            # Execute the generate_table function with only the CSV location argument
+            generate_table(csv_location=temp_csv_location)
     
     # Assert that the mock open was called with any content (i.e., something was written to the file)
     m().write.assert_called()
