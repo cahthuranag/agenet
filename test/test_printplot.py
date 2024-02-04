@@ -104,6 +104,13 @@ def test_generate_table():
     assert expected_table == actual_table
 
 def test_generate_csv():
+    # Define a temporary CSV location for testing
+    temp_csv_location = 'temp_test_results.csv'
+    
+    # Create a temporary CSV file for testing
+    with open(temp_csv_location, mode='w', newline='') as temp_csvfile:
+        temp_csvfile.write('Header\n')  # Write a header line to create the file
+    
     # Define some sample input values for testing
     num_nodes_const = 10
     active_prob_const = 0.5
@@ -120,9 +127,6 @@ def test_generate_csv():
     n_vals = [50, 100, 200]
     k_vals = [3, 5, 8]
     P_vals = [5.0, 10.0, 20.0]
-    
-    # Define a temporary CSV location for testing
-    temp_csv_location = 'temp_test_results.csv'
     
     # Create a mock open() function to simulate file operations
     m = mock_open()
@@ -154,7 +158,12 @@ def test_generate_csv():
 
     # Check if the temporary CSV file was created
     m().write.assert_called()  # Check if write() was called on the file
+    
+    # Check if the temporary CSV file exists
+    assert os.path.exists(temp_csv_location)
 
+    # Clean up: remove the temporary CSV file
+    os.remove(temp_csv_location)
 
 
 def test_plot(monkeypatch):
