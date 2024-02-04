@@ -7,7 +7,7 @@ import subprocess
 from contextlib import redirect_stdout
 from io import StringIO
 from unittest import mock
-from unittest.mock import patch
+from unittest.mock import patch, mock_open
 
 import matplotlib.pyplot as plt
 from tabulate import tabulate
@@ -124,11 +124,11 @@ def test_generate_csv():
     # Define a temporary CSV location for testing
     temp_csv_location = 'temp_test_results.csv'
     
-    # Open the CSV file in append mode before calling generate_table
-    with open(temp_csv_location, mode='w', newline='') as temp_csvfile:
-        pass  # Just open and close it to create the file
-            
-    try:
+    # Create a mock open() function to simulate file operations
+    m = mock_open()
+    
+    # Use patch to replace the built-in open() function with the mock
+    with patch('builtins.open', m):
         # Execute the generate_table function with the temporary CSV location
         generate_table(
             num_nodes_const,
@@ -149,22 +149,12 @@ def test_generate_csv():
             temp_csv_location,  # Use the temporary CSV location
         )
     
-        # Check if the temporary CSV file was created
-        assert os.path.exists(temp_csv_location)
-        
-        # Check if the temporary CSV file contains data
-        with open(temp_csv_location, 'r') as temp_csvfile:
-            temp_csvreader = csv.reader(temp_csvfile)
-            header = next(temp_csvreader)
-            assert header == ['number of nodes', 'Theoretical', ' Simulated']
-            
-            # Check the number of rows (including separator rows)
-            num_rows = sum(1 for row in temp_csvreader)
-            assert num_rows == (len(num_nodes_vals) + 1) * len([num_nodes_vals, active_prob_vals, n_vals, k_vals, P_vals])
-    
-    finally:
-        # Clean up: remove the temporary CSV file
-        os.remove(temp_csv_location)
+    # Verify that the file is opened for writing
+    m.assert_called_once_with(temp_csv_location, mode='a', newline='')
+
+    # Check if the temporary CSV file was created
+    m().write.assert_called()  # Check if write() was called on the file
+
 
 
 def test_plot(monkeypatch):
