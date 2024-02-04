@@ -104,8 +104,7 @@ def test_generate_table():
     assert expected_table == actual_table
 
 def test_generate_csv():
-    # Define some sample input values for testing
-
+       # Define some sample input values for testing
     num_nodes_const = 10
     active_prob_const = 0.5
     n_const = 100
@@ -122,44 +121,50 @@ def test_generate_csv():
     k_vals = [3, 5, 8]
     P_vals = [5.0, 10.0, 20.0]
     
-    # Define a CSV location for testing (can be a temporary file)
-    csv_location = 'test_results.csv'
+    # Define a temporary CSV location for testing
+    temp_csv_location = 'temp_test_results.csv'
     
-    # Execute the generate_table function
-    generate_table(
-        num_nodes_const,
-        active_prob_const,
-        n_const,
-        k_const,
-        P_const,
-        d_const,
-        N0_const,
-        fr_const,
-        numevnts,
-        numruns,
-        num_nodes_vals,
-        active_prob_vals,
-        n_vals,
-        k_vals,
-        P_vals,
-        csv_location,
-    )
+    try:
+        # Create a temporary CSV file and close it
+        with open(temp_csv_location, mode='w', newline='') as temp_csvfile:
+            pass  # Just open and close it to create the file
+            
+        # Execute the generate_table function with the temporary CSV location
+        generate_table(
+            num_nodes_const,
+            active_prob_const,
+            n_const,
+            k_const,
+            P_const,
+            d_const,
+            N0_const,
+            fr_const,
+            numevnts,
+            numruns,
+            num_nodes_vals,
+            active_prob_vals,
+            n_vals,
+            k_vals,
+            P_vals,
+            temp_csv_location,  # Use the temporary CSV location
+        )
     
-    # Check if the CSV file was created
-    assert os.path.exists(csv_location)
-    
-    # Check if the CSV file contains data
-    with open(csv_location, 'r') as csvfile:
-        csvreader = csv.reader(csvfile)
-        header = next(csvreader)
-        assert header == ['number of nodes', 'Theoretical', ' Simulated']
+        # Check if the temporary CSV file was created
+        assert os.path.exists(temp_csv_location)
         
-        # Check the number of rows (including separator rows)
-        num_rows = sum(1 for row in csvreader)
-        assert num_rows == (len(num_nodes_vals) + 1) * len([num_nodes_vals, active_prob_vals, n_vals, k_vals, P_vals])
+        # Check if the temporary CSV file contains data
+        with open(temp_csv_location, 'r') as temp_csvfile:
+            temp_csvreader = csv.reader(temp_csvfile)
+            header = next(temp_csvreader)
+            assert header == ['number of nodes', 'Theoretical', ' Simulated']
+            
+            # Check the number of rows (including separator rows)
+            num_rows = sum(1 for row in temp_csvreader)
+            assert num_rows == (len(num_nodes_vals) + 1) * len([num_nodes_vals, active_prob_vals, n_vals, k_vals, P_vals])
     
-    # Clean up: remove the temporary CSV file
-    os.remove(csv_location)
+    finally:
+        # Clean up: remove the temporary CSV file
+        os.remove(temp_csv_location)
 
 def test_plot(monkeypatch):
     """Test the plot() function."""
