@@ -133,8 +133,6 @@ def test_generate_csv():
         with patch('builtins.open', m):
             # Execute the generate_table function with only the CSV location argument
             generate_table(num_nodes_const, active_prob_const, n_const, k_const, P_const, d_const, N0_const, fr_const, numevnts, numruns, num_nodes_vals, active_prob_vals, n_vals, k_vals, P_vals, csv_location=temp_csv_location)
-    
-    # Assert that the mock open was called with any content (i.e., something was written to the file)
     m().write.assert_called()
 
 def test_plot(monkeypatch):
