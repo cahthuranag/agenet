@@ -37,16 +37,16 @@ agenet
 - `--csv_location <str>`: Location to save CSV file.
 
 ## Usage Examples
-Usage Examples
+
 1. Basic simulation with default parameters:
 ``` 
 agenet 
 ```
-2. Run simulation with specific parameters and generate plots:
+1. Run simulation with specific parameters and generate plots:
 ```
 agenet --num_nodes_const 3 --active_prob_const 0.7 --n_const 100 --k_const 50 --P_const 0.05 --d_const 700 --N0_const 1e-13 --fr_const 6e9 --plots
 ```
-3. Calculate theoretical block error rate for a given SNR:
+1. Calculate theoretical block error rate for a given SNR:
    
  ``` 
  agenet --num_nodes_const 5 --active_prob_const 0.3 --n_const 100 --k_const 50 --P_const 0.002 --d_const 700 --N0_const 1e-13 --fr_const 6e9 --blockerror
