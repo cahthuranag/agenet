@@ -54,8 +54,7 @@ dev = [
     "isort",
     "pre-commit",
     "types-tabulate",
-    "typing",
-    "csv",]
+    "typing"]
 
 [tool.setuptools]
 packages = ["agenet"]
