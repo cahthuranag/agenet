@@ -361,62 +361,19 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
-  <a href="#how-to-use-manincom-module" class="md-nav__link">
+  <a href="#how-to-use-agenet-module" class="md-nav__link">
     <span class="md-ellipsis">
-      How to use manincom module
+      How to use agenet module
     </span>
   </a>
   
-    <nav class="md-nav" aria-label="How to use manincom module">
+    <nav class="md-nav" aria-label="How to use agenet module">
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
   <a href="#description-of-the-simulation-parameters" class="md-nav__link">
     <span class="md-ellipsis">
       Description of the Simulation Parameters
-    </span>
-  </a>
-  
-</li>
-        
-      </ul>
-    </nav>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#how-to-use-printplot-module" class="md-nav__link">
-    <span class="md-ellipsis">
-      How to use printplot module
-    </span>
-  </a>
-  
-    <nav class="md-nav" aria-label="How to use printplot module">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
-  <a href="#description" class="md-nav__link">
-    <span class="md-ellipsis">
-      Description
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#command-line-arguments" class="md-nav__link">
-    <span class="md-ellipsis">
-      Command-Line Arguments
-    </span>
-  </a>
-  
-    <nav class="md-nav" aria-label="Command-Line Arguments">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
-  <a href="#constant-parameters" class="md-nav__link">
-    <span class="md-ellipsis">
-      Constant Parameters
     </span>
   </a>
   
@@ -431,24 +388,10 @@
   
 </li>
         
-      </ul>
-    </nav>
-  
-</li>
-        
           <li class="md-nav__item">
   <a href="#simulation-control" class="md-nav__link">
     <span class="md-ellipsis">
       Simulation Control
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#output-options" class="md-nav__link">
-    <span class="md-ellipsis">
-      Output Options
     </span>
   </a>
   
@@ -460,9 +403,9 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#usage-example" class="md-nav__link">
+  <a href="#usage-examples" class="md-nav__link">
     <span class="md-ellipsis">
-      Usage Example
+      Usage Examples
     </span>
   </a>
   
@@ -519,40 +462,21 @@
 To run a simulation with default parameters, the user can use a provided command. The simulation can generate both theoretical and simulated values for various factors such as block lengths, power allocations, packet sizes, activation probabilities, and number of nodes in the network. These values can be presented in the form of tables using following command.</p>
 <pre><code>agenet
 </code></pre>
-<h3 id="how-to-use-manincom-module">How to use manincom module</h3>
-<h4 id="description-of-the-simulation-parameters">Description of the Simulation Parameters</h4>
+<h2 id="how-to-use-agenet-module">How to use agenet module</h2>
+<h3 id="description-of-the-simulation-parameters">Description of the Simulation Parameters</h3>
 <ul>
-<li><code>--num_nodes</code>: Specifies the number of nodes in the network. Default is 2.</li>
-<li><code>--active_prob</code>: Sets the probability that a node is active in a given time slot. Default is 0.5.</li>
-<li><code>--n</code>: Determines the number of bits in a block. Default is 200.</li>
-<li><code>--k</code>: Sets the number of bits in a message. Default is 150.</li>
-<li><code>--P</code>: Defines the power of the nodes. Default is 0.1.</li>
-<li><code>--d</code>: Distance between nodes.</li>
-<li><code>--N0</code>: Noise power.</li>
-<li><code>--fr</code>: Frequency of the signal.</li>
-<li><code>--numevents</code>: Sets the number of events to simulate. Default is 1000.</li>
-<li><code>--numruns</code>: Indicates the number of times the simulation will run. Default is 100.</li>
+<li><code>--num_nodes_const &lt;int&gt;</code>: Specifies the number of nodes in the network. Default is 2.</li>
+<li><code>--active_prob_const &lt;float&gt;</code>: Sets the probability that a node is active in a given time slot. Default is 0.5.</li>
+<li><code>--n_const &lt;int&gt;</code>: Determines the number of bits in a block. Default is 150.</li>
+<li><code>--k_const &lt;int&gt;</code>: Sets the number of bits in a message. Default is 100.</li>
+<li><code>--P_const &lt;float&gt;</code>: Defines the power of the nodes. Default is 0.002.</li>
+<li><code>--d_const &lt;int&gt;</code>: Distance between nodes. Default is 700.</li>
+<li><code>--N0_const &lt;float&gt;</code>: Noise power. Default is 1e-13.</li>
+<li><code>--fr_const &lt;float&gt;</code>: Frequency of the signal. Default is 6e9.</li>
+<li><code>--numevnts &lt;int&gt;</code>: Sets the number of events to simulate. Default is 500.</li>
+<li><code>--numruns &lt;int&gt;</code>: Indicates the number of times the simulation will run. Default is 100.</li>
 </ul>
-<p>Example command to run the script:</p>
-<pre><code>python maincom.py --num_nodes 3 --active_prob 0.7 --n 100 --k 50 --P 0.05 --d 700 --N0 1e-13 --fr 6e9 --numevents 500 --numruns 50
-
-</code></pre>
-<h2 id="how-to-use-printplot-module">How to use printplot module</h2>
-<h3 id="description">Description</h3>
-<p>This script is designed for analyzing  average age of information of the network  by generating tables and plots comparing theoretical and simulated values based on various network parameters.</p>
-<h3 id="command-line-arguments">Command-Line Arguments</h3>
-<h4 id="constant-parameters">Constant Parameters</h4>
-<ul>
-<li><code>--num_nodes_const &lt;int&gt;</code>: Number of nodes.</li>
-<li><code>--active_prob_const &lt;float&gt;</code>: Active probability of nodes.</li>
-<li><code>--n_const &lt;int&gt;</code>: Block length.</li>
-<li><code>--k_const &lt;int&gt;</code>: Update size.</li>
-<li><code>--P_const &lt;float&gt;</code>: Power level.</li>
-<li><code>--d_const &lt;int&gt;</code>: Distance between nodes.</li>
-<li><code>--N0_const &lt;float&gt;</code>: Noise power.</li>
-<li><code>--fr_const &lt;float&gt;</code>: Frequency of the signal.</li>
-</ul>
-<h4 id="variable-parameters">Variable Parameters</h4>
+<h3 id="variable-parameters">Variable Parameters</h3>
 <ul>
 <li><code>--num_nodes_vals &lt;List[int]&gt;</code>: Varying values for the number of nodes.</li>
 <li><code>--active_prob_vals &lt;List[float]&gt;</code>: Varying values for the active probability.</li>
@@ -562,18 +486,36 @@ To run a simulation with default parameters, the user can use a provided command
 </ul>
 <h3 id="simulation-control">Simulation Control</h3>
 <ul>
-<li><code>--numevnts &lt;int&gt;</code>: Number of events.</li>
-<li><code>--numruns &lt;int&gt;</code>: Number of simulation runs.</li>
-</ul>
-<h3 id="output-options">Output Options</h3>
-<ul>
 <li><code>--quiet</code>: Suppresses table output.</li>
 <li><code>--plots</code>: Enables plot generation.</li>
 <li><code>--plots_folder &lt;str&gt;</code>: Specifies folder to save plots.</li>
+<li><code>--blockerror</code>: Show theoretical block error.</li>
+<li><code>--snr</code>: Show SNR.</li>
+<li><code>--csv_location &lt;str&gt;</code>: Location to save CSV file.</li>
 </ul>
-<h2 id="usage-example">Usage Example</h2>
-<pre><code>python printplot.py --num_nodes_const 5 --active_prob_const 0.3 --n_const 100 --k_const 50 --P_const 0.002 --d_const 700 --N0_const 1e-13 --fr_const 6e9 --numevnts 500 --numruns 100 --num_nodes_vals 1 2 3 4 5 --active_prob_vals 0.1 0.2 0.3 0.4 --n_vals 100 150 200 --k_vals 50 75 100 --P_vals 0.001 0.002 0.003 --plots
+<h2 id="usage-examples">Usage Examples</h2>
+<p>Usage Examples
+1. Basic simulation with default parameters:
+   <code>agenet</code>
+2. Run simulation with specific parameters and generate plots:
+  <code>agenet --num_nodes_const 3 --active_prob_const 0.7 --n_const 100 --k_const 50 --P_const 0.05 --d_const 700 --N0_const 1e-13 --fr_const 6e9 --plots</code>
+3. Calculate theoretical block error rate for a given SNR:</p>
+<pre><code>  agenet --num_nodes_const 5 --active_prob_const 0.3 --n_const 100 --k_const 50 --P_const 0.002 --d_const 700 --N0_const 1e-13 --fr_const 6e9 --blockerror
+ ```
+
+4. Calculate SNR for a given configuration:
+
+  ``` 
+  agenet --num_nodes_const 5 --active_prob_const 0.3 --n_const 100 --k_const 50 --P_const 0.002 --d_const 700 --N0_const 1e-13 --fr_const 6e9 --snr
+ ```
+5. Generate plots for various network configurations:
+  ```
+   agenet --num_nodes_const 5 --active_prob_const 0.3 --n_const 100 --k_const 50 --P_const 0.002 --d_const 700 --N0_const 1e-13 --fr_const 6e9 --plots --plots_folder ./output_plots
 </code></pre>
+<ol>
+<li>Run multiple simulations with different parameters and save results to CSV:</li>
+</ol>
+<p><code>agenet --num_nodes_vals 3 4 5 --active_prob_vals 0.1 0.2 0.3 --n_vals 150 200 250 --k_vals 50 100 --P_vals 0.001 0.002 --csv_location ./results.csv</code></p>
 
 
 
