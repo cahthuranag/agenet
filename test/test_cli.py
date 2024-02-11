@@ -1,5 +1,4 @@
 import pytest
-import agenet 
 from unittest.mock import patch, MagicMock
 from agenet.cli import _main  
 
