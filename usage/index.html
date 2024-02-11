@@ -495,27 +495,33 @@ To run a simulation with default parameters, the user can use a provided command
 </ul>
 <h2 id="usage-examples">Usage Examples</h2>
 <p>Usage Examples
-1. Basic simulation with default parameters:
-   <code>agenet</code>
-2. Run simulation with specific parameters and generate plots:
-  <code>agenet --num_nodes_const 3 --active_prob_const 0.7 --n_const 100 --k_const 50 --P_const 0.05 --d_const 700 --N0_const 1e-13 --fr_const 6e9 --plots</code>
-3. Calculate theoretical block error rate for a given SNR:</p>
-<pre><code>  agenet --num_nodes_const 5 --active_prob_const 0.3 --n_const 100 --k_const 50 --P_const 0.002 --d_const 700 --N0_const 1e-13 --fr_const 6e9 --blockerror
- ```
-
-4. Calculate SNR for a given configuration:
-
-  ``` 
-  agenet --num_nodes_const 5 --active_prob_const 0.3 --n_const 100 --k_const 50 --P_const 0.002 --d_const 700 --N0_const 1e-13 --fr_const 6e9 --snr
- ```
-5. Generate plots for various network configurations:
-  ```
-   agenet --num_nodes_const 5 --active_prob_const 0.3 --n_const 100 --k_const 50 --P_const 0.002 --d_const 700 --N0_const 1e-13 --fr_const 6e9 --plots --plots_folder ./output_plots
+1. Basic simulation with default parameters:</p>
+<pre><code>agenet 
+</code></pre>
+<ol>
+<li>Run simulation with specific parameters and generate plots:</li>
+</ol>
+<pre><code>agenet --num_nodes_const 3 --active_prob_const 0.7 --n_const 100 --k_const 50 --P_const 0.05 --d_const 700 --N0_const 1e-13 --fr_const 6e9 --plots
+</code></pre>
+<ol>
+<li>Calculate theoretical block error rate for a given SNR:</li>
+</ol>
+<p><code>agenet --num_nodes_const 5 --active_prob_const 0.3 --n_const 100 --k_const 50 --P_const 0.002 --d_const 700 --N0_const 1e-13 --fr_const 6e9 --blockerror</code></p>
+<ol>
+<li>Calculate SNR for a given configuration:</li>
+</ol>
+<pre><code>agenet --num_nodes_const 5 --active_prob_const 0.3 --n_const 100 --k_const 50 --P_const 0.002 --d_const 700 --N0_const 1e-13 --fr_const 6e9 --sn
+</code></pre>
+<ol>
+<li>Generate plots for various network configurations:</li>
+</ol>
+<pre><code>agenet --num_nodes_const 5 --active_prob_const 0.3 --n_const 100 --k_const 50 --P_const 0.002 --d_const 700 --N0_const 1e-13 --fr_const 6e9 --plots --plots_folder ./output_plots
 </code></pre>
 <ol>
 <li>Run multiple simulations with different parameters and save results to CSV:</li>
 </ol>
-<p><code>agenet --num_nodes_vals 3 4 5 --active_prob_vals 0.1 0.2 0.3 --n_vals 150 200 250 --k_vals 50 100 --P_vals 0.001 0.002 --csv_location ./results.csv</code></p>
+<pre><code>agenet --num_nodes_vals 3 4 5 --active_prob_vals 0.1 0.2 0.3 --n_vals 150 200 250 --k_vals 50 100 --P_vals 0.001 0.002 --csv_location ./results.csv
+</code></pre>
 
 
 
