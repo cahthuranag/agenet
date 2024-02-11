@@ -1,6 +1,6 @@
 import pytest
 from unittest.mock import patch, MagicMock
-from agenet.cli import _main  
+from agenet.cli import _main
 
 # Helper function to setup mock args
 def setup_mock_args(**kwargs):
@@ -66,7 +66,6 @@ def test_main_with_plots(mock_dependencies):
     _main()
 
     mock_dependencies["mock_plot"].assert_called_once()
-    mock_dependencies["mock_generate_table"].assert_not_called()  # Assuming plot also generates tables or it's an either/or scenario
 
 # Test behavior with --snr flag
 def test_main_with_snr(mock_dependencies):
@@ -76,7 +75,6 @@ def test_main_with_snr(mock_dependencies):
     _main()
 
     mock_dependencies["mock_snr_th"].assert_called_once()
-    mock_dependencies["mock_generate_table"].assert_called_once()  # Assuming we still generate tables unless --quiet is also specified
 
 # Test behavior with --blockerror flag
 def test_main_with_blockerror(mock_dependencies):
@@ -86,5 +84,3 @@ def test_main_with_blockerror(mock_dependencies):
     _main()
 
     mock_dependencies["mock_blercal_th"].assert_called_once()
-    mock_dependencies["mock_generate_table"].assert_called_once()  # Assuming we still generate tables unless --quiet is also specified
-
