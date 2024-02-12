@@ -48,9 +48,9 @@ agenet --num_nodes_const 3 --active_prob_const 0.7 --n_const 100 --k_const 50 --
 ```
 Calculate theoretical block error rate for a given SNR:
    
- ``` 
- agenet --num_nodes_const 5 --active_prob_const 0.3 --n_const 100 --k_const 50 --P_const 0.002 --d_const 700 --N0_const 1e-13 --fr_const 6e9 --blockerror
- ```
+``` 
+agenet --num_nodes_const 5 --active_prob_const 0.3 --n_const 100 --k_const 50 --P_const 0.002 --d_const 700 --N0_const 1e-13 --fr_const 6e9 --blockerror
+```
    
 Calculate SNR for a given configuration:
   
