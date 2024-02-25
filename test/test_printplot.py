@@ -135,6 +135,47 @@ def test_generate_csv():
             generate_table(num_nodes_const, active_prob_const, n_const, k_const, P_const, d_const, N0_const, fr_const, numevnts, numruns, num_nodes_vals, active_prob_vals, n_vals, k_vals, P_vals, csv_location=temp_csv_location)
     m().write.assert_called()
 
+
+def test_generate_csv():
+    # Constants for the test
+    num_nodes_const = 2
+    active_prob_const = 0.5
+    n_const = 150
+    k_const = 100
+    P_const = 2 * (10**-3)
+    d_const = 700
+    N0_const = 1 * (10**-13)
+    fr_const = 6 * (10**9)
+    numevnts = 100
+    numruns = 100
+    num_nodes_vals = [1, 2, 3]
+    active_prob_vals = [0.1, 0.2]
+    n_vals = [150, 160]
+    k_vals = [50, 60]
+    P_vals = [2 * (10**-3), 4 * (10**-3)]
+    csv_location = 'temp_test_results.csv'
+
+    # Set up the mock for the open function
+    m_open = mock_open()
+
+    # First run: simulate an empty file by setting getsize return value to 0
+    with patch('os.path.getsize', return_value=0), patch('builtins.open', m_open):
+        generate_table(num_nodes_const, active_prob_const, n_const, k_const, P_const, d_const, N0_const, fr_const, numevnts, numruns, num_nodes_vals, active_prob_vals, n_vals, k_vals, P_vals, csv_location=csv_location)
+
+    # Reset mock to clear call history for the next run
+    m_open.reset_mock()
+
+    # Second run: simulate a non-empty file by setting getsize return value to 100
+    with patch('os.path.getsize', return_value=100), patch('builtins.open', m_open):
+        generate_table(num_nodes_const, active_prob_const, n_const, k_const, P_const, d_const, N0_const, fr_const, numevnts, numruns, num_nodes_vals, active_prob_vals, n_vals, k_vals, P_vals, csv_location=csv_location)
+
+    # Retrieve all calls made to the mock
+    calls = m_open.mock_calls
+
+    # Verify the empty row write call was made during the second run
+    expected_call = mock.call().writerow([''])
+    self.assertIn(expected_call, calls, "Expected writer.writerow(['']) to be called for visual separation in non-empty file.")
+
 def test_plot(monkeypatch):
     """Test the plot() function."""
     parser = argparse.ArgumentParser()
