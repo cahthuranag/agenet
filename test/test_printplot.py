@@ -2,8 +2,6 @@
 import argparse
 import io
 import os
-import csv
-import subprocess
 from contextlib import redirect_stdout
 from io import StringIO
 from unittest import mock

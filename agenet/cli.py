@@ -1,3 +1,4 @@
+"""Command-line interface for the agenet package."""
 import argparse
 from .printplot import plot, generate_table
 from .bler import blercal_th

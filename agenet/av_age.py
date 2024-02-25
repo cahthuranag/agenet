@@ -1,8 +1,6 @@
 """Calculate the average age of information."""
 from __future__ import annotations
 
-import argparse
-
 import numpy as np
 from scipy.integrate import trapz
 

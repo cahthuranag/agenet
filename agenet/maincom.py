@@ -1,7 +1,6 @@
 """Main file for the communication system simulation."""
 from __future__ import annotations
 
-import argparse
 import random
 
 import numpy as np

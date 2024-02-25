@@ -1,7 +1,4 @@
 """Tests for the snr module."""
-import os
-import subprocess
-
 from agenet import snr
 
 

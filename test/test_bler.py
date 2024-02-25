@@ -1,7 +1,5 @@
 """Tests for the bler module."""
 import math
-import os
-import subprocess
 
 import numpy as np
 import pytest

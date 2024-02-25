@@ -1,6 +1,5 @@
 """Tests for the average age of information function."""
-import os
-import subprocess
+
 
 import numpy as np
 import pytest

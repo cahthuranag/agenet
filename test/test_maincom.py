@@ -1,6 +1,4 @@
 """This file contains the test cases for the maincom.py file."""
-import os
-import subprocess
 
 import pytest
 
