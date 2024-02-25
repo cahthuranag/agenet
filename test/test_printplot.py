@@ -104,8 +104,7 @@ def test_generate_table():
     assert expected_table == actual_table
 
 
-def test_generate_csv():
-
+def test_generate_csv_1():
     num_nodes_const = 2
     active_prob_const = 0.5
     n_const = 150
@@ -121,44 +120,32 @@ def test_generate_csv():
     n_vals = [150, 160]
     k_vals = [50, 60]
     P_vals = [2 * (10**-3), 4 * (10**-3)]
-    # Define a temporary CSV location for testing
-    temp_csv_location = 'temp_test_results.csv'
-    
-    # Create a mock open() function to simulate file operations
-    m = mock_open()
-    
-    # Mock os.path.getsize to return a predefined size or zero
-    with patch('os.path.getsize', return_value=0):
-        # Use patch to replace the built-in open() function with the mock
-        with patch('builtins.open', m):
-            # Execute the generate_table function with only the CSV location argument
-            generate_table(num_nodes_const, active_prob_const, n_const, k_const, P_const, d_const, N0_const, fr_const, numevnts, numruns, num_nodes_vals, active_prob_vals, n_vals, k_vals, P_vals, csv_location=temp_csv_location)
-    m().write.assert_called()
-
-
-def test_generate_csv():
-    # Define your constants and test conditions here
-    
     csv_location = 'temp_test_results.csv'
+
+    # Mock the open function to return a mock file object
+    mocked_open = mock_open()
 
     # Create a mock file object with a writerow method
     mock_file_obj = MagicMock()
     mock_file_obj.writerow = MagicMock()
 
-    # Patch 'open' and 'csv.writer' to return the mock file object
-    with patch('builtins.open', mock_open()) as mocked_open:
-        with patch('csv.writer', return_value=mock_file_obj):
-            with patch('os.path.getsize', side_effect=[0, 100]):  # Simulate empty then non-empty file
-                # Your first call to generate_table here
-                
-                # Reset mock to clear call history for the next run
-                mocked_open.reset_mock()
-                mock_file_obj.writerow.reset_mock()
+    # Patch 'open' to use our mocked open
+    with patch('builtins.open', mocked_open), \
+         patch('csv.writer', return_value=mock_file_obj), \
+         patch('os.path.getsize', side_effect=[0, 100]):  # Simulate empty then non-empty file
+        
+        # First call to generate_table to simulate writing to an empty file
+        generate_table(num_nodes_const, active_prob_const, n_const, k_const, P_const, d_const, N0_const, fr_const, numevnts, numruns, num_nodes_vals, active_prob_vals, n_vals, k_vals, P_vals, csv_location=csv_location)
+        
+        # Reset mock to clear call history for the next run
+        mock_file_obj.writerow.reset_mock()
 
-                # Your second call to generate_table here
+        # Second call to generate_table to simulate appending to a non-empty file
+        generate_table(num_nodes_const, active_prob_const, n_const, k_const, P_const, d_const, N0_const, fr_const, numevnts, numruns, num_nodes_vals, active_prob_vals, n_vals, k_vals, P_vals, csv_location=csv_location)
 
-                # Now, assert that writerow was called with an empty list ['']
-                mock_file_obj.writerow.assert_any_call([''])
+        # Assert that writerow was called with an empty list [''] during the second run
+        mock_file_obj.writerow.assert_any_call([''])
+
 
 
 def test_plot(monkeypatch):
