@@ -94,12 +94,7 @@ def generate_table(
             # Open the CSV file in append mode
             with open(csv_location, mode='a', newline='') as csvfile:
                 writer = csv.writer(csvfile)
-                
                 # Write a separator and headers for each set of variable simulations
-                # Check if the file is not empty and add a newline for separation
-                if os.path.getsize(csv_location) > 0:
-                    writer.writerow([''])  # Optional: adds an empty row for visual separation
-
                 # Update headers to include the variable name dynamically
                 updated_headers = [var_name, 'Theoretical', ' Simulated']
                 writer.writerow(updated_headers)
