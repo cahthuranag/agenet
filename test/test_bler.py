@@ -68,6 +68,3 @@ def test_qfunc():
     assert math.isnan(qfunc(float("nan")))
     assert qfunc(float("-inf")) == 1
     assert qfunc(float("inf")) == 0
-
-
-

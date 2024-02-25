@@ -32,7 +32,7 @@ def generate_table(
     csv_location: Optional[str] = None,
 ) -> None:
     """Print the simulated and theoretical values for each variable.
-    
+
     Args:
       num_nodes_const: Constant value for the number of nodes.
       active_prob_const: Constant value for the active probability.
@@ -50,7 +50,7 @@ def generate_table(
       k_vals: Values for the update size.
       P_vals: Values for the power.
       csv_location: Location to save csv file
-      """
+    """
     for i, var_name, var_vals in zip(
         range(5),
         [
@@ -89,23 +89,26 @@ def generate_table(
                 *(const_vals[:i] + [val] + const_vals[i + 1 :])
             )
             table_rows.append([val, theoretical, simulated])
-        
+
         if csv_location is not None:
             # Open the CSV file in append mode
-            with open(csv_location, mode='a', newline='') as csvfile:
+            with open(csv_location, mode="a", newline="") as csvfile:
                 writer = csv.writer(csvfile)
                 # Write a separator and headers for each set of variable simulations
                 # Update headers to include the variable name dynamically
-                updated_headers = [var_name, 'Theoretical', ' Simulated']
+                updated_headers = [var_name, "Theoretical", " Simulated"]
                 writer.writerow(updated_headers)
-            for val in cast(List[Union[int, float]], var_vals):  
-                    theoretical, simulated = run_simulation(*(const_vals[:i] + [val] + const_vals[i + 1 :]))
-                    writer.writerow([val, theoretical, simulated])
+            for val in cast(List[Union[int, float]], var_vals):
+                theoretical, simulated = run_simulation(
+                    *(const_vals[:i] + [val] + const_vals[i + 1 :])
+                )
+                writer.writerow([val, theoretical, simulated])
         else:
             # If no CSV location is provided, or to additionally print the result:
             print(tabulate(table_rows, headers=headers, tablefmt="grid"))
             print("\n")
-            
+
+
 def plot_generate(
     num_nodes_const: int,
     active_prob_const: float,

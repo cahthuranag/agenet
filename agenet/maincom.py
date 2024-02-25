@@ -154,5 +154,3 @@ def run_simulation(
     av_age_theoretical_run /= num_runs
     av_age_simulation_run /= num_runs
     return av_age_theoretical_run, av_age_simulation_run
-
-

@@ -43,6 +43,3 @@ def test_simulation(num_nodes, active_prob, n, k, P, d, N0, fr, numevents):
     result = simulation(num_nodes, active_prob, n, k, P, d, N0, fr, numevents)
     # assert that the result is not None
     assert result is not None
-
-
-

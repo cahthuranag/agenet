@@ -64,5 +64,3 @@ def blercal_th(snr: float, n: int, k: int) -> float:
         * (math.exp(-1 * phi_bas * (1 / snr)) - math.exp(-1 * delta * (1 / snr)))
     )
     return err_th
-
-

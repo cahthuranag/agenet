@@ -3,6 +3,7 @@ from .printplot import plot, generate_table
 from .bler import blercal_th
 from .snratio import snr_th
 
+
 def _main() -> None:
     """Command-line arguments and calls the printage function."""
     parser = argparse.ArgumentParser(
@@ -105,7 +106,9 @@ def _main() -> None:
     parser.add_argument("--quiet", action="store_true", help="Omit tables")
     parser.add_argument("--plots", action="store_true", help="Show plots")
     parser.add_argument("--plots_folder", type=str, help="Folder to save plots")
-    parser.add_argument("--blockerror", action="store_true", help="Show theoretical block error")
+    parser.add_argument(
+        "--blockerror", action="store_true", help="Show theoretical block error"
+    )
     parser.add_argument("--snr", action="store_true", help="Show snr")
     parser.add_argument("--csv_location", type=str, help="Location to save csv file")
 

@@ -55,5 +55,3 @@ def _alpha(d: float, fr: float) -> float:
     )  # path loss in dB
     alpha: float = 1 / (10 ** ((log_alpha) / 10))  # path loss in linear scale
     return alpha
-
-

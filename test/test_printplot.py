@@ -89,7 +89,6 @@ def test_generate_table():
             n_vals,
             k_vals,
             P_vals,
-            
         )
     output_str = output.getvalue()
 
@@ -105,7 +104,6 @@ def test_generate_table():
 
 
 def test_generate_csv():
-
     num_nodes_const = 2
     active_prob_const = 0.5
     n_const = 150
@@ -122,18 +120,36 @@ def test_generate_csv():
     k_vals = [50, 60]
     P_vals = [2 * (10**-3), 4 * (10**-3)]
     # Define a temporary CSV location for testing
-    temp_csv_location = 'temp_test_results.csv'
-    
+    temp_csv_location = "temp_test_results.csv"
+
     # Create a mock open() function to simulate file operations
     m = mock_open()
-    
+
     # Mock os.path.getsize to return a predefined size or zero
-    with patch('os.path.getsize', return_value=0):
+    with patch("os.path.getsize", return_value=0):
         # Use patch to replace the built-in open() function with the mock
-        with patch('builtins.open', m):
+        with patch("builtins.open", m):
             # Execute the generate_table function with only the CSV location argument
-            generate_table(num_nodes_const, active_prob_const, n_const, k_const, P_const, d_const, N0_const, fr_const, numevnts, numruns, num_nodes_vals, active_prob_vals, n_vals, k_vals, P_vals, csv_location=temp_csv_location)
+            generate_table(
+                num_nodes_const,
+                active_prob_const,
+                n_const,
+                k_const,
+                P_const,
+                d_const,
+                N0_const,
+                fr_const,
+                numevnts,
+                numruns,
+                num_nodes_vals,
+                active_prob_vals,
+                n_vals,
+                k_vals,
+                P_vals,
+                csv_location=temp_csv_location,
+            )
     m().write.assert_called()
+
 
 def test_plot(monkeypatch):
     """Test the plot() function."""
@@ -314,7 +330,6 @@ def test_plot(monkeypatch):
     # Mock the plt.show() function to avoid showing the plot
     with mock.patch.object(plt, "show"):
         plot(args)
-
 
 
 def test_plot_save(mocker):

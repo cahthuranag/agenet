@@ -55,4 +55,3 @@ def test_av_age_fn():
     # Check that the actual average age of information
     # matches the expected value
     assert np.isclose(actual_average_age, expected_average_age, rtol=1e-1)
-

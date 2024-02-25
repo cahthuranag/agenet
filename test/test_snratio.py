@@ -25,6 +25,3 @@ def test_snr_th():
     result = snr(N0, d, P, fr)
     assert isinstance(result, float)
     assert result >= 0
-
-
-
