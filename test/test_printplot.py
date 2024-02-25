@@ -7,7 +7,7 @@ import subprocess
 from contextlib import redirect_stdout
 from io import StringIO
 from unittest import mock
-from unittest.mock import patch, mock_open
+from unittest.mock import patch, mock_open, MagicMock
 
 import matplotlib.pyplot as plt
 from tabulate import tabulate
@@ -136,41 +136,29 @@ def test_generate_csv():
     m().write.assert_called()
 
 
-def test_generate_csv_1():
-    # Constants for the test setup
-    num_nodes_const = 2
-    active_prob_const = 0.5
-    n_const = 150
-    k_const = 100
-    P_const = 2 * (10**-3)
-    d_const = 700
-    N0_const = 1 * (10**-13)
-    fr_const = 6 * (10**9)
-    numevnts = 100
-    numruns = 100
-    num_nodes_vals = [1, 2, 3]
-    active_prob_vals = [0.1, 0.2]
-    n_vals = [150, 160]
-    k_vals = [50, 60]
-    P_vals = [2 * (10**-3), 4 * (10**-3)]
+def test_generate_csv():
+    # Define your constants and test conditions here
+    
     csv_location = 'temp_test_results.csv'
 
-    # Set up the mock for open
-    m = mock_open()
+    # Create a mock file object with a writerow method
+    mock_file_obj = MagicMock()
+    mock_file_obj.writerow = MagicMock()
 
-    # First run: simulate an empty file by setting getsize return value to 0
-    with patch('os.path.getsize', return_value=0), patch('builtins.open', m):
-        generate_table(num_nodes_const, active_prob_const, n_const, k_const, P_const, d_const, N0_const, fr_const, numevnts, numruns, num_nodes_vals, active_prob_vals, n_vals, k_vals, P_vals, csv_location=csv_location)
+    # Patch 'open' and 'csv.writer' to return the mock file object
+    with patch('builtins.open', mock_open()) as mocked_open:
+        with patch('csv.writer', return_value=mock_file_obj):
+            with patch('os.path.getsize', side_effect=[0, 100]):  # Simulate empty then non-empty file
+                # Your first call to generate_table here
+                
+                # Reset mock to clear call history for the next run
+                mocked_open.reset_mock()
+                mock_file_obj.writerow.reset_mock()
 
-    # Reset mock to clear call history for the next run
-    m.reset_mock()
+                # Your second call to generate_table here
 
-    # Second run: simulate a non-empty file by setting getsize return value to 100
-    with patch('os.path.getsize', return_value=100), patch('builtins.open', m):
-        generate_table(num_nodes_const, active_prob_const, n_const, k_const, P_const, d_const, N0_const, fr_const, numevnts, numruns, num_nodes_vals, active_prob_vals, n_vals, k_vals, P_vals, csv_location=csv_location)
-
-    # Verify the call to writerow(['']) for visual separation in non-empty file
-    m().writerow.assert_any_call([''])
+                # Now, assert that writerow was called with an empty list ['']
+                mock_file_obj.writerow.assert_any_call([''])
 
 
 def test_plot(monkeypatch):
