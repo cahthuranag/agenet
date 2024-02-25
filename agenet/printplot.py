@@ -2,15 +2,15 @@
 from __future__ import annotations
 
 import argparse
+import csv
 import os
-from typing import List, Union, cast, Any, Optional
+
+from typing import Any, List, Optional, Union, cast
 
 import matplotlib.pyplot as plt
 from tabulate import tabulate
 
 from .maincom import run_simulation
-
-import csv
 
 
 def generate_table(

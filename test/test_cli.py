@@ -1,10 +1,13 @@
+"""Tests for the CLI module."""
 import pytest
 from unittest.mock import patch, MagicMock
+
 from agenet.cli import _main
 
 
 # Helper function to setup mock args
 def setup_mock_args(**kwargs):
+    """Setup mock args for testing."""
     default_args = {
         "num_nodes_const": 2,
         "active_prob_const": 0.5,
@@ -33,8 +36,9 @@ def setup_mock_args(**kwargs):
     return mock_args
 
 
-@pytest.fixture
+@pytest.fixture()
 def mock_dependencies():
+    """Fixture for mocking dependencies."""
     with patch(
         "agenet.cli.argparse.ArgumentParser.parse_args"
     ) as mock_parse_args, patch("agenet.cli.plot") as mock_plot, patch(
@@ -55,6 +59,7 @@ def mock_dependencies():
 
 # Test default behavior without specific flags
 def test_main_default_behavior(mock_dependencies):
+    """Test the default behavior of the main function."""
     mock_args = setup_mock_args()
     mock_dependencies["mock_parse_args"].return_value = mock_args
 
@@ -68,6 +73,7 @@ def test_main_default_behavior(mock_dependencies):
 
 # Test behavior with --plots flag
 def test_main_with_plots(mock_dependencies):
+    """Test the behavior of the main function with the --plots flag."""
     mock_args = setup_mock_args(plots=True)
     mock_dependencies["mock_parse_args"].return_value = mock_args
 
@@ -78,6 +84,7 @@ def test_main_with_plots(mock_dependencies):
 
 # Test behavior with --snr flag
 def test_main_with_snr(mock_dependencies):
+    """Test the behavior of the main function with the --snr flag."""
     mock_args = setup_mock_args(snr=True)
     mock_dependencies["mock_parse_args"].return_value = mock_args
 
@@ -88,6 +95,7 @@ def test_main_with_snr(mock_dependencies):
 
 # Test behavior with --blockerror flag
 def test_main_with_blockerror(mock_dependencies):
+    """Test the behavior of the main function with the --blockerror flag."""
     mock_args = setup_mock_args(blockerror=True)
     mock_dependencies["mock_parse_args"].return_value = mock_args
 
