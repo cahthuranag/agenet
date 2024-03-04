@@ -1,4 +1,5 @@
 """Main file for the communication system simulation."""
+
 from __future__ import annotations
 
 import random

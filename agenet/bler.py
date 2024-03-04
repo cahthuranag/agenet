@@ -1,4 +1,5 @@
 """Block Error Rate (BLER) Calculation."""
+
 import math
 
 import scipy.special as sp

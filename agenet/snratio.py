@@ -1,4 +1,5 @@
 """Signal-to-noise ratio (SNR) calculator."""
+
 import math
 
 import numpy as np
