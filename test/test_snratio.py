@@ -1,4 +1,5 @@
 """Tests for the snr module."""
+
 from agenet import snr
 
 

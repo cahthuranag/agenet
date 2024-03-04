@@ -1,6 +1,5 @@
 """Tests for the average age of information function."""
 
-
 import numpy as np
 import pytest
 from matplotlib import pyplot as plt
