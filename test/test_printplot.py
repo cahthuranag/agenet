@@ -1,11 +1,12 @@
 """Tests for the printage.py script."""
+
 import argparse
 import io
 import os
 from contextlib import redirect_stdout
 from io import StringIO
 from unittest import mock
-from unittest.mock import patch, mock_open
+from unittest.mock import mock_open, patch
 
 import matplotlib.pyplot as plt
 from tabulate import tabulate

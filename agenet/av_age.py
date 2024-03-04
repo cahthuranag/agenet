@@ -1,8 +1,9 @@
 """Calculate the average age of information."""
+
 from __future__ import annotations
 
 import numpy as np
-from scipy.integrate import trapz
+from scipy.integrate import trapezoid
 
 
 # Define the average age of information function
@@ -51,6 +52,6 @@ def av_age_fn(
         age[i] = age[i] - offset
     # Calculate the average age as the area under the curve of the age versus
     # time divided by the maximum time
-    average_age = trapz(age, times) / np.amax(times)
+    average_age = trapezoid(age, times) / np.amax(times)
     # Return the average age, the age array, and the times array
     return average_age, age, times

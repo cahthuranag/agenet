@@ -1,10 +1,10 @@
 """This module contains functions to print tables and plots."""
+
 from __future__ import annotations
 
 import argparse
 import csv
 import os
-
 from typing import Any, List, Optional, Union, cast
 
 import matplotlib.pyplot as plt

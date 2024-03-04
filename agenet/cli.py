@@ -1,8 +1,9 @@
 """Command-line interface for the agenet package."""
+
 import argparse
 
-from .printplot import plot, generate_table
 from .bler import blercal_th
+from .printplot import generate_table, plot
 from .snratio import snr_th
 
 

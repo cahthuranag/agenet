@@ -1,4 +1,5 @@
 """Tests for the bler module."""
+
 import math
 
 import numpy as np

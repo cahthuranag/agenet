@@ -1,6 +1,8 @@
 """Tests for the CLI module."""
+
+from unittest.mock import MagicMock, patch
+
 import pytest
-from unittest.mock import patch, MagicMock
 
 from agenet.cli import _main
 
