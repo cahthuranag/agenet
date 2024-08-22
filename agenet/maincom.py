@@ -1,10 +1,8 @@
 """Main file for the communication system simulation."""
-
 from __future__ import annotations
 
-import random
-
 import numpy as np
+from numpy.random import Generator, PCG64
 
 from .av_age import av_age_fn
 from .bler import blercal, blercal_th
@@ -21,6 +19,7 @@ def simulation(
     N0: float,
     fr: float,
     numevents: int,
+    seed: int = None,
 ) -> tuple[float, float]:
     """Simulates a communication system and calculates the AAoI.
 
@@ -34,15 +33,19 @@ def simulation(
       N0: Noise power.
       fr: Frequency of the signal.
       numevents: Number of events to simulate.
+      seed: Seed for the random number generator (optional).
 
     Returns:
        Theoretical AAoI and simulation AAoI.
     """
+    # Initialize PCG64 generator
+    rng = Generator(PCG64(seed))
+
     lambda1 = 1  # arrival for one transmission period
     num_events = numevents  # number of events
     inter_arrival_times = (1 / lambda1) * (np.ones(num_events))  # inter arrival times
     arrival_timestamps = np.cumsum(inter_arrival_times)  # arrival timestamps
-    d1 = d  # disatance between source nodes and relay
+    d1 = d  # distance between source nodes and relay
     d2 = d  # distance between the relay and destination
     P1 = P  # power of the source nodes
     P2 = P  # power of the relay or access point
@@ -80,7 +83,7 @@ def simulation(
         su_p = active_prob * (1 - er1) * ((1 - active_prob) ** (num_nodes - 1))
         er_f = 1 - su_p
         er_p = er_f + (er2 * (er_f - 1))
-        er_indi = int(random.random() > er_p)
+        er_indi = int(rng.random() > er_p)  # Using PCG64 generator here
         if er_indi == 0:
             departure_timestamps_s[i] = 0
             server_timestamps_1[i] = 0
@@ -127,6 +130,7 @@ def run_simulation(
     fr: float,
     numevnts: int,
     numruns: int,
+    seed: int = None,
 ) -> tuple[float, float]:
     """Run the simulation `numruns` times and return the AAoI.
 
@@ -138,6 +142,7 @@ def run_simulation(
       P: Power of the nodes.
       numevnts: Number of events.
       numruns: Number of times to run the simulation.
+      seed: Seed for the random number generator (optional).
 
     Returns:
       A tuple containing the theoretical AAoI and the simulation AAoI.
@@ -145,9 +150,11 @@ def run_simulation(
     num_runs = numruns
     av_age_theoretical_run = 0.0
     av_age_simulation_run = 0.0
+    rng = Generator(PCG64(seed))  # Initialize RNG here for consistent seeds across runs
     for _ in range(num_runs):
+        run_seed = rng.integers(0, 2**32)  # Generate a new seed for each run
         av_age_theoretical_i, av_age_simulation_i = simulation(
-            num_nodes, active_prob, n, k, P, d, N0, fr, numevnts
+            num_nodes, active_prob, n, k, P, d, N0, fr, numevnts, seed=run_seed
         )
         av_age_theoretical_run += av_age_theoretical_i
         av_age_simulation_run += av_age_simulation_i
