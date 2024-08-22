@@ -1,11 +1,12 @@
 """Signal-to-noise ratio (SNR) calculator."""
 
 import math
+from typing import Optional
 
 import numpy as np
 
 
-def snr(N0: float, d: float, P: float, fr: float) -> float:
+def snr(N0: float, d: float, P: float, fr: float, seed: Optional[int] = None) -> float:
     """Computes the SNR of the received signal.
 
     Args:
@@ -13,12 +14,14 @@ def snr(N0: float, d: float, P: float, fr: float) -> float:
       d: The distance between the transmitter and receiver.
       P: The power of the transmitted signal.
       fr: The frequency of the signal.
+      seed: Seed for the random number generator (optional).
 
     Returns:
       The SNR of the received signal in linear scale.
     """
+    rng = np.random.default_rng(seed)
     alpha = _alpha(d, fr)
-    snr: float = (alpha * P * np.random.exponential(1)) / N0
+    snr: float = (alpha * P * rng.exponential(1)) / N0
     return snr
 
 
@@ -44,6 +47,7 @@ def _alpha(d: float, fr: float) -> float:
 
     Args:
       d: The distance between the transmitter and receiver.
+      fr: The frequency of the signal.
 
     Returns:
       The path loss in linear scale.

@@ -83,6 +83,10 @@ def test_main_with_plots(mock_dependencies):
     _main()
 
     mock_dependencies["mock_plot"].assert_called_once()
+    # Check if plot was called with the correct seed (None in this case)
+    args, kwargs = mock_dependencies["mock_plot"].call_args
+    assert 'seed' in kwargs
+    assert kwargs['seed'] is None
 
 
 # Test behavior with --snr flag
@@ -121,6 +125,21 @@ def test_main_with_seed(mock_dependencies):
     assert kwargs.get('seed') == 42
 
 
+# New test to check seed handling with plots
+def test_main_with_plots_and_seed(mock_dependencies):
+    """Test the behavior of the main function with plots and a specified seed."""
+    mock_args = setup_mock_args(plots=True, seed=42)
+    mock_dependencies["mock_parse_args"].return_value = mock_args
+
+    _main()
+
+    mock_dependencies["mock_plot"].assert_called_once()
+    # Check if plot was called with the correct seed
+    args, kwargs = mock_dependencies["mock_plot"].call_args
+    assert 'seed' in kwargs
+    assert kwargs['seed'] == 42
+
+
 # New test to check reproducibility with the same seed
 def test_main_reproducibility(mock_dependencies):
     """Test that the main function produces the same results with the same seed."""
@@ -155,3 +174,5 @@ def test_main_different_seeds(mock_dependencies):
     second_call_args = mock_dependencies["mock_generate_table"].call_args
 
     assert first_call_args != second_call_args, "Results are identical with different seeds"
+    assert first_call_args[1]['seed'] == 42
+    assert second_call_args[1]['seed'] == 123

@@ -115,12 +115,20 @@ def _main() -> None:
     parser.add_argument("--snr", action="store_true", help="Show snr")
     parser.add_argument("--csv_location", type=str, help="Location to save csv file")
 
+    # Add new argument for seed
+    parser.add_argument(
+        "--seed",
+        type=int,
+        default=None,
+        help="Seed for the random number generator. If not provided, a random seed will be used.",
+    )
+
     args = parser.parse_args()
 
     output_action_taken = False
 
     if args.plots or args.plots_folder:
-        plot(args, args.plots_folder if args.plots_folder else None)
+        plot(args, args.plots_folder if args.plots_folder else None, seed=args.seed)
         output_action_taken = True
 
     if args.snr:
@@ -151,4 +159,5 @@ def _main() -> None:
             args.k_vals,
             args.P_vals,
             args.csv_location if args.csv_location else None,
+            seed=args.seed,
         )

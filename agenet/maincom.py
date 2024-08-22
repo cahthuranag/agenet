@@ -19,7 +19,7 @@ def simulation(
     N0: float,
     fr: float,
     numevents: int,
-    seed: int = None,
+    seed: int | None = None,
 ) -> tuple[float, float]:
     """Simulates a communication system and calculates the AAoI.
 
@@ -71,9 +71,9 @@ def simulation(
     er_p_th = er_f_th + (er2_th * (er_f_th - 1))
     for i in range(0, num_events):
         snr1 = snr(
-            N0, d1, P1, fr
+            N0, d1, P1, fr, seed=rng.integers(0, 2**32)
         )  # snr for the source nodes at the relay or access point
-        snr2 = snr(N0, d2, P2, fr)
+        snr2 = snr(N0, d2, P2, fr, seed=rng.integers(0, 2**32))
         er1 = blercal(
             snr1, n1, k1
         )  # block error rate for the source nodes at the relay or access point
@@ -114,7 +114,12 @@ def simulation(
 
     system_time = 1 / lambda1  # system time (time which update in the system)
     av_age_simulation, _, _ = av_age_fn(v1, t1, system_time)
-    av_age_theoretical = (1 / lambda1) * (0.5 + (1 / (1 - er_p_th)))
+    
+    # Handle the case where er_p_th is very close to or equal to 1
+    if abs(1 - er_p_th) < 1e-10:  # Choose a small threshold
+        av_age_theoretical = float('inf')
+    else:
+        av_age_theoretical = (1 / lambda1) * (0.5 + (1 / (1 - er_p_th)))
 
     return av_age_theoretical, av_age_simulation
 
@@ -130,7 +135,7 @@ def run_simulation(
     fr: float,
     numevnts: int,
     numruns: int,
-    seed: int = None,
+    seed: int | None = None,
 ) -> tuple[float, float]:
     """Run the simulation `numruns` times and return the AAoI.
 
@@ -140,6 +145,9 @@ def run_simulation(
       n: Number of bits in a block.
       k: Number of bits in a message.
       P: Power of the nodes.
+      d: Distance between nodes.
+      N0: Noise power.
+      fr: Frequency of the signal.
       numevnts: Number of events.
       numruns: Number of times to run the simulation.
       seed: Seed for the random number generator (optional).
@@ -156,6 +164,8 @@ def run_simulation(
         av_age_theoretical_i, av_age_simulation_i = simulation(
             num_nodes, active_prob, n, k, P, d, N0, fr, numevnts, seed=run_seed
         )
+        if np.isinf(av_age_theoretical_i):
+            return float('inf'), av_age_simulation_i  # Return immediately if theoretical value is infinity
         av_age_theoretical_run += av_age_theoretical_i
         av_age_simulation_run += av_age_simulation_i
     av_age_theoretical_run /= num_runs

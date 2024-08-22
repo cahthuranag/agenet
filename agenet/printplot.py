@@ -92,7 +92,8 @@ def generate_table(
         for val in cast(List[Union[int, float]], var_vals):
             run_seed = rng.integers(0, 2**32)
             theoretical, simulated = run_simulation(
-                *(const_vals[:i] + [val] + const_vals[i + 1 :] + [run_seed])
+                *(const_vals[:i] + [val] + const_vals[i + 1 :]),
+                seed=run_seed
             )
             table_rows.append([val, theoretical, simulated])
 
@@ -185,7 +186,8 @@ def plot_generate(
         for val in cast(List[Union[int, float]], var_vals):
             run_seed = rng.integers(0, 2**32)
             theoretical, simulated = run_simulation(
-                *(const_vals[:i] + [val] + const_vals[i + 1 :] + [run_seed])
+                *(const_vals[:i] + [val] + const_vals[i + 1 :]),
+                seed=run_seed
             )
             theoretical_vals.append(theoretical)
             simulated_vals.append(simulated)
