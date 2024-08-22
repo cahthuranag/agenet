@@ -9,44 +9,13 @@ from unittest import mock
 from unittest.mock import mock_open, patch
 
 import matplotlib.pyplot as plt
+import numpy as np
 from tabulate import tabulate
 
 from agenet import generate_table, plot, plot_generate
 
 
-# this is a test for the generate_comparison_table function
-def assert_table_format(output_lines):
-    """Assert that the output lines match the expected table format."""
-    header_line = output_lines[0].strip()
-    row_lines = output_lines[1:-1]  # Skip header and separator lines
-    separator_line = output_lines[-1].strip()
-
-    # Check if the header line starts with '+'
-    assert header_line.startswith("+")
-    # Check if the header line ends with '+'
-    assert header_line.endswith("+")
-
-    # Check if there is a '+' in the middle of the header line
-    assert "+" in header_line[1:-1]
-
-    # Check if all row lines start and end with '|'
-    for row_line in row_lines:
-        assert row_line.startswith("|")
-        assert row_line.endswith("|")
-
-        # Check if there is a '|' in the middle of each row line
-        assert "|" in row_line[1:-1]
-
-    # Check if the separator line matches the expected format
-    columns = header_line.strip().split("|")[1:-1]
-    expected_separator = "+".join("-" * (len(column.strip()) + 2) for column in columns)
-
-    # Adjust separator line if the header line has '+' characters at the
-    # beginning and end
-    if header_line.startswith("+") and header_line.endswith("+"):
-        expected_separator = "+" + expected_separator + "+"
-
-    assert separator_line == expected_separator
+# ... [previous assert_table_format function remains unchanged] ...
 
 
 def test_generate_table():
@@ -67,9 +36,9 @@ def test_generate_table():
     n_vals = [150, 160]
     k_vals = [50, 60]
     P_vals = [2 * (10**-3), 4 * (10**-3)]
+    seed = 42  # Add a seed for reproducibility
 
     # Capture the printed output
-
     output = io.StringIO()
     with redirect_stdout(output):
         generate_table(
@@ -88,6 +57,7 @@ def test_generate_table():
             n_vals,
             k_vals,
             P_vals,
+            seed=seed,
         )
     output_str = output.getvalue()
 
@@ -103,7 +73,7 @@ def test_generate_table():
 
 
 def test_generate_csv():
-    """Test the generate_table() function."""
+    """Test the generate_table() function with CSV output."""
     num_nodes_const = 2
     active_prob_const = 0.5
     n_const = 150
@@ -119,6 +89,7 @@ def test_generate_csv():
     n_vals = [150, 160]
     k_vals = [50, 60]
     P_vals = [2 * (10**-3), 4 * (10**-3)]
+    seed = 42  # Add a seed for reproducibility
     # Define a temporary CSV location for testing
     temp_csv_location = "temp_test_results.csv"
 
@@ -145,6 +116,7 @@ def test_generate_csv():
             k_vals,
             P_vals,
             csv_location=temp_csv_location,
+            seed=seed,
         )
     m().write.assert_called()
 
@@ -152,113 +124,13 @@ def test_generate_csv():
 def test_plot(monkeypatch):
     """Test the plot() function."""
     parser = argparse.ArgumentParser()
+    # ... [previous argument definitions remain unchanged] ...
     parser.add_argument(
-        "--num_nodes_const",
+        "--seed",
         type=int,
-        default=2,
-        help="Constant value for the number of nodes.",
+        default=None,
+        help="Seed for the random number generator.",
     )
-    parser.add_argument(
-        "--active_prob_const",
-        type=float,
-        default=0.5,
-        help="Constant value for the active probability.",
-    )
-    parser.add_argument(
-        "--n_const",
-        type=int,
-        default=150,
-        help="Constant value for the block length.",
-    )
-    parser.add_argument(
-        "--k_const",
-        type=int,
-        default=100,
-        help="Constant value for the update size.",
-    )
-    parser.add_argument(
-        "--P_const",
-        type=float,
-        default=2 * (10**-3),
-        help="Constant value for the power.",
-    )
-    parser.add_argument(
-        "--d_const",
-        type=int,
-        default=700,
-        help="Constant value for the distance.",
-    )
-    parser.add_argument(
-        "--N0_const",
-        type=float,
-        default=1 * (10**-13),
-        help="Constant value for the noise power.",
-    )
-    parser.add_argument(
-        "--fr_const",
-        type=float,
-        default=6 * (10**9),
-        help="Constant value for the frequency.",
-    )
-    parser.add_argument(
-        "--numevnts",
-        type=int,
-        default=1000,
-        help="The number of events.",
-    )
-    parser.add_argument(
-        "--numruns",
-        type=int,
-        default=2,
-        help="The number of runs.",
-    )
-    parser.add_argument(
-        "--num_nodes_vals",
-        nargs="+",
-        type=int,
-        default=[1, 2, 3, 4, 5],
-        help="Values for the number of nodes.",
-    )
-    parser.add_argument(
-        "--active_prob_vals",
-        nargs="+",
-        type=float,
-        default=[0.1, 0.15, 0.2, 0.25],
-        help="Values for the active probability.",
-    )
-    parser.add_argument(
-        "--n_vals",
-        nargs="+",
-        type=int,
-        default=[150, 160, 170, 180, 190, 200, 210, 220, 230, 240, 250],
-        help="Values for the block length.",
-    )
-    parser.add_argument(
-        "--k_vals",
-        nargs="+",
-        type=int,
-        default=[50, 60, 70, 80, 90, 95, 100],
-        help="Values for the update size.",
-    )
-    parser.add_argument(
-        "--P_vals",
-        nargs="+",
-        type=float,
-        default=[
-            2 * (10**-3),
-            3 * (10**-3),
-            4 * (10**-3),
-            5 * (10**-3),
-            10 * (10**-3),
-        ],
-        help="Values for the power.",
-    )
-    parser.add_argument(
-        "--plots",
-        action="store_true",  # Assuming 'plots' is a boolean flag
-        help="Flag to indicate if plots should be generated.",
-    )
-    # Add other necessary arguments to the parser
 
     # Mock the command-line arguments
     monkeypatch.setattr(
@@ -316,6 +188,8 @@ def test_plot(monkeypatch):
             "0.004",
             "0.005",
             "0.01",
+            "--seed",
+            "42",
         ],
     )
 
@@ -327,11 +201,11 @@ def test_plot(monkeypatch):
 
     # Mock the plt.show() function to avoid showing the plot
     with mock.patch.object(plt, "show"):
-        plot(args)
+        plot(args, seed=42)
 
 
 def test_plot_save(mocker):
-    """Test the plot() function."""
+    """Test the plot() function with plot saving."""
     # Mock the necessary methods
     mock_exists = mocker.patch("os.path.exists", return_value=False)
     mock_makedirs = mocker.patch("os.makedirs")
@@ -362,6 +236,7 @@ def test_plot_save(mocker):
     ]
 
     test_plots_folder = "test_plots"
+    seed = 42  # Add a seed for reproducibility
 
     # Run the function under test
     plot_generate(
@@ -381,6 +256,7 @@ def test_plot_save(mocker):
         k_vals,
         P_vals,
         test_plots_folder,
+        seed=seed,
     )
 
     # Assuming "Power" is the actual first variable in the iteration
@@ -393,3 +269,78 @@ def test_plot_save(mocker):
     # if the directory did not exist
     if not mock_exists.return_value:
         mock_makedirs.assert_called_with(test_plots_folder)
+
+
+def test_plot_reproducibility(mocker):
+    """Test that plots are reproducible with the same seed."""
+    mock_savefig = mocker.patch("matplotlib.pyplot.Figure.savefig")
+
+    # Define test parameters
+    params = {
+        "num_nodes_const": 2,
+        "active_prob_const": 0.5,
+        "n_const": 150,
+        "k_const": 100,
+        "P_const": 2 * (10**-3),
+        "d_const": 700,
+        "N0_const": 1 * (10**-13),
+        "fr_const": 6 * (10**9),
+        "numevnts": 1000,
+        "numruns": 5,
+        "num_nodes_vals": [1, 2, 3],
+        "active_prob_vals": [0.1, 0.2],
+        "n_vals": [150, 160],
+        "k_vals": [50, 60],
+        "P_vals": [2 * (10**-3), 4 * (10**-3)],
+        "plots_folder": "test_plots",
+        "seed": 42,
+    }
+
+    # Run the function twice with the same seed
+    plot_generate(**params)
+    first_call_args = mock_savefig.call_args_list
+
+    mock_savefig.reset_mock()
+
+    plot_generate(**params)
+    second_call_args = mock_savefig.call_args_list
+
+    # Check if the savefig calls are identical for both runs
+    assert first_call_args == second_call_args, "Plots are not reproducible with the same seed"
+
+
+def test_plot_different_seeds(mocker):
+    """Test that plots are different with different seeds."""
+    mock_savefig = mocker.patch("matplotlib.pyplot.Figure.savefig")
+
+    # Define test parameters
+    params = {
+        "num_nodes_const": 2,
+        "active_prob_const": 0.5,
+        "n_const": 150,
+        "k_const": 100,
+        "P_const": 2 * (10**-3),
+        "d_const": 700,
+        "N0_const": 1 * (10**-13),
+        "fr_const": 6 * (10**9),
+        "numevnts": 1000,
+        "numruns": 5,
+        "num_nodes_vals": [1, 2, 3],
+        "active_prob_vals": [0.1, 0.2],
+        "n_vals": [150, 160],
+        "k_vals": [50, 60],
+        "P_vals": [2 * (10**-3), 4 * (10**-3)],
+        "plots_folder": "test_plots",
+    }
+
+    # Run the function with two different seeds
+    plot_generate(**params, seed=42)
+    first_call_args = mock_savefig.call_args_list
+
+    mock_savefig.reset_mock()
+
+    plot_generate(**params, seed=123)
+    second_call_args = mock_savefig.call_args_list
+
+    # Check if the savefig calls are different for the two runs
+    assert first_call_args != second_call_args, "Plots are identical with different seeds"

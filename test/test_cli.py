@@ -32,6 +32,7 @@ def setup_mock_args(**kwargs):
         "n_vals": [150, 160, 170, 180, 190, 200, 210, 220, 230, 240, 250],
         "k_vals": [50, 60, 70, 80, 90, 95, 100],
         "P_vals": [2 * (10**-3), 4 * (10**-3), 6 * (10**-3), 8 * (10**-3)],
+        "seed": None,  # Add seed parameter with default value None
     }
     default_args.update(kwargs)
     mock_args = MagicMock(**default_args)
@@ -104,3 +105,53 @@ def test_main_with_blockerror(mock_dependencies):
     _main()
 
     mock_dependencies["mock_blercal_th"].assert_called_once()
+
+
+# New test to check behavior with seed
+def test_main_with_seed(mock_dependencies):
+    """Test the behavior of the main function with a specified seed."""
+    mock_args = setup_mock_args(seed=42)
+    mock_dependencies["mock_parse_args"].return_value = mock_args
+
+    _main()
+
+    # Check if generate_table was called with the correct seed
+    mock_dependencies["mock_generate_table"].assert_called_once()
+    _, kwargs = mock_dependencies["mock_generate_table"].call_args
+    assert kwargs.get('seed') == 42
+
+
+# New test to check reproducibility with the same seed
+def test_main_reproducibility(mock_dependencies):
+    """Test that the main function produces the same results with the same seed."""
+    mock_args = setup_mock_args(seed=42)
+    mock_dependencies["mock_parse_args"].return_value = mock_args
+
+    _main()
+    first_call_args = mock_dependencies["mock_generate_table"].call_args
+
+    mock_dependencies["mock_generate_table"].reset_mock()
+
+    _main()
+    second_call_args = mock_dependencies["mock_generate_table"].call_args
+
+    assert first_call_args == second_call_args, "Results are not reproducible with the same seed"
+
+
+# New test to check different results with different seeds
+def test_main_different_seeds(mock_dependencies):
+    """Test that the main function produces different results with different seeds."""
+    mock_args1 = setup_mock_args(seed=42)
+    mock_args2 = setup_mock_args(seed=123)
+    
+    mock_dependencies["mock_parse_args"].side_effect = [mock_args1, mock_args2]
+
+    _main()
+    first_call_args = mock_dependencies["mock_generate_table"].call_args
+
+    mock_dependencies["mock_generate_table"].reset_mock()
+
+    _main()
+    second_call_args = mock_dependencies["mock_generate_table"].call_args
+
+    assert first_call_args != second_call_args, "Results are identical with different seeds"

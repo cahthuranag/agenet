@@ -9,6 +9,7 @@ from typing import Any, List, Optional, Union, cast
 
 import matplotlib.pyplot as plt
 from tabulate import tabulate
+from numpy.random import PCG64, Generator
 
 from .maincom import run_simulation
 
@@ -30,6 +31,7 @@ def generate_table(
     k_vals: list[int],
     P_vals: list[float],
     csv_location: Optional[str] = None,
+    seed: Optional[int] = None,
 ) -> None:
     """Print the simulated and theoretical values for each variable.
 
@@ -49,8 +51,11 @@ def generate_table(
       n_vals: Values for the block length.
       k_vals: Values for the update size.
       P_vals: Values for the power.
-      csv_location: Location to save csv file
+      csv_location: Location to save csv file.
+      seed: Seed for the random number generator (optional).
     """
+    rng = Generator(PCG64(seed))
+
     for i, var_name, var_vals in zip(
         range(5),
         [
@@ -85,8 +90,9 @@ def generate_table(
 
         table_rows = []
         for val in cast(List[Union[int, float]], var_vals):
+            run_seed = rng.integers(0, 2**32)
             theoretical, simulated = run_simulation(
-                *(const_vals[:i] + [val] + const_vals[i + 1 :])
+                *(const_vals[:i] + [val] + const_vals[i + 1 :] + [run_seed])
             )
             table_rows.append([val, theoretical, simulated])
 
@@ -98,11 +104,8 @@ def generate_table(
                 # Update headers to include the variable name dynamically
                 updated_headers = [var_name, "Theoretical", " Simulated"]
                 writer.writerow(updated_headers)
-            for val in cast(List[Union[int, float]], var_vals):
-                theoretical, simulated = run_simulation(
-                    *(const_vals[:i] + [val] + const_vals[i + 1 :])
-                )
-                writer.writerow([val, theoretical, simulated])
+                for row in table_rows:
+                    writer.writerow(row)
         else:
             # If no CSV location is provided, or to additionally print the result:
             print(tabulate(table_rows, headers=headers, tablefmt="grid"))
@@ -126,6 +129,7 @@ def plot_generate(
     k_vals: list[int],
     P_vals: list[float],
     plots_folder: str | None = None,
+    seed: Optional[int] = None,
 ) -> None:
     """Plot the simulated and theoretical values for each variable.
 
@@ -146,7 +150,10 @@ def plot_generate(
       k_vals: Values for the update size.
       P_vals: Values for the power.
       plots_folder: Folder to save the plots.
+      seed: Seed for the random number generator (optional).
     """
+    rng = Generator(PCG64(seed))
+
     for i, var_name, var_vals in zip(
         range(5),
         [
@@ -176,8 +183,9 @@ def plot_generate(
 
         # Gather data for each value of the variable
         for val in cast(List[Union[int, float]], var_vals):
+            run_seed = rng.integers(0, 2**32)
             theoretical, simulated = run_simulation(
-                *(const_vals[:i] + [val] + const_vals[i + 1 :])
+                *(const_vals[:i] + [val] + const_vals[i + 1 :] + [run_seed])
             )
             theoretical_vals.append(theoretical)
             simulated_vals.append(simulated)
@@ -202,12 +210,13 @@ def plot_generate(
             plt.show()
 
 
-def plot(args: argparse.Namespace, plots_folder: str | None = None) -> None:
+def plot(args: argparse.Namespace, plots_folder: str | None = None, seed: Optional[int] = None) -> None:
     """Plot the simulated and theoretical values for each variable and save the plots.
 
     Args:
         args: Parsed command-line arguments.
-        plots_folder: Folder to save plots
+        plots_folder: Folder to save plots.
+        seed: Seed for the random number generator (optional).
     """
     # Extracting values from the args
     num_nodes_const = args.num_nodes_const
@@ -243,4 +252,5 @@ def plot(args: argparse.Namespace, plots_folder: str | None = None) -> None:
         k_vals=k_vals,
         P_vals=P_vals,
         plots_folder=plots_folder,
+        seed=seed,
     )
