@@ -72,25 +72,21 @@ def generate_table(
             P_vals,
         ],
     ):
-        const_vals: list[Any] = [
-            num_nodes_const,
-            active_prob_const,
-            n_const,
-            k_const,
-            P_const,
-            d_const,
-            N0_const,
-            fr_const,
-            numevnts,
-            numruns,
-        ]
-
         headers = [var_name, "Theoretical", "Simulated"]
 
         table_rows = []
         for val in cast(List[Union[int, float]], var_vals):
             theoretical, simulated = run_simulation(
-                *(const_vals[:i] + [val] + const_vals[i + 1 :]),
+                num_nodes= num_nodes_const, 
+                active_prob=active_prob_const,
+                n=n_const,
+                k=k_const,
+                P= P_const,
+                d=d_const,
+                N0=N0_const,
+                fr=fr_const,
+                numevnts=numevnts,
+                numruns=numruns,
                 seed=seed
             )
             table_rows.append([val, theoretical, simulated])
@@ -163,18 +159,7 @@ def plot_generate(
         ],
         [num_nodes_vals, active_prob_vals, n_vals, k_vals, P_vals],
     ):
-        const_vals: list[Any] = [
-            num_nodes_const,
-            active_prob_const,
-            n_const,
-            k_const,
-            P_const,
-            d_const,
-            N0_const,
-            fr_const,
-            numevnts,
-            numruns,
-        ]
+       
 
         theoretical_vals = []
         simulated_vals = []
@@ -182,7 +167,16 @@ def plot_generate(
         # Gather data for each value of the variable
         for val in cast(List[Union[int, float]], var_vals):
             theoretical, simulated = run_simulation(
-                *(const_vals[:i] + [val] + const_vals[i + 1 :]),
+                num_nodes= num_nodes_const, 
+                active_prob=active_prob_const,
+                n=n_const,
+                k=k_const,
+                P= P_const,
+                d=d_const,
+                N0=N0_const,
+                fr=fr_const,
+                numevnts=numevnts,
+                numruns=numruns,
                 seed=seed
             )
             theoretical_vals.append(theoretical)
