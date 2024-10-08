@@ -8,8 +8,8 @@ import os
 from typing import Any, List, Optional, Union, cast
 
 import matplotlib.pyplot as plt
-from tabulate import tabulate
 from numpy.random import PCG64, Generator
+from tabulate import tabulate
 
 from .maincom import run_simulation
 
@@ -77,17 +77,17 @@ def generate_table(
         table_rows = []
         for val in cast(List[Union[int, float]], var_vals):
             theoretical, simulated = run_simulation(
-                num_nodes= num_nodes_const, 
+                num_nodes=num_nodes_const,
                 active_prob=active_prob_const,
                 n=n_const,
                 k=k_const,
-                P= P_const,
+                P=P_const,
                 d=d_const,
                 N0=N0_const,
                 fr=fr_const,
                 numevnts=numevnts,
                 numruns=numruns,
-                seed=seed
+                seed=seed,
             )
             table_rows.append([val, theoretical, simulated])
 
@@ -159,7 +159,6 @@ def plot_generate(
         ],
         [num_nodes_vals, active_prob_vals, n_vals, k_vals, P_vals],
     ):
-       
 
         theoretical_vals = []
         simulated_vals = []
@@ -167,17 +166,17 @@ def plot_generate(
         # Gather data for each value of the variable
         for val in cast(List[Union[int, float]], var_vals):
             theoretical, simulated = run_simulation(
-                num_nodes= num_nodes_const, 
+                num_nodes=num_nodes_const,
                 active_prob=active_prob_const,
                 n=n_const,
                 k=k_const,
-                P= P_const,
+                P=P_const,
                 d=d_const,
                 N0=N0_const,
                 fr=fr_const,
                 numevnts=numevnts,
                 numruns=numruns,
-                seed=seed
+                seed=seed,
             )
             theoretical_vals.append(theoretical)
             simulated_vals.append(simulated)
@@ -202,7 +201,11 @@ def plot_generate(
             plt.show()
 
 
-def plot(args: argparse.Namespace, plots_folder: str | None = None, seed: Optional[int] = None) -> None:
+def plot(
+    args: argparse.Namespace,
+    plots_folder: str | None = None,
+    seed: Optional[int] = None,
+) -> None:
     """Plot the simulated and theoretical values for each variable and save the plots.
 
     Args:

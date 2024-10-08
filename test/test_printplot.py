@@ -14,7 +14,6 @@ from tabulate import tabulate
 
 from agenet import generate_table, plot, plot_generate
 
-
 # ... [previous assert_table_format function remains unchanged] ...
 
 
@@ -306,7 +305,9 @@ def test_plot_reproducibility(mocker):
     second_call_args = mock_savefig.call_args_list
 
     # Check if the savefig calls are identical for both runs
-    assert first_call_args == second_call_args, "Plots are not reproducible with the same seed"
+    assert (
+        first_call_args == second_call_args
+    ), "Plots are not reproducible with the same seed"
 
 
 def test_plot_different_seeds(mocker):
@@ -343,4 +344,6 @@ def test_plot_different_seeds(mocker):
     second_call_args = mock_savefig.call_args_list
 
     # Check if the savefig calls are different for the two runs
-    assert first_call_args != second_call_args, "Plots are identical with different seeds"
+    assert (
+        first_call_args != second_call_args
+    ), "Plots are identical with different seeds"

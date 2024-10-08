@@ -85,8 +85,8 @@ def test_main_with_plots(mock_dependencies):
     mock_dependencies["mock_plot"].assert_called_once()
     # Check if plot was called with the correct seed (None in this case)
     args, kwargs = mock_dependencies["mock_plot"].call_args
-    assert 'seed' in kwargs
-    assert kwargs['seed'] is None
+    assert "seed" in kwargs
+    assert kwargs["seed"] is None
 
 
 # Test behavior with --snr flag
@@ -122,7 +122,7 @@ def test_main_with_seed(mock_dependencies):
     # Check if generate_table was called with the correct seed
     mock_dependencies["mock_generate_table"].assert_called_once()
     _, kwargs = mock_dependencies["mock_generate_table"].call_args
-    assert kwargs.get('seed') == 42
+    assert kwargs.get("seed") == 42
 
 
 # New test to check seed handling with plots
@@ -136,8 +136,8 @@ def test_main_with_plots_and_seed(mock_dependencies):
     mock_dependencies["mock_plot"].assert_called_once()
     # Check if plot was called with the correct seed
     args, kwargs = mock_dependencies["mock_plot"].call_args
-    assert 'seed' in kwargs
-    assert kwargs['seed'] == 42
+    assert "seed" in kwargs
+    assert kwargs["seed"] == 42
 
 
 # New test to check reproducibility with the same seed
@@ -154,7 +154,9 @@ def test_main_reproducibility(mock_dependencies):
     _main()
     second_call_args = mock_dependencies["mock_generate_table"].call_args
 
-    assert first_call_args == second_call_args, "Results are not reproducible with the same seed"
+    assert (
+        first_call_args == second_call_args
+    ), "Results are not reproducible with the same seed"
 
 
 # New test to check different results with different seeds
@@ -162,7 +164,7 @@ def test_main_different_seeds(mock_dependencies):
     """Test that the main function produces different results with different seeds."""
     mock_args1 = setup_mock_args(seed=42)
     mock_args2 = setup_mock_args(seed=123)
-    
+
     mock_dependencies["mock_parse_args"].side_effect = [mock_args1, mock_args2]
 
     _main()
@@ -173,6 +175,8 @@ def test_main_different_seeds(mock_dependencies):
     _main()
     second_call_args = mock_dependencies["mock_generate_table"].call_args
 
-    assert first_call_args != second_call_args, "Results are identical with different seeds"
-    assert first_call_args[1]['seed'] == 42
-    assert second_call_args[1]['seed'] == 123
+    assert (
+        first_call_args != second_call_args
+    ), "Results are identical with different seeds"
+    assert first_call_args[1]["seed"] == 42
+    assert second_call_args[1]["seed"] == 123
