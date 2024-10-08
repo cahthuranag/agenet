@@ -54,7 +54,6 @@ def generate_table(
       csv_location: Location to save csv file.
       seed: Seed for the random number generator (optional).
     """
-    rng = Generator(PCG64(seed))
 
     for i, var_name, var_vals in zip(
         range(5),
@@ -90,10 +89,9 @@ def generate_table(
 
         table_rows = []
         for val in cast(List[Union[int, float]], var_vals):
-            run_seed = rng.integers(0, 2**32)
             theoretical, simulated = run_simulation(
                 *(const_vals[:i] + [val] + const_vals[i + 1 :]),
-                seed=run_seed
+                seed=seed
             )
             table_rows.append([val, theoretical, simulated])
 
@@ -153,7 +151,6 @@ def plot_generate(
       plots_folder: Folder to save the plots.
       seed: Seed for the random number generator (optional).
     """
-    rng = Generator(PCG64(seed))
 
     for i, var_name, var_vals in zip(
         range(5),
@@ -184,10 +181,9 @@ def plot_generate(
 
         # Gather data for each value of the variable
         for val in cast(List[Union[int, float]], var_vals):
-            run_seed = rng.integers(0, 2**32)
             theoretical, simulated = run_simulation(
                 *(const_vals[:i] + [val] + const_vals[i + 1 :]),
-                seed=run_seed
+                seed=seed
             )
             theoretical_vals.append(theoretical)
             simulated_vals.append(simulated)
