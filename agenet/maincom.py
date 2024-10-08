@@ -39,6 +39,10 @@ def simulation(
     Returns:
        Theoretical AAoI and simulation AAoI.
     """
+    # Check parameters
+    if active_prob < 0 or active_prob > 1:
+        raise ValueError("active_prob must be between 0 and 1")
+
     # Initialize PCG64 generator
     rng = Generator(PCG64(seed))
 
