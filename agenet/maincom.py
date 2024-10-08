@@ -39,6 +39,22 @@ def simulation(
     Returns:
        Theoretical AAoI and simulation AAoI.
     """
+    # Input validation
+    if not 0 <= active_prob <= 1:
+        raise ValueError("active_prob must be between 0 and 1")
+    if n <= 0:
+        raise ValueError("n must be greater than 0")
+    if k <= 0:
+        raise ValueError("k must be greater than 0")
+    if k > n:
+        raise ValueError("k must be less than or equal to n")
+    if P <= 0:
+        raise ValueError("P must be greater than 0")
+    if N0 <= 0:
+        raise ValueError("N0 must be greater than 0")
+    if fr <= 0:
+        raise ValueError("fr must be greater than 0")
+
     # Initialize PCG64 generator
     rng = Generator(PCG64(seed))
 
@@ -113,14 +129,14 @@ def simulation(
     else:
         t1 = [0] + sermat
 
-    system_time = 1 / lambda1  # system time (time which update in the system)
-    av_age_simulation, _, _ = av_age_fn(v1, t1, system_time)
-
     # Handle the case where er_p_th is very close to or equal to 1
     if abs(1 - er_p_th) < 1e-10:  # Choose a small threshold
-        av_age_theoretical = float("inf")
-    else:
-        av_age_theoretical = (1 / lambda1) * (0.5 + (1 / (1 - er_p_th)))
+        return float('inf'), float('inf')
+
+    av_age_theoretical = (1 / lambda1) * (0.5 + (1 / (1 - er_p_th)))
+
+    system_time = 1 / lambda1  # system time (time which update in the system)
+    av_age_simulation, _, _ = av_age_fn(v1, t1, system_time)
 
     return av_age_theoretical, av_age_simulation
 
@@ -166,10 +182,7 @@ def run_simulation(
             num_nodes, active_prob, n, k, P, d, N0, fr, numevnts, seed=run_seed
         )
         if np.isinf(av_age_theoretical_i):
-            return (
-                float("inf"),
-                av_age_simulation_i,
-            )  # Return immediately if theoretical value is infinity
+            return float('inf'), float('inf')  # Return infinity for both if theoretical is infinity
         av_age_theoretical_run += av_age_theoretical_i
         av_age_simulation_run += av_age_simulation_i
     av_age_theoretical_run /= num_runs
