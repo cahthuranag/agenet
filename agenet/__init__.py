@@ -6,8 +6,8 @@ __all__ = [
     "blercal_th",
     "snr",
     "snr_th",
-    "simulation",
-    "run_simulation",
+    "sim",
+    "multi_sim",
     "generate_table",
     "plot",
     "plot_generate",
@@ -16,6 +16,6 @@ __all__ = [
 
 from agenet.av_age import av_age_fn
 from agenet.bler import blercal, blercal_th
-from agenet.maincom import run_simulation, simulation
+from agenet.maincom import multi_sim, sim
 from agenet.printplot import generate_table, plot, plot_generate
 from agenet.snratio import snr, snr_th

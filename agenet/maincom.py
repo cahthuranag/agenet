@@ -10,7 +10,7 @@ from .bler import blercal, blercal_th
 from .snratio import snr, snr_th
 
 
-def simulation(
+def sim(
     num_nodes: int,
     active_prob: float,
     n: int,
@@ -131,7 +131,7 @@ def simulation(
 
     # Handle the case where er_p_th is very close to or equal to 1
     if abs(1 - er_p_th) < 1e-10:  # Choose a small threshold
-        return float('inf'), float('inf')
+        return float("inf"), float("inf")
 
     av_age_theoretical = (1 / lambda1) * (0.5 + (1 / (1 - er_p_th)))
 
@@ -141,7 +141,7 @@ def simulation(
     return av_age_theoretical, av_age_simulation
 
 
-def run_simulation(
+def multi_sim(
     num_nodes: int,
     active_prob: float,
     n: int,
@@ -178,11 +178,13 @@ def run_simulation(
     rng = Generator(PCG64(seed))  # Initialize RNG here for consistent seeds across runs
     for _ in range(num_runs):
         run_seed = rng.integers(0, 2**32)  # Generate a new seed for each run
-        av_age_theoretical_i, av_age_simulation_i = simulation(
+        av_age_theoretical_i, av_age_simulation_i = sim(
             num_nodes, active_prob, n, k, P, d, N0, fr, numevnts, seed=run_seed
         )
         if np.isinf(av_age_theoretical_i):
-            return float('inf'), float('inf')  # Return infinity for both if theoretical is infinity
+            return float("inf"), float(
+                "inf"
+            )  # Return infinity for both if theoretical is infinity
         av_age_theoretical_run += av_age_theoretical_i
         av_age_simulation_run += av_age_simulation_i
     av_age_theoretical_run /= num_runs

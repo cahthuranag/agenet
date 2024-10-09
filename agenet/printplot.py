@@ -11,7 +11,7 @@ import matplotlib.pyplot as plt
 from numpy.random import PCG64, Generator
 from tabulate import tabulate
 
-from .maincom import run_simulation
+from .maincom import multi_sim
 
 
 def generate_table(
@@ -76,7 +76,7 @@ def generate_table(
 
         table_rows = []
         for val in cast(List[Union[int, float]], var_vals):
-            theoretical, simulated = run_simulation(
+            theoretical, simulated = multi_sim(
                 num_nodes=num_nodes_const,
                 active_prob=active_prob_const,
                 n=n_const,
@@ -165,7 +165,7 @@ def plot_generate(
 
         # Gather data for each value of the variable
         for val in cast(List[Union[int, float]], var_vals):
-            theoretical, simulated = run_simulation(
+            theoretical, simulated = multi_sim(
                 num_nodes=num_nodes_const,
                 active_prob=active_prob_const,
                 n=n_const,
