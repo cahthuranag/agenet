@@ -17,7 +17,7 @@ def sim(
     n: int,
     k: int,
     P: float,
-    d: int,
+    d: float,
     N0: float,
     fr: float,
     numevents: int,

@@ -90,20 +90,26 @@ def test_run_simulation_different_seeds():
         0,
         1,
         2**32 - 1,
-        pytest.param(
-            -1, marks=pytest.mark.xfail(reason="Negative seeds are not supported")
-        ),
+        -1,
     ],
 )
 def test_simulation_various_seeds(seed):
     """Test the simulation function with various seed values."""
-    params = (2, 0.9, 300, 100, 10**-3, 700, 1 * (10**-13), 6 * (10**9), 1000)
+    params = {"num_nodes": 2, 
+              "active_prob":0.9,
+              "n": 300, 
+              "k":100,
+              "P" : 10**-3,
+              "d": 700,
+              "N0" : 1 * (10**-13),
+              "fr":6 * (10**9),
+              "numevents": 1000 }
 
     if seed is not None and seed < 0:
         with pytest.raises(ValueError, match="expected non-negative integer"):
-            sim(*params, seed=seed)
+            sim(**params, seed=seed)
     else:
-        result = sim(*params, seed=seed)
+        result = sim(**params, seed=seed)
         assert result is not None and all(
             isinstance(x, float) and x > 0 for x in result
         )
