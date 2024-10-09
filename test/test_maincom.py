@@ -3,7 +3,7 @@
 import pytest
 from numpy.random import PCG64, Generator
 
-from agenet import multi_sim, sim
+from agenet import ev_sim, sim
 
 # define test cases
 test_cases = [
@@ -55,7 +55,7 @@ def test_simulation_different_seeds():
 def test_run_simulation():
     """Test the run_simulation function."""
     params = (2, 0.9, 300, 100, 10**-3, 700, 1 * (10**-13), 6 * (10**9), 1000, 10)
-    result = multi_sim(*params, seed=42)
+    result = ev_sim(*params, seed=42)
     assert result is not None
     assert isinstance(result, tuple)
     assert len(result) == 2
@@ -66,8 +66,8 @@ def test_run_simulation():
 def test_run_simulation_reproducibility():
     """Test that run_simulation produces the same results with the same seed."""
     params = (2, 0.9, 300, 100, 10**-3, 700, 1 * (10**-13), 6 * (10**9), 1000, 10)
-    result1 = multi_sim(*params, seed=42)
-    result2 = multi_sim(*params, seed=42)
+    result1 = ev_sim(*params, seed=42)
+    result2 = ev_sim(*params, seed=42)
     assert (
         result1 == result2
     ), "Run_simulation results are not reproducible with the same seed"
@@ -76,8 +76,8 @@ def test_run_simulation_reproducibility():
 def test_run_simulation_different_seeds():
     """Test that run_simulation produces different results with different seeds."""
     params = (2, 0.9, 300, 100, 10**-3, 700, 1 * (10**-13), 6 * (10**9), 1000, 10)
-    result1 = multi_sim(*params, seed=42)
-    result2 = multi_sim(*params, seed=123)
+    result1 = ev_sim(*params, seed=42)
+    result2 = ev_sim(*params, seed=123)
     assert (
         result1 != result2
     ), "Run_simulation results are the same with different seeds"

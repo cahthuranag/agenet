@@ -141,7 +141,7 @@ def sim(
     return av_age_theoretical, av_age_simulation
 
 
-def multi_sim(
+def ev_sim(
     num_nodes: int,
     active_prob: float,
     n: int,
@@ -190,3 +190,5 @@ def multi_sim(
     av_age_theoretical_run /= num_runs
     av_age_simulation_run /= num_runs
     return av_age_theoretical_run, av_age_simulation_run
+
+
