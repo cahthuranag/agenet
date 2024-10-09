@@ -3,7 +3,6 @@
 import argparse
 
 from .bler import blercal_th
-from .printplot import generate_table, plot
 from .snratio import snr_th
 
 
@@ -127,9 +126,9 @@ def _main() -> None:
 
     output_action_taken = False
 
-    if args.plots or args.plots_folder:
-        plot(args, args.plots_folder if args.plots_folder else None, seed=args.seed)
-        output_action_taken = True
+    # if args.plots or args.plots_folder:
+    #     plot(args, args.plots_folder if args.plots_folder else None, seed=args.seed)
+    #     output_action_taken = True
 
     if args.snr:
         snr_th_val = snr_th(args.N0_const, args.d_const, args.P_const, args.fr_const)
@@ -141,23 +140,23 @@ def _main() -> None:
         print(f"Theoretical Block Error Rate: {ber_th}")
         output_action_taken = True
 
-    if not output_action_taken and not args.quiet:
-        generate_table(
-            args.num_nodes_const,
-            args.active_prob_const,
-            args.n_const,
-            args.k_const,
-            args.P_const,
-            args.d_const,
-            args.N0_const,
-            args.fr_const,
-            args.numevnts,
-            args.numruns,
-            args.num_nodes_vals,
-            args.active_prob_vals,
-            args.n_vals,
-            args.k_vals,
-            args.P_vals,
-            args.csv_location if args.csv_location else None,
-            seed=args.seed,
-        )
+#  if not output_action_taken and not args.quiet:
+#         generate_table(
+#             args.num_nodes_const,
+#             args.active_prob_const,
+#             args.n_const,
+#             args.k_const,
+#             args.P_const,
+#             args.d_const,
+#             args.N0_const,
+#             args.fr_const,
+#             args.numevnts,
+#             args.numruns,
+#             args.num_nodes_vals,
+#             args.active_prob_vals,
+#             args.n_vals,
+#             args.k_vals,
+#             args.P_vals,
+#             args.csv_location if args.csv_location else None,
+#             seed=args.seed,
+#         )
