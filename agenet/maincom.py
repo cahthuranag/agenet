@@ -8,6 +8,7 @@ from numpy.random import PCG64, Generator
 from .av_age import av_age_fn
 from .bler import blercal, blercal_th
 from .snratio import snr, snr_th
+import  pandas as pd
 
 
 def sim(
@@ -147,7 +148,7 @@ def ev_sim(
     n: int,
     k: int,
     P: float,
-    d: int,
+    d: float,
     N0: float,
     fr: float,
     numevnts: int,
@@ -190,5 +191,51 @@ def ev_sim(
     av_age_theoretical_run /= num_runs
     av_age_simulation_run /= num_runs
     return av_age_theoretical_run, av_age_simulation_run
+
+def multi_param_ev_sim(
+    d: list[float],
+    N0: list[float],
+    fr: list[float],
+    numevnts: list[int],
+    num_nodes: list[int],
+    active_prob: list[float],
+    n: list[int],
+    k: list[int],
+    P: list[float],
+    numruns: int,
+    seed: int | None = None,
+) -> pd.DataFrame:
+    results = []
+    
+    for d_val in d:
+        for N0_val in N0:
+            for fr_val in fr:
+                for numevnts_val in numevnts:
+                    for num_nodes_val in num_nodes:
+                        for active_prob_val in active_prob:
+                            for n_val in n:
+                                for k_val in k:
+                                    for P_val in P:
+                                        av_age_theoretical, av_age_simulation = ev_sim(
+                                            num_nodes_val, active_prob_val, n_val, k_val, 
+                                            P_val, d_val, N0_val, fr_val, numevnts_val, 
+                                            numruns, seed=seed
+                                        )
+                                        results.append({
+                                            'd': d_val,
+                                            'N0': N0_val,
+                                            'fr': fr_val,
+                                            'numevnts': numevnts_val,
+                                            'num_nodes': num_nodes_val,
+                                            'active_prob': active_prob_val,
+                                            'n': n_val,
+                                            'k': k_val,
+                                            'P': P_val,
+                                            'av_age_theoretical': av_age_theoretical,
+                                            'av_age_simulation': av_age_simulation
+                                        })
+    
+    return pd.DataFrame(results)
+
 
 
