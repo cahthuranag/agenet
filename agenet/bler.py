@@ -12,7 +12,7 @@ def _qfunc(x: float) -> float:
 
 def blercal(snr: float, n: int, k: int) -> float:
     """Calculate the Block Error Rate (BLER) for the given SNR, n, k."""
-   
+
     c = math.log2(1 + snr)
     v = 0.5 * (1 - (1 / (1 + snr) ** 2)) * ((math.log2(math.exp(1))) ** 2)
 
@@ -26,7 +26,7 @@ def blercal(snr: float, n: int, k: int) -> float:
 
 def blercal_th(snr: float, n: int, k: int) -> float:
     """Calculate the theoretical Block Error Rate (BLER) for the given SNR, n, k."""
- 
+
     try:
         beta = 1 / (2 * math.pi * math.sqrt((2 ** (2 * k / n)) - 1))
     except ValueError:

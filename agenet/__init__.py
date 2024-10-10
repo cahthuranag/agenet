@@ -16,5 +16,5 @@ __all__ = [
 
 from agenet.av_age import av_age_fn
 from agenet.bler import blercal, blercal_th
-from agenet.maincom import ev_sim, sim, multi_param_ev_sim
+from agenet.maincom import ev_sim, multi_param_ev_sim, sim
 from agenet.snratio import snr, snr_th

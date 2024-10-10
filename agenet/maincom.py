@@ -3,12 +3,12 @@
 from __future__ import annotations
 
 import numpy as np
+import pandas as pd
 from numpy.random import PCG64, Generator
 
 from .av_age import av_age_fn
 from .bler import blercal, blercal_th
 from .snratio import snr, snr_th
-import  pandas as pd
 
 
 def sim(
@@ -77,7 +77,7 @@ def sim(
     snr2_th = snr_th(
         N0, d2, P2, fr
     )  # block error rate for the source nodes at the relay or access point
-    
+
     er1_th = blercal_th(snr1_th, n1, k1)
     er2_th = blercal_th(snr2_th, n2, k2)
     inter_service_times = (1 / lambda1) * np.ones((num_events))  # inter service times
@@ -193,6 +193,7 @@ def ev_sim(
     av_age_simulation_run /= num_runs
     return av_age_theoretical_run, av_age_simulation_run
 
+
 def multi_param_ev_sim(
     d: list[float],
     N0: list[float],
@@ -212,7 +213,7 @@ def multi_param_ev_sim(
 
     d: List of distances between nodes.
     N0: List of noise powers.
-    fr: List of frequencies.    
+    fr: List of frequencies.
     numevnts: List of number of events.
     num_nodes: List of number of nodes.
     active_prob: List of active probabilities.
@@ -226,7 +227,7 @@ def multi_param_ev_sim(
     A DataFrame containing the results of the simulation.
     """
     results = []
-    
+
     for d_val in d:
         for N0_val in N0:
             for fr_val in fr:
@@ -237,24 +238,32 @@ def multi_param_ev_sim(
                                 for k_val in k:
                                     for P_val in P:
                                         av_age_theoretical, av_age_simulation = ev_sim(
-                                            num_nodes_val, active_prob_val, n_val, k_val, 
-                                            P_val, d_val, N0_val, fr_val, numevnts_val, 
-                                            numruns, seed=seed
+                                            num_nodes_val,
+                                            active_prob_val,
+                                            n_val,
+                                            k_val,
+                                            P_val,
+                                            d_val,
+                                            N0_val,
+                                            fr_val,
+                                            numevnts_val,
+                                            numruns,
+                                            seed=seed,
                                         )
-                                        results.append({
-                                            'd': d_val,
-                                            'N0': N0_val,
-                                            'fr': fr_val,
-                                            'numevnts': numevnts_val,
-                                            'num_nodes': num_nodes_val,
-                                            'active_prob': active_prob_val,
-                                            'n': n_val,
-                                            'k': k_val,
-                                            'P': P_val,
-                                            'av_age_theoretical': av_age_theoretical,
-                                            'av_age_simulation': av_age_simulation
-                                        })
-    
+                                        results.append(
+                                            {
+                                                "d": d_val,
+                                                "N0": N0_val,
+                                                "fr": fr_val,
+                                                "numevnts": numevnts_val,
+                                                "num_nodes": num_nodes_val,
+                                                "active_prob": active_prob_val,
+                                                "n": n_val,
+                                                "k": k_val,
+                                                "P": P_val,
+                                                "av_age_theoretical": av_age_theoretical,
+                                                "av_age_simulation": av_age_simulation,
+                                            }
+                                        )
+
     return pd.DataFrame(results)
-
-
