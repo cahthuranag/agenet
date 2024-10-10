@@ -77,6 +77,7 @@ def sim(
     snr2_th = snr_th(
         N0, d2, P2, fr
     )  # block error rate for the source nodes at the relay or access point
+    
     er1_th = blercal_th(snr1_th, n1, k1)
     er2_th = blercal_th(snr2_th, n2, k2)
     inter_service_times = (1 / lambda1) * np.ones((num_events))  # inter service times
@@ -131,7 +132,7 @@ def sim(
         t1 = [0] + sermat
 
     # Handle the case where er_p_th is very close to or equal to 1
-    if abs(1 - er_p_th) < 1e-10:  # Choose a small threshold
+    if abs(1 - er_p_th) < 1e-20:  # Choose a small threshold
         return float("inf"), float("inf")
 
     av_age_theoretical = (1 / lambda1) * (0.5 + (1 / (1 - er_p_th)))
@@ -205,6 +206,25 @@ def multi_param_ev_sim(
     numruns: int,
     seed: int | None = None,
 ) -> pd.DataFrame:
+    """Run the simulation for multiple parameters and return the results.
+
+    Args:
+
+    d: List of distances between nodes.
+    N0: List of noise powers.
+    fr: List of frequencies.    
+    numevnts: List of number of events.
+    num_nodes: List of number of nodes.
+    active_prob: List of active probabilities.
+    n: List of number of bits in a block.
+    k: List of number of bits in a message.
+    P: List of powers.
+    numruns: Number of times to run the simulation.
+    seed: Seed for the random number generator (optional).
+
+    Returns:
+    A DataFrame containing the results of the simulation.
+    """
     results = []
     
     for d_val in d:
@@ -236,6 +256,5 @@ def multi_param_ev_sim(
                                         })
     
     return pd.DataFrame(results)
-
 
 
