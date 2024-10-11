@@ -8,7 +8,7 @@
 
 # agenet
 
-A Python 3.8 implementation of a system model to estimate the average Age of Information (AoI) in an ultra-reliable low latency communication (URLLC) enabled wireless communication system with Slotted ALOHA scheme over the quasi-static Rayleigh block fading channels. A packet communication scheme is used to meet both the reliability and latency requirements of the proposed wireless network. By resorting to finite block length information theory, queuing theory, and stochastic processes, theoretical results can be obtained with this research software.
+A Python 3.8 implementation of a system model to estimate the average Age of Information (AoI) in an ultra-reliable low latency communication (URLLC) enabled wireless communication system over the quasi-static Rayleigh block fading channels. A packet communication scheme is used to meet both the reliability and latency requirements of the proposed wireless network. By resorting to finite block length information theory, queuing theory, and stochastic processes, theoretical results can be obtained with this research software.
 
 ## System model
 
@@ -24,9 +24,9 @@ Additionally, short packet communication is used for transmission. Since short p
 
 ## Features
 
-The **agenet** package allows the user to study the Age of Information (AoI) in a slotted URLLC-enabled ALOHA network, which can be used as a basis for implementing mission-critical wireless communication applications. This application can be used as a study tool to analyze the age of information in slotted ALOHA networks with multiple users and short packet communications scenarios to maintain URLLC (ultra-reliable low-latency communication). In this application, various parameters such as power allocation, block length, packet size, number of nodes in the network, and activation probability of each node can be adjusted to analyze how the age of information varies.
+The **agenet** package allows the user to study the Age of Information (AoI) in a slotted URLLC-enabled wireless network, which can be used as a basis for implementing mission-critical wireless communication applications. This application can be used as a study tool to analyze the age of information in slotted ALOHA networks with multiple users and short packet communications scenarios to maintain URLLC (ultra-reliable low-latency communication). In this application, various parameters such as power allocation, block length, packet size, number of nodes in the network, and activation probability of each node can be adjusted to analyze how the age of information varies.
 
-The **agenet** package contains several functions that can be used to study the AoI in a slotted URLLC-enabled ALOHA network. These functions allow the user to:
+The **agenet** package contains several functions that can be used to study the AoI in a slotted URLLC-enabled  wireless network. These functions allow the user to:
 
 - Calculate the Signal-to-Noise Ratio (SNR) at each receiving node in the network, which is an important factor in determining the quality of the communication link;
 
