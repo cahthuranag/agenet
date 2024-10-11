@@ -56,7 +56,7 @@ def _main():
     )
     parser.add_argument(
         "-n",
-        "--number-of-bits",
+        "--num-bits",
         type=int,
         nargs="+",
         default=[150],
@@ -95,12 +95,7 @@ def _main():
         default="",
         help="Save plot to file (only valid if exactly one parameter varies)",
     )
-    parser.add_argument(
-        "--block-error",
-        action="store_true",
-        help="Calculate theoretical block error rate",
-    )
-    parser.add_argument("--snr", action="store_true", help="Calculate theoretical SNR")
+
     parser.add_argument("--csv", type=str, help="Save results to CSV file")
 
     parser.add_argument(
@@ -119,7 +114,7 @@ def _main():
         numevnts=args.num_events,
         num_nodes=args.num_nodes,
         active_prob=args.active_prob,
-        n=args.number_of_bits,
+        n=args.num_bits,
         k=args.info_bits,
         P=args.dep_prob,
         numruns=args.num_runs,
@@ -128,17 +123,17 @@ def _main():
 
     # Process output options
     if not args.quiet:
-        print(result)
 
-    if args.snr:
-        theoretical_snr = snr_th(args.N0[0], args.d[0], args.P[0], args.fr[0])
+        theoretical_snr = snr_th(args.N0[0], args.distance[0], args.dep_prob[0], args.frame_rate[0])
         if not args.quiet:
             print(f"Theoretical SNR: {theoretical_snr}")
 
-    if args.block_error:
-        theoretical_bler = block_error_th(args.n[0], args.k[0], args.P[0])
+        theoretical_bler = block_error_th(args.num_bits[0], args.info_bits[0], args.dep_prob[0])
         if not args.quiet:
             print(f"Theoretical Block Error Rate: {theoretical_bler}")
+
+        print(result)
+
 
     if args.csv:
         result.to_csv(args.csv, index=False)
@@ -154,7 +149,7 @@ def _main():
             ("numevnts", "Number of events", args.num_events),
             ("num_nodes", "Number of nodes", args.num_nodes),
             ("active_prob", "Active probability", args.active_prob),
-            ("n", "n - Number of bits", args.number_of_bits),
+            ("n", "n - Number of bits", args.num_bits),
             ("k", "k - Information bits", args.info_bits),
             ("P", "P - Depolarizing probability", args.dep_prob),
         ]:
