@@ -21,7 +21,6 @@ def blercal(snr: float, n: int, k: int) -> float:
     Returns:
         float: The Block Error Rate
     """
-    
 
     c = math.log2(1 + snr)
     v = 0.5 * (1 - (1 / (1 + snr) ** 2)) * ((math.log2(math.exp(1))) ** 2)
