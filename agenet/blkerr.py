@@ -15,8 +15,8 @@ def block_error(snr: float, n: int, k: int) -> float:
 
     Args:
         snr (float): Signal-to-noise ratio
-        n (int): Total number of qubits
-        k (int): Number of information qubits
+        n (int): Total number of bits
+        k (int): Number of information bits
 
     Returns:
         float: The Block Error Rate
@@ -38,8 +38,8 @@ def block_error_th(snr: float, n: int, k: int) -> float:
 
     Args:
         snr (float): Signal-to-noise ratio
-        n (int): Total number of qubits
-        k (int): Number of information qubits
+        n (int): Total number of bits
+        k (int): Number of information bits
 
 
     Returns:
