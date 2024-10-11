@@ -1,3 +1,5 @@
+from __future__ import annotations
+
 import argparse
 import importlib.metadata
 import sys
@@ -180,7 +182,7 @@ def _main():
         print(f"Simulation results saved to {args.csv}")
 
     if args.plot_show or len(args.plot_save) > 0:
-        aoi_vs_param: tuple[str, list[float | int]]
+        aoi_vs_param: tuple[str, str, list[float | int]]
         num_var_params = 0
         for param_info in [
             ("distance", "Distance (m)", args.distance),
