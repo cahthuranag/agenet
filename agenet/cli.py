@@ -22,7 +22,7 @@ def _main():
         type=float,
         nargs="+",
         default=[100],
-        help="Distance(s) in meters",
+        help="Distance between nodes (meters)",
     )
     parser.add_argument(
         "-N",
@@ -30,15 +30,15 @@ def _main():
         type=float,
         nargs="+",
         default=[1e-13],
-        help="Noise power(s) in Watts",
+        help="Noise power (Watts)",
     )
     parser.add_argument(
         "-f",
-        "--frame-rate",
+        "--frequency",
         type=float,
         nargs="+",
         default=[6e6],
-        help="Frame rate(s) in Hz",
+        help="Signal frequency (Hz)",
     )
     parser.add_argument(
         "-e", "--num-events", type=int, nargs="+", default=[50], help="Number of events"
@@ -72,11 +72,11 @@ def _main():
     )
     parser.add_argument(
         "-P",
-        "--dep-prob",
+        "--power",
         type=float,
         nargs="+",
         default=[8e-2],
-        help="Depolarizing probability",
+        help="Transmission power (Watts)",
     )
     parser.add_argument(
         "-r", "--num-runs", type=int, default=10, help="Number of simulation runs"
@@ -108,32 +108,35 @@ def _main():
 
     # Always run the simulation
     result = multi_param_ev_sim(
-        d=args.distance,
+        distance=args.distance,
         N0=args.N0,
-        fr=args.frame_rate,
-        numevnts=args.num_events,
+        frequency=args.frequency,
+        num_events=args.num_events,
         num_nodes=args.num_nodes,
         active_prob=args.active_prob,
-        n=args.num_bits,
-        k=args.info_bits,
-        P=args.dep_prob,
-        numruns=args.num_runs,
+        num_bits=args.num_bits,
+        info_bits=args.info_bits,
+        power=args.dep_prob,
+        num_runs=args.num_runs,
         seed=args.seed,
     )
 
     # Process output options
     if not args.quiet:
 
-        theoretical_snr = snr_th(args.N0[0], args.distance[0], args.dep_prob[0], args.frame_rate[0])
+        theoretical_snr = snr_th(
+            args.N0[0], args.distance[0], args.dep_prob[0], args.frequency[0]
+        )
         if not args.quiet:
             print(f"Theoretical SNR: {theoretical_snr}")
 
-        theoretical_bler = block_error_th(args.num_bits[0], args.info_bits[0], args.dep_prob[0])
+        theoretical_bler = block_error_th(
+            args.num_bits[0], args.info_bits[0], args.dep_prob[0]
+        )
         if not args.quiet:
             print(f"Theoretical Block Error Rate: {theoretical_bler}")
 
         print(result)
-
 
     if args.csv:
         result.to_csv(args.csv, index=False)
@@ -143,15 +146,15 @@ def _main():
         aoi_vs_param: tuple[str, list[float | int]]
         num_var_params = 0
         for param_info in [
-            ("d", "Distance (m)", args.distance),
+            ("distance", "Distance (m)", args.distance),
             ("N0", "N0 - Noise power (W)", args.N0),
-            ("fr", "Frame rate (Hz)", args.frame_rate),
-            ("numevnts", "Number of events", args.num_events),
+            ("frequency", "Frequency (Hz)", args.frequency),
+            ("num_events", "Number of events", args.num_events),
             ("num_nodes", "Number of nodes", args.num_nodes),
             ("active_prob", "Active probability", args.active_prob),
-            ("n", "n - Number of bits", args.num_bits),
-            ("k", "k - Information bits", args.info_bits),
-            ("P", "P - Depolarizing probability", args.dep_prob),
+            ("num_bits", "n - Number of bits", args.num_bits),
+            ("info_bits", "k - Information bits", args.info_bits),
+            ("power", "P - Transmission power (W)", args.dep_prob),
         ]:
 
             if len(param_info[2]) > 1:
@@ -162,8 +165,8 @@ def _main():
             result_sorted = result.sort_values(aoi_vs_param[0])
 
             fig, ax = plt.subplots()
-            aaoi_theory = result_sorted["av_age_theoretical"]
-            aaoi_sim = result_sorted["av_age_simulation"]
+            aaoi_theory = result_sorted["aaoi_theory"]
+            aaoi_sim = result_sorted["aaoi_sim"]
             ax.plot(result_sorted[aoi_vs_param[0]], aaoi_theory, label="Theoretical")
             ax.plot(result_sorted[aoi_vs_param[0]], aaoi_sim, label="Simulation")
             ax.set_xlabel(aoi_vs_param[1])

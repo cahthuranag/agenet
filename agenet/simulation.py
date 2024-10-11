@@ -14,13 +14,13 @@ from .snratio import snr, snr_th
 def sim(
     num_nodes: int,
     active_prob: float,
-    n: int,
-    k: int,
-    P: float,
-    d: float,
+    num_bits: int,
+    info_bits: int,
+    power: float,
+    distance: float,
     N0: float,
-    fr: float,
-    numevents: int,
+    frequency: float,
+    num_events: int,
     seed: int | None = None,
 ) -> tuple[float, float]:
     """Simulates a communication system and calculates the AAoI.
@@ -28,13 +28,13 @@ def sim(
     Args:
       num_nodes: Number of nodes in the system
       active_prob: Probability that a node is active.
-      n: Number of bits in a block.
-      k: Number of bits in a message.
-      P: Power of the nodes.
-      d: Distance between nodes.
-      N0: Noise power.
-      fr: Frequency of the signal.
-      numevents: Number of events to simulate.
+      num_bits: Number of bits in a block ($n$).
+      info_bits: Number of bits in a message ($k$).
+      power: Transmission power in Watts ($P$).
+      distance: Distance between nodes ($d$).
+      N0: Noise power in Watts.
+      frequency: Signal frequency in Hertz.
+      num_events: Number of events to simulate.
       seed: Seed for the random number generator (optional).
 
     Returns:
@@ -43,39 +43,39 @@ def sim(
     # Input validation
     if not 0 <= active_prob <= 1:
         raise ValueError("active_prob must be between 0 and 1")
-    if n <= 0:
+    if num_bits <= 0:
         raise ValueError("n must be greater than 0")
-    if k <= 0:
+    if info_bits <= 0:
         raise ValueError("k must be greater than 0")
-    if k > n:
+    if info_bits > num_bits:
         raise ValueError("k must be less than or equal to n")
-    if P <= 0:
+    if power <= 0:
         raise ValueError("P must be greater than 0")
     if N0 <= 0:
         raise ValueError("N0 must be greater than 0")
-    if fr <= 0:
+    if frequency <= 0:
         raise ValueError("fr must be greater than 0")
 
     # Initialize PCG64 generator
     rng = Generator(PCG64(seed))
 
     lambda1 = 1  # arrival for one transmission period
-    num_events = numevents  # number of events
+    num_events = num_events  # number of events
     inter_arrival_times = (1 / lambda1) * (np.ones(num_events))  # inter arrival times
     arrival_timestamps = np.cumsum(inter_arrival_times)  # arrival timestamps
-    d1 = d  # distance between source nodes and relay
-    d2 = d  # distance between the relay and destination
-    P1 = P  # power of the source nodes
-    P2 = P  # power of the relay or access point
-    n1 = n  # number of bits in the block for the source nodes
-    n2 = n  # number of bits in the block for the relay or access point
-    k1 = k  # number of bits in the message for the source nodes
-    k2 = k  # number of bits in the message for the relay or access point
+    d1 = distance  # distance between source nodes and relay
+    d2 = distance  # distance between the relay and destination
+    P1 = power  # power of the source nodes
+    P2 = power  # power of the relay or access point
+    n1 = num_bits  # number of bits in the block for the source nodes
+    n2 = num_bits  # number of bits in the block for the relay or access point
+    k1 = info_bits  # number of bits in the message for the source nodes
+    k2 = info_bits  # number of bits in the message for the relay or access point
     snr1_th = snr_th(
-        N0, d1, P1, fr
+        N0, d1, P1, frequency
     )  # block error rate for the relay or access point at the destination
     snr2_th = snr_th(
-        N0, d2, P2, fr
+        N0, d2, P2, frequency
     )  # block error rate for the source nodes at the relay or access point
 
     er1_th = block_error_th(snr1_th, n1, k1)
@@ -90,9 +90,9 @@ def sim(
     er_p_th = er_f_th + (er2_th * (er_f_th - 1))
     for i in range(0, num_events):
         snr1 = snr(
-            N0, d1, P1, fr, seed=rng.integers(0, 2**32)
+            N0, d1, P1, frequency, seed=rng.integers(0, 2**32)
         )  # snr for the source nodes at the relay or access point
-        snr2 = snr(N0, d2, P2, fr, seed=rng.integers(0, 2**32))
+        snr2 = snr(N0, d2, P2, frequency, seed=rng.integers(0, 2**32))
         er1 = block_error(
             snr1, n1, k1
         )  # block error rate for the source nodes at the relay or access point
@@ -146,42 +146,51 @@ def sim(
 def ev_sim(
     num_nodes: int,
     active_prob: float,
-    n: int,
-    k: int,
-    P: float,
-    d: float,
+    num_bits: int,
+    info_bits: int,
+    power: float,
+    distance: float,
     N0: float,
-    fr: float,
-    numevnts: int,
-    numruns: int,
+    frequency: float,
+    num_events: int,
+    num_runs: int,
     seed: int | None = None,
 ) -> tuple[float, float]:
-    """Run the simulation `numruns` times and return the AAoI.
+    """Run the simulation `num_runs` times and return the AAoI.
 
     Args:
       num_nodes: Number of nodes in the network.
       active_prob: Probability that a node is active in a given time slot.
-      n: Number of bits in a block.
-      k: Number of bits in a message.
-      P: Power of the nodes.
-      d: Distance between nodes.
+      num_bits: Number of bits in a block.
+      info_bits: Number of bits in a message.
+      power: Power of the nodes.
+      distance: Distance between nodes.
       N0: Noise power.
-      fr: Frequency of the signal.
-      numevnts: Number of events.
-      numruns: Number of times to run the simulation.
+      frequency: Signal frequency in Hertz.
+      num_events: Number of events.
+      num_runs: Number of times to run the simulation.
       seed: Seed for the random number generator (optional).
 
     Returns:
       A tuple containing the theoretical AAoI and the simulation AAoI.
     """
-    num_runs = numruns
+    num_runs = num_runs
     av_age_theoretical_run = 0.0
     av_age_simulation_run = 0.0
     rng = Generator(PCG64(seed))  # Initialize RNG here for consistent seeds across runs
     for _ in range(num_runs):
         run_seed = rng.integers(0, 2**32)  # Generate a new seed for each run
         av_age_theoretical_i, av_age_simulation_i = sim(
-            num_nodes, active_prob, n, k, P, d, N0, fr, numevnts, seed=run_seed
+            num_nodes,
+            active_prob,
+            num_bits,
+            info_bits,
+            power,
+            distance,
+            N0,
+            frequency,
+            num_events,
+            seed=run_seed,
         )
         if np.isinf(av_age_theoretical_i):
             return float("inf"), float(
@@ -195,49 +204,48 @@ def ev_sim(
 
 
 def multi_param_ev_sim(
-    d: list[float],
+    distance: list[float],
     N0: list[float],
-    fr: list[float],
-    numevnts: list[int],
+    frequency: list[float],
+    num_events: list[int],
     num_nodes: list[int],
     active_prob: list[float],
-    n: list[int],
-    k: list[int],
-    P: list[float],
-    numruns: int,
+    num_bits: list[int],
+    info_bits: list[int],
+    power: list[float],
+    num_runs: int,
     seed: int | None = None,
 ) -> pd.DataFrame:
     """Run the simulation for multiple parameters and return the results.
 
     Args:
-
-    d: List of distances between nodes.
-    N0: List of noise powers.
-    fr: List of frequencies.
-    numevnts: List of number of events.
-    num_nodes: List of number of nodes.
-    active_prob: List of active probabilities.
-    n: List of number of bits in a block.
-    k: List of number of bits in a message.
-    P: List of powers.
-    numruns: Number of times to run the simulation.
-    seed: Seed for the random number generator (optional).
+      distance: List of distances between nodes.
+      N0: List of noise powers.
+      frequency: List of frequencies.
+      num_events: List of number of events.
+      num_nodes: List of number of nodes.
+      active_prob: List of active probabilities.
+      num_bits: List of number of bits in a block.
+      info_bits: List of number of bits in a message.
+      power: List of powers.
+      num_runs: Number of times to run the simulation.
+      seed: Seed for the random number generator (optional).
 
     Returns:
-    A DataFrame containing the results of the simulation.
+      A DataFrame containing the results of the simulation.
     """
     results = []
 
-    for d_val in d:
+    for d_val in distance:
         for N0_val in N0:
-            for fr_val in fr:
-                for numevnts_val in numevnts:
+            for fr_val in frequency:
+                for num_events_val in num_events:
                     for num_nodes_val in num_nodes:
                         for active_prob_val in active_prob:
-                            for n_val in n:
-                                for k_val in k:
-                                    for P_val in P:
-                                        av_age_theoretical, av_age_simulation = ev_sim(
+                            for n_val in num_bits:
+                                for k_val in info_bits:
+                                    for P_val in power:
+                                        aaoi_theory, aaoi_sim = ev_sim(
                                             num_nodes_val,
                                             active_prob_val,
                                             n_val,
@@ -246,23 +254,23 @@ def multi_param_ev_sim(
                                             d_val,
                                             N0_val,
                                             fr_val,
-                                            numevnts_val,
-                                            numruns,
+                                            num_events_val,
+                                            num_runs,
                                             seed=seed,
                                         )
                                         results.append(
                                             {
-                                                "d": d_val,
+                                                "distance": d_val,
                                                 "N0": N0_val,
-                                                "fr": fr_val,
-                                                "numevnts": numevnts_val,
+                                                "frequency": fr_val,
+                                                "num_events": num_events_val,
                                                 "num_nodes": num_nodes_val,
                                                 "active_prob": active_prob_val,
-                                                "n": n_val,
-                                                "k": k_val,
-                                                "P": P_val,
-                                                "av_age_theoretical": av_age_theoretical,
-                                                "av_age_simulation": av_age_simulation,
+                                                "num_bits": n_val,
+                                                "info_bits": k_val,
+                                                "power": P_val,
+                                                "aaoi_theory": aaoi_theory,
+                                                "aaoi_sim": aaoi_sim,
                                             }
                                         )
 

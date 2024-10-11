@@ -14,13 +14,11 @@ test_cases = [
 
 
 @pytest.mark.parametrize(
-    "num_nodes, active_prob, n, k, P, d, N0, fr, numevents, seed", test_cases
+    "num_nodes, active_prob, n, k, P, d, N0, fr, num_events, seed", test_cases
 )
-def test_simulation(num_nodes, active_prob, n, k, P, d, N0, fr, numevents, seed):
+def test_simulation(num_nodes, active_prob, n, k, P, d, N0, fr, num_events, seed):
     """Test the simulation function for various inputs."""
-    result = sim(
-        num_nodes, active_prob, n, k, P, d, N0, fr, numevents, seed=seed
-    )
+    result = sim(num_nodes, active_prob, n, k, P, d, N0, fr, num_events, seed=seed)
     assert result is not None
     assert isinstance(result, tuple)
     assert len(result) == 2
@@ -95,15 +93,17 @@ def test_run_simulation_different_seeds():
 )
 def test_simulation_various_seeds(seed):
     """Test the simulation function with various seed values."""
-    params = {"num_nodes": 2, 
-              "active_prob":0.9,
-              "n": 300, 
-              "k":100,
-              "P" : 10**-3,
-              "d": 700,
-              "N0" : 1 * (10**-13),
-              "fr":6 * (10**9),
-              "numevents": 1000 }
+    params = {
+        "num_nodes": 2,
+        "active_prob": 0.9,
+        "num_bits": 300,
+        "info_bits": 100,
+        "power": 10**-3,
+        "distance": 700,
+        "N0": 1 * (10**-13),
+        "frequency": 6 * (10**9),
+        "num_events": 1000,
+    }
 
     if seed is not None and seed < 0:
         with pytest.raises(ValueError, match="expected non-negative integer"):
@@ -135,13 +135,16 @@ def test_simulation_edge_cases():
         100, 0.99, 1000, 999, 1, 10000, 1e-10, 100 * (10**9), 10000, seed=42
     )
     assert max_result is not None
-    
-    if max_result[0] == float('inf'):
-        assert max_result[1] == float('inf'), "Both theoretical and simulated values should be infinity in extreme cases"
+
+    if max_result[0] == float("inf"):
+        assert max_result[1] == float(
+            "inf"
+        ), "Both theoretical and simulated values should be infinity in extreme cases"
     else:
         assert max_result[0] > 0, "Theoretical value should be positive"
         assert max_result[1] > 0, "Simulated value should be positive"
         assert max_result[0] != float("inf"), "Theoretical value should not be infinity"
+
 
 def test_simulation_error_handling():
     """Test that the simulation function handles potential errors gracefully."""
@@ -166,28 +169,29 @@ def test_simulation_error_handling():
     with pytest.raises(ValueError, match="fr must be greater than 0"):
         sim(2, 0.9, 300, 100, 10**-3, 700, 1 * (10**-13), -6 * (10**9), 1000, seed=42)
 
+
 def test_simulation_input_validation():
     """Test that the simulation function properly validates input parameters."""
     with pytest.raises(ValueError, match="active_prob must be between 0 and 1"):
         sim(2, -0.1, 300, 100, 10**-3, 700, 1 * (10**-13), 6 * (10**9), 1000, seed=42)
-    
+
     with pytest.raises(ValueError, match="active_prob must be between 0 and 1"):
         sim(2, 1.1, 300, 100, 10**-3, 700, 1 * (10**-13), 6 * (10**9), 1000, seed=42)
-    
+
     with pytest.raises(ValueError, match="n must be greater than 0"):
         sim(2, 0.5, 0, 100, 10**-3, 700, 1 * (10**-13), 6 * (10**9), 1000, seed=42)
-    
+
     with pytest.raises(ValueError, match="k must be greater than 0"):
         sim(2, 0.5, 300, 0, 10**-3, 700, 1 * (10**-13), 6 * (10**9), 1000, seed=42)
-    
+
     with pytest.raises(ValueError, match="k must be less than or equal to n"):
         sim(2, 0.5, 300, 301, 10**-3, 700, 1 * (10**-13), 6 * (10**9), 1000, seed=42)
-    
+
     with pytest.raises(ValueError, match="P must be greater than 0"):
         sim(2, 0.5, 300, 100, -1, 700, 1 * (10**-13), 6 * (10**9), 1000, seed=42)
-    
+
     with pytest.raises(ValueError, match="N0 must be greater than 0"):
         sim(2, 0.5, 300, 100, 10**-3, 700, -1 * (10**-13), 6 * (10**9), 1000, seed=42)
-    
+
     with pytest.raises(ValueError, match="fr must be greater than 0"):
         sim(2, 0.5, 300, 100, 10**-3, 700, 1 * (10**-13), -6 * (10**9), 1000, seed=42)
