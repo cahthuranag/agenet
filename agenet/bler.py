@@ -11,7 +11,17 @@ def _qfunc(x: float) -> float:
 
 
 def blercal(snr: float, n: int, k: int) -> float:
-    """Calculate the Block Error Rate (BLER) for the given SNR, n, k."""
+    """Calculate the Block Error Rate (BLER) for the given SNR, n, k.
+
+    Args:
+        snr (float): Signal-to-noise ratio
+        n (int): Total number of qubits
+        k (int): Number of information qubits
+
+    Returns:
+        float: The Block Error Rate
+    """
+    
 
     c = math.log2(1 + snr)
     v = 0.5 * (1 - (1 / (1 + snr) ** 2)) * ((math.log2(math.exp(1))) ** 2)
@@ -25,7 +35,17 @@ def blercal(snr: float, n: int, k: int) -> float:
 
 
 def blercal_th(snr: float, n: int, k: int) -> float:
-    """Calculate the theoretical Block Error Rate (BLER) for the given SNR, n, k."""
+    """Calculate the theoretical Block Error Rate (BLER) for the given SNR, n, k.
+
+    Args:
+        snr (float): Signal-to-noise ratio
+        n (int): Total number of qubits
+        k (int): Number of information qubits
+
+
+    Returns:
+        float: The theoretical Block Error Rate
+    """
 
     try:
         beta = 1 / (2 * math.pi * math.sqrt((2 ** (2 * k / n)) - 1))
