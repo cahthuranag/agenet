@@ -16,7 +16,7 @@ The following figure illustrates the wireless communication system that is propo
 
 ![System model.](https://raw.githubusercontent.com/cahthuranag/agenet/main/docs/docs/image/Fig1.png)
 
-The diagram illustrates a wireless network that consists of multiple nodes. The transmission between each node and the relay is done using a transmission scheme similar to that of the Slotted ALOHA protocol, which is a popular random access method used in wireless communication systems.
+The diagram illustrates a wireless network that consists of multiple nodes. The transmission between each node and the relay is done using a transmission scheme similar to that of the slotted ALOHA protocol, which is a popular random access method used in wireless communication systems.
 
 However, the transmission between the relay and each destination uses dedicated communication channels, and as a result, no transmission scheme similar to ALOHA is employed for this part of the communication. This helps to reduce the possibility of collisions and improve the reliability of the communication.
 
@@ -24,7 +24,7 @@ Additionally, short packet communication is used for transmission. Since short p
 
 ## Features
 
-The **agenet** package allows the user to study the Age of Information (AoI) in a slotted URLLC-enabled wireless network, which can be used as a basis for implementing mission-critical wireless communication applications. This application can be used as a study tool to analyze the age of information in slotted ALOHA networks with multiple users and short packet communications scenarios to maintain URLLC (ultra-reliable low-latency communication). In this application, various parameters such as power allocation, block length, packet size, number of nodes in the network, and activation probability of each node can be adjusted to analyze how the age of information varies.
+The **agenet** package allows the user to study the Age of Information (AoI) in a  URLLC-enabled wireless network, which can be used as a basis for implementing mission-critical wireless communication applications. This application can be used as a study tool to analyze the age of information in wireless networks with multiple users and short packet communications scenarios to maintain URLLC (ultra-reliable low-latency communication). In this application, various parameters such as power allocation, block length, packet size, number of nodes in the network, and activation probability of each node can be adjusted to analyze how the age of information varies.
 
 The **agenet** package contains several functions that can be used to study the AoI in a slotted URLLC-enabled  wireless network. These functions allow the user to:
 
