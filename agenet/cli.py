@@ -106,24 +106,36 @@ def _main():
         help=f"Transmission power in Watts (default: {def_params_str["power"]})",
     )
     parser.add_argument(
-        "-r", "--num-runs", type=int, default=10, help="Number of simulation runs"
+        "-r",
+        "--num-runs",
+        type=int,
+        default=10,
+        help="Number of simulation runs (default: %(default)s)",
     )
-    parser.add_argument("-s", "--seed", type=int, help="Random seed")
+    parser.add_argument(
+        "-s",
+        "--seed",
+        type=int,
+        help="Seed for random number generator (a random seed will be used by default)",
+    )
     parser.add_argument("-q", "--quiet", action="store_true", help="Suppress output")
     parser.add_argument(
         "-p",
         "--plot-show",
         action="store_true",
-        help="Plot results (only valid if exactly one parameter varies)",
+        help="Show plot (only valid if exactly one parameter varies)",
     )
     parser.add_argument(
         "--plot-save",
         type=str,
         default="",
-        help="Save plot to file (only valid if exactly one parameter varies)",
+        metavar="IMAGE_FILE",
+        help="Save plot to file (only valid if exactly one parameter varies, extension determines file type)",
     )
 
-    parser.add_argument("--csv", type=str, help="Save results to CSV file")
+    parser.add_argument(
+        "--csv", type=str, help="Save results to CSV file", metavar="CSV_FILE"
+    )
 
     parser.add_argument(
         "--version",
