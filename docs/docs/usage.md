@@ -18,7 +18,7 @@ agenet
 - `--d_const <int>`: Distance between nodes. Default is 700.
 - `--N0_const <float>`: Noise power. Default is 1e-13.
 - `--fr_const <float>`: Frequency of the signal. Default is 6e9.
-- `--numevnts <int>`: Sets the number of events to simulate. Default is 500.
+- `--num_events <int>`: Sets the number of events to simulate. Default is 500.
 - `--numruns <int>`: Indicates the number of times the simulation will run. Default is 100.
 
 ### Variable Parameters
@@ -39,22 +39,22 @@ agenet
 ## Usage Examples
 
 Basic simulation with default parameters:
-``` 
-agenet 
+```
+agenet
 ```
 Run simulation with specific parameters and generate plots:
 ```
 agenet --num_nodes_const 3 --active_prob_const 0.7 --n_const 100 --k_const 50 --P_const 0.05 --d_const 700 --N0_const 1e-13 --fr_const 6e9 --plots
 ```
 Calculate theoretical block error rate for a given SNR:
-   
-``` 
+
+```
 agenet --num_nodes_const 5 --active_prob_const 0.3 --n_const 100 --k_const 50 --P_const 0.002 --d_const 700 --N0_const 1e-13 --fr_const 6e9 --blockerror
 ```
-   
+
 Calculate SNR for a given configuration:
-  
-``` 
+
+```
 agenet --num_nodes_const 5 --active_prob_const 0.3 --n_const 100 --k_const 50 --P_const 0.002 --d_const 700 --N0_const 1e-13 --fr_const 6e9 --sn
 ```
 Generate plots for various network configurations:
@@ -62,7 +62,7 @@ Generate plots for various network configurations:
 agenet --num_nodes_const 5 --active_prob_const 0.3 --n_const 100 --k_const 50 --P_const 0.002 --d_const 700 --N0_const 1e-13 --fr_const 6e9 --plots --plots_folder ./output_plots
 ```
 Run multiple simulations with different parameters and save results to CSV:
-   
+
 ```
 agenet --num_nodes_vals 3 4 5 --active_prob_vals 0.1 0.2 0.3 --n_vals 150 200 250 --k_vals 50 100 --P_vals 0.001 0.002 --csv_location ./results.csv
 ```
