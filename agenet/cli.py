@@ -4,8 +4,8 @@ import sys
 
 import matplotlib.pyplot as plt
 
-from .bler import blercal_th
-from .maincom import multi_param_ev_sim
+from .blkerr import block_error_th
+from .simulation import multi_param_ev_sim
 from .snratio import snr_th
 
 
@@ -136,7 +136,7 @@ def _main():
             print(f"Theoretical SNR: {theoretical_snr}")
 
     if args.block_error:
-        theoretical_bler = blercal_th(args.n[0], args.k[0], args.P[0])
+        theoretical_bler = block_error_th(args.n[0], args.k[0], args.P[0])
         if not args.quiet:
             print(f"Theoretical Block Error Rate: {theoretical_bler}")
 

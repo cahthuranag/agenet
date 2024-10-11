@@ -7,24 +7,24 @@ from scipy.integrate import trapezoid
 
 
 # Define the average age of information function
-def av_age_fn(
+def aaoi_fn(
     destination_times: list[float],
     generation_times: list[float],
-    lambha: float,
+    arrival_rate: float,
 ) -> tuple[float, np.ndarray, np.ndarray]:
     """Calculate the AAoI given the parameters.
 
     Args:
       destination_times: A sorted list of destination times.
       generation_times: A list of the  generation times.
-      lambha: The arrival rate of information.
+      arrival_rate: The arrival rate of information.
 
     Returns:
       A tuple containing the AAoI, the array of ages for each time step, and
         the corresponding time step array.
     """
-    # Define the time step (p) as a constant (lambha)
-    p = lambha * 0.01
+    # Define the time step (p) as a constant (arrival_rate)
+    p = arrival_rate * 0.01
     # Initialize the times array with the first destination time plus the time
     # step
     times = np.arange(0, destination_times[0] + p, p)

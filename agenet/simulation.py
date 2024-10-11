@@ -6,8 +6,8 @@ import numpy as np
 import pandas as pd
 from numpy.random import PCG64, Generator
 
-from .av_age import av_age_fn
-from .bler import blercal, blercal_th
+from .aaoi import aaoi_fn
+from .blkerr import block_error, block_error_th
 from .snratio import snr, snr_th
 
 
@@ -78,8 +78,8 @@ def sim(
         N0, d2, P2, fr
     )  # block error rate for the source nodes at the relay or access point
 
-    er1_th = blercal_th(snr1_th, n1, k1)
-    er2_th = blercal_th(snr2_th, n2, k2)
+    er1_th = block_error_th(snr1_th, n1, k1)
+    er2_th = block_error_th(snr2_th, n2, k2)
     inter_service_times = (1 / lambda1) * np.ones((num_events))  # inter service times
     server_timestamps_1 = np.zeros(
         num_events
@@ -93,10 +93,10 @@ def sim(
             N0, d1, P1, fr, seed=rng.integers(0, 2**32)
         )  # snr for the source nodes at the relay or access point
         snr2 = snr(N0, d2, P2, fr, seed=rng.integers(0, 2**32))
-        er1 = blercal(
+        er1 = block_error(
             snr1, n1, k1
         )  # block error rate for the source nodes at the relay or access point
-        er2 = blercal(
+        er2 = block_error(
             snr2, n2, k2
         )  # block error rate for the relay or access point at the destination
         su_p = active_prob * (1 - er1) * ((1 - active_prob) ** (num_nodes - 1))
@@ -138,7 +138,7 @@ def sim(
     av_age_theoretical = (1 / lambda1) * (0.5 + (1 / (1 - er_p_th)))
 
     system_time = 1 / lambda1  # system time (time which update in the system)
-    av_age_simulation, _, _ = av_age_fn(v1, t1, system_time)
+    av_age_simulation, _, _ = aaoi_fn(v1, t1, system_time)
 
     return av_age_theoretical, av_age_simulation
 

@@ -4,7 +4,7 @@ import numpy as np
 import pytest
 from matplotlib import pyplot as plt
 
-from agenet import av_age_fn
+from agenet import aaoi_fn
 
 
 # def test_av_age_func_values():
@@ -12,7 +12,7 @@ from agenet import av_age_fn
 @pytest.mark.parametrize("v, T, expected", [([2, 3, 4, 5], [1, 2, 3, 4], 1.3)])
 def test_av_age_func_values(v, T, expected):
     """Test the av_age_func function."""
-    age, _, _ = av_age_fn(v, T, 0.1)
+    age, _, _ = aaoi_fn(v, T, 0.1)
     assert round(age, 1) == expected
 
 
@@ -41,15 +41,15 @@ def test_zero_division():
         1 / 0
 
 
-def test_av_age_fn():
-    """Test the av_age_fn function."""
+def test_aaoi_fn():
+    """Test the aaoi_fn function."""
     # Define the expected average age of information for the example
     expected_average_age = 1.3
     # Calculate the actual average age of information for the example
     destination_times = [2, 3, 4, 5]
     generation_times = [1, 2, 3, 4]
     lambha = 0.1
-    actual_average_age, _, _ = av_age_fn(destination_times, generation_times, lambha)
+    actual_average_age, _, _ = aaoi_fn(destination_times, generation_times, lambha)
     # Check that the actual average age of information
     # matches the expected value
     assert np.isclose(actual_average_age, expected_average_age, rtol=1e-1)

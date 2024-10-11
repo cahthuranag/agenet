@@ -10,7 +10,7 @@ def _qfunc(x: float) -> float:
     return 0.5 - 0.5 * sp.erf(x / math.sqrt(2))  # pylint: disable=E1101
 
 
-def blercal(snr: float, n: int, k: int) -> float:
+def block_error(snr: float, n: int, k: int) -> float:
     """Calculate the Block Error Rate (BLER) for the given SNR, n, k.
 
     Args:
@@ -33,7 +33,7 @@ def blercal(snr: float, n: int, k: int) -> float:
     return err
 
 
-def blercal_th(snr: float, n: int, k: int) -> float:
+def block_error_th(snr: float, n: int, k: int) -> float:
     """Calculate the theoretical Block Error Rate (BLER) for the given SNR, n, k.
 
     Args:

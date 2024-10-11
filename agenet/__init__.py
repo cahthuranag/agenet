@@ -1,20 +1,18 @@
 """API reference for the functions exported by agenet."""
 
 __all__ = [
-    "av_age_fn",
-    "blercal",
-    "blercal_th",
+    "aaoi_fn",
+    "block_error",
+    "block_error_th",
+    "ev_sim",
+    "multi_param_ev_sim",
+    "sim",
     "snr",
     "snr_th",
-    "sim",
-    "ev_sim",
-    "generate_table",
-    "plot",
-    "plot_generate",
 ]
 
 
-from agenet.av_age import av_age_fn
-from agenet.bler import blercal, blercal_th
-from agenet.maincom import ev_sim, multi_param_ev_sim, sim
+from agenet.aaoi import aaoi_fn
+from agenet.blkerr import block_error, block_error_th
+from agenet.simulation import ev_sim, multi_param_ev_sim, sim
 from agenet.snratio import snr, snr_th

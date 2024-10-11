@@ -34,13 +34,13 @@ def mock_dependencies():
     """Fixture for mocking dependencies."""
     with patch("agenet.cli.argparse.ArgumentParser.parse_args") as mock_parse_args, \
          patch("agenet.cli.snr_th") as mock_snr_th, \
-         patch("agenet.cli.blercal_th") as mock_blercal_th, \
+         patch("agenet.cli.block_error_th") as mock_block_error_th, \
          patch("agenet.cli.multi_param_ev_sim") as mock_multi_param_ev_sim, \
          patch("pandas.DataFrame.to_csv") as mock_to_csv:
         yield {
             "mock_parse_args": mock_parse_args,
             "mock_snr_th": mock_snr_th,
-            "mock_blercal_th": mock_blercal_th,
+            "mock_block_error_th": mock_block_error_th,
             "mock_multi_param_ev_sim": mock_multi_param_ev_sim,
             "mock_to_csv": mock_to_csv,
         }
@@ -79,11 +79,11 @@ def test_main_with_blockerror(mock_dependencies, capsys):
     """Test the behavior of the main function with the --blockerror flag."""
     mock_args = setup_mock_args(blockerror=True)
     mock_dependencies["mock_parse_args"].return_value = mock_args
-    mock_dependencies["mock_blercal_th"].return_value = 0.01
+    mock_dependencies["mock_block_error_th"].return_value = 0.01
 
     _main()
 
-    mock_dependencies["mock_blercal_th"].assert_called_once()
+    mock_dependencies["mock_block_error_th"].assert_called_once()
     captured = capsys.readouterr()
     assert "Theoretical Block Error Rate: 0.01" in captured.out
 
@@ -160,14 +160,14 @@ def test_main_all_flags(mock_dependencies, capsys, tmp_path):
     mock_args = setup_mock_args(snr=True, blockerror=True, csv=str(csv_file))
     mock_dependencies["mock_parse_args"].return_value = mock_args
     mock_dependencies["mock_snr_th"].return_value = 10.0
-    mock_dependencies["mock_blercal_th"].return_value = 0.01
+    mock_dependencies["mock_block_error_th"].return_value = 0.01
     mock_result = pd.DataFrame({'col1': [1, 2], 'col2': [3, 4]})
     mock_dependencies["mock_multi_param_ev_sim"].return_value = mock_result
 
     _main()
 
     mock_dependencies["mock_snr_th"].assert_called_once()
-    mock_dependencies["mock_blercal_th"].assert_called_once()
+    mock_dependencies["mock_block_error_th"].assert_called_once()
     mock_dependencies["mock_multi_param_ev_sim"].assert_called_once()
     mock_dependencies["mock_to_csv"].assert_called_once_with(str(csv_file), index=False)
     captured = capsys.readouterr()
