@@ -4,7 +4,7 @@ from __future__ import annotations
 
 import numpy as np
 import pandas as pd
-from numpy.random import PCG64, Generator
+from numpy.random import PCG64, PCG64DXSM, Generator, Philox
 
 from .aaoi import aaoi_fn
 from .blkerr import block_error, block_error_th
@@ -60,7 +60,6 @@ def sim(
     rng = Generator(PCG64(seed))
 
     lambda1 = 1  # arrival for one transmission period
-    num_events = num_events  # number of events
     inter_arrival_times = (1 / lambda1) * (np.ones(num_events))  # inter arrival times
     arrival_timestamps = np.cumsum(inter_arrival_times)  # arrival timestamps
     d1 = distance  # distance between source nodes and relay
@@ -174,12 +173,16 @@ def ev_sim(
     Returns:
       A tuple containing the theoretical AAoI and the simulation AAoI.
     """
-    num_runs = num_runs
     av_age_theoretical_run = 0.0
     av_age_simulation_run = 0.0
-    rng = Generator(PCG64(seed))  # Initialize RNG here for consistent seeds across runs
-    for _ in range(num_runs):
-        run_seed = rng.integers(0, 2**32)  # Generate a new seed for each run
+
+    # Initialize RNG here for consistent seeds across runs
+    rng = Generator(PCG64DXSM(seed))
+
+    # Generate a seed for each run
+    seeds_for_runs = rng.integers(np.iinfo(np.int64).max, size=num_runs, dtype=np.int64)
+
+    for i in range(num_runs):
         av_age_theoretical_i, av_age_simulation_i = sim(
             num_nodes,
             active_prob,
@@ -190,7 +193,7 @@ def ev_sim(
             N0,
             frequency,
             num_events,
-            seed=run_seed,
+            seed=seeds_for_runs[i],
         )
         if np.isinf(av_age_theoretical_i):
             return float("inf"), float(
@@ -234,6 +237,8 @@ def multi_param_ev_sim(
     Returns:
       A DataFrame containing the results of the simulation.
     """
+    rng = Generator(Philox(seed))
+
     results = []
 
     for d_val in distance:
@@ -245,6 +250,10 @@ def multi_param_ev_sim(
                             for n_val in num_bits:
                                 for k_val in info_bits:
                                     for P_val in power:
+                                        seed_for_param_combo = rng.integers(
+                                            np.iinfo(np.int64).max, dtype=np.int64
+                                        )
+
                                         aaoi_theory, aaoi_sim = ev_sim(
                                             num_nodes_val,
                                             active_prob_val,
@@ -256,7 +265,7 @@ def multi_param_ev_sim(
                                             fr_val,
                                             num_events_val,
                                             num_runs,
-                                            seed=seed,
+                                            seed=seed_for_param_combo,
                                         )
                                         results.append(
                                             {
