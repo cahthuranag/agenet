@@ -33,7 +33,7 @@ def setup_mock_args(**kwargs):
     return mock_args
 
 
-@pytest.fixture
+@pytest.fixture()
 def mock_dependencies():
     """Fixture for mocking dependencies."""
     with patch(
@@ -78,7 +78,8 @@ def test_main_default_behavior(mock_dependencies, capsys):
         seed=None,
     )
     captured = capsys.readouterr()
-    assert "col1" in captured.out and "col2" in captured.out
+    assert "col1" in captured.out
+    assert "col2" in captured.out
 
 
 @pytest.mark.xfail(reason="FIX ME")
@@ -207,4 +208,5 @@ def test_main_all_flags(mock_dependencies, capsys, tmp_path):
     captured = capsys.readouterr()
     assert "Theoretical SNR: 10.0" in captured.out
     assert "Theoretical Block Error Rate: 0.01" in captured.out
-    assert "col1" in captured.out and "col2" in captured.out
+    assert "col1" in captured.out
+    assert "col2" in captured.out
