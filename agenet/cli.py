@@ -1,3 +1,5 @@
+"""Command-line interface for AgeNet."""
+
 from __future__ import annotations
 
 import argparse
@@ -41,7 +43,7 @@ def _main():
         type=float,
         nargs="+",
         default=def_params["distance"],
-        help=f"Distance between nodes in meters (default: {def_params_str["distance"]})",
+        help=f"Distance between nodes in meters (default: {def_params_str['distance']})",
     )
     parser.add_argument(
         "-N",
@@ -49,7 +51,7 @@ def _main():
         type=float,
         nargs="+",
         default=def_params["N0"],
-        help=f"Noise power in Watts (default: {def_params_str["N0"]})",
+        help=f"Noise power in Watts (default: {def_params_str['N0']})",
     )
     parser.add_argument(
         "-f",
@@ -57,7 +59,7 @@ def _main():
         type=float,
         nargs="+",
         default=def_params["frequency"],
-        help=f"Signal frequency in Hz (default: {def_params_str["frequency"]})",
+        help=f"Signal frequency in Hz (default: {def_params_str['frequency']})",
     )
     parser.add_argument(
         "-e",
@@ -65,7 +67,7 @@ def _main():
         type=int,
         nargs="+",
         default=def_params["num-events"],
-        help=f"Number of events (default: {def_params_str["num-events"]})",
+        help=f"Number of events (default: {def_params_str['num-events']})",
     )
     parser.add_argument(
         "-m",
@@ -73,7 +75,7 @@ def _main():
         type=int,
         nargs="+",
         default=def_params["num-nodes"],
-        help=f"Number of nodes (default: {def_params_str["num-nodes"]})",
+        help=f"Number of nodes (default: {def_params_str['num-nodes']})",
     )
     parser.add_argument(
         "-a",
@@ -81,7 +83,7 @@ def _main():
         type=float,
         nargs="+",
         default=def_params["active-prob"],
-        help=f"Active probability (default: {def_params_str["active-prob"]})",
+        help=f"Active probability (default: {def_params_str['active-prob']})",
     )
     parser.add_argument(
         "-n",
@@ -89,7 +91,7 @@ def _main():
         type=int,
         nargs="+",
         default=def_params["num-bits"],
-        help=f"Total number of bits (default: {def_params_str["num-bits"]})",
+        help=f"Total number of bits (default: {def_params_str['num-bits']})",
     )
     parser.add_argument(
         "-k",
@@ -97,7 +99,7 @@ def _main():
         type=int,
         nargs="+",
         default=def_params["info-bits"],
-        help=f"Number of information bits (default: {def_params_str["info-bits"]})",
+        help=f"Number of information bits (default: {def_params_str['info-bits']})",
     )
     parser.add_argument(
         "-P",
@@ -105,7 +107,7 @@ def _main():
         type=float,
         nargs="+",
         default=def_params["power"],
-        help=f"Transmission power in Watts (default: {def_params_str["power"]})",
+        help=f"Transmission power in Watts (default: {def_params_str['power']})",
     )
     parser.add_argument(
         "-r",
