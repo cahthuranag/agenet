@@ -142,6 +142,12 @@ def _main():
     )
 
     parser.add_argument(
+        "--debug",
+        action="store_true",
+        help="Show full stack trace if an error occurs",
+    )
+
+    parser.add_argument(
         "--version",
         action="version",
         version="%(prog)s " + importlib.metadata.version("agenet"),
@@ -164,62 +170,69 @@ def _main():
         seed=args.seed,
     )
 
-    # Process output options
-    if not args.quiet:
+    try:
+        # Process output options
+        if not args.quiet:
 
-        theoretical_snr = snr_th(
-            args.N0[0], args.distance[0], args.power[0], args.frequency[0]
-        )
-        print(f"Theoretical SNR: {theoretical_snr}")
-
-        theoretical_bler = block_error_th(
-            args.num_bits[0], args.info_bits[0], args.power[0]
-        )
-        print(f"Theoretical Block Error Rate: {theoretical_bler}")
-
-        print(results)
-
-    if args.csv:
-        results.to_csv(args.csv, index=False)
-        print(f"Simulation results saved to {args.csv}")
-
-    if args.plot_show or len(args.plot_save) > 0:
-        aoi_vs_param: tuple[str, str, list[float | int]]
-        num_var_params = 0
-        for param_info in [
-            ("distance", "Distance (m)", args.distance),
-            ("N0", "N0 - Noise power (W)", args.N0),
-            ("frequency", "Frequency (Hz)", args.frequency),
-            ("num_events", "Number of events", args.num_events),
-            ("num_nodes", "Number of nodes", args.num_nodes),
-            ("active_prob", "Active probability", args.active_prob),
-            ("num_bits", "n - Number of bits", args.num_bits),
-            ("info_bits", "k - Information bits", args.info_bits),
-            ("power", "P - Transmission power (W)", args.power),
-        ]:
-
-            if len(param_info[2]) > 1:
-                num_var_params += 1
-                aoi_vs_param = param_info
-
-        if num_var_params == 1:
-            results_sorted = results.sort_values(aoi_vs_param[0])
-
-            fig, ax = plt.subplots()
-            aaoi_theory = results_sorted["aaoi_theory"]
-            aaoi_sim = results_sorted["aaoi_sim"]
-            ax.plot(results_sorted[aoi_vs_param[0]], aaoi_theory, label="Theoretical")
-            ax.plot(results_sorted[aoi_vs_param[0]], aaoi_sim, label="Simulation")
-            ax.set_xlabel(aoi_vs_param[1])
-            ax.set_ylabel("AAoI")
-            ax.set_ylim([0, max(aaoi_theory.max(), aaoi_sim.max()) * 1.05])
-            ax.legend()
-            if len(args.plot_save) > 0:
-                fig.savefig(args.plot_save)
-            if args.plot_show:
-                plt.show()
-        else:
-            print(
-                f"Unable to create plot: only one variable parameter is allowed, but there are {num_var_params}.",
-                file=sys.stderr,
+            # TODO SNR_TH and BLER_TH should appear in the table, not here
+            theoretical_snr = snr_th(
+                args.N0[0], args.distance[0], args.power[0], args.frequency[0]
             )
+            print(f"Theoretical SNR: {theoretical_snr}")
+            theoretical_bler = block_error_th(
+                args.num_bits[0], args.info_bits[0], args.power[0]
+            )
+            print(f"Theoretical Block Error Rate: {theoretical_bler}")
+
+            print(results)
+
+        if args.csv:
+            results.to_csv(args.csv, index=False)
+            print(f"Simulation results saved to {args.csv}")
+
+        if args.plot_show or len(args.plot_save) > 0:
+            aoi_vs_param: tuple[str, str, list[float | int]]
+            num_var_params = 0
+            for param_info in [
+                ("distance", "Distance (m)", args.distance),
+                ("N0", "N0 - Noise power (W)", args.N0),
+                ("frequency", "Frequency (Hz)", args.frequency),
+                ("num_events", "Number of events", args.num_events),
+                ("num_nodes", "Number of nodes", args.num_nodes),
+                ("active_prob", "Active probability", args.active_prob),
+                ("num_bits", "n - Number of bits", args.num_bits),
+                ("info_bits", "k - Information bits", args.info_bits),
+                ("power", "P - Transmission power (W)", args.power),
+            ]:
+
+                if len(param_info[2]) > 1:
+                    num_var_params += 1
+                    aoi_vs_param = param_info
+
+            if num_var_params == 1:
+                results_sorted = results.sort_values(aoi_vs_param[0])
+
+                fig, ax = plt.subplots()
+                aaoi_theory = results_sorted["aaoi_theory"]
+                aaoi_sim = results_sorted["aaoi_sim"]
+                ax.plot(
+                    results_sorted[aoi_vs_param[0]], aaoi_theory, label="Theoretical"
+                )
+                ax.plot(results_sorted[aoi_vs_param[0]], aaoi_sim, label="Simulation")
+                ax.set_xlabel(aoi_vs_param[1])
+                ax.set_ylabel("AAoI")
+                ax.set_ylim([0, max(aaoi_theory.max(), aaoi_sim.max()) * 1.05])
+                ax.legend()
+                if len(args.plot_save) > 0:
+                    fig.savefig(args.plot_save)
+                if args.plot_show:
+                    plt.show()
+            else:
+                raise ValueError(
+                    f"Unable to create plot: only one variable parameter is allowed, but there are {num_var_params}."
+                )
+    except Exception as e:
+        if args.debug:
+            raise
+        else:
+            print(e, file=sys.stderr)
