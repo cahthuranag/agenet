@@ -4,9 +4,10 @@ from __future__ import annotations
 
 import argparse
 import importlib.metadata
-import sys
 
 import matplotlib.pyplot as plt
+from rich.console import Console
+from rich_tools import df_to_table
 
 from .blkerr import block_error_th
 from .simulation import multi_param_ev_sim
@@ -155,6 +156,9 @@ def _main():
 
     args = parser.parse_args()
 
+    # Create a rich console
+    console = Console()
+
     # Run the simulations
     results = multi_param_ev_sim(
         distance=args.distance,
@@ -178,17 +182,18 @@ def _main():
             theoretical_snr = snr_th(
                 args.N0[0], args.distance[0], args.power[0], args.frequency[0]
             )
-            print(f"Theoretical SNR: {theoretical_snr}")
+            console.print(f"Theoretical SNR: {theoretical_snr}")
             theoretical_bler = block_error_th(
                 args.num_bits[0], args.info_bits[0], args.power[0]
             )
-            print(f"Theoretical Block Error Rate: {theoretical_bler}")
+            console.print(f"Theoretical Block Error Rate: {theoretical_bler}")
 
-            print(results)
+            table = df_to_table(results)
+            console.print(table)
 
         if args.csv:
             results.to_csv(args.csv, index=False)
-            print(f"Simulation results saved to {args.csv}")
+            console.print(f"Simulation results saved to {args.csv}")
 
         if args.plot_show or len(args.plot_save) > 0:
             aoi_vs_param: tuple[str, str, list[float | int]]
@@ -232,7 +237,8 @@ def _main():
                     f"Unable to create plot: only one variable parameter is allowed, but there are {num_var_params}."
                 )
     except Exception as e:
+        err_console = Console(stderr=True)
         if args.debug:
-            raise
+            err_console.print_exception(show_locals=True)
         else:
-            print(e, file=sys.stderr)
+            err_console.print(e)

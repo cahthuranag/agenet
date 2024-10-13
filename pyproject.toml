@@ -12,8 +12,14 @@ keywords = ["age of information ", "URLLC", "age of information model", "AoI"]
 license = {text = "MIT"}
 authors = [
     { name = "Chathuranga Basanayaka", email = "chathurangab@sltc.ac.lk" },
-    {name = "Nuno Fachada", email = "nuno.fachada@ulusofona.pt" } ]
-dependencies = ["numpy", "pandas", "tabulate", "matplotlib", "scipy"]
+    { name = "Nuno Fachada", email = "nuno.fachada@ulusofona.pt" } ]
+dependencies = [
+    "matplotlib",
+    "numpy",
+    "pandas",
+    "rich",
+    "rich-tools",
+    "scipy"]
 classifiers = [
     "License :: OSI Approved :: MIT License",
     "Operating System :: OS Independent",
