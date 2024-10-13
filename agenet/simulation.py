@@ -2,6 +2,8 @@
 
 from __future__ import annotations
 
+from multiprocessing.sharedctypes import Synchronized
+
 import numpy as np
 import pandas as pd
 from numpy.random import PCG64, PCG64DXSM, Generator, Philox
@@ -218,6 +220,7 @@ def multi_param_ev_sim(
     power: list[float],
     num_runs: int,
     seed: int | np.signedinteger | None = None,
+    counter: Synchronized[int] | None = None,
 ) -> pd.DataFrame:
     """Run the simulation for multiple parameters and return the results.
 
@@ -267,6 +270,10 @@ def multi_param_ev_sim(
                                             num_runs,
                                             seed=seed_for_param_combo,
                                         )
+
+                                        if counter is not None:
+                                            counter.value += 1
+
                                         results.append(
                                             {
                                                 "distance": d_val,

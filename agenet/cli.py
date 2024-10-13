@@ -4,9 +4,13 @@ from __future__ import annotations
 
 import argparse
 import importlib.metadata
+from concurrent.futures import ThreadPoolExecutor
+from multiprocessing import Value
+from time import sleep
 
 import matplotlib.pyplot as plt
 from rich.console import Console
+from rich.progress import Progress
 from rich_tools import df_to_table
 
 from .blkerr import block_error_th
@@ -16,6 +20,7 @@ from .snratio import snr_th
 
 def _main():
 
+    # Default arguments
     def_params = {
         "distance": [100],
         "N0": [1e-13],
@@ -168,25 +173,60 @@ def _main():
         version="%(prog)s " + importlib.metadata.version("agenet"),
     )
 
+    # Parse the command line arguments
     args = parser.parse_args()
 
     # Create a rich console
     console = Console()
 
-    # Run the simulations
-    results = multi_param_ev_sim(
-        distance=args.distance,
-        N0=args.N0,
-        frequency=args.frequency,
-        num_events=args.num_events,
-        num_nodes=args.num_nodes,
-        active_prob=args.active_prob,
-        num_bits=args.num_bits,
-        info_bits=args.info_bits,
-        power=args.power,
-        num_runs=args.num_runs,
-        seed=args.seed,
+    # Determine the total number of steps (parameter combinations)
+    total_steps = (
+        len(args.distance)
+        * len(args.N0)
+        * len(args.frequency)
+        * len(args.num_events)
+        * len(args.num_nodes)
+        * len(args.active_prob)
+        * len(args.num_bits)
+        * len(args.info_bits)
+        * len(args.power)
     )
+
+    # Create a shared counter for keeping tabs on the simulation progress
+    # Type 'i' means signed integer
+    counter = Value("i", 0)
+
+    # Run the simulation within the context of a progress bar
+    with Progress() as progress:
+        task = progress.add_task("[white]Simulating...", total=total_steps)
+
+        with ThreadPoolExecutor() as executor:
+            # Execute the simulation in a separate thread
+            future = executor.submit(
+                multi_param_ev_sim,
+                distance=args.distance,
+                N0=args.N0,
+                frequency=args.frequency,
+                num_events=args.num_events,
+                num_nodes=args.num_nodes,
+                active_prob=args.active_prob,
+                num_bits=args.num_bits,
+                info_bits=args.info_bits,
+                power=args.power,
+                num_runs=args.num_runs,
+                seed=args.seed,
+                counter=counter,
+            )
+
+            # Update progress bar while the simulation is running
+            while not future.done():
+                # Small delay to avoid excessive CPU usage
+                sleep(0.1)
+                # # Update progress bar a little bit more
+                progress.update(task, completed=counter.value)
+
+            # Get the result after the task finishes
+            results = future.result()
 
     try:
         # Process output options
