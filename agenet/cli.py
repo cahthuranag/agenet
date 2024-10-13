@@ -6,6 +6,7 @@ import argparse
 import importlib.metadata
 from concurrent.futures import ThreadPoolExecutor
 from multiprocessing import Value
+from threading import Event
 from time import sleep
 
 import matplotlib.pyplot as plt
@@ -196,11 +197,15 @@ def _main():
     # Type 'i' means signed integer
     counter = Value("i", 0)
 
+    # Event for signalling the simulation to stop
+    stop_event = Event()
+
     # Run the simulation within the context of a progress bar
     with Progress() as progress:
         task = progress.add_task("[white]Simulating...", total=total_steps)
 
-        with ThreadPoolExecutor() as executor:
+        with ThreadPoolExecutor(max_workers=1) as executor:
+
             # Execute the simulation in a separate thread
             future = executor.submit(
                 multi_param_ev_sim,
@@ -216,14 +221,22 @@ def _main():
                 num_runs=args.num_runs,
                 seed=args.seed,
                 counter=counter,
+                stop_event=stop_event,
             )
 
-            # Update progress bar while the simulation is running
-            while not future.done():
-                # Small delay to avoid excessive CPU usage
-                sleep(0.1)
-                # # Update progress bar a little bit more
-                progress.update(task, completed=counter.value)
+            try:
+                # Update progress bar while the simulation is running
+                while not future.done():
+                    # Small delay to avoid excessive CPU usage
+                    sleep(0.1)
+                    # Update progress bar a little bit more
+                    progress.update(task, completed=counter.value)
+
+            except KeyboardInterrupt:
+                stop_event.set()
+                progress.stop()
+                err_console = Console(stderr=True)
+                err_console.print("[dark_orange bold]Simulation terminated by user!")
 
             # Get the result after the task finishes
             results = future.result()
@@ -290,7 +303,9 @@ def _main():
                 raise ValueError(
                     f"Unable to create plot: only one variable parameter is allowed, but there are {num_var_params}."
                 )
+
     except Exception as e:
+        stop_event.set()
         err_console = Console(stderr=True)
         if args.debug == "0":
             err_console.print(e)

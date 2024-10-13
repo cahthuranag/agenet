@@ -3,6 +3,7 @@
 from __future__ import annotations
 
 from multiprocessing.sharedctypes import Synchronized
+from threading import Event
 
 import numpy as np
 import pandas as pd
@@ -221,6 +222,7 @@ def multi_param_ev_sim(
     num_runs: int,
     seed: int | np.signedinteger | None = None,
     counter: Synchronized[int] | None = None,
+    stop_event: Event | None = None,
 ) -> pd.DataFrame:
     """Run the simulation for multiple parameters and return the results.
 
@@ -236,6 +238,12 @@ def multi_param_ev_sim(
       power: List of powers.
       num_runs: Number of times to run the simulation.
       seed: Seed for the random number generator (optional).
+      counter: An optional `multiprocessing.Value` which will be incremented
+        after each inner loop pass. Only relevant if this function is executed
+        in a separate thread.
+      stop_event: The simulation will stop if this optional event is set
+        externally. Only relevant if this function is executed in a separate
+        thread.
 
     Returns:
       A DataFrame containing the results of the simulation.
@@ -271,9 +279,6 @@ def multi_param_ev_sim(
                                             seed=seed_for_param_combo,
                                         )
 
-                                        if counter is not None:
-                                            counter.value += 1
-
                                         results.append(
                                             {
                                                 "distance": d_val,
@@ -289,5 +294,13 @@ def multi_param_ev_sim(
                                                 "aaoi_sim": aaoi_sim,
                                             }
                                         )
+
+                                        if counter is not None:
+                                            counter.value += 1
+                                        if (
+                                            stop_event is not None
+                                            and stop_event.is_set()
+                                        ):
+                                            return pd.DataFrame(results)
 
     return pd.DataFrame(results)
