@@ -37,7 +37,7 @@ def _main():
         prog="agenet", description="Command line interface to AgeNet"
     )
 
-    # Define our command line arguments
+    # Simulation arguments
     parser.add_argument(
         "-d",
         "--distance",
@@ -110,6 +110,8 @@ def _main():
         default=def_params["power"],
         help=f"Transmission power in Watts (default: {def_params_str['power']})",
     )
+
+    # Number of monte carlo runs
     parser.add_argument(
         "-r",
         "--num-runs",
@@ -117,21 +119,36 @@ def _main():
         default=10,
         help="Number of simulation runs (default: %(default)s)",
     )
+
+    # Seed for reproducible runs
     parser.add_argument(
         "-s",
         "--seed",
         type=int,
         help="Seed for random number generator (a random seed will be used by default)",
     )
-    parser.add_argument("-q", "--quiet", action="store_true", help="Suppress output")
+
+    # Output specification parameters
+    parser.add_argument(
+        "-t", "--show-table", action="store_true", help="Show table with results"
+    )
+
+    parser.add_argument(
+        "-o",
+        "--save-csv",
+        type=str,
+        help="Save results to CSV file",
+        metavar="CSV_FILE",
+    )
+
     parser.add_argument(
         "-p",
-        "--plot-show",
+        "--show-plot",
         action="store_true",
         help="Show plot (only valid if exactly one parameter varies)",
     )
     parser.add_argument(
-        "--plot-save",
+        "--save-plot",
         type=str,
         default="",
         metavar="IMAGE_FILE",
@@ -139,13 +156,10 @@ def _main():
     )
 
     parser.add_argument(
-        "--csv", type=str, help="Save results to CSV file", metavar="CSV_FILE"
-    )
-
-    parser.add_argument(
         "--debug",
-        action="store_true",
-        help="Show full stack trace if an error occurs",
+        choices=["0", "1", "2"],
+        default="0",
+        help="Level of debugging report if an error occurs (default: %(default)s)",
     )
 
     parser.add_argument(
@@ -176,7 +190,7 @@ def _main():
 
     try:
         # Process output options
-        if not args.quiet:
+        if args.show_table:
 
             # TODO SNR_TH and BLER_TH should appear in the table, not here
             theoretical_snr = snr_th(
@@ -191,11 +205,11 @@ def _main():
             table = df_to_table(results)
             console.print(table)
 
-        if args.csv:
-            results.to_csv(args.csv, index=False)
-            console.print(f"Simulation results saved to {args.csv}")
+        if args.save_csv:
+            results.to_csv(args.save_csv, index=False)
+            console.print(f"Simulation results saved to {args.save_csv}")
 
-        if args.plot_show or len(args.plot_save) > 0:
+        if args.show_plot or len(args.save_plot) > 0:
             aoi_vs_param: tuple[str, str, list[float | int]]
             num_var_params = 0
             for param_info in [
@@ -228,9 +242,9 @@ def _main():
                 ax.set_ylabel("AAoI")
                 ax.set_ylim([0, max(aaoi_theory.max(), aaoi_sim.max()) * 1.05])
                 ax.legend()
-                if len(args.plot_save) > 0:
-                    fig.savefig(args.plot_save)
-                if args.plot_show:
+                if len(args.save_plot) > 0:
+                    fig.savefig(args.save_plot)
+                if args.show_plot:
                     plt.show()
             else:
                 raise ValueError(
@@ -238,7 +252,9 @@ def _main():
                 )
     except Exception as e:
         err_console = Console(stderr=True)
-        if args.debug:
-            err_console.print_exception(show_locals=True)
-        else:
+        if args.debug == "0":
             err_console.print(e)
+        elif args.debug == "1":
+            err_console.print_exception()
+        else:
+            err_console.print_exception(show_locals=True)
