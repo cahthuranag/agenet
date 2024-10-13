@@ -21,7 +21,7 @@ def sim(
     N0: float,
     frequency: float,
     num_events: int,
-    seed: int | None = None,
+    seed: int | np.signedinteger | None = None,
 ) -> tuple[float, float]:
     """Simulates a communication system and calculates the AAoI.
 
@@ -153,7 +153,7 @@ def ev_sim(
     frequency: float,
     num_events: int,
     num_runs: int,
-    seed: int | None = None,
+    seed: int | np.signedinteger | None = None,
 ) -> tuple[float, float]:
     """Run the simulation `num_runs` times and return the AAoI.
 
@@ -217,7 +217,7 @@ def multi_param_ev_sim(
     info_bits: list[int],
     power: list[float],
     num_runs: int,
-    seed: int | None = None,
+    seed: int | np.signedinteger | None = None,
 ) -> pd.DataFrame:
     """Run the simulation for multiple parameters and return the results.
 
