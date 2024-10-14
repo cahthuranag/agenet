@@ -151,8 +151,6 @@ def ev_sim(
        AAoI.
 
     Args:
-      num_nodes: Number of nodes in the network.
-      active_prob: Probability that a node is active in a given time slot.
       num_bits: Number of bits in a block.
       info_bits: Number of bits in a message.
       power: Power of the nodes.

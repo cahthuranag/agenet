@@ -23,15 +23,13 @@ def _main():
 
     # Default arguments
     def_params = {
-        "distance": [100],
+        "distance": [500],
         "N0": [1e-13],
-        "frequency": [6e6],
-        "num-events": [50],
-        "num-nodes": [5],
-        "active-prob": [0.2],
+        "frequency": [5e9],
+        "num-events": [1000],
         "num-bits": [150],
-        "info-bits": [50],
-        "power": [7e-2, 8e-2, 9e-2],
+        "info-bits": [100],
+        "power": [1e-2],
     }
 
     def_params_str = {
@@ -106,7 +104,7 @@ def _main():
         "-r",
         "--num-runs",
         type=int,
-        default=10,
+        default=40,
         help="Number of simulation runs (default: %(default)s)",
     )
 
