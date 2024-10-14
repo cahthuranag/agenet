@@ -2,7 +2,7 @@
 
 import pytest
 
-from agenet import snr, snr_th
+from agenet import snr, snr_av
 
 
 def test_snr():
@@ -51,25 +51,25 @@ def test_snr_different_seeds():
     assert result1 != result2
 
 
-def test_snr_th():
-    """Test the snr_th function for some known inputs and expected outputs."""
+def test_snr_av():
+    """Test the snr_av function for some known inputs and expected outputs."""
     N0 = 1 * (10**-13)
     d = 1000
     P = 1 * (10**-3)
     fr = 6 * (10**9)
-    result = snr_th(N0, d, P, fr)
+    result = snr_av(N0, d, P, fr)
     assert isinstance(result, float)
     assert result >= 0
 
 
-def test_snr_th_deterministic():
-    """Test that snr_th function always produces the same result for the same inputs."""
+def test_snr_av_deterministic():
+    """Test that snr_av function always produces the same result for the same inputs."""
     N0 = 1 * (10**-13)
     d = 1000
     P = 1 * (10**-3)
     fr = 6 * (10**9)
-    result1 = snr_th(N0, d, P, fr)
-    result2 = snr_th(N0, d, P, fr)
+    result1 = snr_av(N0, d, P, fr)
+    result2 = snr_av(N0, d, P, fr)
     assert result1 == result2
 
 
@@ -96,9 +96,9 @@ def test_snr_multiple_inputs(N0, d, P, fr):
         (5e-14, 2000, 5e-4, 7e9),
     ],
 )
-def test_snr_th_multiple_inputs(N0, d, P, fr):
-    """Test snr_th function with multiple input combinations."""
-    result = snr_th(N0, d, P, fr)
+def test_snr_av_multiple_inputs(N0, d, P, fr):
+    """Test snr_av function with multiple input combinations."""
+    result = snr_av(N0, d, P, fr)
     assert isinstance(result, float)
     assert result >= 0
 
