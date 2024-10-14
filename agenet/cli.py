@@ -26,9 +26,9 @@ def _main():
         "distance": [500],
         "N0": [1e-13],
         "frequency": [5e9],
-        "num-events": [10000],
-        "num-bits": [150],
-        "info-bits": [100],
+        "num-events": [1000],
+        "num-bits": [400],
+        "info-bits": [350],
         "power": [5e-3],
     }
 
@@ -104,7 +104,7 @@ def _main():
         "-r",
         "--num-runs",
         type=int,
-        default=40,
+        default=10,
         help="Number of simulation runs (default: %(default)s)",
     )
 
