@@ -11,7 +11,7 @@ from numpy.random import PCG64, PCG64DXSM, Generator, Philox
 
 from .aaoi import aaoi_fn
 from .blkerr import block_error, block_error_th
-from .snratio import snr, snr_th
+from .snratio import snr, snr_av
 
 
 def sim(
@@ -68,10 +68,10 @@ def sim(
     n2 = num_bits  # number of bits in the block for the relay or access point
     k1 = info_bits  # number of bits in the message for the source nodes
     k2 = info_bits  # number of bits in the message for the relay or access point
-    snr1_th = snr_th(
+    snr1_th = snr_av(
         N0, d1, P1, frequency
     )  # block error rate for the relay or access point at the destination
-    snr2_th = snr_th(
+    snr2_th = snr_av(
         N0, d2, P2, frequency
     )  # block error rate for the source nodes at the relay or access point
 
@@ -82,7 +82,7 @@ def sim(
         num_events
     )  # Generating departure timestamps for the node 1
     departure_timestamps_s = np.zeros(num_events)
-    er_p_th = er1_th + (er2_th * (er1_th - 1))
+    er_p_th = er1_th + (er2_th * (1-er1_th))
     for i in range(0, num_events):
         snr1 = snr(
             N0, d1, P1, frequency, seed=rng.integers(0, 2**32)
@@ -94,7 +94,7 @@ def sim(
         er2 = block_error(
             snr2, n2, k2
         )  # block error rate for the relay or access point at the destination
-        er_p = er1 + (er2 * (er1 - 1))
+        er_p = er1 + (er2 * (1-er1))
         er_indi = int(rng.random() > er_p)  # Using PCG64 generator here
         if er_indi == 0:
             departure_timestamps_s[i] = 0

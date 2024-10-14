@@ -8,11 +8,11 @@ __all__ = [
     "multi_param_ev_sim",
     "sim",
     "snr",
-    "snr_th",
+    "snr_av",
 ]
 
 
 from agenet.aaoi import aaoi_fn
 from agenet.blkerr import block_error, block_error_th
 from agenet.simulation import ev_sim, multi_param_ev_sim, sim
-from agenet.snratio import snr, snr_th
+from agenet.snratio import snr, snr_av

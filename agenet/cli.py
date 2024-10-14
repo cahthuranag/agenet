@@ -16,7 +16,7 @@ from rich_tools import df_to_table
 
 from .blkerr import block_error_th
 from .simulation import multi_param_ev_sim
-from .snratio import snr_th
+from .snratio import snr_av
 
 
 def _main():
@@ -26,10 +26,10 @@ def _main():
         "distance": [500],
         "N0": [1e-13],
         "frequency": [5e9],
-        "num-events": [1000],
+        "num-events": [10000],
         "num-bits": [150],
         "info-bits": [100],
-        "power": [1e-2],
+        "power": [5e-3],
     }
 
     def_params_str = {
@@ -223,13 +223,13 @@ def _main():
         # Process output options
         if args.show_table:
 
-            # TODO SNR_TH and BLER_TH should appear in the table, not here
-            theoretical_snr = snr_th(
+            # TODO SNR_AV and BLER_TH should appear in the table, not here
+            avearge_snr = snr_av(
                 args.N0[0], args.distance[0], args.power[0], args.frequency[0]
             )
-            console.print(f"Theoretical SNR: {theoretical_snr}")
+            console.print(f"Average SNR: {avearge_snr}")
             theoretical_bler = block_error_th(
-                args.num_bits[0], args.info_bits[0], args.power[0]
+               avearge_snr, args.num_bits[0], args.info_bits[0]
             )
             console.print(f"Theoretical Block Error Rate: {theoretical_bler}")
 
