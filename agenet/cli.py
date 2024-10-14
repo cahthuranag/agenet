@@ -77,22 +77,6 @@ def _main():
         help=f"Number of events (default: {def_params_str['num-events']})",
     )
     parser.add_argument(
-        "-m",
-        "--num-nodes",
-        type=int,
-        nargs="+",
-        default=def_params["num-nodes"],
-        help=f"Number of nodes (default: {def_params_str['num-nodes']})",
-    )
-    parser.add_argument(
-        "-a",
-        "--active-prob",
-        type=float,
-        nargs="+",
-        default=def_params["active-prob"],
-        help=f"Active probability (default: {def_params_str['active-prob']})",
-    )
-    parser.add_argument(
         "-n",
         "--num-bits",
         type=int,
@@ -186,8 +170,6 @@ def _main():
         * len(args.N0)
         * len(args.frequency)
         * len(args.num_events)
-        * len(args.num_nodes)
-        * len(args.active_prob)
         * len(args.num_bits)
         * len(args.info_bits)
         * len(args.power)
@@ -213,8 +195,6 @@ def _main():
                 N0=args.N0,
                 frequency=args.frequency,
                 num_events=args.num_events,
-                num_nodes=args.num_nodes,
-                active_prob=args.active_prob,
                 num_bits=args.num_bits,
                 info_bits=args.info_bits,
                 power=args.power,
@@ -270,8 +250,6 @@ def _main():
                 ("N0", "N0 - Noise power (W)", args.N0),
                 ("frequency", "Frequency (Hz)", args.frequency),
                 ("num_events", "Number of events", args.num_events),
-                ("num_nodes", "Number of nodes", args.num_nodes),
-                ("active_prob", "Active probability", args.active_prob),
                 ("num_bits", "n - Number of bits", args.num_bits),
                 ("info_bits", "k - Information bits", args.info_bits),
                 ("power", "P - Transmission power (W)", args.power),
