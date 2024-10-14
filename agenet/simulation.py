@@ -29,7 +29,7 @@ def sim(
     """Simulates a communication system and calculates the AAoI.
 
     Args:
-      num_nodes: Number of nodes in the system
+      num_nodes: Number of source nodes in the system
       active_prob: Probability that a node is active.
       num_bits: Number of bits in a block ($n$).
       info_bits: Number of bits in a message ($k$).
@@ -158,7 +158,8 @@ def ev_sim(
     num_runs: int,
     seed: int | np.signedinteger | None = None,
 ) -> tuple[float, float]:
-    """Run the simulation `num_runs` times and return the AAoI.
+    """Run the simulation `num_runs` times and return the expected value for the
+       AAoI.
 
     Args:
       num_nodes: Number of nodes in the network.
@@ -174,10 +175,11 @@ def ev_sim(
       seed: Seed for the random number generator (optional).
 
     Returns:
-      A tuple containing the theoretical AAoI and the simulation AAoI.
+      A tuple containing the expected value for the theoretical AAoI and the
+        simulation AAoI.
     """
-    av_age_theoretical_run = 0.0
-    av_age_simulation_run = 0.0
+    ev_age_theoretical_run = 0.0
+    ev_age_simulation_run = 0.0
 
     # Initialize RNG here for consistent seeds across runs
     rng = Generator(PCG64DXSM(seed))
@@ -202,11 +204,11 @@ def ev_sim(
             return float("inf"), float(
                 "inf"
             )  # Return infinity for both if theoretical is infinity
-        av_age_theoretical_run += av_age_theoretical_i
-        av_age_simulation_run += av_age_simulation_i
-    av_age_theoretical_run /= num_runs
-    av_age_simulation_run /= num_runs
-    return av_age_theoretical_run, av_age_simulation_run
+        ev_age_theoretical_run += av_age_theoretical_i
+        ev_age_simulation_run += av_age_simulation_i
+    ev_age_theoretical_run /= num_runs
+    ev_age_simulation_run /= num_runs
+    return ev_age_theoretical_run, ev_age_simulation_run
 
 
 def multi_param_ev_sim(
