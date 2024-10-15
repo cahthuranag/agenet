@@ -8,6 +8,7 @@ from threading import Event
 import numpy as np
 import pandas as pd
 from numpy.random import PCG64, PCG64DXSM, Generator, Philox
+from numpy import nan
 
 from .aaoi import aaoi_fn
 from .blkerr import block_error, block_error_th
@@ -97,14 +98,16 @@ def sim(
         er_p = er1 + (er2 * (1-er1))
         er_indi = int(rng.random() > er_p)  # Using PCG64 generator here
         if er_indi == 0:
-            departure_timestamps_s[i] = 0
-            server_timestamps_1[i] = 0
+            # If the packet is not successfully decoded at the destination, departure timestamp is set to nan
+            departure_timestamps_s[i] = nan
+            server_timestamps_1[i] = nan
         else:
             departure_timestamps_s[i] = arrival_timestamps[i] + inter_service_times[i]
             server_timestamps_1[i] = arrival_timestamps[i]
 
-    dep = [x for x in departure_timestamps_s if x != 0]
-    sermat = [x for x in server_timestamps_1 if x != 0]
+
+    dep = [x for x in departure_timestamps_s if not np.isnan(x)]
+    sermat = [x for x in server_timestamps_1 if not np.isnan(x)]
 
     if abs(1 - er_p_th) < 1e-20:  # Choose a small threshold
         return float("inf"), float("inf")
@@ -114,8 +117,16 @@ def sim(
     # if dep and sermat are empty, return infinity
     if not dep or not sermat:
         return float("inf"), float("inf")
+    if departure_timestamps_s[-1] == nan:
+       depature_mat= dep  + arrival_timestamps[-1] + inter_service_times[-1]
+       arrival_mat = [0] + sermat [1:] + arrival_timestamps[-1]
+    else:
+        depature_mat = dep
+        arrival_mat = [0] + sermat [1:] 
+ 
+    av_age_simulation, _, _ = aaoi_fn(depature_mat, arrival_mat)
+   
 
-    av_age_simulation, _, _ = aaoi_fn(dep, sermat)
 
     return av_age_theoretical, av_age_simulation
 

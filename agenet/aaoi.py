@@ -18,11 +18,11 @@ def  aaoi_fn(departure_timestamps, final_arrival_times):
         Average age of information, age, times.
     """
     # Generate times for the time axis
-    times = np.arange(0, departure_timestamps[0] + 0.05, 0.05)
+    times = np.arange(0, departure_timestamps[0] + 0.0005, 0.0005)
     num_events = len(departure_timestamps)
     
     for i in range(1, num_events):
-        dummy = np.arange(departure_timestamps[i-1], departure_timestamps[i] + 0.1, 0.1)
+        dummy = np.arange(departure_timestamps[i-1], departure_timestamps[i] + 0.0001, 0.0001)
         times = np.concatenate((times, dummy))
     
     # Compute the age for every time instant
@@ -35,9 +35,6 @@ def  aaoi_fn(departure_timestamps, final_arrival_times):
             offset = final_arrival_times[j]
             j += 1
         age[i] -= offset
-    
-    # Uncomment the following line if you want to plot the results
-    # plt.plot(times, age)
     
     # Calculate the integral of age over time
     area = trapezoid(age, times)
