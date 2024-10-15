@@ -26,7 +26,7 @@ def _main():
         "distance": [500],
         "N0": [1e-13],
         "frequency": [5e9],
-        "num-events": [1000],
+        "num-events": [10000],
         "num-bits": [400],
         "info-bits": [350],
         "power": [5e-3],

@@ -105,33 +105,17 @@ def sim(
 
     dep = [x for x in departure_timestamps_s if x != 0]
     sermat = [x for x in server_timestamps_1 if x != 0]
-    depcop = dep.copy()
-    if server_timestamps_1[-1] == 0:
-        if len(depcop) != 0:
-            depcop.pop()
-            maxt = max(arrival_timestamps[-1], dep[-1])
-        else:
-            maxt = arrival_timestamps[-1]
-        v1 = depcop + [maxt]
-    else:
-        v1 = dep
 
-    if departure_timestamps_s[0] == 0:
-        if len(sermat) != 0:
-            t1 = sermat
-        else:
-            t1 = [0]
-    else:
-        t1 = [0] + sermat
-
-    # Handle the case where er_p_th is very close to or equal to 1
     if abs(1 - er_p_th) < 1e-20:  # Choose a small threshold
         return float("inf"), float("inf")
 
     av_age_theoretical = (1 / lambda1) * (0.5 + (1 / (1 - er_p_th)))
 
-    system_time = 1 / lambda1  # system time (time which update in the system)
-    av_age_simulation, _, _ = aaoi_fn(v1, t1, system_time)
+    # if dep and sermat are empty, return infinity
+    if not dep or not sermat:
+        return float("inf"), float("inf")
+
+    av_age_simulation, _, _ = aaoi_fn(dep, sermat)
 
     return av_age_theoretical, av_age_simulation
 

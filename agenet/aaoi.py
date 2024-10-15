@@ -7,51 +7,42 @@ from scipy.integrate import trapezoid
 
 
 # Define the average age of information function
-def aaoi_fn(
-    destination_times: list[float],
-    generation_times: list[float],
-    arrival_rate: float,
-) -> tuple[float, np.ndarray, np.ndarray]:
-    """Calculate the AAoI given the parameters.
+def  aaoi_fn(departure_timestamps, final_arrival_times):
+    """Calculate the average age of information.
 
     Args:
-      destination_times: A sorted list of destination times.
-      generation_times: A list of the  generation times.
-      arrival_rate: The arrival rate of information.
+        departure_timestamps: List of departure timestamps.
+        final_arrival_times: List of final arrival times.
 
     Returns:
-      A tuple containing the AAoI, the array of ages for each time step, and
-        the corresponding time step array.
+        Average age of information, age, times.
     """
-    # Define the time step (p) as a constant (arrival_rate)
-    p = arrival_rate * 0.01
-    # Initialize the times array with the first destination time plus the time
-    # step
-    times = np.arange(0, destination_times[0] + p, p)
-    # Loop through the rest of the destination times
-    for i in range(1, len(destination_times)):
-        # Generate an array of times between two consecutive destination times
-        dummy = np.arange(destination_times[i - 1], destination_times[i] + p, p)
-        # Concatenate the times array with the dummy array
+    # Generate times for the time axis
+    times = np.arange(0, departure_timestamps[0] + 0.05, 0.05)
+    num_events = len(departure_timestamps)
+    
+    for i in range(1, num_events):
+        dummy = np.arange(departure_timestamps[i-1], departure_timestamps[i] + 0.1, 0.1)
         times = np.concatenate((times, dummy))
-    # Initialize a counter (ii) and an offset
-    ii = 0
-    offset = 0.0
-    # Initialize the age array as the times array
+    
+    # Compute the age for every time instant
+    j = 0
+    offset = 0
     age = times.copy()
-    # Loop through the times array
+    
     for i in range(len(times)):
-        # If the current time is equal to a destination time
-        if times[i] == destination_times[ii]:
-            # Update the offset with the corresponding generation time
-            offset = generation_times[ii]
-            # Increment the counter
-            ii = ii + 1
-        # Update the current value in the age array as the difference between
-        # the time and the offset
-        age[i] = age[i] - offset
-    # Calculate the average age as the area under the curve of the age versus
-    # time divided by the maximum time
-    average_age = trapezoid(age, times) / np.amax(times)
-    # Return the average age, the age array, and the times array
-    return average_age, age, times
+        if times[i] == departure_timestamps[j]:
+            offset = final_arrival_times[j]
+            j += 1
+        age[i] -= offset
+    
+    # Uncomment the following line if you want to plot the results
+    # plt.plot(times, age)
+    
+    # Calculate the integral of age over time
+    area = trapezoid(age, times)
+    
+    # Calculate the average Age of Information
+    av_age = area / times[-1]
+    
+    return av_age, age, times
