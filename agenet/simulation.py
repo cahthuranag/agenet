@@ -58,9 +58,7 @@ def sim(
     # Initialize PCG64 generator
     rng = Generator(PCG64(seed))
 
-    lambda1 = 1  # arrival for one transmission period
-    inter_arrival_times = (1 / lambda1) * (np.ones(num_events))  # inter arrival times
-    arrival_timestamps = np.cumsum(inter_arrival_times)  # arrival timestamps
+
     d1 = distance  # distance between source nodes and relay
     d2 = distance  # distance between the relay and destination
     P1 = power  # power of the source nodes
@@ -69,6 +67,11 @@ def sim(
     n2 = num_bits  # number of bits in the block for the relay or access point
     k1 = info_bits  # number of bits in the message for the source nodes
     k2 = info_bits  # number of bits in the message for the relay or access point
+    
+    symbol_time =  60e-6 # symbol time
+    transmission_period = (n1+n2) * symbol_time # transmission period
+    inter_arrival_times = transmission_period * (np.ones(num_events))  # inter arrival times
+    arrival_timestamps = np.cumsum(inter_arrival_times)  # arrival timestamps
     snr1_th = snr_av(
         N0, d1, P1, frequency
     )  # block error rate for the relay or access point at the destination
@@ -78,7 +81,7 @@ def sim(
 
     er1_th = block_error_th(snr1_th, n1, k1)
     er2_th = block_error_th(snr2_th, n2, k2)
-    inter_service_times = (1 / lambda1) * np.ones((num_events))  # inter service times
+    inter_service_times = transmission_period * np.ones((num_events))  # inter service times
     server_timestamps_1 = np.zeros(
         num_events
     )  # Generating departure timestamps for the node 1
@@ -112,7 +115,7 @@ def sim(
     if abs(1 - er_p_th) < 1e-20:  # Choose a small threshold
         return float("inf"), float("inf")
 
-    av_age_theoretical = (1 / lambda1) * (0.5 + (1 / (1 - er_p_th)))
+    av_age_theoretical = (transmission_period) * (0.5 + (1 / (1 - er_p_th)))
 
     # if dep and sermat are empty, return infinity
     if not dep or not sermat:
