@@ -110,13 +110,13 @@ def _sim(
 
 
 def sim(
+    frequency: float,
+    num_events: int,
     num_bits: int,
     info_bits: int,
     power: float,
     distance: float,
     N0: float,
-    frequency: float,
-    num_events: int,
     num_bits_2: int | None = None,
     info_bits_2: int | None = None,
     power_2: float | None = None,
@@ -222,13 +222,13 @@ def sim(
 
 
 def ev_sim(
+    frequency: float,
+    num_events: int,
     num_bits: int,
     info_bits: int,
     power: float,
     distance: float,
     N0: float,
-    frequency: float,
-    num_events: int,
     num_runs: int,
     seed: int | np.signedinteger | None = None,
 ) -> tuple[float, float]:
@@ -260,13 +260,13 @@ def ev_sim(
 
     for i in range(num_runs):
         av_age_theoretical_i, av_age_simulation_i, _, _, _, _ = sim(
+            frequency,
+            num_events,
             num_bits,
             info_bits,
             power,
             distance,
             N0,
-            frequency,
-            num_events,
             seed=seeds_for_runs[i],
         )
         if np.isinf(av_age_theoretical_i):
@@ -281,10 +281,10 @@ def ev_sim(
 
 
 def multi_param_ev_sim(
-    distance: list[float],
-    N0: list[float],
     frequency: list[float],
     num_events: list[int],
+    distance: list[float],
+    N0: list[float],
     num_bits: list[int],
     info_bits: list[int],
     power: list[float],
@@ -331,23 +331,23 @@ def multi_param_ev_sim(
                                 )
 
                                 aaoi_theory, aaoi_sim = ev_sim(
+                                    fr_val,
+                                    num_events_val,
                                     n_val,
                                     k_val,
                                     P_val,
                                     d_val,
                                     N0_val,
-                                    fr_val,
-                                    num_events_val,
                                     num_runs,
                                     seed=seed_for_param_combo,
                                 )
 
                                 results.append(
                                     {
-                                        "distance": d_val,
-                                        "N0": N0_val,
                                         "frequency": fr_val,
                                         "num_events": num_events_val,
+                                        "distance": d_val,
+                                        "N0": N0_val,
                                         "num_bits": n_val,
                                         "info_bits": k_val,
                                         "power": P_val,

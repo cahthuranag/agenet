@@ -189,10 +189,10 @@ def _main():
             # Execute the simulation in a separate thread
             future = executor.submit(
                 multi_param_ev_sim,
-                distance=args.distance,
-                N0=args.N0,
                 frequency=args.frequency,
                 num_events=args.num_events,
+                distance=args.distance,
+                N0=args.N0,
                 num_bits=args.num_bits,
                 info_bits=args.info_bits,
                 power=args.power,
