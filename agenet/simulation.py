@@ -4,6 +4,7 @@ from __future__ import annotations
 
 from multiprocessing.sharedctypes import Synchronized
 from threading import Event
+from typing import NamedTuple
 
 import numpy as np
 import pandas as pd
@@ -13,6 +14,154 @@ from numpy.random import PCG64, PCG64DXSM, Generator, Philox
 from .aaoi import aaoi_fn
 from .blkerr import block_error, block_error_th
 from .snratio import snr, snr_av
+
+
+class _SimParams(NamedTuple):
+    """Read-only container for parsed simulation parameters."""
+
+    frequency: float
+    """Signal frequency in Hertz."""
+
+    num_events: int
+    """Number of events to simulate."""
+
+    num_bits_1: int
+    """Number of bits in a block for the source node."""
+
+    info_bits_1: int
+    """Number of bits in a message for the source node."""
+
+    power_1: float
+    """Power in Watts (source node)."""
+
+    distance_1: float
+    """Distance between source node and relay."""
+
+    n0_1: float
+    """Noise power for the source node."""
+
+    snr1_avg: float
+    """Average SNR for the source node."""
+
+    blkerr1_th: float
+    """Theoretical block error for the source node."""
+
+    num_bits_2: int
+    """Number of bits in a block for the relay or access point."""
+
+    info_bits_2: int
+    """Number of bits in a message for the relay or access point."""
+
+    power_2: float
+    """Power in Watts (relay or access point)."""
+
+    distance_2: float
+    """Distance between source node and destination."""
+
+    n0_2: float
+    """Noise power for the relay or access point."""
+
+    snr2_avg: float
+    """Average SNR for the relay or access point."""
+
+    blkerr2_th: float
+    """Theoretical block error for the relay or access point."""
+
+    rng: Generator
+    """Pseudo-random number generator to use for the simulation."""
+
+
+def _param_parse_and_check(
+    frequency: float,
+    num_events: int,
+    num_bits: int,
+    info_bits: int,
+    power: float,
+    distance: float,
+    N0: float,
+    num_bits_2: int | None = None,
+    info_bits_2: int | None = None,
+    power_2: float | None = None,
+    distance_2: float | None = None,
+    N0_2: float | None = None,
+    seed: int | np.signedinteger | None = None,
+) -> _SimParams:
+    """Check given simulation parameters and return object with final parameters."""
+    # Distance between the relay and destination
+    if distance_2 is None:
+        distance_2 = distance
+
+    # Power of the relay or access point
+    if power_2 is None:
+        power_2 = power
+
+    # Number of bits in the block for the relay or access point
+    if num_bits_2 is None:
+        num_bits_2 = num_bits
+
+    # Number of bits in the message for the relay or access point
+    if info_bits_2 is None:
+        info_bits_2 = info_bits
+
+    # Noise power for the relay or access point
+    if N0_2 is None:
+        N0_2 = N0
+
+    # Input validation
+    if frequency <= 0:
+        raise ValueError("`frequency` must be greater than 0")
+    if num_events <= 0:
+        raise ValueError("`num_events` must be greater than 0")
+    if num_bits <= 0 or num_bits_2 <= 0:
+        raise ValueError("`num_bits` and `num_bits_2` must be greater than 0")
+    if info_bits <= 0 or info_bits <= 0:
+        raise ValueError("`info_bits` and `info_bits_2` must be greater than 0")
+    if info_bits > num_bits or info_bits_2 > num_bits_2:
+        raise ValueError("`info_bits` must be less than or equal to `num_bits`")
+    if power <= 0 or power_2 <= 0:
+        raise ValueError("`power` and `power_2` must be greater than 0")
+    if N0 <= 0 or N0_2 <= 0:
+        raise ValueError("`N0` and `N0_2` must be greater than 0")
+
+    # Check that num_bits_2 >= num_bits_1
+    if num_bits < num_bits_2:
+        raise ValueError("`num_bits_2` must be equal or greater than `num_bits`")
+
+    # Initialize PCG64 generator
+    rng = Generator(PCG64(seed))
+
+    # Determine the average SNR for the two nodes
+    snr1_avg = snr_av(N0, distance, power, frequency)
+    snr2_avg = snr_av(N0_2, distance_2, power_2, frequency)
+
+    # Block error rate for the relay or access point at the destination
+    # TODO: Check above comment for correctness
+    er1_th = block_error_th(snr1_avg, num_bits, info_bits)
+
+    # Block error rate for the source node at the relay or access point
+    # TODO: Check above comment for correctness
+    er2_th = block_error_th(snr2_avg, num_bits_2, info_bits_2)
+
+    # Return validate parameter object
+    return _SimParams(
+        frequency=frequency,
+        num_events=num_events,
+        num_bits_1=num_bits,
+        info_bits_1=info_bits,
+        power_1=power,
+        distance_1=distance,
+        n0_1=N0,
+        snr1_avg=snr1_avg,
+        blkerr1_th=er1_th,
+        num_bits_2=num_bits_2,
+        info_bits_2=info_bits_2,
+        power_2=power_2,
+        distance_2=distance_2,
+        n0_2=N0_2,
+        snr2_avg=snr2_avg,
+        blkerr2_th=er2_th,
+        rng=rng,
+    )
 
 
 def _sim(
@@ -141,83 +290,46 @@ def sim(
        source node, theoretical SNR at relay or access point, theoretical block
        error at source node, theoretical SNR at relay or access point.
     """
-    # Distance between source node and relay
-    d1 = distance
-    # Distance between the relay and destination
-    d2 = distance if distance_2 is None else distance_2
-    # Power of the source node
-    p1 = power
-    # Power of the relay or access point
-    p2 = power if power_2 is None else power_2
-    # Number of bits in the block for the source node
-    n1 = num_bits
-    # Number of bits in the block for the relay or access point
-    n2 = num_bits if num_bits_2 is None else num_bits_2
-    # Number of bits in the message for the source node
-    k1 = info_bits
-    # Number of bits in the message for the relay or access point
-    k2 = info_bits if info_bits_2 is None else info_bits_2
-    # Noise power in the source node
-    np01 = N0
-    # Noise power for the relay or access point
-    np02 = N0 if N0_2 is None else N0_2
-
-    # Input validation
-    if n1 <= 0 or n2 <= 0:
-        raise ValueError("`num_bits` and `num_bits_2` must be greater than 0")
-    if k1 <= 0 or k2 <= 0:
-        raise ValueError("`info_bits` and `info_bits_2` must be greater than 0")
-    if k1 > n1 or k2 > n2:
-        raise ValueError("`info_bits` must be less than or equal to `num_bits`")
-    if p1 <= 0 or p2 <= 0:
-        raise ValueError("`power` and `power_2` must be greater than 0")
-    if np01 <= 0 or np02 <= 0:
-        raise ValueError("`N0` and `N0_2` must be greater than 0")
-    if frequency <= 0:
-        raise ValueError("`frequency` must be greater than 0")
-
-    # num_bits_2 >= num_bits_1
-    if n1 < n2:
-        raise ValueError("`num_bits_2` must be equal or greater than `num_bits`")
-
-    # Initialize PCG64 generator
-    rng = Generator(PCG64(seed))
-
-    # Determine the average SNR for the two nodes
-    snr1_avg = snr_av(np01, d1, p1, frequency)
-    snr2_avg = snr_av(np02, d2, p2, frequency)
-
-    # Block error rate for the relay or access point at the destination
-    # TODO: Check above comment for correctness
-    er1_th = block_error_th(snr1_avg, n1, k1)
-
-    # Block error rate for the source node at the relay or access point
-    # TODO: Check above comment for correctness
-    er2_th = block_error_th(snr2_avg, n2, k2)
+    # Parse params and get an object of validated simulation parameters
+    params = _param_parse_and_check(
+        frequency=frequency,
+        num_events=num_events,
+        num_bits=num_bits,
+        info_bits=info_bits,
+        power=power,
+        distance=distance,
+        N0=N0,
+        num_bits_2=num_bits_2,
+        info_bits_2=info_bits_2,
+        power_2=power_2,
+        distance_2=distance_2,
+        N0_2=N0_2,
+        seed=seed,
+    )
 
     # Call the low-level function to actually perform the simulation
     return (
         *_sim(
-            frequency=frequency,
-            num_events=num_events,
-            num_bits_1=n1,
-            info_bits_1=k1,
-            power_1=p1,
-            distance_1=d1,
-            n0_1=np01,
-            blkerr1_th=er1_th,
-            num_bits_2=n2,
-            info_bits_2=k2,
-            power_2=p2,
-            distance_2=d2,
-            n0_2=np02,
-            blkerr2_th=er2_th,
-            rng=rng,
+            frequency=params.frequency,
+            num_events=params.num_events,
+            num_bits_1=params.num_bits_1,
+            info_bits_1=params.info_bits_1,
+            power_1=params.power_1,
+            distance_1=params.distance_1,
+            n0_1=params.n0_1,
+            blkerr1_th=params.blkerr1_th,
+            num_bits_2=params.num_bits_2,
+            info_bits_2=params.info_bits_2,
+            power_2=params.power_2,
+            distance_2=params.distance_2,
+            n0_2=params.n0_2,
+            blkerr2_th=params.blkerr2_th,
+            rng=params.rng,
         ),
-        snr1_avg,
-        snr2_avg,
-        er1_th,
-        er2_th,
+        params.snr1_avg,
+        params.snr2_avg,
+        params.blkerr1_th,
+        params.blkerr2_th,
     )
 
 
