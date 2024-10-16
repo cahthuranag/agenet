@@ -8,35 +8,35 @@ import numpy as np
 
 def snr(N0: float, d: float, P: float, fr: float, seed: Optional[int] = None) -> float:
     """Computes the instantaneous SNR of the received signal.
-    
+
     Args:
         N0: The power spectral density of the noise.
         d: The distance between the transmitter and receiver.
         P: The power of the transmitted signal.
         fr: The frequency of the signal.
         seed: Seed for the random number generator (optional).
-    
+
     Returns:
         The instantaneous SNR of the received signal in linear scale.
     """
     rng = np.random.default_rng(seed)
-    
+
     # Calculate large-scale gain using _alpha function
     alpha = _alpha(d, fr)
-    
+
     # Complex channel coefficient (small-scale fading)
-    chah = 1/np.sqrt(2) * (rng.standard_normal() + 1j * rng.standard_normal())
-    
+    chah = 1 / np.sqrt(2) * (rng.standard_normal() + 1j * rng.standard_normal())
+
     # Signal gain (combining large-scale and small-scale effects)
     s_gain = alpha * np.abs(chah**2)
-    
+
     #  Instantaneous SNR
-    snr: float = (P * s_gain) / N0 
+    snr: float = (P * s_gain) / N0
     return snr
 
 
 def snr_av(N0: float, d: float, P: float, fr: float) -> float:
-    """ Computes the average SNR of the received signal.
+    """Computes the average SNR of the received signal.
 
     Args:
       N0: The power spectral density of the noise.

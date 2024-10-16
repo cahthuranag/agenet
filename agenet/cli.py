@@ -229,7 +229,7 @@ def _main():
             )
             console.print(f"Average SNR: {avearge_snr}")
             theoretical_bler = block_error_th(
-               avearge_snr, args.num_bits[0], args.info_bits[0]
+                avearge_snr, args.num_bits[0], args.info_bits[0]
             )
             console.print(f"Theoretical Block Error Rate: {theoretical_bler}")
 

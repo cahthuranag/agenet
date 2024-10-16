@@ -6,11 +6,13 @@ from matplotlib import pyplot as plt
 
 from agenet import aaoi_fn
 
+
 @pytest.mark.parametrize("v, T, expected", [([2, 3, 4, 5], [1, 2, 3, 4], 1.3)])
 def test_av_age_func_values(v, T, expected):
     """Test the av_age_func function."""
     age, _, _ = aaoi_fn(v, T)
     assert round(age, 1) == expected
+
 
 @pytest.fixture()
 def plot_fn():

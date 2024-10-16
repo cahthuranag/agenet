@@ -36,15 +36,13 @@ def setup_mock_args(**kwargs):
 @pytest.fixture()
 def mock_dependencies():
     """Fixture for mocking dependencies."""
-    with patch(
-        "agenet.cli.argparse.ArgumentParser.parse_args"
-    ) as mock_parse_args, patch("agenet.cli.snr_th") as mock_snr_th, patch(
-        "agenet.cli.block_error_th"
-    ) as mock_block_error_th, patch(
-        "agenet.cli.multi_param_ev_sim"
-    ) as mock_multi_param_ev_sim, patch(
-        "pandas.DataFrame.to_csv"
-    ) as mock_to_csv:
+    with (
+        patch("agenet.cli.argparse.ArgumentParser.parse_args") as mock_parse_args,
+        patch("agenet.cli.snr_th") as mock_snr_th,
+        patch("agenet.cli.block_error_th") as mock_block_error_th,
+        patch("agenet.cli.multi_param_ev_sim") as mock_multi_param_ev_sim,
+        patch("pandas.DataFrame.to_csv") as mock_to_csv,
+    ):
         yield {
             "mock_parse_args": mock_parse_args,
             "mock_snr_th": mock_snr_th,

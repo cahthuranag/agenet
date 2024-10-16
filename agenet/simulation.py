@@ -7,8 +7,8 @@ from threading import Event
 
 import numpy as np
 import pandas as pd
-from numpy.random import PCG64, PCG64DXSM, Generator, Philox
 from numpy import nan
+from numpy.random import PCG64, PCG64DXSM, Generator, Philox
 
 from .aaoi import aaoi_fn
 from .blkerr import block_error, block_error_th
@@ -23,8 +23,13 @@ def sim(
     N0: float,
     frequency: float,
     num_events: int,
+    num_bits_2: int | None = None,
+    info_bits_2: int | None = None,
+    power_2: float | None = None,
+    distance_2: float | None = None,
+    N0_2: float | None = None,
     seed: int | np.signedinteger | None = None,
-) -> tuple[float, float]:
+) -> tuple[float, float, float, float, float, float]:
     """Simulates a communication system and calculates the AAoI.
 
     Args:
@@ -38,100 +43,124 @@ def sim(
       seed: Seed for the random number generator (optional).
 
     Returns:
-       Theoretical AAoI and simulation AAoI.
+       A tuple containing: theoretical AAoI, simulation AAoI, theoretical SNR at
+       source node, theoretical SNR at relay or access point, theoretical block
+       error at source node, theoretical SNR at relay or access point.
     """
-    # Input validation
+    # Distance between source node and relay
+    d1 = distance
+    # Distance between the relay and destination
+    d2 = distance if distance_2 is None else distance_2
+    # Power of the source node
+    p1 = power
+    # Power of the relay or access point
+    p2 = power if power_2 is None else power_2
+    # Number of bits in the block for the source node
+    n1 = num_bits
+    # Number of bits in the block for the relay or access point
+    n2 = num_bits if num_bits_2 is None else num_bits_2
+    # Number of bits in the message for the source node
+    k1 = info_bits
+    # Number of bits in the message for the relay or access point
+    k2 = info_bits if info_bits_2 is None else info_bits_2
+    # Noise power in the source node
+    np01 = N0
+    # Noise power for the relay or access point
+    np02 = N0 if N0_2 is None else N0_2
 
-    if num_bits <= 0:
-        raise ValueError("n must be greater than 0")
-    if info_bits <= 0:
-        raise ValueError("k must be greater than 0")
-    if info_bits > num_bits:
-        raise ValueError("k must be less than or equal to n")
-    if power <= 0:
-        raise ValueError("P must be greater than 0")
-    if N0 <= 0:
-        raise ValueError("N0 must be greater than 0")
+    # Input validation
+    if n1 <= 0 or n2 <= 0:
+        raise ValueError("`num_bits` and `num_bits_2` must be greater than 0")
+    if k1 <= 0 or k2 <= 0:
+        raise ValueError("`info_bits` and `info_bits_2` must be greater than 0")
+    if k1 > n1 or k2 > n2:
+        raise ValueError("`info_bits` must be less than or equal to `num_bits`")
+    if p1 <= 0 or p2 <= 0:
+        raise ValueError("`power` and `power_2` must be greater than 0")
+    if np01 <= 0 or np02 <= 0:
+        raise ValueError("`N0` and `N0_2` must be greater than 0")
     if frequency <= 0:
-        raise ValueError("fr must be greater than 0")
+        raise ValueError("`frequency` must be greater than 0")
+
+    # num_bits_2 >= num_bits_1
+    if n1 < n2:
+        raise ValueError("`num_bits_2` must be equal or greater than `num_bits`")
 
     # Initialize PCG64 generator
     rng = Generator(PCG64(seed))
 
+    # symbol time
+    symbol_time = 60e-6
+    # Transmission period
+    transmission_period = (n1 + n2) * symbol_time
+    # Inter-arrival times
+    inter_arrival_times = transmission_period * (np.ones(num_events))
+    # Arrival timestamps
+    arrival_timestamps = np.cumsum(inter_arrival_times)
 
-    d1 = distance  # distance between source nodes and relay
-    d2 = distance  # distance between the relay and destination
-    P1 = power  # power of the source nodes
-    P2 = power  # power of the relay or access point
-    n1 = num_bits  # number of bits in the block for the source nodes
-    n2 = num_bits  # number of bits in the block for the relay or access point
-    k1 = info_bits  # number of bits in the message for the source nodes
-    k2 = info_bits  # number of bits in the message for the relay or access point
-    
-    symbol_time =  60e-6 # symbol time
-    transmission_period = (n1+n2) * symbol_time # transmission period
-    inter_arrival_times = transmission_period * (np.ones(num_events))  # inter arrival times
-    arrival_timestamps = np.cumsum(inter_arrival_times)  # arrival timestamps
-    snr1_th = snr_av(
-        N0, d1, P1, frequency
-    )  # block error rate for the relay or access point at the destination
-    snr2_th = snr_av(
-        N0, d2, P2, frequency
-    )  # block error rate for the source nodes at the relay or access point
+    snr1_th = snr_av(np01, d1, p1, frequency)
 
+    snr2_th = snr_av(np02, d2, p2, frequency)
+
+    # Block error rate for the relay or access point at the destination
     er1_th = block_error_th(snr1_th, n1, k1)
+
+    # Block error rate for the source node at the relay or access point
     er2_th = block_error_th(snr2_th, n2, k2)
-    inter_service_times = transmission_period * np.ones((num_events))  # inter service times
-    server_timestamps_1 = np.zeros(
-        num_events
-    )  # Generating departure timestamps for the node 1
+
+    # Inter-service times
+    inter_service_times = transmission_period * np.ones((num_events))
+
+    # Generating departure timestamps for node 1
+    server_timestamps_1 = np.zeros(num_events)
+
     departure_timestamps_s = np.zeros(num_events)
-    er_p_th = er1_th + (er2_th * (1-er1_th))
+    er_p_th = er1_th + (er2_th * (1 - er1_th))
     for i in range(0, num_events):
-        snr1 = snr(
-            N0, d1, P1, frequency, seed=rng.integers(0, 2**32)
-        )  # snr for the source nodes at the relay or access point
-        snr2 = snr(N0, d2, P2, frequency, seed=rng.integers(0, 2**32))
-        er1 = block_error(
-            snr1, n1, k1
-        )  # block error rate for the source nodes at the relay or access point
-        er2 = block_error(
-            snr2, n2, k2
-        )  # block error rate for the relay or access point at the destination
-        er_p = er1 + (er2 * (1-er1))
-        er_indi = int(rng.random() > er_p)  # Using PCG64 generator here
+
+        # SNR for the source nodes at the relay or access point
+        snr1 = snr(N0, d1, p1, frequency, seed=rng.integers(0, 2**32))
+        snr2 = snr(N0, d2, p2, frequency, seed=rng.integers(0, 2**32))
+
+        # block error rate for the source nodes at the relay or access point
+        er1 = block_error(snr1, n1, k1)
+
+        # block error rate for the relay or access point at the destination
+        er2 = block_error(snr2, n2, k2)
+        er_p = er1 + (er2 * (1 - er1))
+        er_indi = int(rng.random() > er_p)
+
         if er_indi == 0:
-            # If the packet is not successfully decoded at the destination, departure timestamp is set to nan
+            # If the packet is not successfully decoded at the destination,
+            # departure timestamp is set to nan
             departure_timestamps_s[i] = nan
             server_timestamps_1[i] = nan
         else:
             departure_timestamps_s[i] = arrival_timestamps[i] + inter_service_times[i]
             server_timestamps_1[i] = arrival_timestamps[i]
 
-
     dep = [x for x in departure_timestamps_s if not np.isnan(x)]
     sermat = [x for x in server_timestamps_1 if not np.isnan(x)]
 
-    if abs(1 - er_p_th) < 1e-20:  # Choose a small threshold
-        return float("inf"), float("inf")
+    # Choose a small threshold
+    if abs(1 - er_p_th) < 1e-20:
+        return float("inf"), float("inf"), snr1_th, snr2_th, er1_th, er2_th
 
-    av_age_theoretical = (transmission_period) * (0.5 + (1 / (1 - er_p_th)))
+    aaoi_theoretical = (transmission_period) * (0.5 + (1 / (1 - er_p_th)))
 
     # if dep and sermat are empty, return infinity
     if not dep or not sermat:
-        return float("inf"), float("inf")
+        return float("inf"), float("inf"), snr1_th, snr2_th, er1_th, er2_th
     if departure_timestamps_s[-1] == nan:
-       depature_mat= dep  + arrival_timestamps[-1] + inter_service_times[-1]
-       arrival_mat = [0] + sermat [1:] + arrival_timestamps[-1]
+        depature_mat = dep + arrival_timestamps[-1] + inter_service_times[-1]
+        arrival_mat = [0] + sermat[1:] + arrival_timestamps[-1]
     else:
         depature_mat = dep
-        arrival_mat = [0] + sermat [1:] 
- 
-    av_age_simulation, _, _ = aaoi_fn(depature_mat, arrival_mat)
-   
+        arrival_mat = [0] + sermat[1:]
 
+    aaoi_simulation, _, _ = aaoi_fn(depature_mat, arrival_mat)
 
-    return av_age_theoretical, av_age_simulation
+    return aaoi_theoretical, aaoi_simulation, snr1_th, snr2_th, er1_th, er2_th
 
 
 def ev_sim(
@@ -145,8 +174,7 @@ def ev_sim(
     num_runs: int,
     seed: int | np.signedinteger | None = None,
 ) -> tuple[float, float]:
-    """Run the simulation `num_runs` times and return the expected value for the
-       AAoI.
+    """Run the simulation `num_runs` times and return the AAoI expected value.
 
     Args:
       num_bits: Number of bits in a block.
@@ -173,7 +201,7 @@ def ev_sim(
     seeds_for_runs = rng.integers(np.iinfo(np.int64).max, size=num_runs, dtype=np.int64)
 
     for i in range(num_runs):
-        av_age_theoretical_i, av_age_simulation_i = sim(
+        av_age_theoretical_i, av_age_simulation_i, _, _, _, _ = sim(
             num_bits,
             info_bits,
             power,
@@ -237,45 +265,42 @@ def multi_param_ev_sim(
         for N0_val in N0:
             for fr_val in frequency:
                 for num_events_val in num_events:
-                            for n_val in num_bits:
-                                for k_val in info_bits:
-                                    for P_val in power:
-                                        seed_for_param_combo = rng.integers(
-                                            np.iinfo(np.int64).max, dtype=np.int64
-                                        )
+                    for n_val in num_bits:
+                        for k_val in info_bits:
+                            for P_val in power:
+                                seed_for_param_combo = rng.integers(
+                                    np.iinfo(np.int64).max, dtype=np.int64
+                                )
 
-                                        aaoi_theory, aaoi_sim = ev_sim(
-                                            n_val,
-                                            k_val,
-                                            P_val,
-                                            d_val,
-                                            N0_val,
-                                            fr_val,
-                                            num_events_val,
-                                            num_runs,
-                                            seed=seed_for_param_combo,
-                                        )
+                                aaoi_theory, aaoi_sim = ev_sim(
+                                    n_val,
+                                    k_val,
+                                    P_val,
+                                    d_val,
+                                    N0_val,
+                                    fr_val,
+                                    num_events_val,
+                                    num_runs,
+                                    seed=seed_for_param_combo,
+                                )
 
-                                        results.append(
-                                            {
-                                                "distance": d_val,
-                                                "N0": N0_val,
-                                                "frequency": fr_val,
-                                                "num_events": num_events_val,
-                                                "num_bits": n_val,
-                                                "info_bits": k_val,
-                                                "power": P_val,
-                                                "aaoi_theory": aaoi_theory,
-                                                "aaoi_sim": aaoi_sim,
-                                            }
-                                        )
+                                results.append(
+                                    {
+                                        "distance": d_val,
+                                        "N0": N0_val,
+                                        "frequency": fr_val,
+                                        "num_events": num_events_val,
+                                        "num_bits": n_val,
+                                        "info_bits": k_val,
+                                        "power": P_val,
+                                        "aaoi_theory": aaoi_theory,
+                                        "aaoi_sim": aaoi_sim,
+                                    }
+                                )
 
-                                        if counter is not None:
-                                            counter.value += 1
-                                        if (
-                                            stop_event is not None
-                                            and stop_event.is_set()
-                                        ):
-                                            return pd.DataFrame(results)
+                                if counter is not None:
+                                    counter.value += 1
+                                if stop_event is not None and stop_event.is_set():
+                                    return pd.DataFrame(results)
 
     return pd.DataFrame(results)

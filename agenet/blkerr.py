@@ -1,3 +1,5 @@
+"""Functions for calculating the block error."""
+
 import math
 
 import scipy.special as sp
@@ -21,10 +23,8 @@ def block_error(snr: float, n: int, k: int) -> float:
     Returns:
         float: The Block Error Rate
     """
-
     c = math.log2(1 + snr)
     v = 0.5 * ((1 - (1 / ((1 + snr) ** 2))) * ((math.log2(math.exp(1))) ** 2))
-  
 
     # Handle potential division by zero
     if v == 0:
@@ -35,18 +35,16 @@ def block_error(snr: float, n: int, k: int) -> float:
 
 
 def block_error_th(snr_av: float, n: int, k: int) -> float:
-    """Calculate the theoretical Block Error Rate (BLER) for the given average SNR, n, k.
+    """Calculate the theoretical Block Error Rate for the given average SNR, n, k.
 
     Args:
-        snr_av (float): Average Signal-to-noise ratio
-        n (int): Total number of bits
-        k (int): Number of information bits
-
+        snr_av: Average Signal-to-noise ratio
+        n: Total number of bits
+        k: Number of information bits
 
     Returns:
         float: The theoretical Block Error Rate
     """
-
     try:
         beta = 1 / (2 * math.pi * math.sqrt((2 ** (2 * k / n)) - 1))
     except ValueError:
