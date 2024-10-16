@@ -40,24 +40,12 @@ def _main():
         prog="agenet", description="Command line interface to AgeNet"
     )
 
-    # Simulation arguments
-    parser.add_argument(
-        "-d",
-        "--distance",
-        type=float,
-        nargs="+",
-        default=def_params["distance"],
-        help=f"Distance between nodes in meters (default: {def_params_str['distance']})",
+    # Global simulation parameters
+    general_group = parser.add_argument_group(
+        "General", "General simulation parameters"
     )
-    parser.add_argument(
-        "-N",
-        "--N0",
-        type=float,
-        nargs="+",
-        default=def_params["N0"],
-        help=f"Noise power in Watts (default: {def_params_str['N0']})",
-    )
-    parser.add_argument(
+
+    general_group.add_argument(
         "-f",
         "--frequency",
         type=float,
@@ -65,41 +53,17 @@ def _main():
         default=def_params["frequency"],
         help=f"Signal frequency in Hz (default: {def_params_str['frequency']})",
     )
-    parser.add_argument(
+
+    general_group.add_argument(
         "-e",
         "--num-events",
         type=int,
         nargs="+",
         default=def_params["num-events"],
-        help=f"Number of events (default: {def_params_str['num-events']})",
-    )
-    parser.add_argument(
-        "-n",
-        "--num-bits",
-        type=int,
-        nargs="+",
-        default=def_params["num-bits"],
-        help=f"Total number of bits (default: {def_params_str['num-bits']})",
-    )
-    parser.add_argument(
-        "-k",
-        "--info-bits",
-        type=int,
-        nargs="+",
-        default=def_params["info-bits"],
-        help=f"Number of information bits (default: {def_params_str['info-bits']})",
-    )
-    parser.add_argument(
-        "-P",
-        "--power",
-        type=float,
-        nargs="+",
-        default=def_params["power"],
-        help=f"Transmission power in Watts (default: {def_params_str['power']})",
+        help=f"Number of events in a simulation run (default: {def_params_str['num-events']})",
     )
 
-    # Number of monte carlo runs
-    parser.add_argument(
+    general_group.add_argument(
         "-r",
         "--num-runs",
         type=int,
@@ -107,20 +71,109 @@ def _main():
         help="Number of simulation runs (default: %(default)s)",
     )
 
-    # Seed for reproducible runs
-    parser.add_argument(
+    general_group.add_argument(
         "-s",
         "--seed",
         type=int,
         help="Seed for random number generator (a random seed will be used by default)",
     )
 
+    # Per node simulation parameters
+    node1_group = parser.add_argument_group(
+        "Node", "Node (or source node) simulation parameters"
+    )
+
+    node1_group.add_argument(
+        "-n",
+        "--num-bits",
+        type=int,
+        nargs="+",
+        default=def_params["num-bits"],
+        help=f"Total number of bits (default: {def_params_str['num-bits']})",
+    )
+    node1_group.add_argument(
+        "-k",
+        "--info-bits",
+        type=int,
+        nargs="+",
+        default=def_params["info-bits"],
+        help=f"Number of information bits (default: {def_params_str['info-bits']})",
+    )
+    node1_group.add_argument(
+        "-P",
+        "--power",
+        type=float,
+        nargs="+",
+        default=def_params["power"],
+        help=f"Transmission power in Watts (default: {def_params_str['power']})",
+    )
+    node1_group.add_argument(
+        "-d",
+        "--distance",
+        type=float,
+        nargs="+",
+        default=def_params["distance"],
+        help=f"Distance between nodes in meters (default: {def_params_str['distance']})",
+    )
+    node1_group.add_argument(
+        "-N",
+        "--N0",
+        type=float,
+        nargs="+",
+        default=def_params["N0"],
+        help=f"Noise power in Watts (default: {def_params_str['N0']})",
+    )
+
+    # Relay or access point-specific simulation parameters
+    node2_group = parser.add_argument_group(
+        "Relay",
+        "Relay or access point-specific simulation parameters (if different than source node)",
+    )
+
+    node2_group.add_argument(
+        "--num-bits-2",
+        type=int,
+        nargs="*",
+        default=None,
+        help="Total number of bits in relay or access point (defaults to --num-bits)",
+    )
+    node2_group.add_argument(
+        "--info-bits-2",
+        type=int,
+        nargs="*",
+        default=None,
+        help="Number of information bits in relay or access point (defaults to --info-bits)",
+    )
+    node2_group.add_argument(
+        "--power-2",
+        type=float,
+        nargs="*",
+        default=None,
+        help="Transmission power in Watts in relay or access point (defaults to --power)",
+    )
+    node2_group.add_argument(
+        "--distance-2",
+        type=float,
+        nargs="*",
+        default=None,
+        help="Distance between relay or access point and destination (defaults to --distance)",
+    )
+    node2_group.add_argument(
+        "--N0-2",
+        type=float,
+        nargs="*",
+        default=None,
+        help="Noise power in Watts in relay or access point (defaults to --N0)",
+    )
+
     # Output specification parameters
-    parser.add_argument(
+    output_group = parser.add_argument_group("Output", "Output specification")
+
+    output_group.add_argument(
         "-t", "--show-table", action="store_true", help="Show table with results"
     )
 
-    parser.add_argument(
+    output_group.add_argument(
         "-o",
         "--save-csv",
         type=str,
@@ -128,13 +181,13 @@ def _main():
         metavar="CSV_FILE",
     )
 
-    parser.add_argument(
+    output_group.add_argument(
         "-p",
         "--show-plot",
         action="store_true",
         help="Show plot (only valid if exactly one parameter varies)",
     )
-    parser.add_argument(
+    output_group.add_argument(
         "--save-plot",
         type=str,
         default="",
@@ -142,14 +195,14 @@ def _main():
         help="Save plot to file (only valid if exactly one parameter varies, extension determines file type)",
     )
 
-    parser.add_argument(
+    output_group.add_argument(
         "--debug",
         choices=["0", "1", "2"],
         default="0",
         help="Level of debugging report if an error occurs (default: %(default)s)",
     )
 
-    parser.add_argument(
+    output_group.add_argument(
         "--version",
         action="version",
         version="%(prog)s " + importlib.metadata.version("agenet"),
