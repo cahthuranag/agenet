@@ -47,18 +47,18 @@ def test_simulation_different_seeds():
 
 def test_run_simulation():
     """Test the run_simulation function."""
-    params = (6 * (10**9), 1000, 300, 100, 10**-3, 700, 1 * (10**-13), 10)
+    params = (10, 6 * (10**9), 1000, 300, 100, 10**-3, 700, 1 * (10**-13))
     result = ev_sim(*params, seed=42)
     assert result is not None
     assert isinstance(result, tuple)
-    assert len(result) == 2
+    assert len(result) == 6
     assert all(isinstance(x, float) for x in result)
     assert all(x > 0 for x in result)
 
 
 def test_run_simulation_reproducibility():
     """Test that run_simulation produces the same results with the same seed."""
-    params = (6 * (10**9), 1000, 300, 100, 10**-3, 700, 1 * (10**-13), 10)
+    params = (10, 6 * (10**9), 1000, 300, 100, 10**-3, 700, 1 * (10**-13))
     result1 = ev_sim(*params, seed=42)
     result2 = ev_sim(*params, seed=42)
     assert (
@@ -68,7 +68,7 @@ def test_run_simulation_reproducibility():
 
 def test_run_simulation_different_seeds():
     """Test that run_simulation produces different results with different seeds."""
-    params = (6 * (10**9), 1000, 300, 100, 10**-3, 700, 1 * (10**-13), 10)
+    params = (10, 6 * (10**9), 1000, 300, 100, 10**-3, 700, 1 * (10**-13))
     result1 = ev_sim(*params, seed=42)
     result2 = ev_sim(*params, seed=123)
     assert (

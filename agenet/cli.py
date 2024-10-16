@@ -10,13 +10,12 @@ from threading import Event
 from time import sleep
 
 import matplotlib.pyplot as plt
+from rich import box
 from rich.console import Console
 from rich.progress import Progress
 from rich_tools import df_to_table
 
-from .blkerr import block_error_th
 from .simulation import multi_param_ev_sim
-from .snratio import snr_av
 
 
 def _main():
@@ -223,17 +222,9 @@ def _main():
         # Process output options
         if args.show_table:
 
-            # TODO SNR_AV and BLER_TH should appear in the table, not here
-            avearge_snr = snr_av(
-                args.N0[0], args.distance[0], args.power[0], args.frequency[0]
-            )
-            console.print(f"Average SNR: {avearge_snr}")
-            theoretical_bler = block_error_th(
-                avearge_snr, args.num_bits[0], args.info_bits[0]
-            )
-            console.print(f"Theoretical Block Error Rate: {theoretical_bler}")
-
             table = df_to_table(results)
+            table.row_styles = ["none", "dim"]
+            table.box = box.SIMPLE_HEAD
             console.print(table)
 
         if args.save_csv:

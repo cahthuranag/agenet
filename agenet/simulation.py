@@ -9,7 +9,7 @@ from typing import NamedTuple
 import numpy as np
 import pandas as pd
 from numpy import nan
-from numpy.random import PCG64, PCG64DXSM, Generator, Philox
+from numpy.random import PCG64DXSM, Generator, Philox
 
 from .aaoi import aaoi_fn
 from .blkerr import block_error, block_error_th
@@ -37,7 +37,7 @@ class _SimParams(NamedTuple):
     distance_1: float
     """Distance between source node and relay."""
 
-    n0_1: float
+    N0_1: float
     """Noise power for the source node."""
 
     snr1_avg: float
@@ -58,7 +58,7 @@ class _SimParams(NamedTuple):
     distance_2: float
     """Distance between source node and destination."""
 
-    n0_2: float
+    N0_2: float
     """Noise power for the relay or access point."""
 
     snr2_avg: float
@@ -127,8 +127,8 @@ def _param_parse_and_check(
     if num_bits < num_bits_2:
         raise ValueError("`num_bits_2` must be equal or greater than `num_bits`")
 
-    # Initialize PCG64 generator
-    rng = Generator(PCG64(seed))
+    # Initialize PCG64DXSM generator
+    rng = Generator(PCG64DXSM(seed))
 
     # Determine the average SNR for the two nodes
     snr1_avg = snr_av(N0, distance, power, frequency)
@@ -150,14 +150,14 @@ def _param_parse_and_check(
         info_bits_1=info_bits,
         power_1=power,
         distance_1=distance,
-        n0_1=N0,
+        N0_1=N0,
         snr1_avg=snr1_avg,
         blkerr1_th=er1_th,
         num_bits_2=num_bits_2,
         info_bits_2=info_bits_2,
         power_2=power_2,
         distance_2=distance_2,
-        n0_2=N0_2,
+        N0_2=N0_2,
         snr2_avg=snr2_avg,
         blkerr2_th=er2_th,
         rng=rng,
@@ -171,13 +171,13 @@ def _sim(
     info_bits_1: int,
     power_1: float,
     distance_1: float,
-    n0_1: float,
+    N0_1: float,
     blkerr1_th: float,
     num_bits_2: int,
     info_bits_2: int,
     power_2: float,
     distance_2: float,
-    n0_2: float,
+    N0_2: float,
     blkerr2_th: float,
     rng: Generator,
 ) -> tuple[float, float]:
@@ -213,8 +213,8 @@ def _sim(
     for i in range(0, num_events):
 
         # SNR for the source nodes at the relay or access point
-        snr1 = snr(n0_1, distance_1, power_1, frequency, seed=rng.integers(0, 2**32))
-        snr2 = snr(n0_2, distance_2, power_2, frequency, seed=rng.integers(0, 2**32))
+        snr1 = snr(N0_1, distance_1, power_1, frequency, seed=rng.integers(0, 2**32))
+        snr2 = snr(N0_2, distance_2, power_2, frequency, seed=rng.integers(0, 2**32))
 
         # block error rate for the source nodes at the relay or access point
         er1 = block_error(snr1, num_bits_1, info_bits_1)
@@ -316,13 +316,13 @@ def sim(
             info_bits_1=params.info_bits_1,
             power_1=params.power_1,
             distance_1=params.distance_1,
-            n0_1=params.n0_1,
+            N0_1=params.N0_1,
             blkerr1_th=params.blkerr1_th,
             num_bits_2=params.num_bits_2,
             info_bits_2=params.info_bits_2,
             power_2=params.power_2,
             distance_2=params.distance_2,
-            n0_2=params.n0_2,
+            N0_2=params.N0_2,
             blkerr2_th=params.blkerr2_th,
             rng=params.rng,
         ),
@@ -334,6 +334,7 @@ def sim(
 
 
 def ev_sim(
+    num_runs: int,
     frequency: float,
     num_events: int,
     num_bits: int,
@@ -341,9 +342,13 @@ def ev_sim(
     power: float,
     distance: float,
     N0: float,
-    num_runs: int,
+    num_bits_2: int | None = None,
+    info_bits_2: int | None = None,
+    power_2: float | None = None,
+    distance_2: float | None = None,
+    N0_2: float | None = None,
     seed: int | np.signedinteger | None = None,
-) -> tuple[float, float]:
+) -> tuple[float, float, float, float, float, float]:
     """Run the simulation `num_runs` times and return the AAoI expected value.
 
     Args:
@@ -361,35 +366,75 @@ def ev_sim(
       A tuple containing the expected value for the theoretical AAoI and the
         simulation AAoI.
     """
-    ev_age_theoretical_run = 0.0
-    ev_age_simulation_run = 0.0
+    # Parse params and get an object of validated simulation parameters
+    params = _param_parse_and_check(
+        frequency=frequency,
+        num_events=num_events,
+        num_bits=num_bits,
+        info_bits=info_bits,
+        power=power,
+        distance=distance,
+        N0=N0,
+        num_bits_2=num_bits_2,
+        info_bits_2=info_bits_2,
+        power_2=power_2,
+        distance_2=distance_2,
+        N0_2=N0_2,
+        seed=seed,
+    )
 
-    # Initialize RNG here for consistent seeds across runs
-    rng = Generator(PCG64DXSM(seed))
+    ev_aaoi_th_run = 0.0
+    ev_aaoi_sim_run = 0.0
 
-    # Generate a seed for each run
-    seeds_for_runs = rng.integers(np.iinfo(np.int64).max, size=num_runs, dtype=np.int64)
+    for _ in range(num_runs):
 
-    for i in range(num_runs):
-        av_age_theoretical_i, av_age_simulation_i, _, _, _, _ = sim(
-            frequency,
-            num_events,
-            num_bits,
-            info_bits,
-            power,
-            distance,
-            N0,
-            seed=seeds_for_runs[i],
+        # Run the simulation
+        av_aaoi_th_i, av_aaoi_sim_i = _sim(
+            frequency=params.frequency,
+            num_events=params.num_events,
+            num_bits_1=params.num_bits_1,
+            info_bits_1=params.info_bits_1,
+            power_1=params.power_1,
+            distance_1=params.distance_1,
+            N0_1=params.N0_1,
+            blkerr1_th=params.blkerr1_th,
+            num_bits_2=params.num_bits_2,
+            info_bits_2=params.info_bits_2,
+            power_2=params.power_2,
+            distance_2=params.distance_2,
+            N0_2=params.N0_2,
+            blkerr2_th=params.blkerr2_th,
+            rng=params.rng,
         )
-        if np.isinf(av_age_theoretical_i):
-            return float("inf"), float(
-                "inf"
-            )  # Return infinity for both if theoretical is infinity
-        ev_age_theoretical_run += av_age_theoretical_i
-        ev_age_simulation_run += av_age_simulation_i
-    ev_age_theoretical_run /= num_runs
-    ev_age_simulation_run /= num_runs
-    return ev_age_theoretical_run, ev_age_simulation_run
+
+        # Return infinity for both if theoretical is infinity
+        if np.isinf(av_aaoi_th_i):
+            return (
+                float("inf"),
+                float("inf"),
+                params.snr1_avg,
+                params.snr2_avg,
+                params.blkerr1_th,
+                params.blkerr2_th,
+            )
+
+        # Sum the AAoI's
+        ev_aaoi_th_run += av_aaoi_th_i
+        ev_aaoi_sim_run += av_aaoi_sim_i
+
+    # Divide the AAoI's by the number of runs to get the expected value (mean)
+    ev_aaoi_th_run /= num_runs
+    ev_aaoi_sim_run /= num_runs
+
+    # Return results
+    return (
+        ev_aaoi_th_run,
+        ev_aaoi_sim_run,
+        params.snr1_avg,
+        params.snr2_avg,
+        params.blkerr1_th,
+        params.blkerr2_th,
+    )
 
 
 def multi_param_ev_sim(
@@ -442,7 +487,15 @@ def multi_param_ev_sim(
                                     np.iinfo(np.int64).max, dtype=np.int64
                                 )
 
-                                aaoi_theory, aaoi_sim = ev_sim(
+                                (
+                                    aaoi_th,
+                                    aaoi_sim,
+                                    snr1_avg,
+                                    snr2_avg,
+                                    blkerr1_th,
+                                    blkerr2_th,
+                                ) = ev_sim(
+                                    num_runs,
                                     fr_val,
                                     num_events_val,
                                     n_val,
@@ -450,7 +503,6 @@ def multi_param_ev_sim(
                                     P_val,
                                     d_val,
                                     N0_val,
-                                    num_runs,
                                     seed=seed_for_param_combo,
                                 )
 
@@ -463,8 +515,12 @@ def multi_param_ev_sim(
                                         "num_bits": n_val,
                                         "info_bits": k_val,
                                         "power": P_val,
-                                        "aaoi_theory": aaoi_theory,
+                                        "aaoi_theory": aaoi_th,
                                         "aaoi_sim": aaoi_sim,
+                                        "snr1_avg": snr1_avg,
+                                        "snr2_avg": snr2_avg,
+                                        "blkerr1_th": blkerr1_th,
+                                        "blkerr2_th": blkerr2_th,
                                     }
                                 )
 
