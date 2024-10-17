@@ -31,11 +31,6 @@ Agenet offers a  set of features to support comprehensive analysis of wireless n
 
 These features allow researchers to compare and validate their findings, facilitating in-depth exploration of different network scenarios. The package's support for Monte Carlo simulations and multi-parameter analysis makes it an invaluable tool for both academic research and practical applications in the field of wireless communications.
 
-## Installation
-
-Agenet can be easily installed using pip, Python's package installer. To install the latest stable version directly from PyPI, simply run the command `pip install agenet` in your terminal. If you prefer to install the latest development version from the source, you can use `pip install git+https://github.com/cahthuranag/agenet.git#egg=agenet`. 
-
-For those interested in contributing to the development of Agenet or customizing it for their specific needs, a development installation is also available. To set up a development environment, first clone the repository with `git clone https://github.com/cahthuranag/agenet.git`, then navigate to the agenet directory, and finally run `pip install -e .[dev]`. This will install Agenet in editable mode along with all the necessary development dependencies, allowing you to make changes to the source code and immediately see their effects.
 ## How to install
 
 Install from PyPI:
