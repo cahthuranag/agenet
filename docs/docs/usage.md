@@ -1,68 +1,92 @@
-# Usage
-After installing the package, to run the script on your terminal simply run the following command.
-To run a simulation with default parameters, the user can use a provided command. The simulation can generate both theoretical and simulated values for various factors such as block lengths, power allocations, packet sizes, activation probabilities, and number of nodes in the network. These values can be presented in the form of tables using following command.
+# Agenet Command-Line Interface Usage Guide
+
+After installing the AgeNet package, you can run simulations using the `agenet` command in your terminal. Here's how to use it:
+
+## Basic Usage
+
+To run a simulation with default parameters:
+
 ```
 agenet
 ```
 
+Note: This command will run the simulation but won't display results by default.
 
+## Simulation Parameters
 
-## How to use agenet module
-### Description of the Simulation Parameters
+### General Simulation Parameters
 
-- `--num_nodes_const <int>`: Specifies the number of nodes in the network. Default is 2.
-- `--active_prob_const <float>`: Sets the probability that a node is active in a given time slot. Default is 0.5.
-- `--n_const <int>`: Determines the number of bits in a block. Default is 150.
-- `--k_const <int>`: Sets the number of bits in a message. Default is 100.
-- `--P_const <float>`: Defines the power of the nodes. Default is 0.002.
-- `--d_const <int>`: Distance between nodes. Default is 700.
-- `--N0_const <float>`: Noise power. Default is 1e-13.
-- `--fr_const <float>`: Frequency of the signal. Default is 6e9.
-- `--num_events <int>`: Sets the number of events to simulate. Default is 500.
-- `--numruns <int>`: Indicates the number of times the simulation will run. Default is 100.
+- `-f`, `--frequency`: Signal frequency in Hz (default: 5e9)
+- `-e`, `--num-events`: Number of events in a simulation run (default: 100)
+- `-r`, `--num-runs`: Number of simulation runs (default: 10)
+- `-s`, `--seed`: Seed for random number generator (random by default)
 
-### Variable Parameters
-- `--num_nodes_vals <List[int]>`: Varying values for the number of nodes.
-- `--active_prob_vals <List[float]>`: Varying values for the active probability.
-- `--n_vals <List[int]>`: Varying values for the block length.
-- `--k_vals <List[int]>`: Varying values for the update size.
-- `--P_vals <List[float]>`: Varying values for the power.
+### Node (or Source Node) Parameters
 
-### Simulation Control
-- `--quiet`: Suppresses table output.
-- `--plots`: Enables plot generation.
-- `--plots_folder <str>`: Specifies folder to save plots.
-- `--blockerror`: Show theoretical block error.
-- `--snr`: Show SNR.
-- `--csv_location <str>`: Location to save CSV file.
+- `--num-bits`: Total number of bits (default: 400)
+- `--info-bits`: Number of information bits (default: 350)
+- `--power`: Transmission power in Watts (default: 5e-3)
+- `--distance`: Distance between nodes in meters (default: 500)
+- `--N0`: Noise power in Watts (default: 1e-13)
+
+### Relay or Access Point Parameters
+
+These parameters are optional and default to the source node parameters if not specified:
+
+- `--num-bits-2`: Total number of bits in relay or access point
+- `--info-bits-2`: Number of information bits in relay or access point
+- `--power-2`: Transmission power in Watts in relay or access point
+- `--distance-2`: Distance between relay or access point and destination
+- `--N0-2`: Noise power in Watts in relay or access point
+
+### Output Options
+
+- `-t`, `--show-table`: Show table with results
+- `-o CSV_FILE`, `--save-csv CSV_FILE`: Save results to CSV file
+- `-p`, `--show-plot`: Show plot (only valid if exactly one parameter varies)
+- `--save-plot IMAGE_FILE`: Save plot to file (only valid if exactly one parameter varies)
+- `--debug {0,1,2}`: Level of debugging report if an error occurs (default: 0)
+- `--version`: Show program's version number and exit
+
+## Important Note on Plotting
+
+Plotting is only possible when exactly one parameter is varied. If multiple parameters are varied or only default values are used, the plot options will not work.
 
 ## Usage Examples
 
-Basic simulation with default parameters:
-```
-agenet
-```
-Run simulation with specific parameters and generate plots:
-```
-agenet --num_nodes_const 3 --active_prob_const 0.7 --n_const 100 --k_const 50 --P_const 0.05 --d_const 700 --N0_const 1e-13 --fr_const 6e9 --plots
-```
-Calculate theoretical block error rate for a given SNR:
+1. Run a simulation with default parameters and show the results table:
+   ```
+   agenet -t
+   ```
 
-```
-agenet --num_nodes_const 5 --active_prob_const 0.3 --n_const 100 --k_const 50 --P_const 0.002 --d_const 700 --N0_const 1e-13 --fr_const 6e9 --blockerror
-```
+2. Run a simulation with custom frequency and number of events, showing the results table:
+   ```
+   agenet -f 6e9 -e 200 -t
+   ```
 
-Calculate SNR for a given configuration:
+3. Run a simulation with multiple frequency values and save the results to a CSV file:
+   ```
+   agenet -f 5e9 6e9 7e9 -t -o results.csv
+   ```
 
-```
-agenet --num_nodes_const 5 --active_prob_const 0.3 --n_const 100 --k_const 50 --P_const 0.002 --d_const 700 --N0_const 1e-13 --fr_const 6e9 --sn
-```
-Generate plots for various network configurations:
-```
-agenet --num_nodes_const 5 --active_prob_const 0.3 --n_const 100 --k_const 50 --P_const 0.002 --d_const 700 --N0_const 1e-13 --fr_const 6e9 --plots --plots_folder ./output_plots
-```
-Run multiple simulations with different parameters and save results to CSV:
+4. Run a simulation varying only the distance, show the table and plot, and save the plot to a file:
+   ```
+   agenet --distance 100 200 300 400 500 -t -p --save-plot distance_vs_aaoi.png
+   ```
 
-```
-agenet --num_nodes_vals 3 4 5 --active_prob_vals 0.1 0.2 0.3 --n_vals 150 200 250 --k_vals 50 100 --P_vals 0.001 0.002 --csv_location ./results.csv
-```
+5. Run a simulation with custom parameters for both source and relay nodes, showing the results table:
+   ```
+   agenet --num-bits 500 --info-bits 400 --power 1e-2 --distance 600 --num-bits-2 450 --info-bits-2 350 --power-2 8e-3 --distance-2 400 -t
+   ```
+
+6. Run a simulation with high verbosity for debugging and show the results table:
+   ```
+   agenet --debug 2 -t
+   ```
+
+7. Run a simulation varying only the power, show the table and plot:
+   ```
+   agenet --power 1e-3 2e-3 3e-3 4e-3 5e-3 -t -p
+   ```
+
+Remember that you can combine multiple parameters and options as needed for your specific simulation requirements. However, if you want to use the plotting feature, ensure that you vary exactly one parameter. Always include the `-t` or `--show-table` option if you want to see the results displayed in the terminal.
