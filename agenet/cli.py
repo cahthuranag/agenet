@@ -12,6 +12,7 @@ from time import sleep
 import matplotlib.pyplot as plt
 from rich import box
 from rich.console import Console
+from rich.markdown import Markdown
 from rich.progress import Progress
 from rich_tools import df_to_table
 
@@ -230,51 +231,54 @@ def _main():
     # Event for signalling the simulation to stop
     stop_event = Event()
 
-    # Run the simulation within the context of a progress bar
-    with Progress() as progress:
-        task = progress.add_task("[white]Simulating...", total=total_steps)
-
-        with ThreadPoolExecutor(max_workers=1) as executor:
-
-            # Execute the simulation in a separate thread
-            future = executor.submit(
-                multi_param_ev_sim,
-                num_runs=args.num_runs,
-                frequency=args.frequency,
-                num_events=args.num_events,
-                num_bits=args.num_bits,
-                info_bits=args.info_bits,
-                power=args.power,
-                distance=args.distance,
-                N0=args.N0,
-                num_bits_2=args.num_bits_2,
-                info_bits_2=args.info_bits_2,
-                power_2=args.power_2,
-                distance_2=args.distance_2,
-                N0_2=args.N0_2,
-                seed=args.seed,
-                counter=counter,
-                stop_event=stop_event,
-            )
-
-            try:
-                # Update progress bar while the simulation is running
-                while not future.done():
-                    # Small delay to avoid excessive CPU usage
-                    sleep(0.1)
-                    # Update progress bar a little bit more
-                    progress.update(task, completed=counter.value)
-
-            except KeyboardInterrupt:
-                stop_event.set()
-                progress.stop()
-                err_console = Console(stderr=True)
-                err_console.print("[dark_orange bold]Simulation terminated by user!")
-
-            # Get the result after the task finishes
-            results = future.result()
-
     try:
+
+        # Run the simulation within the context of a progress bar
+        with Progress() as progress:
+            task = progress.add_task("[white]Simulating...", total=total_steps)
+
+            with ThreadPoolExecutor(max_workers=1) as executor:
+
+                # Execute the simulation in a separate thread
+                future = executor.submit(
+                    multi_param_ev_sim,
+                    num_runs=args.num_runs,
+                    frequency=args.frequency,
+                    num_events=args.num_events,
+                    num_bits=args.num_bits,
+                    info_bits=args.info_bits,
+                    power=args.power,
+                    distance=args.distance,
+                    N0=args.N0,
+                    num_bits_2=args.num_bits_2,
+                    info_bits_2=args.info_bits_2,
+                    power_2=args.power_2,
+                    distance_2=args.distance_2,
+                    N0_2=args.N0_2,
+                    seed=args.seed,
+                    counter=counter,
+                    stop_event=stop_event,
+                )
+
+                try:
+                    # Update progress bar while the simulation is running
+                    while not future.done():
+                        # Small delay to avoid excessive CPU usage
+                        sleep(0.1)
+                        # Update progress bar a little bit more
+                        progress.update(task, completed=counter.value)
+
+                except KeyboardInterrupt:
+                    stop_event.set()
+                    progress.stop()
+                    err_console = Console(stderr=True)
+                    err_console.print(
+                        "[dark_orange bold]Simulation terminated by user!"
+                    )
+
+                # Get the result after the task finishes
+                results, param_error_log = future.result()
+
         # Process output options
         if args.show_table:
 
@@ -282,6 +286,11 @@ def _main():
             table.row_styles = ["none", "dim"]
             table.box = box.SIMPLE_HEAD
             console.print(table)
+
+        if len(param_error_log) > 0:
+            pel_str = "\n".join(["- " + s for s in param_error_log])
+            errors_to_render = Markdown(pel_str)
+            console.print(errors_to_render)
 
         if args.save_csv:
             results.to_csv(args.save_csv, index=False)

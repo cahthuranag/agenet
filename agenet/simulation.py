@@ -74,6 +74,12 @@ class _SimParams(NamedTuple):
     """Pseudo-random number generator to use for the simulation."""
 
 
+class _SimParamError(ValueError):
+    """Thrown when a simulation parameter or parameter combination is invalid."""
+
+    pass
+
+
 def _param_parse_and_check(
     frequency: float,
     num_events: int,
@@ -112,23 +118,23 @@ def _param_parse_and_check(
 
     # Input validation
     if frequency <= 0:
-        raise ValueError("`frequency` must be greater than 0")
+        raise _SimParamError("`frequency` must be greater than 0")
     if num_events <= 0:
-        raise ValueError("`num_events` must be greater than 0")
+        raise _SimParamError("`num_events` must be greater than 0")
     if num_bits <= 0 or num_bits_2 <= 0:
-        raise ValueError("`num_bits` and `num_bits_2` must be greater than 0")
+        raise _SimParamError("`num_bits` and `num_bits_2` must be greater than 0")
     if info_bits <= 0 or info_bits <= 0:
-        raise ValueError("`info_bits` and `info_bits_2` must be greater than 0")
+        raise _SimParamError("`info_bits` and `info_bits_2` must be greater than 0")
     if info_bits > num_bits or info_bits_2 > num_bits_2:
-        raise ValueError("`info_bits` must be less than or equal to `num_bits`")
+        raise _SimParamError("`info_bits` must be less than or equal to `num_bits`")
     if power <= 0 or power_2 <= 0:
-        raise ValueError("`power` and `power_2` must be greater than 0")
+        raise _SimParamError("`power` and `power_2` must be greater than 0")
     if N0 <= 0 or N0_2 <= 0:
-        raise ValueError("`N0` and `N0_2` must be greater than 0")
+        raise _SimParamError("`N0` and `N0_2` must be greater than 0")
 
     # Check that num_bits_2 >= num_bits_1
     if num_bits < num_bits_2:
-        raise ValueError("`num_bits_2` must be equal or greater than `num_bits`")
+        raise _SimParamError("`num_bits_2` must be equal or greater than `num_bits`")
 
     # Initialize PCG64DXSM generator
     rng = Generator(PCG64DXSM(seed))
@@ -457,7 +463,7 @@ def multi_param_ev_sim(
     seed: int | np.signedinteger | None = None,
     counter: Synchronized[int] | None = None,
     stop_event: Event | None = None,
-) -> pd.DataFrame:
+) -> tuple[pd.DataFrame, Sequence[str]]:
     """Run the simulation for multiple parameters and return the results.
 
     Args:
@@ -488,11 +494,14 @@ def multi_param_ev_sim(
         thread.
 
     Returns:
-      A DataFrame containing the results of the simulation.
+      A tuple containing a DataFrame with the results of the simulation and the
+      log highlighting invalid parameters or parameter combinations.
     """
     rng = Generator(Philox(seed))
 
     results = []
+
+    param_error_log = []
 
     # Define the named tuple
     ParamCombo = namedtuple(
@@ -538,29 +547,36 @@ def multi_param_ev_sim(
     # Perform `num_runs` simulations for each parameter combo and get the
     # expected value of the AAoI for each combination
     for combo, seed in zip(combos, seeds):
-        (
-            aaoi_th,
-            aaoi_sim,
-            snr1_avg,
-            snr2_avg,
-            blkerr1_th,
-            blkerr2_th,
-        ) = ev_sim(
-            num_runs=num_runs,
-            frequency=combo.frequency,
-            num_events=combo.num_events,
-            num_bits=combo.num_bits,
-            info_bits=combo.info_bits,
-            power=combo.power,
-            distance=combo.distance,
-            N0=combo.N0,
-            num_bits_2=combo.num_bits_2,
-            info_bits_2=combo.info_bits_2,
-            power_2=combo.power_2,
-            distance_2=combo.distance_2,
-            N0_2=combo.N0_2,
-            seed=seed,
-        )
+
+        try:
+            (
+                aaoi_th,
+                aaoi_sim,
+                snr1_avg,
+                snr2_avg,
+                blkerr1_th,
+                blkerr2_th,
+            ) = ev_sim(
+                num_runs=num_runs,
+                frequency=combo.frequency,
+                num_events=combo.num_events,
+                num_bits=combo.num_bits,
+                info_bits=combo.info_bits,
+                power=combo.power,
+                distance=combo.distance,
+                N0=combo.N0,
+                num_bits_2=combo.num_bits_2,
+                info_bits_2=combo.info_bits_2,
+                power_2=combo.power_2,
+                distance_2=combo.distance_2,
+                N0_2=combo.N0_2,
+                seed=seed,
+            )
+        except _SimParamError as spe:
+            # In case of invalid parameters or parameter combinations, log the
+            # error and proceed to the next combination
+            param_error_log.append(str(spe))
+            continue
 
         results.append(
             {
@@ -594,6 +610,6 @@ def multi_param_ev_sim(
         if counter is not None:
             counter.value += 1
         if stop_event is not None and stop_event.is_set():
-            return pd.DataFrame(results)
+            return pd.DataFrame(results), param_error_log
 
-    return pd.DataFrame(results)
+    return pd.DataFrame(results), param_error_log
