@@ -2,7 +2,7 @@
 
 import pytest
 
-from agenet import snr, snr_av
+from agenet import snr, snr_avg
 
 
 def test_snr():
@@ -57,7 +57,7 @@ def test_snr_av():
     d = 1000
     P = 1 * (10**-3)
     fr = 6 * (10**9)
-    result = snr_av(N0, d, P, fr)
+    result = snr_avg(N0, d, P, fr)
     assert isinstance(result, float)
     assert result >= 0
 
@@ -68,8 +68,8 @@ def test_snr_av_deterministic():
     d = 1000
     P = 1 * (10**-3)
     fr = 6 * (10**9)
-    result1 = snr_av(N0, d, P, fr)
-    result2 = snr_av(N0, d, P, fr)
+    result1 = snr_avg(N0, d, P, fr)
+    result2 = snr_avg(N0, d, P, fr)
     assert result1 == result2
 
 
@@ -98,7 +98,7 @@ def test_snr_multiple_inputs(N0, d, P, fr):
 )
 def test_snr_av_multiple_inputs(N0, d, P, fr):
     """Test snr_av function with multiple input combinations."""
-    result = snr_av(N0, d, P, fr)
+    result = snr_avg(N0, d, P, fr)
     assert isinstance(result, float)
     assert result >= 0
 

@@ -1,23 +1,24 @@
 """Signal-to-noise ratio (SNR) calculator."""
 
+from __future__ import annotations
+
 import math
-from typing import Optional
 
 import numpy as np
 
 
-def snr(N0: float, d: float, P: float, fr: float, seed: Optional[int] = None) -> float:
+def snr(N0: float, d: float, P: float, fr: float, seed: int | None = None) -> float:
     """Computes the instantaneous SNR of the received signal.
 
     Args:
-        N0: The power spectral density of the noise.
-        d: The distance between the transmitter and receiver.
-        P: The power of the transmitted signal.
-        fr: The frequency of the signal.
-        seed: Seed for the random number generator (optional).
+      N0: The power spectral density of the noise.
+      d: The distance between the transmitter and receiver.
+      P: The power of the transmitted signal.
+      fr: The frequency of the signal.
+      seed: Seed for the random number generator (optional).
 
     Returns:
-        The instantaneous SNR of the received signal in linear scale.
+      The instantaneous SNR of the received signal in linear scale.
     """
     rng = np.random.default_rng(seed)
 
@@ -35,7 +36,7 @@ def snr(N0: float, d: float, P: float, fr: float, seed: Optional[int] = None) ->
     return snr
 
 
-def snr_av(N0: float, d: float, P: float, fr: float) -> float:
+def snr_avg(N0: float, d: float, P: float, fr: float) -> float:
     """Computes the average SNR of the received signal.
 
     Args:

@@ -16,7 +16,7 @@ from numpy.random import PCG64DXSM, Generator, Philox
 
 from .aaoi import aaoi_fn
 from .blkerr import block_error, block_error_th
-from .snratio import snr, snr_av
+from .snratio import snr, snr_avg
 
 
 class _SimParams(NamedTuple):
@@ -154,8 +154,8 @@ def _param_validate(
     rng = Generator(PCG64DXSM(seed))
 
     # Determine the average SNR for the two nodes
-    snr1_avg = snr_av(N0, distance, power, frequency)
-    snr2_avg = snr_av(N0_2, distance_2, power_2, frequency)
+    snr1_avg = snr_avg(N0, distance, power, frequency)
+    snr2_avg = snr_avg(N0_2, distance_2, power_2, frequency)
 
     # Block error rate for the relay or access point at the destination
     # TODO: Check above comment for correctness
