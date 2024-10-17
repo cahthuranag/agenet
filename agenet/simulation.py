@@ -206,11 +206,9 @@ def _sim(
 ) -> tuple[float, float]:
     """Low-level function for simulating a communication system and obtaining the AAoI.
 
-    Args:
-      TODO
-
-    Returns:
-       TODO
+    This function assumes that all parameters are valid correct, and requires a
+    previously instantiated pseudo-random number generator. It's used internally
+    by `sim()` and `ev_sim()`.
     """
     # symbol time
     symbol_time = 60e-6
@@ -299,19 +297,24 @@ def sim(
     """Simulates a communication system and calculates the AAoI.
 
     Args:
-      num_bits: Number of bits in a block ($n$).
-      info_bits: Number of bits in a message ($k$).
-      power: Transmission power in Watts ($P$).
-      distance: Distance between nodes ($d$).
-      N0: Noise power in Watts.
       frequency: Signal frequency in Hertz.
       num_events: Number of events to simulate.
+      num_bits: Number of bits in a block.
+      info_bits: Number of bits in a message.
+      power: Transmission power in Watts.
+      distance: Distance between nodes.
+      N0: Noise power in Watts.
+      num_bits_2: Number of bits in a block at relay or access point.
+      info_bits_2: Number of bits in a message at relay or access point.
+      power_2: Transmission power in Watts at relay or access point.
+      distance_2: Distance between relay or access point and the destination.
+      N0_2: Noise power in Watts at relay or access point.
       seed: Seed for the random number generator (optional).
 
     Returns:
        A tuple containing: theoretical AAoI, simulation AAoI, theoretical SNR at
-       source node, theoretical SNR at relay or access point, theoretical block
-       error at source node, theoretical SNR at relay or access point.
+         source node, theoretical SNR at relay or access point, theoretical block
+         error at source node, theoretical SNR at relay or access point.
     """
     # Parse params and get an object of validated simulation parameters
     params = _param_validate(
@@ -375,14 +378,19 @@ def ev_sim(
     """Run the simulation `num_runs` times and return the AAoI expected value.
 
     Args:
+      num_runs: Number of times to run the simulation.
+      frequency: Signal frequency in Hertz.
+      num_events: Number of events to simulate.
       num_bits: Number of bits in a block.
       info_bits: Number of bits in a message.
-      power: Power of the nodes.
+      power: Transmission power in Watts.
       distance: Distance between nodes.
-      N0: Noise power.
-      frequency: Signal frequency in Hertz.
-      num_events: Number of events.
-      num_runs: Number of times to run the simulation.
+      N0: Noise power in Watts.
+      num_bits_2: Number of bits in a block at relay or access point.
+      info_bits_2: Number of bits in a message at relay or access point.
+      power_2: Transmission power in Watts at relay or access point.
+      distance_2: Distance between relay or access point and the destination.
+      N0_2: Noise power in Watts at relay or access point.
       seed: Seed for the random number generator (optional).
 
     Returns:
@@ -508,7 +516,7 @@ def multi_param_ev_sim(
         thread.
 
     Returns:
-      A tuple containing a DataFrame with the results of the simulation and the
+      A tuple containing a DataFrame with the results of the simulation and a
       log highlighting invalid parameters or parameter combinations.
     """
     rng = Generator(Philox(seed))
