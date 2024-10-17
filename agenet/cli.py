@@ -337,7 +337,7 @@ def _main() -> None:
                 ax.plot(results_sorted[aoi_vs_param[0]], aaoi_sim, label="Simulation")
                 ax.set_xlabel(aoi_vs_param[1])
                 ax.set_ylabel("AAoI")
-                ax.set_ylim([0, max(aaoi_theory.max(), aaoi_sim.max()) * 1.05])
+                ax.set_ylim([0, max([aaoi_theory.max(), aaoi_sim.max()]) * 1.05])
                 ax.legend()
                 if len(args.save_plot) > 0:
                     fig.savefig(args.save_plot)
