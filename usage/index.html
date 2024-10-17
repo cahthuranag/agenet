@@ -78,7 +78,7 @@
     <div data-md-component="skip">
       
         
-        <a href="#usage" class="md-skip">
+        <a href="#agenet-command-line-interface-usage-guide" class="md-skip">
           Skip to content
         </a>
       
@@ -361,37 +361,55 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
-  <a href="#how-to-use-agenet-module" class="md-nav__link">
+  <a href="#basic-usage" class="md-nav__link">
     <span class="md-ellipsis">
-      How to use agenet module
+      Basic Usage
     </span>
   </a>
   
-    <nav class="md-nav" aria-label="How to use agenet module">
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#simulation-parameters" class="md-nav__link">
+    <span class="md-ellipsis">
+      Simulation Parameters
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Simulation Parameters">
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
-  <a href="#description-of-the-simulation-parameters" class="md-nav__link">
+  <a href="#general-simulation-parameters" class="md-nav__link">
     <span class="md-ellipsis">
-      Description of the Simulation Parameters
+      General Simulation Parameters
     </span>
   </a>
   
 </li>
         
           <li class="md-nav__item">
-  <a href="#variable-parameters" class="md-nav__link">
+  <a href="#node-or-source-node-parameters" class="md-nav__link">
     <span class="md-ellipsis">
-      Variable Parameters
+      Node (or Source Node) Parameters
     </span>
   </a>
   
 </li>
         
           <li class="md-nav__item">
-  <a href="#simulation-control" class="md-nav__link">
+  <a href="#relay-or-access-point-parameters" class="md-nav__link">
     <span class="md-ellipsis">
-      Simulation Control
+      Relay or Access Point Parameters
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#output-options" class="md-nav__link">
+    <span class="md-ellipsis">
+      Output Options
     </span>
   </a>
   
@@ -399,6 +417,15 @@
         
       </ul>
     </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#important-note-on-plotting" class="md-nav__link">
+    <span class="md-ellipsis">
+      Important Note on Plotting
+    </span>
+  </a>
   
 </li>
       
@@ -457,61 +484,81 @@
   
 
 
-<h1 id="usage">Usage</h1>
-<p>After installing the package, to run the script on your terminal simply run the following command.
-To run a simulation with default parameters, the user can use a provided command. The simulation can generate both theoretical and simulated values for various factors such as block lengths, power allocations, packet sizes, activation probabilities, and number of nodes in the network. These values can be presented in the form of tables using following command.</p>
+<h1 id="agenet-command-line-interface-usage-guide">Agenet Command-Line Interface Usage Guide</h1>
+<p>After installing the AgeNet package, you can run simulations using the <code>agenet</code> command in your terminal. Here's how to use it:</p>
+<h2 id="basic-usage">Basic Usage</h2>
+<p>To run a simulation with default parameters:</p>
 <pre><code>agenet
 </code></pre>
-<h2 id="how-to-use-agenet-module">How to use agenet module</h2>
-<h3 id="description-of-the-simulation-parameters">Description of the Simulation Parameters</h3>
+<p>Note: This command will run the simulation but won't display results by default.</p>
+<h2 id="simulation-parameters">Simulation Parameters</h2>
+<h3 id="general-simulation-parameters">General Simulation Parameters</h3>
 <ul>
-<li><code>--num_nodes_const &lt;int&gt;</code>: Specifies the number of nodes in the network. Default is 2.</li>
-<li><code>--active_prob_const &lt;float&gt;</code>: Sets the probability that a node is active in a given time slot. Default is 0.5.</li>
-<li><code>--n_const &lt;int&gt;</code>: Determines the number of bits in a block. Default is 150.</li>
-<li><code>--k_const &lt;int&gt;</code>: Sets the number of bits in a message. Default is 100.</li>
-<li><code>--P_const &lt;float&gt;</code>: Defines the power of the nodes. Default is 0.002.</li>
-<li><code>--d_const &lt;int&gt;</code>: Distance between nodes. Default is 700.</li>
-<li><code>--N0_const &lt;float&gt;</code>: Noise power. Default is 1e-13.</li>
-<li><code>--fr_const &lt;float&gt;</code>: Frequency of the signal. Default is 6e9.</li>
-<li><code>--num_events &lt;int&gt;</code>: Sets the number of events to simulate. Default is 500.</li>
-<li><code>--numruns &lt;int&gt;</code>: Indicates the number of times the simulation will run. Default is 100.</li>
+<li><code>-f</code>, <code>--frequency</code>: Signal frequency in Hz (default: 5e9)</li>
+<li><code>-e</code>, <code>--num-events</code>: Number of events in a simulation run (default: 100)</li>
+<li><code>-r</code>, <code>--num-runs</code>: Number of simulation runs (default: 10)</li>
+<li><code>-s</code>, <code>--seed</code>: Seed for random number generator (random by default)</li>
 </ul>
-<h3 id="variable-parameters">Variable Parameters</h3>
+<h3 id="node-or-source-node-parameters">Node (or Source Node) Parameters</h3>
 <ul>
-<li><code>--num_nodes_vals &lt;List[int]&gt;</code>: Varying values for the number of nodes.</li>
-<li><code>--active_prob_vals &lt;List[float]&gt;</code>: Varying values for the active probability.</li>
-<li><code>--n_vals &lt;List[int]&gt;</code>: Varying values for the block length.</li>
-<li><code>--k_vals &lt;List[int]&gt;</code>: Varying values for the update size.</li>
-<li><code>--P_vals &lt;List[float]&gt;</code>: Varying values for the power.</li>
+<li><code>--num-bits</code>: Total number of bits (default: 400)</li>
+<li><code>--info-bits</code>: Number of information bits (default: 350)</li>
+<li><code>--power</code>: Transmission power in Watts (default: 5e-3)</li>
+<li><code>--distance</code>: Distance between nodes in meters (default: 500)</li>
+<li><code>--N0</code>: Noise power in Watts (default: 1e-13)</li>
 </ul>
-<h3 id="simulation-control">Simulation Control</h3>
+<h3 id="relay-or-access-point-parameters">Relay or Access Point Parameters</h3>
+<p>These parameters are optional and default to the source node parameters if not specified:</p>
 <ul>
-<li><code>--quiet</code>: Suppresses table output.</li>
-<li><code>--plots</code>: Enables plot generation.</li>
-<li><code>--plots_folder &lt;str&gt;</code>: Specifies folder to save plots.</li>
-<li><code>--blockerror</code>: Show theoretical block error.</li>
-<li><code>--snr</code>: Show SNR.</li>
-<li><code>--csv_location &lt;str&gt;</code>: Location to save CSV file.</li>
+<li><code>--num-bits-2</code>: Total number of bits in relay or access point</li>
+<li><code>--info-bits-2</code>: Number of information bits in relay or access point</li>
+<li><code>--power-2</code>: Transmission power in Watts in relay or access point</li>
+<li><code>--distance-2</code>: Distance between relay or access point and destination</li>
+<li><code>--N0-2</code>: Noise power in Watts in relay or access point</li>
 </ul>
+<h3 id="output-options">Output Options</h3>
+<ul>
+<li><code>-t</code>, <code>--show-table</code>: Show table with results</li>
+<li><code>-o CSV_FILE</code>, <code>--save-csv CSV_FILE</code>: Save results to CSV file</li>
+<li><code>-p</code>, <code>--show-plot</code>: Show plot (only valid if exactly one parameter varies)</li>
+<li><code>--save-plot IMAGE_FILE</code>: Save plot to file (only valid if exactly one parameter varies)</li>
+<li><code>--debug {0,1,2}</code>: Level of debugging report if an error occurs (default: 0)</li>
+<li><code>--version</code>: Show program's version number and exit</li>
+</ul>
+<h2 id="important-note-on-plotting">Important Note on Plotting</h2>
+<p>Plotting is only possible when exactly one parameter is varied. If multiple parameters are varied or only default values are used, the plot options will not work.</p>
 <h2 id="usage-examples">Usage Examples</h2>
-<p>Basic simulation with default parameters:</p>
-<pre><code>agenet
-</code></pre>
-<p>Run simulation with specific parameters and generate plots:</p>
-<pre><code>agenet --num_nodes_const 3 --active_prob_const 0.7 --n_const 100 --k_const 50 --P_const 0.05 --d_const 700 --N0_const 1e-13 --fr_const 6e9 --plots
-</code></pre>
-<p>Calculate theoretical block error rate for a given SNR:</p>
-<pre><code>agenet --num_nodes_const 5 --active_prob_const 0.3 --n_const 100 --k_const 50 --P_const 0.002 --d_const 700 --N0_const 1e-13 --fr_const 6e9 --blockerror
-</code></pre>
-<p>Calculate SNR for a given configuration:</p>
-<pre><code>agenet --num_nodes_const 5 --active_prob_const 0.3 --n_const 100 --k_const 50 --P_const 0.002 --d_const 700 --N0_const 1e-13 --fr_const 6e9 --sn
-</code></pre>
-<p>Generate plots for various network configurations:</p>
-<pre><code>agenet --num_nodes_const 5 --active_prob_const 0.3 --n_const 100 --k_const 50 --P_const 0.002 --d_const 700 --N0_const 1e-13 --fr_const 6e9 --plots --plots_folder ./output_plots
-</code></pre>
-<p>Run multiple simulations with different parameters and save results to CSV:</p>
-<pre><code>agenet --num_nodes_vals 3 4 5 --active_prob_vals 0.1 0.2 0.3 --n_vals 150 200 250 --k_vals 50 100 --P_vals 0.001 0.002 --csv_location ./results.csv
-</code></pre>
+<ol>
+<li>
+<p>Run a simulation with default parameters and show the results table:
+   <code>agenet -t</code></p>
+</li>
+<li>
+<p>Run a simulation with custom frequency and number of events, showing the results table:
+   <code>agenet -f 6e9 -e 200 -t</code></p>
+</li>
+<li>
+<p>Run a simulation with multiple frequency values and save the results to a CSV file:
+   <code>agenet -f 5e9 6e9 7e9 -t -o results.csv</code></p>
+</li>
+<li>
+<p>Run a simulation varying only the distance, show the table and plot, and save the plot to a file:
+   <code>agenet --distance 100 200 300 400 500 -t -p --save-plot distance_vs_aaoi.png</code></p>
+</li>
+<li>
+<p>Run a simulation with custom parameters for both source and relay nodes, showing the results table:
+   <code>agenet --num-bits 500 --info-bits 400 --power 1e-2 --distance 600 --num-bits-2 450 --info-bits-2 350 --power-2 8e-3 --distance-2 400 -t</code></p>
+</li>
+<li>
+<p>Run a simulation with high verbosity for debugging and show the results table:
+   <code>agenet --debug 2 -t</code></p>
+</li>
+<li>
+<p>Run a simulation varying only the power, show the table and plot:
+   <code>agenet --power 1e-3 2e-3 3e-3 4e-3 5e-3 -t -p</code></p>
+</li>
+</ol>
+<p>Remember that you can combine multiple parameters and options as needed for your specific simulation requirements. However, if you want to use the plotting feature, ensure that you vary exactly one parameter. Always include the <code>-t</code> or <code>--show-table</code> option if you want to see the results displayed in the terminal.</p>
 
 
 
