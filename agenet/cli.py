@@ -127,35 +127,35 @@ def _main():
         "--num-bits-2",
         type=int,
         nargs="*",
-        default=None,
+        default=[None],
         help="Total number of bits in relay or access point (defaults to --num-bits)",
     )
     node2_group.add_argument(
         "--info-bits-2",
         type=int,
         nargs="*",
-        default=None,
+        default=[None],
         help="Number of information bits in relay or access point (defaults to --info-bits)",
     )
     node2_group.add_argument(
         "--power-2",
         type=float,
         nargs="*",
-        default=None,
+        default=[None],
         help="Transmission power in Watts in relay or access point (defaults to --power)",
     )
     node2_group.add_argument(
         "--distance-2",
         type=float,
         nargs="*",
-        default=None,
+        default=[None],
         help="Distance between relay or access point and destination (defaults to --distance)",
     )
     node2_group.add_argument(
         "--N0-2",
         type=float,
         nargs="*",
-        default=None,
+        default=[None],
         help="Noise power in Watts in relay or access point (defaults to --N0)",
     )
 
@@ -216,11 +216,11 @@ def _main():
         * len(args.power)
         * len(args.distance)
         * len(args.N0)
-        * (1 if args.num_bits_2 is None else len(args.num_bits_2))
-        * (1 if args.info_bits_2 is None else len(args.info_bits_2))
-        * (1 if args.power_2 is None else len(args.power_2))
-        * (1 if args.distance_2 is None else len(args.distance_2))
-        * (1 if args.distance_2 is None else len(args.distance_2))
+        * len(args.num_bits_2)
+        * len(args.info_bits_2)
+        * len(args.power_2)
+        * len(args.distance_2)
+        * len(args.N0_2)
     )
 
     # Create a shared counter for keeping tabs on the simulation progress

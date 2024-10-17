@@ -2,6 +2,8 @@
 
 from __future__ import annotations
 
+import itertools
+from collections import namedtuple
 from collections.abc import Sequence
 from multiprocessing.sharedctypes import Synchronized
 from threading import Event
@@ -447,11 +449,11 @@ def multi_param_ev_sim(
     power: Sequence[float],
     distance: Sequence[float],
     N0: Sequence[float],
-    num_bits_2: Sequence[int] | None = None,
-    info_bits_2: Sequence[int] | None = None,
-    power_2: Sequence[float] | None = None,
-    distance_2: Sequence[float] | None = None,
-    N0_2: Sequence[float] | None = None,
+    num_bits_2: Sequence[int | None] = [None],
+    info_bits_2: Sequence[int | None] = [None],
+    power_2: Sequence[float | None] = [None],
+    distance_2: Sequence[float | None] = [None],
+    N0_2: Sequence[float | None] = [None],
     seed: int | np.signedinteger | None = None,
     counter: Synchronized[int] | None = None,
     stop_event: Event | None = None,
@@ -492,57 +494,106 @@ def multi_param_ev_sim(
 
     results = []
 
-    for d_val in distance:
-        for N0_val in N0:
-            for fr_val in frequency:
-                for num_events_val in num_events:
-                    for n_val in num_bits:
-                        for k_val in info_bits:
-                            for P_val in power:
-                                seed_for_param_combo = rng.integers(
-                                    np.iinfo(np.int64).max, dtype=np.int64
-                                )
+    # Define the named tuple
+    ParamCombo = namedtuple(
+        "ParamCombo",
+        [
+            "frequency",
+            "num_events",
+            "num_bits",
+            "info_bits",
+            "power",
+            "distance",
+            "N0",
+            "num_bits_2",
+            "info_bits_2",
+            "power_2",
+            "distance_2",
+            "N0_2",
+        ],
+    )
 
-                                (
-                                    aaoi_th,
-                                    aaoi_sim,
-                                    snr1_avg,
-                                    snr2_avg,
-                                    blkerr1_th,
-                                    blkerr2_th,
-                                ) = ev_sim(
-                                    num_runs,
-                                    fr_val,
-                                    num_events_val,
-                                    n_val,
-                                    k_val,
-                                    P_val,
-                                    d_val,
-                                    N0_val,
-                                    seed=seed_for_param_combo,
-                                )
+    # Get all combinations and create a parameter combo for each combination
+    combos = [
+        ParamCombo(f, e, n1, k1, p1, d1, n01, n2, k2, p2, d2, n02)
+        for f, e, n1, k1, p1, d1, n01, n2, k2, p2, d2, n02 in itertools.product(
+            frequency,
+            num_events,
+            num_bits,
+            info_bits,
+            power,
+            distance,
+            N0,
+            num_bits_2,
+            info_bits_2,
+            power_2,
+            distance_2,
+            N0_2,
+        )
+    ]
 
-                                results.append(
-                                    {
-                                        "frequency": fr_val,
-                                        "num_events": num_events_val,
-                                        "distance": d_val,
-                                        "N0": N0_val,
-                                        "num_bits": n_val,
-                                        "info_bits": k_val,
-                                        "power": P_val,
-                                        "aaoi_theory": aaoi_th,
-                                        "aaoi_sim": aaoi_sim,
-                                        "snr1_avg": snr1_avg,
-                                        "snr2_avg": snr2_avg,
-                                        "blkerr1_th": blkerr1_th,
-                                        "blkerr2_th": blkerr2_th,
-                                    }
-                                )
+    # Obtain PRNG seeds for each combo
+    seeds = rng.integers(np.iinfo(np.int64).max, size=len(combos), dtype=np.int64)
 
-                                if counter is not None:
-                                    counter.value += 1
-                                if stop_event is not None and stop_event.is_set():
-                                    return pd.DataFrame(results)
+    # Perform `num_runs` simulations for each parameter combo and get the
+    # expected value of the AAoI for each combination
+    for combo, seed in zip(combos, seeds):
+        (
+            aaoi_th,
+            aaoi_sim,
+            snr1_avg,
+            snr2_avg,
+            blkerr1_th,
+            blkerr2_th,
+        ) = ev_sim(
+            num_runs=num_runs,
+            frequency=combo.frequency,
+            num_events=combo.num_events,
+            num_bits=combo.num_bits,
+            info_bits=combo.info_bits,
+            power=combo.power,
+            distance=combo.distance,
+            N0=combo.N0,
+            num_bits_2=combo.num_bits_2,
+            info_bits_2=combo.info_bits_2,
+            power_2=combo.power_2,
+            distance_2=combo.distance_2,
+            N0_2=combo.N0_2,
+            seed=seed,
+        )
+
+        results.append(
+            {
+                "frequency": combo.frequency,
+                "num_events": combo.num_events,
+                "num_bits": combo.num_bits,
+                "info_bits": combo.info_bits,
+                "power": combo.power,
+                "distance": combo.distance,
+                "N0": combo.N0,
+                "num_bits_2": (
+                    combo.num_bits if combo.num_bits_2 is None else combo.num_bits_2
+                ),
+                "info_bits_2": (
+                    combo.info_bits if combo.info_bits_2 is None else combo.info_bits_2
+                ),
+                "power_2": combo.power if combo.power_2 is None else combo.power_2,
+                "distance_2": (
+                    combo.distance if combo.distance_2 is None else combo.distance_2
+                ),
+                "N0_2": combo.N0 if combo.N0_2 is None else combo.N0_2,
+                "aaoi_theory": aaoi_th,
+                "aaoi_sim": aaoi_sim,
+                "snr1_avg": snr1_avg,
+                "snr2_avg": snr2_avg,
+                "blkerr1_th": blkerr1_th,
+                "blkerr2_th": blkerr2_th,
+            }
+        )
+
+        if counter is not None:
+            counter.value += 1
+        if stop_event is not None and stop_event.is_set():
+            return pd.DataFrame(results)
 
     return pd.DataFrame(results)
