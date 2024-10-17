@@ -80,7 +80,7 @@ class _SimParamError(ValueError):
     pass
 
 
-def _param_parse_and_check(
+def _param_validate(
     frequency: float,
     num_events: int,
     num_bits: int,
@@ -314,7 +314,7 @@ def sim(
        error at source node, theoretical SNR at relay or access point.
     """
     # Parse params and get an object of validated simulation parameters
-    params = _param_parse_and_check(
+    params = _param_validate(
         frequency=frequency,
         num_events=num_events,
         num_bits=num_bits,
@@ -390,7 +390,7 @@ def ev_sim(
         simulation AAoI.
     """
     # Parse params and get an object of validated simulation parameters
-    params = _param_parse_and_check(
+    params = _param_validate(
         frequency=frequency,
         num_events=num_events,
         num_bits=num_bits,
