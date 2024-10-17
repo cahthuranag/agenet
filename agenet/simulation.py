@@ -234,8 +234,8 @@ def _sim(
     for i in range(0, num_events):
 
         # SNR for the source nodes at the relay or access point
-        snr1 = snr(N0_1, distance_1, power_1, frequency, seed=rng.integers(0, 2**32))
-        snr2 = snr(N0_2, distance_2, power_2, frequency, seed=rng.integers(0, 2**32))
+        snr1 = snr(N0_1, distance_1, power_1, frequency, seed=rng)
+        snr2 = snr(N0_2, distance_2, power_2, frequency, seed=rng)
 
         # block error rate for the source nodes at the relay or access point
         er1 = block_error(snr1, num_bits_1, info_bits_1)

@@ -3,11 +3,15 @@
 from __future__ import annotations
 
 import math
+from typing import cast
 
 import numpy as np
+from numpy.random import Generator
 
 
-def snr(N0: float, d: float, P: float, fr: float, seed: int | None = None) -> float:
+def snr(
+    N0: float, d: float, P: float, fr: float, seed: int | Generator | None = None
+) -> float:
     """Computes the instantaneous SNR of the received signal.
 
     Args:
@@ -15,12 +19,16 @@ def snr(N0: float, d: float, P: float, fr: float, seed: int | None = None) -> fl
       d: The distance between the transmitter and receiver.
       P: The power of the transmitted signal.
       fr: The frequency of the signal.
-      seed: Seed for the random number generator (optional).
+      seed: Seed for the random number generator or a previously instantied
+        random number generator (optional).
 
     Returns:
       The instantaneous SNR of the received signal in linear scale.
     """
-    rng = np.random.default_rng(seed)
+    if isinstance(seed, Generator):
+        rng = cast(Generator, seed)
+    else:
+        rng = Generator(np.random.SFC64(seed))
 
     # Calculate large-scale gain using _alpha function
     alpha = _alpha(d, fr)
