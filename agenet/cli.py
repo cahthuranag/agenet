@@ -303,13 +303,22 @@ def _main():
             aoi_vs_param: tuple[str, str, list[float | int]]
             num_var_params = 0
             for param_info in [
-                ("distance", "Distance (m)", args.distance),
-                ("N0", "N0 - Noise power (W)", args.N0),
                 ("frequency", "Frequency (Hz)", args.frequency),
                 ("num_events", "Number of events", args.num_events),
-                ("num_bits", "n - Number of bits", args.num_bits),
-                ("info_bits", "k - Information bits", args.info_bits),
-                ("power", "P - Transmission power (W)", args.power),
+                ("num_bits", "Number of bits", args.num_bits),
+                ("info_bits", "Information bits", args.info_bits),
+                ("power", "Transmission power (W)", args.power),
+                ("distance", "Distance (m)", args.distance),
+                ("N0", "N0 - Noise power (W)", args.N0),
+                ("num_bits_2", "Number of bits at relay/AP", args.num_bits_2),
+                ("info_bits_2", "Information bits at relay/AP", args.info_bits_2),
+                ("power_2", "Transmission power at relay/AP (W)", args.power_2),
+                (
+                    "distance_2",
+                    "Distance from relay/AP to destination (m)",
+                    args.distance_2,
+                ),
+                ("N0_2", "N0 - Noise power at relay/AP (W)", args.N0_2),
             ]:
 
                 if len(param_info[2]) > 1:
@@ -343,7 +352,7 @@ def _main():
         stop_event.set()
         err_console = Console(stderr=True)
         if args.debug == "0":
-            err_console.print(e)
+            err_console.print(f"[red bold]{e}")
         elif args.debug == "1":
             err_console.print_exception()
         else:
