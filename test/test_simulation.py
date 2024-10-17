@@ -1,5 +1,7 @@
 """This file contains the test cases for the maincom.py file."""
 
+import re
+
 import pytest
 
 from agenet import ev_sim, sim
@@ -139,57 +141,52 @@ def test_simulation_edge_cases():
 
 def test_simulation_error_handling():
     """Test that the simulation function handles potential errors gracefully."""
+    nbits = 0
     with pytest.raises(
-        ValueError, match="`num_bits` and `num_bits_2` must be greater than 0"
+        ValueError,
+        match=re.escape(
+            f"`num_bits` ({nbits}) and `num_bits_2` ({nbits}) must be greater than 0"
+        ),
     ):
-        sim(6 * (10**9), 1000, 0, 50, 10**-3, 700, 1 * (10**-13), seed=42)
+        sim(6 * (10**9), 1000, nbits, 50, 10**-3, 700, 1 * (10**-13), seed=42)
 
+    kbits = 0
     with pytest.raises(
-        ValueError, match="`info_bits` and `info_bits_2` must be greater than 0"
+        ValueError,
+        match=re.escape(
+            f"`info_bits` ({kbits}) and `info_bits_2` ({kbits}) must be greater than 0"
+        ),
     ):
-        sim(6 * (10**9), 1000, 100, 0, 10**-3, 700, 1 * (10**-13), seed=42)
+        sim(6 * (10**9), 1000, 100, kbits, 10**-3, 700, 1 * (10**-13), seed=42)
 
+    nbits = 100
+    kbits = 101
     with pytest.raises(
-        ValueError, match="`info_bits` must be less than or equal to `num_bits`"
+        ValueError,
+        match=re.escape(
+            f"`info_bits` ({kbits}) must be less than or equal to `num_bits` ({nbits})"
+        ),
     ):
-        sim(6 * (10**9), 1000, 100, 101, 10**-3, 700, 1 * (10**-13), seed=42)
+        sim(6 * (10**9), 1000, nbits, kbits, 10**-3, 700, 1 * (10**-13), seed=42)
 
+    pwr = -1
     with pytest.raises(
-        ValueError, match="`power` and `power_2` must be greater than 0"
+        ValueError,
+        match=re.escape(
+            f"`power` ({pwr}) and `power_2` ({pwr}) must be greater than 0"
+        ),
     ):
-        sim(6 * (10**9), 1000, 300, 100, -1, 700, 1 * (10**-13), seed=42)
+        sim(6 * (10**9), 1000, 300, 100, pwr, 700, 1 * (10**-13), seed=42)
 
-    with pytest.raises(ValueError, match="`N0` and `N0_2` must be greater than 0"):
-        sim(6 * (10**9), 1000, 300, 100, 10**-3, 700, -1 * (10**-13), seed=42)
-
-    with pytest.raises(ValueError, match="`frequency` must be greater than 0"):
-        sim(-6 * (10**9), 1000, 300, 100, 10**-3, 700, 1 * (10**-13), seed=42)
-
-
-def test_simulation_input_validation():
-    """Test that the simulation function properly validates input parameters."""
+    n0 = -1 * (10**-13)
     with pytest.raises(
-        ValueError, match="`num_bits` and `num_bits_2` must be greater than 0"
+        ValueError,
+        match=re.escape(f"`N0` ({n0}) and `N0_2` ({n0}) must be greater than 0"),
     ):
-        sim(6 * (10**9), 1000, 0, 100, 10**-3, 700, 1 * (10**-13), seed=42)
+        sim(6 * (10**9), 1000, 300, 100, 10**-3, 700, n0, seed=42)
 
+    fr = -6 * (10**9)
     with pytest.raises(
-        ValueError, match="`info_bits` and `info_bits_2` must be greater than 0"
+        ValueError, match=re.escape(f"`frequency` ({fr}) must be greater than 0")
     ):
-        sim(6 * (10**9), 1000, 300, 0, 10**-3, 700, 1 * (10**-13), seed=42)
-
-    with pytest.raises(
-        ValueError, match="`info_bits` must be less than or equal to `num_bits`"
-    ):
-        sim(6 * (10**9), 1000, 300, 301, 10**-3, 700, 1 * (10**-13), seed=42)
-
-    with pytest.raises(
-        ValueError, match="`power` and `power_2` must be greater than 0"
-    ):
-        sim(6 * (10**9), 1000, 2300, 100, -1, 700, 1 * (10**-13), seed=42)
-
-    with pytest.raises(ValueError, match="`N0` and `N0_2` must be greater than 0"):
-        sim(6 * (10**9), 1000, 300, 100, 10**-3, 700, -1 * (10**-13), seed=42)
-
-    with pytest.raises(ValueError, match="`frequency` must be greater than 0"):
-        sim(-6 * (10**9), 1000, 300, 100, 10**-3, 700, 1 * (10**-13), seed=42)
+        sim(fr, 1000, 300, 100, 10**-3, 700, 1 * (10**-13), seed=42)

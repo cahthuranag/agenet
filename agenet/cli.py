@@ -289,7 +289,10 @@ def _main():
 
         if len(param_error_log) > 0:
             pel_str = "\n".join(["- " + s for s in param_error_log])
-            errors_to_render = Markdown(pel_str)
+            errors_to_render = Markdown(
+                "**Invalid parameter combinations which were not simulated:**\n"
+                + pel_str
+            )
             console.print(errors_to_render)
 
         if args.save_csv:

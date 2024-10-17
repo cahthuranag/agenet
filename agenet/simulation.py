@@ -118,23 +118,37 @@ def _param_parse_and_check(
 
     # Input validation
     if frequency <= 0:
-        raise _SimParamError("`frequency` must be greater than 0")
+        raise _SimParamError(f"`frequency` ({frequency}) must be greater than 0")
     if num_events <= 0:
-        raise _SimParamError("`num_events` must be greater than 0")
+        raise _SimParamError(f"`num_events` ({num_events}) must be greater than 0")
     if num_bits <= 0 or num_bits_2 <= 0:
-        raise _SimParamError("`num_bits` and `num_bits_2` must be greater than 0")
+        raise _SimParamError(
+            f"`num_bits` ({num_bits}) and `num_bits_2` ({num_bits_2}) must be greater than 0"
+        )
     if info_bits <= 0 or info_bits <= 0:
-        raise _SimParamError("`info_bits` and `info_bits_2` must be greater than 0")
-    if info_bits > num_bits or info_bits_2 > num_bits_2:
-        raise _SimParamError("`info_bits` must be less than or equal to `num_bits`")
+        raise _SimParamError(
+            f"`info_bits` ({info_bits}) and `info_bits_2` ({info_bits_2}) must be greater than 0"
+        )
+    if info_bits > num_bits:
+        raise _SimParamError(
+            f"`info_bits` ({info_bits}) must be less than or equal to `num_bits` ({num_bits})"
+        )
+    if info_bits_2 > num_bits_2:
+        raise _SimParamError(
+            f"`info_bits_2` ({info_bits_2}) must be less than or equal to `num_bits_2` ({num_bits_2})"
+        )
     if power <= 0 or power_2 <= 0:
-        raise _SimParamError("`power` and `power_2` must be greater than 0")
+        raise _SimParamError(
+            f"`power` ({power}) and `power_2` ({power_2}) must be greater than 0"
+        )
     if N0 <= 0 or N0_2 <= 0:
-        raise _SimParamError("`N0` and `N0_2` must be greater than 0")
+        raise _SimParamError(f"`N0` ({N0}) and `N0_2` ({N0_2}) must be greater than 0")
 
     # Check that num_bits_2 >= num_bits_1
-    if num_bits < num_bits_2:
-        raise _SimParamError("`num_bits_2` must be equal or greater than `num_bits`")
+    if num_bits_2 < num_bits:
+        raise _SimParamError(
+            f"`num_bits_2` ({num_bits_2}) must be equal or greater than `num_bits` ({num_bits})"
+        )
 
     # Initialize PCG64DXSM generator
     rng = Generator(PCG64DXSM(seed))
@@ -572,40 +586,42 @@ def multi_param_ev_sim(
                 N0_2=combo.N0_2,
                 seed=seed,
             )
+
+            results.append(
+                {
+                    "frequency": combo.frequency,
+                    "num_events": combo.num_events,
+                    "num_bits": combo.num_bits,
+                    "info_bits": combo.info_bits,
+                    "power": combo.power,
+                    "distance": combo.distance,
+                    "N0": combo.N0,
+                    "num_bits_2": (
+                        combo.num_bits if combo.num_bits_2 is None else combo.num_bits_2
+                    ),
+                    "info_bits_2": (
+                        combo.info_bits
+                        if combo.info_bits_2 is None
+                        else combo.info_bits_2
+                    ),
+                    "power_2": combo.power if combo.power_2 is None else combo.power_2,
+                    "distance_2": (
+                        combo.distance if combo.distance_2 is None else combo.distance_2
+                    ),
+                    "N0_2": combo.N0 if combo.N0_2 is None else combo.N0_2,
+                    "aaoi_theory": aaoi_th,
+                    "aaoi_sim": aaoi_sim,
+                    "snr1_avg": snr1_avg,
+                    "snr2_avg": snr2_avg,
+                    "blkerr1_th": blkerr1_th,
+                    "blkerr2_th": blkerr2_th,
+                }
+            )
+
         except _SimParamError as spe:
             # In case of invalid parameters or parameter combinations, log the
             # error and proceed to the next combination
             param_error_log.append(str(spe))
-            continue
-
-        results.append(
-            {
-                "frequency": combo.frequency,
-                "num_events": combo.num_events,
-                "num_bits": combo.num_bits,
-                "info_bits": combo.info_bits,
-                "power": combo.power,
-                "distance": combo.distance,
-                "N0": combo.N0,
-                "num_bits_2": (
-                    combo.num_bits if combo.num_bits_2 is None else combo.num_bits_2
-                ),
-                "info_bits_2": (
-                    combo.info_bits if combo.info_bits_2 is None else combo.info_bits_2
-                ),
-                "power_2": combo.power if combo.power_2 is None else combo.power_2,
-                "distance_2": (
-                    combo.distance if combo.distance_2 is None else combo.distance_2
-                ),
-                "N0_2": combo.N0 if combo.N0_2 is None else combo.N0_2,
-                "aaoi_theory": aaoi_th,
-                "aaoi_sim": aaoi_sim,
-                "snr1_avg": snr1_avg,
-                "snr2_avg": snr2_avg,
-                "blkerr1_th": blkerr1_th,
-                "blkerr2_th": blkerr2_th,
-            }
-        )
 
         if counter is not None:
             counter.value += 1
