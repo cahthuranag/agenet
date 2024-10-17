@@ -209,13 +209,18 @@ def _main():
 
     # Determine the total number of steps (parameter combinations)
     total_steps = (
-        len(args.distance)
-        * len(args.N0)
-        * len(args.frequency)
+        len(args.frequency)
         * len(args.num_events)
         * len(args.num_bits)
         * len(args.info_bits)
         * len(args.power)
+        * len(args.distance)
+        * len(args.N0)
+        * (1 if args.num_bits_2 is None else len(args.num_bits_2))
+        * (1 if args.info_bits_2 is None else len(args.info_bits_2))
+        * (1 if args.power_2 is None else len(args.power_2))
+        * (1 if args.distance_2 is None else len(args.distance_2))
+        * (1 if args.distance_2 is None else len(args.distance_2))
     )
 
     # Create a shared counter for keeping tabs on the simulation progress
@@ -234,14 +239,19 @@ def _main():
             # Execute the simulation in a separate thread
             future = executor.submit(
                 multi_param_ev_sim,
+                num_runs=args.num_runs,
                 frequency=args.frequency,
                 num_events=args.num_events,
-                distance=args.distance,
-                N0=args.N0,
                 num_bits=args.num_bits,
                 info_bits=args.info_bits,
                 power=args.power,
-                num_runs=args.num_runs,
+                distance=args.distance,
+                N0=args.N0,
+                num_bits_2=args.num_bits_2,
+                info_bits_2=args.info_bits_2,
+                power_2=args.power_2,
+                distance_2=args.distance_2,
+                N0_2=args.N0_2,
                 seed=args.seed,
                 counter=counter,
                 stop_event=stop_event,

@@ -2,6 +2,7 @@
 
 from __future__ import annotations
 
+from collections.abc import Sequence
 from multiprocessing.sharedctypes import Synchronized
 from threading import Event
 from typing import NamedTuple
@@ -438,14 +439,19 @@ def ev_sim(
 
 
 def multi_param_ev_sim(
-    frequency: list[float],
-    num_events: list[int],
-    distance: list[float],
-    N0: list[float],
-    num_bits: list[int],
-    info_bits: list[int],
-    power: list[float],
     num_runs: int,
+    frequency: Sequence[float],
+    num_events: Sequence[int],
+    num_bits: Sequence[int],
+    info_bits: Sequence[int],
+    power: Sequence[float],
+    distance: Sequence[float],
+    N0: Sequence[float],
+    num_bits_2: Sequence[int] | None = None,
+    info_bits_2: Sequence[int] | None = None,
+    power_2: Sequence[float] | None = None,
+    distance_2: Sequence[float] | None = None,
+    N0_2: Sequence[float] | None = None,
     seed: int | np.signedinteger | None = None,
     counter: Synchronized[int] | None = None,
     stop_event: Event | None = None,
@@ -453,14 +459,24 @@ def multi_param_ev_sim(
     """Run the simulation for multiple parameters and return the results.
 
     Args:
-      distance: List of distances between nodes.
-      N0: List of noise powers.
+      num_runs: Number of times to run the simulation.
       frequency: List of frequencies.
       num_events: List of number of events.
       num_bits: List of number of bits in a block.
       info_bits: List of number of bits in a message.
       power: List of powers.
-      num_runs: Number of times to run the simulation.
+      distance: List of distances between nodes.
+      N0: List of noise powers.
+      num_bits_2: List of number of bits in a block for relay or access point
+        (optional, if different than source).
+      info_bits_2: List of number of bits in a message for relay or access point
+        (optional, if different than source).
+      power_2: List of powers for relay or access point
+        (optional, if different than source).
+      distance_2: List of distances between nodes for relay or access point
+        (optional, if different than source).
+      N0_2: List of noise powers for relay or access point (optional, if
+        different than source).
       seed: Seed for the random number generator (optional).
       counter: An optional `multiprocessing.Value` which will be incremented
         after each inner loop pass. Only relevant if this function is executed
