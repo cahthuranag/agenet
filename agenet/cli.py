@@ -19,10 +19,10 @@ from rich_tools import df_to_table
 from .simulation import multi_param_ev_sim
 
 
-def _main():
+def _main() -> None:
 
     # Default arguments
-    def_params = {
+    def_params: dict[str, list[float]] = {
         "distance": [500],
         "N0": [1e-13],
         "frequency": [5e9],
@@ -256,7 +256,7 @@ def _main():
                     distance_2=args.distance_2,
                     N0_2=args.N0_2,
                     seed=args.seed,
-                    counter=counter,
+                    counter=counter.get_obj(),
                     stop_event=stop_event,
                 )
 
@@ -266,7 +266,7 @@ def _main():
                         # Small delay to avoid excessive CPU usage
                         sleep(0.1)
                         # Update progress bar a little bit more
-                        progress.update(task, completed=counter.value)
+                        progress.update(task, completed=counter.get_obj().value)
 
                 except KeyboardInterrupt:
                     stop_event.set()
