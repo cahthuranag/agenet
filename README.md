@@ -69,9 +69,5 @@ For more detailed information about Agenet's features and usage, please refer to
 2. C. M. Wijerathna Basnayaka, D. N. K. Jayakody, T. D. Ponnimbaduge Perera, and M. Vidal Ribeiro, "Age of information in an urllc-enabled decode-and-forward wireless communication system," in 2021 IEEE 93rd Vehicular Technology Conference (VTC2021-Spring), 2021, pp. 1–6.
 3. R. D. Yates, Y. Sun, D. R. Brown, S. K. Kaul, E. Modiano, and S. Ulukus, "Age of information: An introduction and survey," IEEE Journal on Selected Areas in Communications, vol. 39, no. 5, pp. 1183–1210, 2021.
 
-## Also in this documentation
-
-* [Reference](reference.md)
-* [Developing this package](dev.md)
 
 
