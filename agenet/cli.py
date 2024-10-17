@@ -6,8 +6,10 @@ import argparse
 import importlib.metadata
 from concurrent.futures import ThreadPoolExecutor
 from multiprocessing import Value
+from multiprocessing.sharedctypes import Synchronized
 from threading import Event
 from time import sleep
+from typing import cast
 
 import matplotlib.pyplot as plt
 from rich import box
@@ -226,7 +228,7 @@ def _main() -> None:
 
     # Create a shared counter for keeping tabs on the simulation progress
     # Type 'i' means signed integer
-    counter = Value("i", 0)
+    counter = cast(Synchronized[int], Value("i", 0))
 
     # Event for signalling the simulation to stop
     stop_event = Event()
@@ -256,7 +258,7 @@ def _main() -> None:
                     distance_2=args.distance_2,
                     N0_2=args.N0_2,
                     seed=args.seed,
-                    counter=counter.get_obj(),
+                    counter=counter,
                     stop_event=stop_event,
                 )
 
@@ -266,7 +268,7 @@ def _main() -> None:
                         # Small delay to avoid excessive CPU usage
                         sleep(0.1)
                         # Update progress bar a little bit more
-                        progress.update(task, completed=counter.get_obj().value)
+                        progress.update(task, completed=counter.value)
 
                 except KeyboardInterrupt:
                     stop_event.set()
