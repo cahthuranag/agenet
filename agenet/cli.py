@@ -41,9 +41,7 @@ def _main():
     )
 
     # Global simulation parameters
-    general_group = parser.add_argument_group(
-        "General", "General simulation parameters"
-    )
+    general_group = parser.add_argument_group("General simulation parameters", "")
 
     general_group.add_argument(
         "-f",
@@ -80,11 +78,10 @@ def _main():
 
     # Per node simulation parameters
     node1_group = parser.add_argument_group(
-        "Node", "Node (or source node) simulation parameters"
+        "Node (or source node) simulation parameters", ""
     )
 
     node1_group.add_argument(
-        "-n",
         "--num-bits",
         type=int,
         nargs="+",
@@ -92,7 +89,6 @@ def _main():
         help=f"Total number of bits (default: {def_params_str['num-bits']})",
     )
     node1_group.add_argument(
-        "-k",
         "--info-bits",
         type=int,
         nargs="+",
@@ -100,7 +96,6 @@ def _main():
         help=f"Number of information bits (default: {def_params_str['info-bits']})",
     )
     node1_group.add_argument(
-        "-P",
         "--power",
         type=float,
         nargs="+",
@@ -108,7 +103,6 @@ def _main():
         help=f"Transmission power in Watts (default: {def_params_str['power']})",
     )
     node1_group.add_argument(
-        "-d",
         "--distance",
         type=float,
         nargs="+",
@@ -116,7 +110,6 @@ def _main():
         help=f"Distance between nodes in meters (default: {def_params_str['distance']})",
     )
     node1_group.add_argument(
-        "-N",
         "--N0",
         type=float,
         nargs="+",
@@ -126,8 +119,8 @@ def _main():
 
     # Relay or access point-specific simulation parameters
     node2_group = parser.add_argument_group(
-        "Relay",
         "Relay or access point-specific simulation parameters (if different than source node)",
+        "",
     )
 
     node2_group.add_argument(
@@ -167,7 +160,7 @@ def _main():
     )
 
     # Output specification parameters
-    output_group = parser.add_argument_group("Output", "Output specification")
+    output_group = parser.add_argument_group("Output specification", "")
 
     output_group.add_argument(
         "-t", "--show-table", action="store_true", help="Show table with results"
