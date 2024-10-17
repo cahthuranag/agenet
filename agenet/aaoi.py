@@ -3,11 +3,13 @@
 from __future__ import annotations
 
 import numpy as np
+from numpy.typing import NDArray
 from scipy.integrate import trapezoid
 
 
-# Define the average age of information function
-def aaoi_fn(departure_timestamps, final_arrival_times):
+def aaoi_fn(
+    departure_timestamps: NDArray, final_arrival_times: NDArray
+) -> tuple[float, NDArray, NDArray]:
     """Calculate the average age of information.
 
     Args:
@@ -18,7 +20,7 @@ def aaoi_fn(departure_timestamps, final_arrival_times):
         Average age of information, age, times.
     """
     # Generate times for the time axis
-    times = np.arange(0, departure_timestamps[0] + 0.0005, 0.0005)
+    times: NDArray = np.arange(0, departure_timestamps[0] + 0.0005, 0.0005)
     num_events = len(departure_timestamps)
 
     for i in range(1, num_events):
@@ -42,6 +44,6 @@ def aaoi_fn(departure_timestamps, final_arrival_times):
     area = trapezoid(age, times)
 
     # Calculate the average Age of Information
-    av_age = area / times[-1]
+    aaoi = area / times[-1]
 
-    return av_age, age, times
+    return aaoi, age, times
