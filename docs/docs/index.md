@@ -8,7 +8,7 @@
 
 # agenet
 
-A Python 3.8 implementation of a system model to estimate the average Age of Information (AoI) in an ultra-reliable low latency communication (URLLC) enabled wireless communication system with Slotted ALOHA scheme over the quasi-static Rayleigh block fading channels. A packet communication scheme is used to meet both the reliability and latency requirements of the proposed wireless network. By resorting to finite block length information theory, queuing theory, and stochastic processes, theoretical results can be obtained with this research software.
+Agenet is an open-source Python package designed to estimate the Age of Information (AoI) in cooperative wireless networks. By implementing a system model that combines finite blocklength information theory and AoI analysis over Rayleigh fading channels, Agenet provides researchers and practitioners with a comprehensive tool for studying short packet-based communication networks. This package is particularly valuable for those working on mission-critical wireless systems where the freshness of information is crucial.
 
 ## System model
 
@@ -16,28 +16,26 @@ The following figure illustrates the wireless communication system that is propo
 
 ![System model.](https://raw.githubusercontent.com/cahthuranag/agenet/main/docs/docs/image/Fig1.png)
 
-The diagram illustrates a wireless network that consists of multiple nodes. The transmission between each node and the relay is done using a transmission scheme similar to that of the Slotted ALOHA protocol, which is a popular random access method used in wireless communication systems.
-
-However, the transmission between the relay and each destination uses dedicated communication channels, and as a result, no transmission scheme similar to ALOHA is employed for this part of the communication. This helps to reduce the possibility of collisions and improve the reliability of the communication.
-
-Additionally, short packet communication is used for transmission. Since short packets are more susceptible to errors, a finite block length information theory is employed to calculate the block error rate. This allows for a more accurate estimation of the probability of errors occurring during transmission.
+Agenet implements a short packet decode-and-forward (DF) cooperative wireless relaying system. This system consists of three key nodes: a source node (S) that generates and transmits new updates, a relay node (R) that receives, decodes, and forwards data, and a destination node (D) that receives the forwarded data. The communication process is structured into two time slots within each transmission block, with the source transmitting data to the relay in the first slot, and the relay decoding and forwarding the data to the destination in the second slot. This model accounts for both small-scale and large-scale channel gains, considering Rayleigh fading and path loss to provide a realistic representation of wireless communication environments.
 
 ## Features
 
-The **agenet** package allows the user to study the Age of Information (AoI) in a slotted URLLC-enabled ALOHA network, which can be used as a basis for implementing mission-critical wireless communication applications. This application can be used as a study tool to analyze the age of information in slotted ALOHA networks with multiple users and short packet communications scenarios to maintain URLLC (ultra-reliable low-latency communication). In this application, various parameters such as power allocation, block length, packet size, number of nodes in the network, and activation probability of each node can be adjusted to analyze how the age of information varies.
+Agenet offers a  set of features to support comprehensive analysis of wireless networks. The key features include:
 
-The **agenet** package contains several functions that can be used to study the AoI in a slotted URLLC-enabled ALOHA network. These functions allow the user to:
+- Signal-to-Noise Ratio (SNR) Calculation: Computes both instantaneous and average SNR for each receiving node.
+- Block Error Probability Estimation: Calculates block error probabilities using finite blocklength information theory.
+- Age of Information (AoI) Analysis: Provides tools to calculate both theoretical and simulated AoI.
+- Flexible Parameter Configuration: Allows adjustment of various parameters such as power allocation, block length, packet size, and more.
+- Monte Carlo Simulation: Supports multiple simulation runs for statistical reliability.
+- Multi-parameter Analysis: Enables simulations across multiple parameter combinations for comprehensive system evaluation.
 
-- Calculate the Signal-to-Noise Ratio (SNR) at each receiving node in the network, which is an important factor in determining the quality of the communication link;
+These features allow researchers to compare and validate their findings, facilitating in-depth exploration of different network scenarios. The package's support for Monte Carlo simulations and multi-parameter analysis makes it an invaluable tool for both academic research and practical applications in the field of wireless communications.
 
-- Calculate the Block Error Rate (BER) for each destination in the network, which is an important metric for assessing the reliability of the network;
+## Installation
 
-- Calculate the theoretical AoI and simulate the AoI for a given network configuration, allowing the comparison of both measures to verify the accuracy of the simulation, as well as analyzing the performance of the network and assessing the impact of various parameters on the AoI;
+Agenet can be easily installed using pip, Python's package installer. To install the latest stable version directly from PyPI, simply run the command `pip install agenet` in your terminal. If you prefer to install the latest development version from the source, you can use `pip install git+https://github.com/cahthuranag/agenet.git#egg=agenet`. 
 
-- Estimate the average AoI value for a given update generation time and receiving time, which is a useful metric for evaluating the performance of any network.
-
-Additionally, the `agenet` command-line script is included in the package, allowing for easy experimentation with the model with default or user-defined parameters. The simulation can generate both theoretical and simulated values for various factors such as block lengths, power allocations, packet sizes, activation probabilities, and number of nodes in the network.
-
+For those interested in contributing to the development of Agenet or customizing it for their specific needs, a development installation is also available. To set up a development environment, first clone the repository with `git clone https://github.com/cahthuranag/agenet.git`, then navigate to the agenet directory, and finally run `pip install -e .[dev]`. This will install Agenet in editable mode along with all the necessary development dependencies, allowing you to make changes to the source code and immediately see their effects.
 ## How to install
 
 Install from PyPI:
@@ -64,7 +62,7 @@ This way, the package is installed in development mode. As a result, development
 
 ## Documentation
 
-* [*Agenet* package documentation](https://cahthuranag.github.io/agenet/)
+For more detailed information about Agenet's features and usage, please refer to the [Agenet package documentation](https://cahthuranag.github.io/agenet/).
 
 ## License
 
@@ -72,9 +70,13 @@ This way, the package is installed in development mode. As a result, development
 
 ## References
 
-[1] [*Age of Information in an URLLC-enabled Decode-and-Forward Wireless Communication System*](https://ieeexplore.ieee.org/document/9449007)
+1. Y. Polyanskiy, H. V. Poor, and S. Verdu, "Channel coding rate in the finite blocklength regime," IEEE Trans. Inf. Theory, vol. 56, no. 5, pp. 2307–2359, 2010.
+2. C. M. Wijerathna Basnayaka, D. N. K. Jayakody, T. D. Ponnimbaduge Perera, and M. Vidal Ribeiro, "Age of information in an urllc-enabled decode-and-forward wireless communication system," in 2021 IEEE 93rd Vehicular Technology Conference (VTC2021-Spring), 2021, pp. 1–6.
+3. R. D. Yates, Y. Sun, D. R. Brown, S. K. Kaul, E. Modiano, and S. Ulukus, "Age of information: An introduction and survey," IEEE Journal on Selected Areas in Communications, vol. 39, no. 5, pp. 1183–1210, 2021.
 
 ## Also in this documentation
 
 * [Reference](reference.md)
 * [Developing this package](dev.md)
+
+
