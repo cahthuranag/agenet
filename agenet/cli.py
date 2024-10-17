@@ -6,10 +6,8 @@ import argparse
 import importlib.metadata
 from concurrent.futures import ThreadPoolExecutor
 from multiprocessing import Value
-from multiprocessing.sharedctypes import Synchronized
 from threading import Event
 from time import sleep
-from typing import cast
 
 import matplotlib.pyplot as plt
 from rich import box
@@ -228,7 +226,7 @@ def _main() -> None:
 
     # Create a shared counter for keeping tabs on the simulation progress
     # Type 'i' means signed integer
-    counter = cast(Synchronized[int], Value("i", 0))
+    counter = Value("i", 0)
 
     # Event for signalling the simulation to stop
     stop_event = Event()
@@ -339,7 +337,7 @@ def _main() -> None:
                 ax.plot(results_sorted[aoi_vs_param[0]], aaoi_sim, label="Simulation")
                 ax.set_xlabel(aoi_vs_param[1])
                 ax.set_ylabel("AAoI")
-                ax.set_ylim([0, max([aaoi_theory.max(), aaoi_sim.max()]) * 1.05])
+                ax.set_ylim((0, max([aaoi_theory.max(), aaoi_sim.max()]) * 1.05))
                 ax.legend()
                 if len(args.save_plot) > 0:
                     fig.savefig(args.save_plot)
