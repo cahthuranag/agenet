@@ -157,12 +157,11 @@ def _param_validate(
     snr1_avg = snr_avg(N0, distance, power, frequency)
     snr2_avg = snr_avg(N0_2, distance_2, power_2, frequency)
 
-    # Block error rate for the relay or access point at the destination
-    # TODO: Check above comment for correctness
+    # Block error rate at the relay node 
+
     er1_th = block_error_th(snr1_avg, num_bits, info_bits)
 
-    # Block error rate for the source node at the relay or access point
-    # TODO: Check above comment for correctness
+    # Block error rate at the destination node
     er2_th = block_error_th(snr2_avg, num_bits_2, info_bits_2)
 
     # Return validate parameter object
