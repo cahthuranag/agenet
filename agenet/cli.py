@@ -3,6 +3,7 @@
 from __future__ import annotations
 
 import argparse
+from enum import Enum
 import importlib.metadata
 import sys
 from concurrent.futures import ThreadPoolExecutor
@@ -23,8 +24,38 @@ from rich_tools import df_to_table
 from .simulation import multi_param_ev_sim
 
 
-def _main() -> int:
+class __PanelType(Enum):
+    """Different types of text panel."""
 
+    ALERT = (1, "Alert", "red", "bold bright_red")
+    WARNING = (2, "Warning", "orange_red1", "bold dark_orange")
+
+    # Custom initializer to unpack the tuple
+    def __init__(self, code, title, border_style, text_style):
+        self.code = code
+        self.title = title
+        self.border_style = border_style
+        self.text_style = text_style
+
+
+def __panel(ptype: __PanelType, text: str) -> Panel:
+    """Display a text panel."""
+    # Create the error text with bold red color
+    styled_text = Text(text, style=ptype.text_style)
+
+    # Wrap the text in a panel to clearly differentiate from the
+    # remaining output
+    return Panel.fit(
+        styled_text,
+        title=ptype.title,
+        title_align="left",
+        border_style=ptype.border_style,
+        padding=(1, 2),
+    )
+
+
+def _main() -> int:
+    """Function invoked when running the agenet command at the terminal."""
     # Initialize a Rich console for enhanced terminal output
     console = Console()
 
@@ -309,7 +340,9 @@ def _main() -> int:
                     progress.stop()
                     err_console = Console(stderr=True)
                     err_console.print(
-                        "[dark_orange bold]Simulation terminated by user!"
+                        __panel(
+                            __PanelType.WARNING, "Simulation terminated early by user!"
+                        )
                     )
 
                 # Get the result after the task finishes
@@ -389,22 +422,9 @@ def _main() -> int:
         err_console = Console(stderr=True)
         if args.debug == "0":
 
-            # Create the error text with bold red color
-            error_text = Text(str(e), style="bold bright_red")
-
-            # Wrap the text in a panel to clearly differentiate from the
-            # remaining output
-            error_panel = Panel.fit(
-                error_text,
-                title="Alert",
-                title_align="left",
-                border_style="red",
-                padding=(1, 2),
-            )
-
             # Print the error panel to the console
             err_console.print()
-            err_console.print(error_panel)
+            err_console.print(__panel(__PanelType.ALERT, str(e)))
 
         elif args.debug == "1":
             err_console.print_exception()
