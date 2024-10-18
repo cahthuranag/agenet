@@ -3,20 +3,20 @@
 from __future__ import annotations
 
 import argparse
-from enum import Enum
 import importlib.metadata
 import sys
 from concurrent.futures import ThreadPoolExecutor
+from enum import Enum
 from multiprocessing import Value
 from threading import Event
 from time import sleep
 
 import matplotlib.pyplot as plt
 from rich import box
-from rich.console import Console
+from rich.console import Console, Group, RenderableType
 from rich.markdown import Markdown
 from rich.panel import Panel
-from rich.progress import Progress
+from rich.progress import Progress, TimeElapsedColumn
 from rich.text import Text
 from rich_argparse import RichHelpFormatter
 from rich_tools import df_to_table
@@ -24,33 +24,42 @@ from rich_tools import df_to_table
 from .simulation import multi_param_ev_sim
 
 
-class __PanelType(Enum):
+class _SectionType(Enum):
     """Different types of text panel."""
 
-    ALERT = (1, "Alert", "red", "bold bright_red")
-    WARNING = (2, "Warning", "orange_red1", "bold dark_orange")
+    ERROR = (1, "Error", "bold bright_red", "red")
+    WARNING = (2, "Warning", "bold dark_orange", "orange_red1")
+    RESULTS = (3, "Simulation results", "bold", "")
 
     # Custom initializer to unpack the tuple
-    def __init__(self, code, title, border_style, text_style):
+    def __init__(self, code, title, title_style, text_style):
         self.code = code
         self.title = title
-        self.border_style = border_style
+        self.title_style = title_style
         self.text_style = text_style
 
 
-def __panel(ptype: __PanelType, text: str) -> Panel:
-    """Display a text panel."""
-    # Create the error text with bold red color
-    styled_text = Text(text, style=ptype.text_style)
+class _ProgressPanel(Progress):
+    """Custom progress bar in a panel."""
+
+    def get_renderables(self):
+        yield Panel(self.make_tasks_table(self.tasks), box=box.SIMPLE)
+
+
+def _section(sec_type: _SectionType, contents: RenderableType) -> RenderableType:
+    """Display a new section."""
+    # If the contents are a pure string, style them according to the section type
+    styled_contents = (
+        Text(contents, style=sec_type.text_style)
+        if isinstance(contents, str)
+        else contents
+    )
 
     # Wrap the text in a panel to clearly differentiate from the
     # remaining output
-    return Panel.fit(
-        styled_text,
-        title=ptype.title,
-        title_align="left",
-        border_style=ptype.border_style,
-        padding=(1, 2),
+    return Group(
+        Text(sec_type.title, style=sec_type.title_style),
+        Panel(styled_contents, box=box.SIMPLE),
     )
 
 
@@ -281,7 +290,7 @@ def _main() -> int:
         if len(set(sys.argv) & sim_args) == 0:
             parser.print_help()
             raise ValueError(
-                "The agenet command requires at least one simulation argument"
+                "The agenet command requires at least one simulation parameter."
             )
 
         # Determine the total number of steps (parameter combinations)
@@ -301,8 +310,14 @@ def _main() -> int:
         )
 
         # Run the simulation within the context of a progress bar
-        with Progress() as progress:
-            task = progress.add_task("[white]Simulating...", total=total_steps)
+        with _ProgressPanel(
+            TimeElapsedColumn(),
+            *Progress.get_default_columns(),
+            console=console,
+            transient=False,
+        ) as progress:
+            console.print(Text("Simulation progress", style="bold"))
+            task = progress.add_task("", total=total_steps)
 
             with ThreadPoolExecutor(max_workers=1) as executor:
 
@@ -340,8 +355,8 @@ def _main() -> int:
                     progress.stop()
                     err_console = Console(stderr=True)
                     err_console.print(
-                        __panel(
-                            __PanelType.WARNING, "Simulation terminated early by user!"
+                        _section(
+                            _SectionType.WARNING, "Simulation terminated early by user!"
                         )
                     )
 
@@ -354,7 +369,7 @@ def _main() -> int:
             table = df_to_table(results)
             table.row_styles = ["none", "dim"]
             table.box = box.SIMPLE_HEAD
-            console.print(table)
+            console.print(_section(_SectionType.RESULTS, table))
 
         if len(param_error_log) > 0:
             pel_str = "\n".join(["- " + s for s in param_error_log])
@@ -379,15 +394,15 @@ def _main() -> int:
                 ("power", "Transmission power (W)", args.power),
                 ("distance", "Distance (m)", args.distance),
                 ("N0", "N0 - Noise power (W)", args.N0),
-                ("num_bits_2", "Number of bits at relay/AP", args.num_bits_2),
-                ("info_bits_2", "Information bits at relay/AP", args.info_bits_2),
-                ("power_2", "Transmission power at relay/AP (W)", args.power_2),
+                ("num_bits_2", "Number of bits in relay", args.num_bits_2),
+                ("info_bits_2", "Information bits in relay", args.info_bits_2),
+                ("power_2", "Transmission power in relay (W)", args.power_2),
                 (
                     "distance_2",
-                    "Distance from relay/AP to destination (m)",
+                    "Distance from relay to destination (m)",
                     args.distance_2,
                 ),
-                ("N0_2", "N0 - Noise power at relay/AP (W)", args.N0_2),
+                ("N0_2", "N0 - Noise power in relay (W)", args.N0_2),
             ]:
 
                 if len(param_info[2]) > 1:
@@ -414,7 +429,7 @@ def _main() -> int:
                     plt.show()
             else:
                 raise ValueError(
-                    f"Unable to create plot: only one variable parameter is allowed, but there are {num_var_params}."
+                    f"Unable to create plot: only 1 variable parameter is allowed, but there are {num_var_params}."
                 )
 
     except Exception as e:
@@ -423,8 +438,7 @@ def _main() -> int:
         if args.debug == "0":
 
             # Print the error panel to the console
-            err_console.print()
-            err_console.print(__panel(__PanelType.ALERT, str(e)))
+            err_console.print(_section(_SectionType.ERROR, str(e)))
 
         elif args.debug == "1":
             err_console.print_exception()
