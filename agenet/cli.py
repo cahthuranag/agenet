@@ -122,9 +122,9 @@ def _main() -> int:
         help=f"Noise power in Watts (default: {def_params_str['N0']})",
     )
 
-    # Relay or access point-specific simulation parameters
+    # Relay -specific simulation parameters
     node2_group = parser.add_argument_group(
-        "Relay or access point-specific simulation parameters (if different than source node)",
+        "Relay -specific simulation parameters (if different than source node)",
         "",
     )
 
@@ -133,35 +133,35 @@ def _main() -> int:
         type=int,
         nargs="*",
         default=[None],
-        help="Total number of bits in relay or access point (defaults to --num-bits)",
+        help="Total number of bits in relay  (defaults to --num-bits)",
     )
     node2_group.add_argument(
         "--info-bits-2",
         type=int,
         nargs="*",
         default=[None],
-        help="Number of information bits in relay or access point (defaults to --info-bits)",
+        help="Number of information bits in relay  (defaults to --info-bits)",
     )
     node2_group.add_argument(
         "--power-2",
         type=float,
         nargs="*",
         default=[None],
-        help="Transmission power in Watts in relay or access point (defaults to --power)",
+        help="Transmission power in Watts in relay  (defaults to --power)",
     )
     node2_group.add_argument(
         "--distance-2",
         type=float,
         nargs="*",
         default=[None],
-        help="Distance between relay or access point and destination (defaults to --distance)",
+        help="Distance between relay  and destination (defaults to --distance)",
     )
     node2_group.add_argument(
         "--N0-2",
         type=float,
         nargs="*",
         default=[None],
-        help="Noise power in Watts in relay or access point (defaults to --N0)",
+        help="Noise power in Watts in relay  (defaults to --N0)",
     )
 
     # Output specification parameters
