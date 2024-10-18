@@ -24,9 +24,7 @@ def aaoi_fn(
     num_events = len(departure_times)
 
     for i in range(1, num_events):
-        dummy = np.arange(
-            departure_times[i - 1], departure_times[i] + 0.0001, 0.0001
-        )
+        dummy = np.arange(departure_times[i - 1], departure_times[i] + 0.0001, 0.0001)
         times = np.concatenate((times, dummy))
 
     # Compute the age for every time instant
