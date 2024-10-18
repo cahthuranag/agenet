@@ -14,7 +14,9 @@ import matplotlib.pyplot as plt
 from rich import box
 from rich.console import Console
 from rich.markdown import Markdown
+from rich.panel import Panel
 from rich.progress import Progress
+from rich.text import Text
 from rich_argparse import RichHelpFormatter
 from rich_tools import df_to_table
 
@@ -22,6 +24,9 @@ from .simulation import multi_param_ev_sim
 
 
 def _main() -> int:
+
+    # Initialize a Rich console for enhanced terminal output
+    console = Console()
 
     # Default arguments
     def_params: dict[str, list[float]] = {
@@ -41,8 +46,8 @@ def _main() -> int:
     # Create a parser to parse our command line arguments
     parser = argparse.ArgumentParser(
         prog="agenet",
-        description="Command line interface to AgeNet",
-        formatter_class=RichHelpFormatter,
+        description="AgeNet is a Python package to estimate the Age of Information in cooperative wireless networks",
+        formatter_class=lambda prog: RichHelpFormatter(prog, console=console),
     )
 
     # Global simulation parameters
@@ -208,41 +213,61 @@ def _main() -> int:
         + "[/]",
     )
 
-    # Parse the command line arguments
-    args = parser.parse_args()
-
-    # If no arguments were given, just print the help and exit
-    if len(sys.argv) == 1:
-        parser.print_help()
-        return 0
-
-    # Initialize a Rich console for enhanced terminal output
-    console = Console()
-
-    # Determine the total number of steps (parameter combinations)
-    total_steps = (
-        len(args.frequency)
-        * len(args.num_events)
-        * len(args.num_bits)
-        * len(args.info_bits)
-        * len(args.power)
-        * len(args.distance)
-        * len(args.N0)
-        * len(args.num_bits_2)
-        * len(args.info_bits_2)
-        * len(args.power_2)
-        * len(args.distance_2)
-        * len(args.N0_2)
-    )
-
-    # Create a shared counter for keeping tabs on the simulation progress
-    # Type 'i' means signed integer
-    counter = Value("i", 0)
-
-    # Event for signalling the simulation to stop
-    stop_event = Event()
-
     try:
+
+        # Parse the command line arguments
+        args = parser.parse_args()
+
+        # Create a shared counter for keeping tabs on the simulation progress
+        # Type 'i' means signed integer
+        counter = Value("i", 0)
+
+        # Event for signalling the simulation to stop
+        stop_event = Event()
+
+        # At least one simulation argument is required to run the simulation
+        sim_args = {
+            "-f",
+            "--frequency",
+            "-e",
+            "--num-events",
+            "-r",
+            "--num-runs",
+            "-s",
+            "--seed",
+            "--num-bits",
+            "--info-bits",
+            "--power",
+            "--distance",
+            "--N0",
+            "--num-bits-2",
+            "--info-bits-2",
+            "--power-2",
+            "--distance-2",
+            "--N0-2",
+        }
+
+        if len(set(sys.argv) & sim_args) == 0:
+            parser.print_help()
+            raise ValueError(
+                "The agenet command requires at least one simulation argument"
+            )
+
+        # Determine the total number of steps (parameter combinations)
+        total_steps = (
+            len(args.frequency)
+            * len(args.num_events)
+            * len(args.num_bits)
+            * len(args.info_bits)
+            * len(args.power)
+            * len(args.distance)
+            * len(args.N0)
+            * len(args.num_bits_2)
+            * len(args.info_bits_2)
+            * len(args.power_2)
+            * len(args.distance_2)
+            * len(args.N0_2)
+        )
 
         # Run the simulation within the context of a progress bar
         with Progress() as progress:
@@ -363,7 +388,24 @@ def _main() -> int:
         stop_event.set()
         err_console = Console(stderr=True)
         if args.debug == "0":
-            err_console.print(f"[red bold]{e}")
+
+            # Create the error text with bold red color
+            error_text = Text(str(e), style="bold bright_red")
+
+            # Wrap the text in a panel to clearly differentiate from the
+            # remaining output
+            error_panel = Panel.fit(
+                error_text,
+                title="Alert",
+                title_align="left",
+                border_style="red",
+                padding=(1, 2),
+            )
+
+            # Print the error panel to the console
+            err_console.print()
+            err_console.print(error_panel)
+
         elif args.debug == "1":
             err_console.print_exception()
         else:
