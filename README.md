@@ -19,18 +19,19 @@ The following figure illustrates the wireless communication system that is propo
 Agenet implements a short packet decode-and-forward (DF) cooperative wireless relaying system. This system consists of three key nodes: a source node (S) that generates and transmits new updates, a relay node (R) that receives, decodes, and forwards data, and a destination node (D) that receives the forwarded data. The communication process is structured into two time slots within each transmission block, with the source transmitting data to the relay in the first slot, and the relay decoding and forwarding the data to the destination in the second slot. This model accounts for both small-scale and large-scale channel gains, considering Rayleigh fading and path loss to provide a realistic representation of wireless communication environments.
 
 ## Features
+The **agenet** package allows the user to study the Age of Information (AoI) in cooperative wireless networks, which can be used as a basis for implementing mission-critical wireless communication applications. This application can be used as a study tool to analyze the age of information in cooperative wireless networks under short packet communications scenarios to maintain URLLC (ultra-reliable low-latency communication). In this application, various parameters such as power allocation, block length, packet size and transmission power can be adjusted to analyze how the age of information varies.
 
-Agenet offers a  set of features to support comprehensive analysis of wireless networks. The key features include:
+The **agenet** package contains several functions that can be used to study the AoI in a cooperative wireless networks. These functions allow the user to:
 
-- Signal-to-Noise Ratio (SNR) Calculation: Computes both instantaneous and average SNR for each receiving node.
-- Block Error Probability Estimation: Calculates block error probabilities using finite blocklength information theory.
-- Age of Information (AoI) Analysis: Provides tools to calculate both theoretical and simulated AoI.
-- Flexible Parameter Configuration: Allows adjustment of various parameters such as power allocation, block length, packet size, and more.
-- Monte Carlo Simulation: Supports multiple simulation runs for statistical reliability.
-- Multi-parameter Analysis: Enables simulations across multiple parameter combinations for comprehensive system evaluation.
+- Calculate the Signal-to-Noise Ratio (SNR) at each receiving node in the network, which is an important factor in determining the quality of the communication link;
 
-These features allow researchers to compare and validate their findings, facilitating in-depth exploration of different network scenarios. The package's support for Monte Carlo simulations and multi-parameter analysis makes it an invaluable tool for both academic research and practical applications in the field of wireless communications.
+- Calculate the Block Error Rate (BER) for each destination in the network, which is an important metric for assessing the reliability of the network;
 
+- Calculate the theoretical AoI and simulate the AoI for a given network configuration, allowing the comparison of both measures to verify the accuracy of the simulation, as well as analyzing the performance of the network and assessing the impact of various parameters on the AoI;
+
+- Estimate the average AoI value for a given update generation time and receiving time, which is a useful metric for evaluating the performance of any network.
+
+Additionally, the `agenet` command-line script is included in the package, allowing for easy experimentation with the model with default or user-defined parameters. The simulation can generate both theoretical and simulated values for various factors such as block lengths, power allocations, packet sizes and transmission power in the network.
 ## How to install
 
 Install from PyPI:
