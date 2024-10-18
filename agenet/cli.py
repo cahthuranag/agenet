@@ -4,6 +4,7 @@ from __future__ import annotations
 
 import argparse
 import importlib.metadata
+import sys
 from concurrent.futures import ThreadPoolExecutor
 from multiprocessing import Value
 from threading import Event
@@ -14,12 +15,13 @@ from rich import box
 from rich.console import Console
 from rich.markdown import Markdown
 from rich.progress import Progress
+from rich_argparse import RichHelpFormatter
 from rich_tools import df_to_table
 
 from .simulation import multi_param_ev_sim
 
 
-def _main() -> None:
+def _main() -> int:
 
     # Default arguments
     def_params: dict[str, list[float]] = {
@@ -38,7 +40,9 @@ def _main() -> None:
 
     # Create a parser to parse our command line arguments
     parser = argparse.ArgumentParser(
-        prog="agenet", description="Command line interface to AgeNet"
+        prog="agenet",
+        description="Command line interface to AgeNet",
+        formatter_class=RichHelpFormatter,
     )
 
     # Global simulation parameters
@@ -199,13 +203,20 @@ def _main() -> None:
     output_group.add_argument(
         "--version",
         action="version",
-        version="%(prog)s " + importlib.metadata.version("agenet"),
+        version="[argparse.prog]%(prog)s[/] v[i]"
+        + importlib.metadata.version("agenet")
+        + "[/]",
     )
 
     # Parse the command line arguments
     args = parser.parse_args()
 
-    # Create a rich console
+    # If no arguments were given, just print the help and exit
+    if len(sys.argv) == 1:
+        parser.print_help()
+        return 0
+
+    # Initialize a Rich console for enhanced terminal output
     console = Console()
 
     # Determine the total number of steps (parameter combinations)
@@ -357,3 +368,6 @@ def _main() -> None:
             err_console.print_exception()
         else:
             err_console.print_exception(show_locals=True)
+        return 1
+
+    return 0
