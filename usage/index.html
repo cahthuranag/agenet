@@ -78,7 +78,7 @@
     <div data-md-component="skip">
       
         
-        <a href="#agenet-command-line-interface-usage-guide" class="md-skip">
+        <a href="#agenet-usage-guide" class="md-skip">
           Skip to content
         </a>
       
@@ -361,6 +361,15 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
+  <a href="#introduction" class="md-nav__link">
+    <span class="md-ellipsis">
+      Introduction
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#basic-usage" class="md-nav__link">
     <span class="md-ellipsis">
       Basic Usage
@@ -398,9 +407,9 @@
 </li>
         
           <li class="md-nav__item">
-  <a href="#relay-or-access-point-parameters" class="md-nav__link">
+  <a href="#relay-specific-parameters" class="md-nav__link">
     <span class="md-ellipsis">
-      Relay or Access Point Parameters
+      Relay-Specific Parameters
     </span>
   </a>
   
@@ -413,6 +422,21 @@
     </span>
   </a>
   
+    <nav class="md-nav" aria-label="Output Options">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#important-note-on-plotting" class="md-nav__link">
+    <span class="md-ellipsis">
+      Important Note on Plotting
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
 </li>
         
       </ul>
@@ -421,18 +445,18 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#important-note-on-plotting" class="md-nav__link">
+  <a href="#usage-examples" class="md-nav__link">
     <span class="md-ellipsis">
-      Important Note on Plotting
+      Usage Examples
     </span>
   </a>
   
 </li>
       
         <li class="md-nav__item">
-  <a href="#usage-examples" class="md-nav__link">
+  <a href="#best-practices" class="md-nav__link">
     <span class="md-ellipsis">
-      Usage Examples
+      Best Practices
     </span>
   </a>
   
@@ -484,13 +508,14 @@
   
 
 
-<h1 id="agenet-command-line-interface-usage-guide">Agenet Command-Line Interface Usage Guide</h1>
-<p>After installing the AgeNet package, you can run simulations using the <code>agenet</code> command in your terminal. Here's how to use it:</p>
+<h1 id="agenet-usage-guide">Agenet Usage Guide</h1>
+<h2 id="introduction">Introduction</h2>
+<p>Agenet is a Python package designed to estimate the Age of Information (AoI) in cooperative wireless networks. This guide provides comprehensive instructions on how to use the Agenet command-line interface (CLI) to run simulations and analyze results.</p>
 <h2 id="basic-usage">Basic Usage</h2>
-<p>To run a simulation with default parameters:</p>
+<p>After installation, you can access the Agenet CLI using the <code>agenet</code> command in your terminal. Running the command with no arguments will display the help information:</p>
 <pre><code>agenet
 </code></pre>
-<p>Note: This command will run the simulation but won't display results by default.</p>
+<p>Note: At least one simulation argument is required to run an actual simulation. Simply running <code>agenet</code> without any arguments will not start a simulation.</p>
 <h2 id="simulation-parameters">Simulation Parameters</h2>
 <h3 id="general-simulation-parameters">General Simulation Parameters</h3>
 <ul>
@@ -507,14 +532,14 @@
 <li><code>--distance</code>: Distance between nodes in meters (default: 500)</li>
 <li><code>--N0</code>: Noise power in Watts (default: 1e-13)</li>
 </ul>
-<h3 id="relay-or-access-point-parameters">Relay or Access Point Parameters</h3>
+<h3 id="relay-specific-parameters">Relay-Specific Parameters</h3>
 <p>These parameters are optional and default to the source node parameters if not specified:</p>
 <ul>
-<li><code>--num-bits-2</code>: Total number of bits in relay or access point</li>
-<li><code>--info-bits-2</code>: Number of information bits in relay or access point</li>
-<li><code>--power-2</code>: Transmission power in Watts in relay or access point</li>
-<li><code>--distance-2</code>: Distance between relay or access point and destination</li>
-<li><code>--N0-2</code>: Noise power in Watts in relay or access point</li>
+<li><code>--num-bits-2</code>: Total number of bits in relay</li>
+<li><code>--info-bits-2</code>: Number of information bits in relay</li>
+<li><code>--power-2</code>: Transmission power in Watts in relay</li>
+<li><code>--distance-2</code>: Distance between relay and destination</li>
+<li><code>--N0-2</code>: Noise power in Watts in relay</li>
 </ul>
 <h3 id="output-options">Output Options</h3>
 <ul>
@@ -525,17 +550,13 @@
 <li><code>--debug {0,1,2}</code>: Level of debugging report if an error occurs (default: 0)</li>
 <li><code>--version</code>: Show program's version number and exit</li>
 </ul>
-<h2 id="important-note-on-plotting">Important Note on Plotting</h2>
+<h4 id="important-note-on-plotting">Important Note on Plotting</h4>
 <p>Plotting is only possible when exactly one parameter is varied. If multiple parameters are varied or only default values are used, the plot options will not work.</p>
 <h2 id="usage-examples">Usage Examples</h2>
 <ol>
 <li>
-<p>Run a simulation with default parameters and show the results table:
-   <code>agenet -t</code></p>
-</li>
-<li>
-<p>Run a simulation with custom frequency and number of events, showing the results table:
-   <code>agenet -f 6e9 -e 200 -t</code></p>
+<p>Run a simulation with custom frequency and show the results table:
+   <code>agenet -f 6e9 -t</code></p>
 </li>
 <li>
 <p>Run a simulation with multiple frequency values and save the results to a CSV file:
@@ -558,7 +579,14 @@
    <code>agenet --power 1e-3 2e-3 3e-3 4e-3 5e-3 -t -p</code></p>
 </li>
 </ol>
-<p>Remember that you can combine multiple parameters and options as needed for your specific simulation requirements. However, if you want to use the plotting feature, ensure that you vary exactly one parameter. Always include the <code>-t</code> or <code>--show-table</code> option if you want to see the results displayed in the terminal.</p>
+<h2 id="best-practices">Best Practices</h2>
+<ol>
+<li>Always specify at least one simulation parameter to run a simulation.</li>
+<li>Use the <code>-t</code> or <code>--show-table</code> option to display results in the terminal.</li>
+<li>When using plotting features, ensure you vary exactly one parameter.</li>
+<li>For complex simulations, consider saving results to a CSV file for further analysis.</li>
+<li>Use the debugging options when encountering issues to get more detailed error information.</li>
+</ol>
 
 
 
