@@ -208,7 +208,7 @@ def _sim(
     This function assumes that all parameters are valid correct, and requires a
     previously instantiated pseudo-random number generator. It's used internally
     by `sim()` and `ev_sim()`.
-    
+
     Args:
         frequency: Signal frequency in Hertz.
         num_events: Number of events to simulate.

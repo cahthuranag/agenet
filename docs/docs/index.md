@@ -19,7 +19,7 @@ The following figure illustrates the wireless communication system that is propo
 Agenet implements a short packet decode-and-forward (DF) cooperative wireless relaying system. This system consists of three key nodes: a source node (S) that generates and transmits new updates, a relay node (R) that receives, decodes, and forwards data, and a destination node (D) that receives the forwarded data. The communication process is structured into two time slots within each transmission block, with the source transmitting data to the relay in the first slot, and the relay decoding and forwarding the data to the destination in the second slot. This model accounts for both small-scale and large-scale channel gains, considering Rayleigh fading and path loss to provide a realistic representation of wireless communication environments.
 
 ## Features
-The **agenet** package allows the user to study the Age of Information (AoI) in cooperative wireless networks, which can be used as a basis for implementing mission-critical wireless communication applications. This application can be used as a study tool to analyze the age of information in cooperative wireless networks under short packet communications scenarios to maintain URLLC (ultra-reliable low-latency communication). In this application, various parameters such as power allocation, block length, packet size and transmission power can be adjusted to analyze how the age of information varies.
+The **agenet** package allows the user to study the Age of Information (AoI) in cooperative wireless networks, which can be used as a basis for implementing mission-critical wireless communication applications. This application can be used as a study tool to analyze the age of information in cooperative wireless networks under short packet communications scenarios to maintain URLLC (ultra-reliable low-latency communication). In this application, various parameters such as power allocation, block length and  packet size can be adjusted to analyze how the age of information varies.
 
 The **agenet** package contains several functions that can be used to study the AoI in a cooperative wireless networks. These functions allow the user to:
 
@@ -31,7 +31,7 @@ The **agenet** package contains several functions that can be used to study the 
 
 - Estimate the average AoI value for a given update generation time and receiving time, which is a useful metric for evaluating the performance of any network.
 
-Additionally, the `agenet` command-line script is included in the package, allowing for easy experimentation with the model with default or user-defined parameters. The simulation can generate both theoretical and simulated values for various factors such as block lengths, power allocations, packet sizes and transmission power in the network.
+Additionally, the `agenet` command-line script is included in the package, allowing for easy experimentation with the model with default or user-defined parameters. The simulation can generate both theoretical and simulated values for various factors such as block lengths, power allocations and packet sizes in the network.
 ## How to install
 
 Install from PyPI:
