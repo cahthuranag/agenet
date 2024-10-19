@@ -132,7 +132,9 @@ def _main() -> int:
     setattr(argparse.ArgumentParser, "error", custom_args_error)
 
     # Global simulation parameters
-    general_group = parser.add_argument_group("General simulation parameters", "")
+    general_group = parser.add_argument_group(
+        "General", "General simulation parameters"
+    )
 
     general_group.add_argument(
         "-f",
@@ -169,7 +171,7 @@ def _main() -> int:
 
     # Per node simulation parameters
     node1_group = parser.add_argument_group(
-        "Node (or source node) simulation parameters", ""
+        "Node", "Node (or source node) simulation parameters"
     )
 
     node1_group.add_argument(
@@ -210,8 +212,8 @@ def _main() -> int:
 
     # Relay-specific simulation parameters
     node2_group = parser.add_argument_group(
+        "Relay",
         "Relay-specific simulation parameters (if different than source node)",
-        "",
     )
 
     node2_group.add_argument(
@@ -251,7 +253,9 @@ def _main() -> int:
     )
 
     # Output specification parameters
-    output_group = parser.add_argument_group("Output specification", "")
+    output_group = parser.add_argument_group(
+        "Output", "Output specification parameters"
+    )
 
     output_group.add_argument(
         "-t", "--show-table", action="store_true", help="Show table with results"
