@@ -4,10 +4,10 @@ from __future__ import annotations
 
 import itertools
 from collections import namedtuple
-from collections.abc import Sequence
+from collections.abc import MutableSequence, Sequence
 from multiprocessing.sharedctypes import Synchronized
 from threading import Event
-from typing import NamedTuple
+from typing import NamedTuple, cast
 
 import numpy as np
 import pandas as pd
@@ -504,7 +504,7 @@ def multi_param_ev_sim(
     seed: int | np.signedinteger | None = None,
     counter: Synchronized[int] | None = None,
     stop_event: Event | None = None,
-) -> tuple[pd.DataFrame, Sequence[str]]:
+) -> tuple[pd.DataFrame, dict[str, Sequence[NamedTuple]]]:
     """Run the simulation for multiple parameters and return the results.
 
     Args:
@@ -542,7 +542,7 @@ def multi_param_ev_sim(
 
     results = []
 
-    param_error_log = []
+    param_error_log: dict[str, Sequence[NamedTuple]] = {}
 
     # Define the named tuple
     ParamCombo = namedtuple(
@@ -648,11 +648,14 @@ def multi_param_ev_sim(
         except _SimParamError as spe:
             # In case of invalid parameters or parameter combinations, log the
             # error and proceed to the next combination
-            param_error_log.append(str(spe))
+            err_msg = str(spe)
+            if err_msg not in param_error_log:
+                param_error_log[err_msg] = []
+            cast(MutableSequence, param_error_log[err_msg]).append(combo)
 
         if counter is not None:
             counter.value += 1
         if stop_event is not None and stop_event.is_set():
-            return pd.DataFrame(results), param_error_log
+            break
 
     return pd.DataFrame(results), param_error_log

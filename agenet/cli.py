@@ -18,6 +18,7 @@ from rich.markdown import Markdown
 from rich.panel import Panel
 from rich.progress import Progress, TimeElapsedColumn
 from rich.text import Text
+from rich.theme import Theme
 from rich_argparse import RichHelpFormatter
 from rich_tools import df_to_table
 
@@ -29,7 +30,7 @@ class _SectionType(Enum):
 
     ERROR = (1, "Error", "bold bright_red", "red")
     WARNING = (2, "Warning", "bold dark_orange", "orange_red1")
-    RESULTS = (3, "Simulation results", "bold", "")
+    INFO = (3, "Information", "bold", "")
 
     # Custom initializer to unpack the tuple
     def __init__(self, code, title, title_style, text_style):
@@ -46,7 +47,9 @@ class _ProgressPanel(Progress):
         yield Panel(self.make_tasks_table(self.tasks), box=box.SIMPLE)
 
 
-def _section(sec_type: _SectionType, contents: RenderableType) -> RenderableType:
+def _section(
+    sec_type: _SectionType, contents: RenderableType, title=None
+) -> RenderableType:
     """Display a new section."""
     # If the contents are a pure string, style them according to the section type
     styled_contents = (
@@ -55,19 +58,47 @@ def _section(sec_type: _SectionType, contents: RenderableType) -> RenderableType
         else contents
     )
 
+    # Is there a custom title?
+    title = sec_type.title if title is None else title
+
     # Wrap the text in a panel to clearly differentiate from the
     # remaining output
     return Group(
-        Text(sec_type.title, style=sec_type.title_style),
+        Text(title, style=sec_type.title_style),
         Panel(styled_contents, box=box.SIMPLE),
     )
 
 
 def _main() -> int:
     """Function invoked when running the agenet command at the terminal."""
-    # Initialize Rich consoles for enhanced terminal output
-    console = Console()
-    err_console = Console(stderr=True)
+    # Configure Rich consoles for enhanced terminal output
+    md_list_warn_theme = Theme(
+        {
+            "markdown.item.bullet": _SectionType.WARNING.title_style,
+            "markdown.item": _SectionType.WARNING.text_style,
+            "markdown.code": _SectionType.WARNING.text_style + " on bright_black",
+        }
+    )
+
+    err_console = Console(stderr=True, theme=md_list_warn_theme)
+
+    md_list_info_theme = Theme(
+        {
+            "markdown.item.bullet": _SectionType.INFO.title_style,
+            "markdown.item": _SectionType.INFO.text_style,
+            "markdown.code": _SectionType.INFO.text_style + " on bright_black",
+        }
+    )
+
+    console = Console(theme=md_list_info_theme)
+
+    console.print()
+
+    # List of exported / saved files
+    exports: list[str] = []
+
+    # Possible plot to display
+    plot_to_display = None
 
     # Default arguments
     def_params: dict[str, list[float]] = {
@@ -94,7 +125,6 @@ def _main() -> int:
     # Custom error formatting function for ArgumentParser
     def custom_args_error(self, message):
         self.print_usage()
-        err_console.print()
         err_console.print(_section(_SectionType.ERROR, message))
         sys.exit(2)
 
@@ -243,16 +273,15 @@ def _main() -> int:
     )
     output_group.add_argument(
         "--save-plot",
-        type=str,
-        default="",
         metavar="IMAGE_FILE",
         help="Save plot to file (only valid if exactly one parameter varies, extension determines file type)",
     )
 
     output_group.add_argument(
         "--debug",
-        choices=["0", "1", "2"],
-        default="0",
+        type=int,
+        choices=[0, 1, 2],
+        default=0,
         help="Level of debugging report if an error occurs (default: %(default)s)",
     )
 
@@ -364,7 +393,6 @@ def _main() -> int:
                 except KeyboardInterrupt:
                     stop_event.set()
                     progress.stop()
-                    err_console = Console(stderr=True)
                     err_console.print(
                         _section(
                             _SectionType.WARNING, "Simulation terminated early by user!"
@@ -380,21 +408,21 @@ def _main() -> int:
             table = df_to_table(results)
             table.row_styles = ["none", "dim"]
             table.box = box.SIMPLE_HEAD
-            console.print(_section(_SectionType.RESULTS, table))
+            console.print(
+                _section(_SectionType.INFO, table, title="Simulation results")
+            )
 
         if len(param_error_log) > 0:
-            pel_str = "\n".join(["- " + s for s in param_error_log])
-            errors_to_render = Markdown(
-                "**Invalid parameter combinations which were not simulated:**\n"
-                + pel_str
-            )
-            console.print(errors_to_render)
+            pel_str = "\n".join(["- " + s for s in param_error_log.keys()])
+            errors_to_render = Markdown(pel_str)
+
+            err_console.print(_section(_SectionType.WARNING, errors_to_render))
 
         if args.save_csv:
             results.to_csv(args.save_csv, index=False)
-            console.print(f"Simulation results saved to {args.save_csv}")
+            exports.append(f"Simulation results saved to `{args.save_csv}`")
 
-        if args.show_plot or len(args.save_plot) > 0:
+        if args.show_plot or args.save_plot is not None:
             aoi_vs_param: tuple[str, str, list[float | int]]
             num_var_params = 0
             for param_info in [
@@ -434,10 +462,11 @@ def _main() -> int:
                 ax.set_ylabel("AAoI")
                 ax.set_ylim((0, max([aaoi_theory.max(), aaoi_sim.max()]) * 1.05))
                 ax.legend()
-                if len(args.save_plot) > 0:
+                if args.save_plot is not None:
                     fig.savefig(args.save_plot)
+                    exports.append(f"Simulation plot saved to `{args.save_plot}`")
                 if args.show_plot:
-                    plt.show()
+                    plot_to_display = ax
             else:
                 raise ValueError(
                     f"Unable to create plot: only 1 variable parameter is allowed, but there are {num_var_params}."
@@ -445,15 +474,27 @@ def _main() -> int:
 
     except Exception as e:
         stop_event.set()
-        if args.debug == "0":
+        if args.debug == 0:
 
             # Print the error panel to the console
             err_console.print(_section(_SectionType.ERROR, str(e)))
 
-        elif args.debug == "1":
+        elif args.debug == 1:
             err_console.print_exception()
         else:
             err_console.print_exception(show_locals=True)
         return 1
+
+    if len(exports) > 0:
+        exp_str = "\n".join(["- " + s for s in exports])
+        exports_to_render = Markdown(exp_str)
+
+        console.print(
+            _section(_SectionType.INFO, exports_to_render, title="Saved data")
+        )
+
+    # Show plot if it exists and was requested by user
+    if args.show_plot and plot_to_display is not None:
+        plt.show()
 
     return 0
