@@ -417,7 +417,13 @@ def _main() -> int:
             )
 
         if len(param_error_log) > 0:
-            pel_str = "\n".join(["- " + s for s in param_error_log.keys()])
+            pel_str = "\n".join(
+                [
+                    f"- {len(param_error_log[s])} invalid parameter combinations due to: "
+                    + s
+                    for s in param_error_log.keys()
+                ]
+            )
             errors_to_render = Markdown(pel_str)
 
             err_console.print(_section(_SectionType.WARNING, errors_to_render))
