@@ -8,7 +8,7 @@
 
 # agenet
 
-Agenet is an open-source Python package designed to estimate the Age of Information (AoI) in cooperative wireless networks. By implementing a system model that combines finite blocklength information theory and AoI analysis over Rayleigh fading channels, Agenet provides researchers and practitioners with a comprehensive tool for studying short packet-based communication networks. This package is particularly valuable for those working on mission-critical wireless systems where the freshness of information is crucial.
+Agenet is an open-source Python package designed to estimate the Age of Information (AoI) in cooperative wireless networks. By implementing a system model that combines finite blocklength information theory and AoI analysis over Rayleigh fading channels, Agenet provides users with a comprehensive tool for studying short packet-based communication networks. This package is particularly valuable for those working on mission-critical wireless systems where the freshness of information is crucial.
 
 ## System model
 
@@ -16,10 +16,10 @@ The following figure illustrates the wireless communication system that is propo
 
 ![System model.](https://raw.githubusercontent.com/cahthuranag/agenet/main/docs/docs/image/Fig1.png)
 
-Agenet implements a short packet decode-and-forward (DF) cooperative wireless relaying system. This system consists of three key nodes: a source node (S) that generates and transmits new updates, a relay node (R) that receives, decodes, and forwards data, and a destination node (D) that receives the forwarded data. The communication process is structured into two time slots within each transmission block, with the source transmitting data to the relay in the first slot, and the relay decoding and forwarding the data to the destination in the second slot. This model accounts for both small-scale and large-scale channel gains, considering Rayleigh fading and path loss to provide a realistic representation of wireless communication environments.
+Agenet implements a short packet decode-and-forward (DF) cooperative wireless relaying system. This system consists of three key nodes: a source node (S) that generates and transmits new updates, a relay node (R) that receives, decodes, and forwards data, and a destination node (D) that receives the forwarded data. The communication process is structured into two time slots within each transmission block, with the source transmitting data to the relay in the first slot, and the relay decoding and forwarding the data to the destination in the second slot. This wireless communication model accounts for both small-scale and large-scale channel gains, considering Rayleigh fading and path loss to provide a realistic representation of wireless communication environments.
 
 ## Features
-The **agenet** package allows the user to study the Age of Information (AoI) in cooperative wireless networks, which can be used as a basis for implementing mission-critical wireless communication applications. This application can be used as a study tool to analyze the age of information in cooperative wireless networks under short packet communications scenarios to maintain URLLC (ultra-reliable low-latency communication). In this application, various parameters such as power allocation, block length and  packet size can be adjusted to analyze how the age of information varies.
+The **agenet** package allows the user to estimate the Age of Information (AoI) in cooperative wireless networks, which can be used as a basis for implementing mission-critical wireless communication applications. This application can be used as a study tool to analyze the age of information in cooperative wireless networks under short packet communications scenarios to maintain URLLC (ultra-reliable low-latency communication). In this application, various parameters such as power allocation, block length and  packet size can be adjusted to analyze how the age of information varies.
 
 The **agenet** package contains several functions that can be used to study the AoI in a cooperative wireless networks. These functions allow the user to:
 
