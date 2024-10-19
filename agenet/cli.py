@@ -99,7 +99,7 @@ def _main() -> int:
         sys.exit(2)
 
     # Monkey patch the ArgumentParser class to replace its error method
-    argparse.ArgumentParser.error = custom_args_error
+    setattr(argparse.ArgumentParser, "error", custom_args_error)
 
     # Global simulation parameters
     general_group = parser.add_argument_group("General simulation parameters", "")
