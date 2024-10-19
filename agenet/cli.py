@@ -100,6 +100,9 @@ def _main() -> int:
     # Possible plot to display
     plot_to_display = None
 
+    # Return code, by default 0, meaning no errors
+    return_code = 0
+
     # Default arguments
     def_params: dict[str, list[float]] = {
         "distance": [500],
@@ -458,7 +461,15 @@ def _main() -> int:
                     num_var_params += 1
                     aoi_vs_param = param_info
 
-            if num_var_params == 1:
+            if num_var_params != 1:
+                raise ValueError(
+                    f"Unable to create plot: only 1 variable parameter is allowed, but there are {num_var_params}."
+                )
+            elif len(results) <= 1:
+                raise ValueError(
+                    f"Unable to create plot: insufficient simulation data."
+                )
+            else:
                 results_sorted = results.sort_values(aoi_vs_param[0])
 
                 fig, ax = plt.subplots()
@@ -471,16 +482,13 @@ def _main() -> int:
                 ax.set_xlabel(aoi_vs_param[1])
                 ax.set_ylabel("AAoI")
                 ax.set_ylim((0, max([aaoi_theory.max(), aaoi_sim.max()]) * 1.05))
+                ax.grid(True)
                 ax.legend()
                 if args.save_plot is not None:
                     fig.savefig(args.save_plot)
                     exports.append(f"Simulation plot saved to `{args.save_plot}`")
                 if args.show_plot:
                     plot_to_display = ax
-            else:
-                raise ValueError(
-                    f"Unable to create plot: only 1 variable parameter is allowed, but there are {num_var_params}."
-                )
 
     except Exception as e:
         stop_event.set()
@@ -493,7 +501,7 @@ def _main() -> int:
             err_console.print_exception()
         else:
             err_console.print_exception(show_locals=True)
-        return 1
+        return_code = 1
 
     if len(exports) > 0:
         exp_str = "\n".join(["- " + s for s in exports])
@@ -507,4 +515,4 @@ def _main() -> int:
     if args.show_plot and plot_to_display is not None:
         plt.show()
 
-    return 0
+    return return_code
