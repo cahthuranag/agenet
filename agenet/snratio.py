@@ -15,7 +15,7 @@ def snr(
     """Computes the instantaneous SNR of the received signal.
 
     Args:
-      N0: The power spectral density of the noise.
+      N0:Noise power in Watts.
       d: The distance between the transmitter and receiver.
       P: The power of the transmitted signal.
       fr: The frequency of the signal.
@@ -48,7 +48,7 @@ def snr_avg(N0: float, d: float, P: float, fr: float) -> float:
     """Computes the average SNR of the received signal.
 
     Args:
-      N0: The power spectral density of the noise.
+      N0: Noise power in Watts.
       d: The distance between the transmitter and receiver.
       P: The power of the transmitted signal.
       fr: The frequency of the signal.
