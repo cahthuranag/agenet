@@ -3,6 +3,7 @@
 [![codecov](https://codecov.io/gh/cahthuranag/agenet/branch/main/graph/badge.svg?token=k8Ix6Zv8x9)](https://codecov.io/gh/cahthuranag/agenet)
 [![Code style: black](https://img.shields.io/badge/code%20style-black-000000.svg)](https://github.com/psf/black)
 [![Docs](https://img.shields.io/badge/docs-stable-blue.svg)](https://cahthuranag.github.io/agenet/)
+[![pages-build-deployment](https://github.com/cahthuranag/agenet/actions/workflows/pages/pages-build-deployment/badge.svg)](https://github.com/cahthuranag/agenet/actions/workflows/pages/pages-build-deployment)
 ![GitHub Repo stars](https://img.shields.io/github/stars/cahthuranag/agenet?style=social)
 ![GitHub last commit](https://img.shields.io/github/last-commit/cahthuranag/agenet)
 
