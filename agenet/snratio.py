@@ -15,7 +15,7 @@ def snr(
     """Computes the instantaneous SNR of the received signal.
 
     Args:
-      N0:Noise power in Watts.
+      N0: Noise power in Watts.
       d: The distance between the transmitter and receiver.
       P: The power of the transmitted signal.
       fr: The frequency of the signal.
