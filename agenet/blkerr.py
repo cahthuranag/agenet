@@ -9,10 +9,10 @@ def _qfunc(x: float) -> float:
     """The Q-function gives the tail probability of the std.
 
     Args:
-        x: The value at which to evaluate the Q-function.
+      x: The value at which to evaluate the Q-function.
 
     Returns:
-        The value of the Q-function for the given x.
+      The value of the Q-function for the given x.
     """
     if x < 0:
         return 1
@@ -23,12 +23,12 @@ def block_error(snr: float, n: int, k: int) -> float:
     """Calculate the Block Error Rate for the given instantaneous SNR, n, k.
 
     Args:
-        snr: Instantaneous signal-to-noise ratio.
-        n: Total number of bits.
-        k: Number of information bits.
+      snr: Instantaneous signal-to-noise ratio.
+      n: Total number of bits.
+      k: Number of information bits.
 
     Returns:
-        The Block Error Rate.
+      The Block Error Rate.
     """
     c = math.log2(1 + snr)
     v = 0.5 * ((1 - (1 / ((1 + snr) ** 2))) * ((math.log2(math.exp(1))) ** 2))
@@ -45,12 +45,12 @@ def block_error_th(snr_avg: float, n: int, k: int) -> float:
     """Calculate the theoretical Block Error Rate for the given average SNR, n, k.
 
     Args:
-        snr_avg: Average Signal-to-noise ratio.
-        n: Total number of bits.
-        k: Number of information bits.
+      snr_avg: Average Signal-to-noise ratio.
+      n: Total number of bits.
+      k: Number of information bits.
 
     Returns:
-        The theoretical Block Error Rate.
+      The theoretical Block Error Rate.
     """
     try:
         beta = 1 / (2 * math.pi * math.sqrt((2 ** (2 * k / n)) - 1))

@@ -210,24 +210,24 @@ def _sim(
     by `sim()` and `ev_sim()`.
 
     Args:
-        frequency: Signal frequency in Hertz.
-        num_events: Number of events to simulate.
-        num_bits_1: Number of bits in a block for the source node.
-        info_bits_1: Number of bits in a message for the source node.
-        power_1: Power in Watts (source node).
-        distance_1: Distance between source node and relay.
-        N0_1: Noise power for the source node.
-        blkerr1_th: Theoretical block error for the source node.
-        num_bits_2: Number of bits in a block for the relay or access point.
-        info_bits_2: Number of bits in a message for the relay or access point.
-        power_2: Power in Watts (relay or access point).
-        distance_2: Distance between source node and destination.
-        N0_2: Noise power for the relay or access point.
-        blkerr2_th: Theoretical block error for the relay or access point.
-        rng: Pseudo-random number generator to use for the simulation.
+      frequency: Signal frequency in Hertz.
+      num_events: Number of events to simulate.
+      num_bits_1: Number of bits in a block for the source node.
+      info_bits_1: Number of bits in a message for the source node.
+      power_1: Power in Watts (source node).
+      distance_1: Distance between source node and relay.
+      N0_1: Noise power for the source node.
+      blkerr1_th: Theoretical block error for the source node.
+      num_bits_2: Number of bits in a block for the relay or access point.
+      info_bits_2: Number of bits in a message for the relay or access point.
+      power_2: Power in Watts (relay or access point).
+      distance_2: Distance between source node and destination.
+      N0_2: Noise power for the relay or access point.
+      blkerr2_th: Theoretical block error for the relay or access point.
+      rng: Pseudo-random number generator to use for the simulation.
 
     Returns:
-        A tuple containing the theoretical AAoI and the simulation AAoI.
+      A tuple containing the theoretical AAoI and the simulation AAoI.
     """
     # symbol time
     symbol_time = 60e-6
@@ -536,7 +536,7 @@ def multi_param_ev_sim(
 
     Returns:
       A tuple containing a DataFrame with the results of the simulation and a
-      log highlighting invalid parameters or parameter combinations.
+        log highlighting invalid parameters or parameter combinations.
     """
     rng = Generator(Philox(seed))
 

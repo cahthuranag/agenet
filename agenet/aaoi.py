@@ -13,11 +13,11 @@ def aaoi_fn(
     """Calculate the average age of information.
 
     Args:
-        receiving_times: List of receiving times.
-        generation_times: List of generation times.
+      receiving_times: List of receiving times.
+      generation_times: List of generation times.
 
     Returns:
-        Average age of information, age, times.
+      Average age of information, age, times.
     """
     # Generate times for the time axis
     times: NDArray = np.arange(0, receiving_times[0] + 0.0005, 0.0005)
