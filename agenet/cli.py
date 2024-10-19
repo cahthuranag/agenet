@@ -65,8 +65,9 @@ def _section(sec_type: _SectionType, contents: RenderableType) -> RenderableType
 
 def _main() -> int:
     """Function invoked when running the agenet command at the terminal."""
-    # Initialize a Rich console for enhanced terminal output
+    # Initialize Rich consoles for enhanced terminal output
     console = Console()
+    err_console = Console(stderr=True)
 
     # Default arguments
     def_params: dict[str, list[float]] = {
@@ -86,9 +87,19 @@ def _main() -> int:
     # Create a parser to parse our command line arguments
     parser = argparse.ArgumentParser(
         prog="agenet",
-        description="AgeNet is a Python package to estimate the Age of Information in cooperative wireless networks",
+        description="Agenet is a Python package to estimate the Age of Information in cooperative wireless networks",
         formatter_class=lambda prog: RichHelpFormatter(prog, console=console),
     )
+
+    # Custom error formatting function for ArgumentParser
+    def custom_args_error(self, message):
+        self.print_usage()
+        err_console.print()
+        err_console.print(_section(_SectionType.ERROR, message))
+        sys.exit(2)
+
+    # Monkey patch the ArgumentParser class to replace its error method
+    argparse.ArgumentParser.error = custom_args_error
 
     # Global simulation parameters
     general_group = parser.add_argument_group("General simulation parameters", "")
@@ -253,10 +264,10 @@ def _main() -> int:
         + "[/]",
     )
 
-    try:
+    # Parse the command line arguments
+    args = parser.parse_args()
 
-        # Parse the command line arguments
-        args = parser.parse_args()
+    try:
 
         # Create a shared counter for keeping tabs on the simulation progress
         # Type 'i' means signed integer
@@ -434,7 +445,6 @@ def _main() -> int:
 
     except Exception as e:
         stop_event.set()
-        err_console = Console(stderr=True)
         if args.debug == "0":
 
             # Print the error panel to the console
