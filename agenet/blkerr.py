@@ -6,7 +6,14 @@ import scipy.special as sp
 
 
 def _qfunc(x: float) -> float:
-    """The Q-function gives the tail probability of the std."""
+    """The Q-function gives the tail probability of the std.
+
+    Args:
+        x: The value at which to evaluate the Q-function.
+
+    Returns:
+        The value of the Q-function for the given x.
+    """
     if x < 0:
         return 1
     return 0.5 - 0.5 * sp.erf(x / math.sqrt(2))
