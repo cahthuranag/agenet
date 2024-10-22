@@ -56,6 +56,10 @@ def _main() -> int:
     # Package version
     agenet_version = importlib.metadata.version("agenet")
 
+    # Color of the "agenet" word / command
+    agenet_color = "grey42"
+    RichHelpFormatter.styles["argparse.prog"] = agenet_color
+
     # Run log
     run_log: MutableSequence[_RunLogMessage] = []
 
@@ -266,7 +270,7 @@ def _main() -> int:
     # Parse the command line arguments
     args = parser.parse_args()
 
-    console.print(f"[grey50]agenet[/] v[i]{agenet_version}[/i]")
+    console.print(f"[{agenet_color}]agenet[/] v[i]{agenet_version}[/i]")
 
     try:
 
