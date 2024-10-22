@@ -12,6 +12,7 @@ from threading import Event
 from time import sleep
 
 import matplotlib.pyplot as plt
+import numpy as np
 from rich import box
 from rich.console import Console, Group, RenderableType
 from rich.markdown import Markdown
@@ -472,6 +473,10 @@ def _main() -> int:
                 fig, ax = plt.subplots()
                 aaoi_theory = results["aaoi_theory"]
                 aaoi_sim = results["aaoi_sim"]
+                if np.isinf(aaoi_theory).any() or np.isinf(aaoi_sim).any():
+                    raise ValueError(
+                        "Unable to create plot: some AAoI values are infinite."
+                    )
                 ax.plot(results[aoi_vs_param[0]], aaoi_theory, label="Theoretical")
                 ax.plot(results[aoi_vs_param[0]], aaoi_sim, label="Simulation")
                 ax.set_xlabel(aoi_vs_param[1])
