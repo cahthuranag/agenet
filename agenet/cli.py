@@ -63,9 +63,6 @@ def _main() -> int:
     # Run log
     run_log: MutableSequence[RunLogMsg] = []
 
-    # List of exported / saved files
-    exports: list[str] = []
-
     # Possible plot to display
     plot_to_display = None
 
@@ -405,7 +402,12 @@ def _main() -> int:
 
         if args.save_csv:
             results.to_csv(args.save_csv, index=False)
-            exports.append(f"Simulation results saved to `{args.save_csv}`")
+            run_log.append(
+                RunLogMsg(
+                    message=f"Simulation results saved to `{args.save_csv}`",
+                    msg_type=MsgType.INFO,
+                )
+            )
 
         if args.show_plot or args.save_plot is not None:
             aoi_vs_param: tuple[str, str, list[float | int]]
@@ -457,7 +459,13 @@ def _main() -> int:
                 ax.legend()
                 if args.save_plot is not None:
                     fig.savefig(args.save_plot)
-                    exports.append(f"Simulation plot saved to `{args.save_plot}`")
+                    run_log.append(
+                        RunLogMsg(
+                            message=f"Simulation plot saved to `{args.save_plot}`",
+                            msg_type=MsgType.INFO,
+                        )
+                    )
+
                 if args.show_plot:
                     plot_to_display = ax
 
@@ -473,10 +481,6 @@ def _main() -> int:
         else:
             err_console.print_exception(show_locals=True)
         return_code = 1
-
-    if len(exports) > 0:
-
-        run_log.extend([RunLogMsg(message=m, msg_type=MsgType.INFO) for m in exports])
 
     # Show run log
     run_log = sorted(run_log, key=lambda rlm: rlm.msg_type.code)
