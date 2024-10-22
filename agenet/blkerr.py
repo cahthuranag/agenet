@@ -54,7 +54,7 @@ def block_error_th(snr_avg: float, n: int, k: int) -> float:
     """
     try:
         beta = 1 / (2 * math.pi * math.sqrt((2 ** (2 * k / n)) - 1))
-    except ValueError:
+    except ArithmeticError:
         return 1.0  # Assume worst-case scenario if we can't calculate beta
 
     sim_phi = (2 ** (k / n)) - 1
