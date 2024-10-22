@@ -31,7 +31,7 @@ def _main() -> int:
     err_console = Console(stderr=True, highlight=False)
     console = Console(highlight=False)
 
-    class _MessageType(Enum):
+    class MsgType(Enum):
         """Different types of summary item."""
 
         INFO = (1, Style(color="green"), console)
@@ -44,13 +44,13 @@ def _main() -> int:
             self.style = style
             self.console = console
 
-    class _RunLogMessage(NamedTuple):
+    class RunLogMsg(NamedTuple):
         """Class for log messages."""
 
         message: str
         """Log message."""
 
-        mtype: _MessageType
+        msg_type: MsgType
         """Type of message."""
 
     # Package version
@@ -61,7 +61,7 @@ def _main() -> int:
     RichHelpFormatter.styles["argparse.prog"] = agenet_color
 
     # Run log
-    run_log: MutableSequence[_RunLogMessage] = []
+    run_log: MutableSequence[RunLogMsg] = []
 
     # List of exported / saved files
     exports: list[str] = []
@@ -97,7 +97,7 @@ def _main() -> int:
     # Custom error formatting function for ArgumentParser
     def custom_args_error(self, message):
         self.print_usage()
-        err_console.print(message, style=_MessageType.ERROR.style)
+        err_console.print(message, style=MsgType.ERROR.style)
         sys.exit(2)
 
     # Monkey patch the ArgumentParser class to replace its error method
@@ -369,9 +369,9 @@ def _main() -> int:
                     stop_event.set()
                     progress.stop()
                     run_log.append(
-                        _RunLogMessage(
+                        RunLogMsg(
                             message="Simulation terminated early by user!",
-                            mtype=_MessageType.WARNING,
+                            msg_type=MsgType.WARNING,
                         )
                     )
 
@@ -381,9 +381,9 @@ def _main() -> int:
                 # Log the time taken to run the simulation
                 elapsed_time = progress.tasks[task].elapsed
                 run_log.append(
-                    _RunLogMessage(
+                    RunLogMsg(
                         message=f"Elapsed simulation time: {elapsed_time:.2f} seconds",
-                        mtype=_MessageType.INFO,
+                        msg_type=MsgType.INFO,
                     )
                 )
 
@@ -401,9 +401,7 @@ def _main() -> int:
                 for s in param_error_log.keys()
             ]
 
-            run_log.extend(
-                [_RunLogMessage(m, _MessageType.WARNING) for m in param_errors]
-            )
+            run_log.extend([RunLogMsg(m, MsgType.WARNING) for m in param_errors])
 
         if args.save_csv:
             results.to_csv(args.save_csv, index=False)
@@ -468,7 +466,7 @@ def _main() -> int:
         if args.debug == 0:
 
             # Log the error message
-            run_log.append(_RunLogMessage(message=str(e), mtype=_MessageType.ERROR))
+            run_log.append(RunLogMsg(message=str(e), msg_type=MsgType.ERROR))
 
         elif args.debug == 1:
             err_console.print_exception()
@@ -478,14 +476,12 @@ def _main() -> int:
 
     if len(exports) > 0:
 
-        run_log.extend(
-            [_RunLogMessage(message=m, mtype=_MessageType.INFO) for m in exports]
-        )
+        run_log.extend([RunLogMsg(message=m, msg_type=MsgType.INFO) for m in exports])
 
     # Show run log
-    run_log = sorted(run_log, key=lambda rlm: rlm.mtype.code)
-    for message, mtype in run_log:
-        mtype.console.print(f" • {message}", style=mtype.style)
+    run_log = sorted(run_log, key=lambda rlm: rlm.msg_type.code)
+    for message, msg_type in run_log:
+        msg_type.console.print(f" • {message}", style=msg_type.style)
 
     # Show plot if it exists and was requested by user
     if args.show_plot and plot_to_display is not None:
