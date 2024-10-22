@@ -11,7 +11,6 @@ from typing import NamedTuple, cast
 
 import numpy as np
 import pandas as pd
-from numpy import nan
 from numpy.random import PCG64DXSM, Generator, Philox
 
 from .aaoi import aaoi_fn
@@ -268,8 +267,8 @@ def _sim(
         if er_indi == 0:
             # If the packet is not successfully decoded at the destination,
             # departure timestamp is set to nan
-            departure_timestamps_s[i] = nan
-            server_timestamps_1[i] = nan
+            departure_timestamps_s[i] = np.nan
+            server_timestamps_1[i] = np.nan
         else:
             departure_timestamps_s[i] = arrival_timestamps[i] + inter_service_times[i]
             server_timestamps_1[i] = arrival_timestamps[i]
@@ -286,7 +285,7 @@ def _sim(
     # if dep and sermat are empty, return infinity
     if not dep or not sermat:
         return float("inf"), float("inf")
-    if departure_timestamps_s[-1] == nan:
+    if np.isnan(departure_timestamps_s[-1]):
         depature_mat = dep + arrival_timestamps[-1] + inter_service_times[-1]
         arrival_mat = [0] + sermat[1:] + arrival_timestamps[-1]
     else:
