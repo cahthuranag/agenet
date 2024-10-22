@@ -20,7 +20,7 @@
       
       
       <link rel="icon" href="https://raw.githubusercontent.com/cahthuranag/agenet/main/docs/docs/image/favicon.png">
-      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.5.41">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.5.42">
     
     
       
@@ -487,16 +487,17 @@
 <a href="https://codecov.io/gh/cahthuranag/agenet"><img alt="codecov" src="https://codecov.io/gh/cahthuranag/agenet/branch/main/graph/badge.svg?token=k8Ix6Zv8x9" /></a>
 <a href="https://github.com/psf/black"><img alt="Code style: black" src="https://img.shields.io/badge/code%20style-black-000000.svg" /></a>
 <a href="https://cahthuranag.github.io/agenet/"><img alt="Docs" src="https://img.shields.io/badge/docs-stable-blue.svg" /></a>
+<a href="https://github.com/cahthuranag/agenet/actions/workflows/pages/pages-build-deployment"><img alt="pages-build-deployment" src="https://github.com/cahthuranag/agenet/actions/workflows/pages/pages-build-deployment/badge.svg" /></a>
 <img alt="GitHub Repo stars" src="https://img.shields.io/github/stars/cahthuranag/agenet?style=social" />
 <img alt="GitHub last commit" src="https://img.shields.io/github/last-commit/cahthuranag/agenet" /></p>
 <h1 id="agenet">agenet</h1>
-<p>Agenet is an open-source Python package designed to estimate the Age of Information (AoI) in cooperative wireless networks. By implementing a system model that combines finite blocklength information theory and AoI analysis over Rayleigh fading channels, Agenet provides researchers and practitioners with a comprehensive tool for studying short packet-based communication networks. This package is particularly valuable for those working on mission-critical wireless systems where the freshness of information is crucial.</p>
+<p>Agenet is an open-source Python package designed to estimate the Age of Information (AoI) in cooperative wireless networks. By implementing a system model that combines finite blocklength information theory and AoI analysis over Rayleigh fading channels, Agenet provides users with a comprehensive tool for studying short packet-based communication networks. This package is particularly valuable for those working on mission-critical wireless systems where the freshness of information is crucial.</p>
 <h2 id="system-model">System model</h2>
 <p>The following figure illustrates the wireless communication system that is proposed in this application.</p>
 <p><img alt="System model." src="https://raw.githubusercontent.com/cahthuranag/agenet/main/docs/docs/image/Fig1.png" /></p>
-<p>Agenet implements a short packet decode-and-forward (DF) cooperative wireless relaying system. This system consists of three key nodes: a source node (S) that generates and transmits new updates, a relay node (R) that receives, decodes, and forwards data, and a destination node (D) that receives the forwarded data. The communication process is structured into two time slots within each transmission block, with the source transmitting data to the relay in the first slot, and the relay decoding and forwarding the data to the destination in the second slot. This model accounts for both small-scale and large-scale channel gains, considering Rayleigh fading and path loss to provide a realistic representation of wireless communication environments.</p>
+<p>Agenet implements a short packet decode-and-forward (DF) cooperative wireless relaying system. This system consists of three key nodes: a source node (S) that generates and transmits new updates, a relay node (R) that receives, decodes, and forwards data, and a destination node (D) that receives the forwarded data. The communication process is structured into two time slots within each transmission block, with the source transmitting data to the relay in the first slot, and the relay decoding and forwarding the data to the destination in the second slot. This wireless communication model accounts for both small-scale and large-scale channel gains, considering Rayleigh fading and path loss to provide a realistic representation of wireless communication environments.</p>
 <h2 id="features">Features</h2>
-<p>The <strong>agenet</strong> package allows the user to study the Age of Information (AoI) in cooperative wireless networks, which can be used as a basis for implementing mission-critical wireless communication applications. This application can be used as a study tool to analyze the age of information in cooperative wireless networks under short packet communications scenarios to maintain URLLC (ultra-reliable low-latency communication). In this application, various parameters such as power allocation, block length, packet size and transmission power can be adjusted to analyze how the age of information varies.</p>
+<p>The <strong>agenet</strong> package allows the user to estimate the Age of Information (AoI) in cooperative wireless networks, which can be used as a basis for implementing mission-critical wireless communication applications. This application can be used as a study tool to analyze the age of information in cooperative wireless networks under short packet communications scenarios to maintain URLLC (ultra-reliable low-latency communication). In this application, various parameters such as power allocation, block length and  packet size can be adjusted to analyze how the age of information varies.</p>
 <p>The <strong>agenet</strong> package contains several functions that can be used to study the AoI in a cooperative wireless networks. These functions allow the user to:</p>
 <ul>
 <li>
@@ -512,7 +513,7 @@
 <p>Estimate the average AoI value for a given update generation time and receiving time, which is a useful metric for evaluating the performance of any network.</p>
 </li>
 </ul>
-<p>Additionally, the <code>agenet</code> command-line script is included in the package, allowing for easy experimentation with the model with default or user-defined parameters. The simulation can generate both theoretical and simulated values for various factors such as block lengths, power allocations, packet sizes and transmission power in the network.</p>
+<p>Additionally, the <code>agenet</code> command-line script is included in the package, allowing for easy experimentation with the model with default or user-defined parameters. The simulation can generate both theoretical and simulated values for various factors such as block lengths, power allocations and packet sizes in the network.</p>
 <h2 id="how-to-install">How to install</h2>
 <p>Install from PyPI:</p>
 <pre><code>pip install agenet
