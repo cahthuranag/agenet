@@ -5,95 +5,61 @@ from __future__ import annotations
 import argparse
 import importlib.metadata
 import sys
+from collections.abc import MutableSequence
 from concurrent.futures import ThreadPoolExecutor
 from enum import Enum
 from multiprocessing import Value
 from threading import Event
 from time import sleep
+from typing import NamedTuple
 
 import matplotlib.pyplot as plt
 import numpy as np
 from rich import box
-from rich.console import Console, Group, RenderableType
-from rich.markdown import Markdown
-from rich.panel import Panel
+from rich.console import Console
 from rich.progress import Progress, TimeElapsedColumn
-from rich.text import Text
-from rich.theme import Theme
+from rich.style import Style
 from rich_argparse import RichHelpFormatter
 from rich_tools import df_to_table
 
 from .simulation import multi_param_ev_sim
 
 
-class _SectionType(Enum):
-    """Different types of text panel."""
+class _MessageType(Enum):
+    """Different types of summary item."""
 
-    ERROR = (1, "Error", "bold bright_red", "red")
-    WARNING = (2, "Warning", "bold dark_orange", "orange_red1")
-    INFO = (3, "Information", "bold", "")
+    ERROR = (1, "Error", Style(color="bright_red"))
+    WARNING = (2, "Warning", Style(color="orange_red1"))
+    INFO = (3, "Information", Style())
 
     # Custom initializer to unpack the tuple
-    def __init__(self, code, title, title_style, text_style):
+    def __init__(self, code, label, style):
         self.code = code
-        self.title = title
-        self.title_style = title_style
-        self.text_style = text_style
+        self.label = label
+        self.style = style
 
 
-class _ProgressPanel(Progress):
-    """Custom progress bar in a panel."""
+class _RunLogMessage(NamedTuple):
+    """Class for log messages."""
 
-    def get_renderables(self):
-        yield Panel(self.make_tasks_table(self.tasks), box=box.SIMPLE)
+    message: str
+    """Log message."""
 
-
-def _section(
-    sec_type: _SectionType, contents: RenderableType, title=None
-) -> RenderableType:
-    """Display a new section."""
-    # If the contents are a pure string, style them according to the section type
-    styled_contents = (
-        Text(contents, style=sec_type.text_style)
-        if isinstance(contents, str)
-        else contents
-    )
-
-    # Is there a custom title?
-    title = sec_type.title if title is None else title
-
-    # Wrap the text in a panel to clearly differentiate from the
-    # remaining output
-    return Group(
-        Text(title, style=sec_type.title_style),
-        Panel(styled_contents, box=box.SIMPLE),
-    )
+    mtype: _MessageType
+    """Type of message."""
 
 
 def _main() -> int:
     """Function invoked when running the agenet command at the terminal."""
+    # Package version
+    agenet_version = importlib.metadata.version("agenet")
+
+    # Run log
+    run_log: MutableSequence[_RunLogMessage] = []
+
     # Configure Rich consoles for enhanced terminal output
-    md_list_warn_theme = Theme(
-        {
-            "markdown.item.bullet": _SectionType.WARNING.title_style,
-            "markdown.item": _SectionType.WARNING.text_style,
-            "markdown.code": _SectionType.WARNING.text_style + " on bright_black",
-        }
-    )
-
-    err_console = Console(stderr=True, theme=md_list_warn_theme)
-
-    md_list_info_theme = Theme(
-        {
-            "markdown.item.bullet": _SectionType.INFO.title_style,
-            "markdown.item": _SectionType.INFO.text_style,
-            "markdown.code": _SectionType.INFO.text_style + " on bright_black",
-        }
-    )
-
-    console = Console(theme=md_list_info_theme)
-
-    console.print()
+    err_console = Console(stderr=True)
+    console = Console()
 
     # List of exported / saved files
     exports: list[str] = []
@@ -129,7 +95,7 @@ def _main() -> int:
     # Custom error formatting function for ArgumentParser
     def custom_args_error(self, message):
         self.print_usage()
-        err_console.print(_section(_SectionType.ERROR, message))
+        err_console.print(message, style=_MessageType.ERROR.style)
         sys.exit(2)
 
     # Monkey patch the ArgumentParser class to replace its error method
@@ -296,13 +262,13 @@ def _main() -> int:
     output_group.add_argument(
         "--version",
         action="version",
-        version="[argparse.prog]%(prog)s[/] v[i]"
-        + importlib.metadata.version("agenet")
-        + "[/]",
+        version="[argparse.prog]%(prog)s[/] v[i]" + agenet_version + "[/]",
     )
 
     # Parse the command line arguments
     args = parser.parse_args()
+
+    console.print(f"[dim]agenet[/] v{agenet_version}")
 
     try:
 
@@ -358,13 +324,12 @@ def _main() -> int:
         )
 
         # Run the simulation within the context of a progress bar
-        with _ProgressPanel(
+        with Progress(
             TimeElapsedColumn(),
             *Progress.get_default_columns(),
             console=console,
             transient=False,
         ) as progress:
-            console.print(Text("Simulation progress", style="bold"))
             task = progress.add_task("", total=total_steps)
 
             with ThreadPoolExecutor(max_workers=1) as executor:
@@ -401,9 +366,10 @@ def _main() -> int:
                 except KeyboardInterrupt:
                     stop_event.set()
                     progress.stop()
-                    err_console.print(
-                        _section(
-                            _SectionType.WARNING, "Simulation terminated early by user!"
+                    run_log.append(
+                        _RunLogMessage(
+                            message="Simulation terminated early by user!",
+                            type=_MessageType.WARNING,
                         )
                     )
 
@@ -416,21 +382,17 @@ def _main() -> int:
             table = df_to_table(results)
             table.row_styles = ["none", "dim"]
             table.box = box.SIMPLE_HEAD
-            console.print(
-                _section(_SectionType.INFO, table, title="Simulation results")
-            )
+            console.print(table)
 
         if len(param_error_log) > 0:
-            pel_str = "\n".join(
-                [
-                    f"- {len(param_error_log[s])} invalid parameter combinations due to: "
-                    + s
-                    for s in param_error_log.keys()
-                ]
-            )
-            errors_to_render = Markdown(pel_str)
+            param_errors = [
+                f"{len(param_error_log[s])} invalid parameter combinations due to: " + s
+                for s in param_error_log.keys()
+            ]
 
-            err_console.print(_section(_SectionType.WARNING, errors_to_render))
+            run_log.extend(
+                [_RunLogMessage(m, _MessageType.WARNING) for m in param_errors]
+            )
 
         if args.save_csv:
             results.to_csv(args.save_csv, index=False)
@@ -494,8 +456,8 @@ def _main() -> int:
         stop_event.set()
         if args.debug == 0:
 
-            # Print the error panel to the console
-            err_console.print(_section(_SectionType.ERROR, str(e)))
+            # Log the error message
+            run_log.append(_RunLogMessage(message=str(e), type=_MessageType.ERROR))
 
         elif args.debug == 1:
             err_console.print_exception()
@@ -504,12 +466,14 @@ def _main() -> int:
         return_code = 1
 
     if len(exports) > 0:
-        exp_str = "\n".join(["- " + s for s in exports])
-        exports_to_render = Markdown(exp_str)
 
-        console.print(
-            _section(_SectionType.INFO, exports_to_render, title="Saved data")
+        run_log.extend(
+            [_RunLogMessage(message=m, type=_MessageType.INFO) for m in exports]
         )
+
+    # Show run log
+    for message, mtype in run_log:
+        console.print(message, style=mtype.style)
 
     # Show plot if it exists and was requested by user
     if args.show_plot and plot_to_display is not None:
