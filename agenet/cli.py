@@ -17,7 +17,7 @@ import matplotlib.pyplot as plt
 import numpy as np
 from rich import box
 from rich.console import Console
-from rich.progress import Progress, TimeElapsedColumn
+from rich.progress import Progress, SpinnerColumn
 from rich.style import Style
 from rich_argparse import RichHelpFormatter
 from rich_tools import df_to_table
@@ -25,41 +25,39 @@ from rich_tools import df_to_table
 from .simulation import multi_param_ev_sim
 
 
-class _MessageType(Enum):
-    """Different types of summary item."""
-
-    ERROR = (1, "Error", Style(color="bright_red"))
-    WARNING = (2, "Warning", Style(color="orange_red1"))
-    INFO = (3, "Information", Style())
-
-    # Custom initializer to unpack the tuple
-    def __init__(self, code, label, style):
-        self.code = code
-        self.label = label
-        self.style = style
-
-
-class _RunLogMessage(NamedTuple):
-    """Class for log messages."""
-
-    message: str
-    """Log message."""
-
-    mtype: _MessageType
-    """Type of message."""
-
-
 def _main() -> int:
     """Function invoked when running the agenet command at the terminal."""
+    # Configure Rich consoles for enhanced terminal output
+    err_console = Console(stderr=True, highlight=False)
+    console = Console(highlight=False)
+
+    class _MessageType(Enum):
+        """Different types of summary item."""
+
+        INFO = (1, Style(color="green"), console)
+        WARNING = (2, Style(color="dark_goldenrod"), console)
+        ERROR = (3, Style(color="bright_red"), err_console)
+
+        # Custom initializer to unpack the tuple
+        def __init__(self, code, style, console):
+            self.code = code
+            self.style = style
+            self.console = console
+
+    class _RunLogMessage(NamedTuple):
+        """Class for log messages."""
+
+        message: str
+        """Log message."""
+
+        mtype: _MessageType
+        """Type of message."""
+
     # Package version
     agenet_version = importlib.metadata.version("agenet")
 
     # Run log
     run_log: MutableSequence[_RunLogMessage] = []
-
-    # Configure Rich consoles for enhanced terminal output
-    err_console = Console(stderr=True)
-    console = Console()
 
     # List of exported / saved files
     exports: list[str] = []
@@ -268,7 +266,7 @@ def _main() -> int:
     # Parse the command line arguments
     args = parser.parse_args()
 
-    console.print(f"[dim]agenet[/] v{agenet_version}")
+    console.print(f"[grey50]agenet[/] v[i]{agenet_version}[/i]")
 
     try:
 
@@ -325,10 +323,10 @@ def _main() -> int:
 
         # Run the simulation within the context of a progress bar
         with Progress(
-            TimeElapsedColumn(),
+            SpinnerColumn(),
             *Progress.get_default_columns(),
             console=console,
-            transient=False,
+            transient=True,
         ) as progress:
             task = progress.add_task("", total=total_steps)
 
@@ -369,12 +367,21 @@ def _main() -> int:
                     run_log.append(
                         _RunLogMessage(
                             message="Simulation terminated early by user!",
-                            type=_MessageType.WARNING,
+                            mtype=_MessageType.WARNING,
                         )
                     )
 
                 # Get the result after the task finishes
                 results, param_error_log = future.result()
+
+                # Log the time taken to run the simulation
+                elapsed_time = progress.tasks[task].elapsed
+                run_log.append(
+                    _RunLogMessage(
+                        message=f"Elapsed simulation time: {elapsed_time:.2f} seconds",
+                        mtype=_MessageType.INFO,
+                    )
+                )
 
         # Process output options
         if args.show_table:
@@ -457,7 +464,7 @@ def _main() -> int:
         if args.debug == 0:
 
             # Log the error message
-            run_log.append(_RunLogMessage(message=str(e), type=_MessageType.ERROR))
+            run_log.append(_RunLogMessage(message=str(e), mtype=_MessageType.ERROR))
 
         elif args.debug == 1:
             err_console.print_exception()
@@ -468,12 +475,13 @@ def _main() -> int:
     if len(exports) > 0:
 
         run_log.extend(
-            [_RunLogMessage(message=m, type=_MessageType.INFO) for m in exports]
+            [_RunLogMessage(message=m, mtype=_MessageType.INFO) for m in exports]
         )
 
     # Show run log
+    run_log = sorted(run_log, key=lambda rlm: rlm.mtype.code)
     for message, mtype in run_log:
-        console.print(message, style=mtype.style)
+        mtype.console.print(f" • {message}", style=mtype.style)
 
     # Show plot if it exists and was requested by user
     if args.show_plot and plot_to_display is not None:
