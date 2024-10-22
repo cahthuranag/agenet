@@ -19,6 +19,9 @@ def test_block_error():
     with pytest.raises(ZeroDivisionError, match="float division by zero"):
         block_error(10, 0, 50)
 
+    # Test for zero SNR
+    assert np.isclose(block_error(0, 100, 50), 1, rtol=1e-20)
+
     # Test for small SNR
     assert np.isclose(block_error(1e-3, 100, 50), 1, rtol=1e-2)
 
@@ -33,6 +36,9 @@ def test_block_error_th():
 
     # Test for large SNR
     assert np.isclose(round(block_error_th(1000, 600, 100), 3), 0)
+
+    # Make beta impossible to calculate, forcing the block error to be 1.0
+    assert np.isclose(block_error_th(1000, 0, 100), 1.0, rtol=1e-20)
 
 
 def test_qfunc():
