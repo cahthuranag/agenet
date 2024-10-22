@@ -372,18 +372,18 @@ def _main() -> int:
                 future = executor.submit(
                     multi_param_ev_sim,
                     num_runs=args.num_runs,
-                    frequency=args.frequency,
-                    num_events=args.num_events,
-                    num_bits=args.num_bits,
-                    info_bits=args.info_bits,
-                    power=args.power,
-                    distance=args.distance,
-                    N0=args.N0,
-                    num_bits_2=args.num_bits_2,
-                    info_bits_2=args.info_bits_2,
-                    power_2=args.power_2,
-                    distance_2=args.distance_2,
-                    N0_2=args.N0_2,
+                    frequency=sorted(set(args.frequency)),
+                    num_events=sorted(set(args.num_events)),
+                    num_bits=sorted(set(args.num_bits)),
+                    info_bits=sorted(set(args.info_bits)),
+                    power=sorted(set(args.power)),
+                    distance=sorted(set(args.distance)),
+                    N0=sorted(set(args.N0)),
+                    num_bits_2=sorted(set(args.num_bits_2)),
+                    info_bits_2=sorted(set(args.info_bits_2)),
+                    power_2=sorted(set(args.power_2)),
+                    distance_2=sorted(set(args.distance_2)),
+                    N0_2=sorted(set(args.N0_2)),
                     seed=args.seed,
                     counter=counter,
                     stop_event=stop_event,
@@ -466,19 +466,14 @@ def _main() -> int:
                     f"Unable to create plot: only 1 variable parameter is allowed, but there are {num_var_params}."
                 )
             elif len(results) <= 1:
-                raise ValueError(
-                    f"Unable to create plot: insufficient simulation data."
-                )
+                raise ValueError("Unable to create plot: insufficient simulation data.")
             else:
-                results_sorted = results.sort_values(aoi_vs_param[0])
 
                 fig, ax = plt.subplots()
-                aaoi_theory = results_sorted["aaoi_theory"]
-                aaoi_sim = results_sorted["aaoi_sim"]
-                ax.plot(
-                    results_sorted[aoi_vs_param[0]], aaoi_theory, label="Theoretical"
-                )
-                ax.plot(results_sorted[aoi_vs_param[0]], aaoi_sim, label="Simulation")
+                aaoi_theory = results["aaoi_theory"]
+                aaoi_sim = results["aaoi_sim"]
+                ax.plot(results[aoi_vs_param[0]], aaoi_theory, label="Theoretical")
+                ax.plot(results[aoi_vs_param[0]], aaoi_sim, label="Simulation")
                 ax.set_xlabel(aoi_vs_param[1])
                 ax.set_ylabel("AAoI")
                 ax.set_ylim((0, max([aaoi_theory.max(), aaoi_sim.max()]) * 1.05))
