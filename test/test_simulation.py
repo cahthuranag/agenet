@@ -139,54 +139,312 @@ def test_simulation_edge_cases():
         assert max_result[0] != float("inf"), "Theoretical value should not be infinity"
 
 
-def test_simulation_error_handling():
+@pytest.mark.parametrize(
+    "frequency, num_events, num_bits, info_bits, power, distance, N0, num_bits_2, info_bits_2, power_2, distance_2, N0_2, seed, expected_error, match_msg",
+    [
+        # frequency must be greater than 0 (given negative frequency)
+        (
+            -6 * (10**9),
+            1000,
+            300,
+            100,
+            10**-3,
+            700,
+            1 * (10**-13),
+            None,
+            None,
+            None,
+            None,
+            None,
+            42,
+            ValueError,
+            "`frequency` (-6000000000) must be greater than 0",
+        ),
+        # frequency must be greater than 0 (given zero frequency)
+        (
+            0,
+            1000,
+            300,
+            100,
+            10**-3,
+            700,
+            1 * (10**-13),
+            None,
+            None,
+            None,
+            None,
+            None,
+            42,
+            ValueError,
+            "`frequency` (0) must be greater than 0",
+        ),
+        # num_events must be greater than 0 (given negative number of events)
+        (
+            6 * (10**9),
+            -1000,
+            300,
+            100,
+            10**-3,
+            700,
+            1 * (10**-13),
+            None,
+            None,
+            None,
+            None,
+            None,
+            42,
+            ValueError,
+            "`num_events` (-1000) must be greater than 0",
+        ),
+        # num_events must be greater than 0 (given zero events)
+        (
+            6 * (10**9),
+            0,
+            300,
+            100,
+            10**-3,
+            700,
+            1 * (10**-13),
+            None,
+            None,
+            None,
+            None,
+            None,
+            42,
+            ValueError,
+            "`num_events` (0) must be greater than 0",
+        ),
+        # num_bits must be greater than 0
+        (
+            6 * (10**9),
+            1000,
+            0,
+            50,
+            10**-3,
+            700,
+            1 * (10**-13),
+            None,
+            None,
+            None,
+            None,
+            None,
+            42,
+            ValueError,
+            "`num_bits` (0) and `num_bits_2` (0) must be greater than 0",
+        ),
+        # num_bits_2 must be greater than 0
+        (
+            6 * (10**9),
+            1000,
+            100,
+            50,
+            10**-3,
+            700,
+            1 * (10**-13),
+            -100,
+            None,
+            None,
+            None,
+            None,
+            42,
+            ValueError,
+            "`num_bits` (100) and `num_bits_2` (-100) must be greater than 0",
+        ),
+        # info_bits must be greater than 0
+        (
+            6 * (10**9),
+            1000,
+            100,
+            0,
+            10**-3,
+            700,
+            1 * (10**-13),
+            None,
+            None,
+            None,
+            None,
+            None,
+            42,
+            ValueError,
+            "`info_bits` (0) and `info_bits_2` (0) must be greater than 0",
+        ),
+        # info_bits_2 must be greater than 0
+        (
+            6 * (10**9),
+            1000,
+            100,
+            100,
+            10**-3,
+            700,
+            1 * (10**-13),
+            None,
+            -100,
+            None,
+            None,
+            None,
+            42,
+            ValueError,
+            "`info_bits` (100) and `info_bits_2` (-100) must be greater than 0",
+        ),
+        # info_bits must be less than or equal to num_bits
+        (
+            6 * (10**9),
+            1000,
+            100,
+            101,
+            10**-3,
+            700,
+            1 * (10**-13),
+            None,
+            None,
+            None,
+            None,
+            None,
+            42,
+            ValueError,
+            "`info_bits` (101) must be less than or equal to `num_bits` (100)",
+        ),
+        # info_bits_2 must be less than or equal to num_bits_2
+        (
+            6 * (10**9),
+            1000,
+            100,
+            100,
+            10**-3,
+            700,
+            1 * (10**-13),
+            100,
+            101,
+            None,
+            None,
+            None,
+            42,
+            ValueError,
+            "`info_bits_2` (101) must be less than or equal to `num_bits_2` (100)",
+        ),
+        # num_bits_2 must be greater than or equal to num_bits
+        (
+            6 * (10**9),
+            1000,
+            100,
+            100,
+            10**-3,
+            700,
+            1 * (10**-13),
+            99,
+            99,
+            None,
+            None,
+            None,
+            42,
+            ValueError,
+            "`num_bits_2` (99) must be equal or greater than `num_bits` (100)",
+        ),
+        # power must be greater than 0
+        (
+            6 * (10**9),
+            1000,
+            300,
+            100,
+            -1,
+            700,
+            1 * (10**-13),
+            None,
+            None,
+            None,
+            None,
+            None,
+            42,
+            ValueError,
+            "`power` (-1) and `power_2` (-1) must be greater than 0",
+        ),
+        # power_2 must be greater than 0
+        (
+            6 * (10**9),
+            1000,
+            300,
+            100,
+            10**-3,
+            700,
+            1 * (10**-13),
+            None,
+            None,
+            -(10**-3),
+            None,
+            None,
+            42,
+            ValueError,
+            "`power` (0.001) and `power_2` (-0.001) must be greater than 0",
+        ),
+        # N0 must be greater than 0
+        (
+            6 * (10**9),
+            1000,
+            300,
+            100,
+            10**-3,
+            700,
+            -1 * (10**-13),
+            None,
+            None,
+            None,
+            None,
+            None,
+            42,
+            ValueError,
+            "`N0` (-1e-13) and `N0_2` (-1e-13) must be greater than 0",
+        ),
+        # N0_2 must be greater than 0
+        (
+            6 * (10**9),
+            1000,
+            300,
+            100,
+            10**-3,
+            700,
+            1 * (10**-13),
+            None,
+            None,
+            None,
+            None,
+            -1 * (10**-13),
+            42,
+            ValueError,
+            "`N0` (1e-13) and `N0_2` (-1e-13) must be greater than 0",
+        ),
+    ],
+)
+def test_simulation_error_handling(
+    frequency,
+    num_events,
+    num_bits,
+    info_bits,
+    power,
+    distance,
+    N0,
+    num_bits_2,
+    info_bits_2,
+    power_2,
+    distance_2,
+    N0_2,
+    seed,
+    expected_error,
+    match_msg,
+):
     """Test that the simulation function handles potential errors gracefully."""
-    nbits = 0
-    with pytest.raises(
-        ValueError,
-        match=re.escape(
-            f"`num_bits` ({nbits}) and `num_bits_2` ({nbits}) must be greater than 0"
-        ),
-    ):
-        sim(6 * (10**9), 1000, nbits, 50, 10**-3, 700, 1 * (10**-13), seed=42)
-
-    kbits = 0
-    with pytest.raises(
-        ValueError,
-        match=re.escape(
-            f"`info_bits` ({kbits}) and `info_bits_2` ({kbits}) must be greater than 0"
-        ),
-    ):
-        sim(6 * (10**9), 1000, 100, kbits, 10**-3, 700, 1 * (10**-13), seed=42)
-
-    nbits = 100
-    kbits = 101
-    with pytest.raises(
-        ValueError,
-        match=re.escape(
-            f"`info_bits` ({kbits}) must be less than or equal to `num_bits` ({nbits})"
-        ),
-    ):
-        sim(6 * (10**9), 1000, nbits, kbits, 10**-3, 700, 1 * (10**-13), seed=42)
-
-    pwr = -1
-    with pytest.raises(
-        ValueError,
-        match=re.escape(
-            f"`power` ({pwr}) and `power_2` ({pwr}) must be greater than 0"
-        ),
-    ):
-        sim(6 * (10**9), 1000, 300, 100, pwr, 700, 1 * (10**-13), seed=42)
-
-    n0 = -1 * (10**-13)
-    with pytest.raises(
-        ValueError,
-        match=re.escape(f"`N0` ({n0}) and `N0_2` ({n0}) must be greater than 0"),
-    ):
-        sim(6 * (10**9), 1000, 300, 100, 10**-3, 700, n0, seed=42)
-
-    fr = -6 * (10**9)
-    with pytest.raises(
-        ValueError, match=re.escape(f"`frequency` ({fr}) must be greater than 0")
-    ):
-        sim(fr, 1000, 300, 100, 10**-3, 700, 1 * (10**-13), seed=42)
+    with pytest.raises(expected_error, match=re.escape(match_msg)):
+        sim(
+            frequency,
+            num_events,
+            num_bits,
+            info_bits,
+            power,
+            distance,
+            N0,
+            num_bits_2,
+            info_bits_2,
+            power_2,
+            distance_2,
+            N0_2,
+            seed=seed,
+        )
