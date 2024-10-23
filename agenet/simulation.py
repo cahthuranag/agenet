@@ -124,7 +124,7 @@ def _param_validate(
         raise _SimParamError(
             f"`num_bits` ({num_bits}) and `num_bits_2` ({num_bits_2}) must be greater than 0"
         )
-    if info_bits <= 0 or info_bits <= 0:
+    if info_bits <= 0 or info_bits_2 <= 0:
         raise _SimParamError(
             f"`info_bits` ({info_bits}) and `info_bits_2` ({info_bits_2}) must be greater than 0"
         )
