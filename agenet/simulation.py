@@ -140,6 +140,10 @@ def _param_validate(
         raise _SimParamError(
             f"`power` ({power}) and `power_2` ({power_2}) must be greater than 0"
         )
+    if distance <= 0 or distance_2 <= 0:
+        raise _SimParamError(
+            f"`distance` ({distance}) and `distance_2` ({distance_2}) must be greater than 0"
+        )
     if N0 <= 0 or N0_2 <= 0:
         raise _SimParamError(f"`N0` ({N0}) and `N0_2` ({N0_2}) must be greater than 0")
 
