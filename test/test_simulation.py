@@ -3,8 +3,13 @@
 import re
 
 import pytest
+import numpy as np
 
 from agenet import ev_sim, sim
+
+# ############################ #
+# Tests for the sim() function #
+# ############################ #
 
 # define test cases
 test_cases = [
@@ -15,8 +20,8 @@ test_cases = [
 
 
 @pytest.mark.parametrize("fr, num_events, n, k, P, d, N0, seed", test_cases)
-def test_simulation(n, k, P, d, N0, fr, num_events, seed):
-    """Test the simulation function for various inputs."""
+def test_sim(n, k, P, d, N0, fr, num_events, seed):
+    """Test the sim() function for various inputs."""
     result = sim(fr, num_events, n, k, P, d, N0, seed=seed)
     assert result is not None
     assert isinstance(result, tuple)
@@ -28,8 +33,8 @@ def test_simulation(n, k, P, d, N0, fr, num_events, seed):
     assert simulated > 0
 
 
-def test_simulation_reproducibility():
-    """Test that the simulation produces the same results with the same seed."""
+def test_sim_reproducibility():
+    """Test that the sim() function produces the same results with the same seed."""
     params = (6 * (10**9), 1000, 300, 100, 10**-3, 700, 1 * (10**-13))
     seed = 42
     result1 = sim(*params, seed=seed)
@@ -39,43 +44,12 @@ def test_simulation_reproducibility():
     ), "Simulation results are not reproducible with the same seed"
 
 
-def test_simulation_different_seeds():
-    """Test that the simulation produces different results with different seeds."""
+def test_sim_different_seeds():
+    """Test that the sim() function produces different results with different seeds."""
     params = (6 * (10**9), 1000, 300, 100, 10**-3, 700, 1 * (10**-13))
     result1 = sim(*params, seed=42)
     result2 = sim(*params, seed=123)
     assert result1 != result2, "Simulation results are the same with different seeds"
-
-
-def test_run_simulation():
-    """Test the run_simulation function."""
-    params = (10, 6 * (10**9), 1000, 300, 100, 10**-3, 700, 1 * (10**-13))
-    result = ev_sim(*params, seed=42)
-    assert result is not None
-    assert isinstance(result, tuple)
-    assert len(result) == 6
-    assert all(isinstance(x, float) for x in result)
-    assert all(x > 0 for x in result)
-
-
-def test_run_simulation_reproducibility():
-    """Test that run_simulation produces the same results with the same seed."""
-    params = (10, 6 * (10**9), 1000, 300, 100, 10**-3, 700, 1 * (10**-13))
-    result1 = ev_sim(*params, seed=42)
-    result2 = ev_sim(*params, seed=42)
-    assert (
-        result1 == result2
-    ), "Run_simulation results are not reproducible with the same seed"
-
-
-def test_run_simulation_different_seeds():
-    """Test that run_simulation produces different results with different seeds."""
-    params = (10, 6 * (10**9), 1000, 300, 100, 10**-3, 700, 1 * (10**-13))
-    result1 = ev_sim(*params, seed=42)
-    result2 = ev_sim(*params, seed=123)
-    assert (
-        result1 != result2
-    ), "Run_simulation results are the same with different seeds"
 
 
 @pytest.mark.parametrize(
@@ -88,8 +62,8 @@ def test_run_simulation_different_seeds():
         -1,
     ],
 )
-def test_simulation_various_seeds(seed):
-    """Test the simulation function with various seed values."""
+def test_sim_various_seeds(seed):
+    """Test the sim() function with various seed values."""
     params = {
         "frequency": 6 * (10**9),
         "num_events": 1000,
@@ -109,7 +83,7 @@ def test_simulation_various_seeds(seed):
         assert all(isinstance(x, float) and x > 0 for x in result)
 
 
-def test_simulation_theoretical_consistency():
+def test_sim_theoretical_consistency():
     """Test that the theoretical result is consistent across multiple runs."""
     params = (6 * (10**9), 1000, 300, 100, 10**-3, 700, 1 * (10**-13))
     theoretical_results = [sim(*params, seed=i)[0] for i in range(10)]
@@ -118,8 +92,8 @@ def test_simulation_theoretical_consistency():
     ), "Theoretical results are not consistent"
 
 
-def test_simulation_edge_cases():
-    """Test the simulation function with edge case inputs."""
+def test_sim_edge_cases():
+    """Test the sim() function with edge case inputs."""
     # Test with minimum values
     min_result = sim(1 * (10**9), 10, 2, 1, 10**-6, 1, 10**-15, seed=42)
     assert min_result is not None
@@ -450,7 +424,7 @@ def test_simulation_edge_cases():
         ),
     ],
 )
-def test_simulation_error_handling(
+def test_sim_error_handling(
     frequency,
     num_events,
     num_bits,
@@ -467,7 +441,7 @@ def test_simulation_error_handling(
     expected_error,
     match_msg,
 ):
-    """Test that the simulation function handles potential errors gracefully."""
+    """Test that the sim() function handles potential errors gracefully."""
     with pytest.raises(expected_error, match=re.escape(match_msg)):
         sim(
             frequency,
@@ -484,3 +458,48 @@ def test_simulation_error_handling(
             N0_2,
             seed=seed,
         )
+
+
+# ############################ #
+# Tests for the ev_sim() function #
+# ############################ #
+
+
+def test_ev_sim():
+    """Test the ev_sim function."""
+    params = (10, 6 * (10**9), 1000, 300, 100, 10**-3, 700, 1 * (10**-13))
+    result = ev_sim(*params, seed=42)
+    assert result is not None
+    assert isinstance(result, tuple)
+    assert len(result) == 6
+    assert all(isinstance(x, float) for x in result)
+    assert all(x > 0 for x in result)
+
+
+def test_ev_sim_reproducibility():
+    """Test that ev_sim() function produces the same results with the same seed."""
+    params = (10, 6 * (10**9), 1000, 300, 100, 10**-3, 700, 1 * (10**-13))
+    result1 = ev_sim(*params, seed=42)
+    result2 = ev_sim(*params, seed=42)
+    assert (
+        result1 == result2
+    ), "Run_simulation results are not reproducible with the same seed"
+
+
+def test_ev_sim_different_seeds():
+    """Test that ev_sim() produces different results with different seeds."""
+    params = (10, 6 * (10**9), 1000, 300, 100, 10**-3, 700, 1 * (10**-13))
+    result1 = ev_sim(*params, seed=42)
+    result2 = ev_sim(*params, seed=123)
+    assert (
+        result1 != result2
+    ), "Run_simulation results are the same with different seeds"
+
+
+def test_ev_sim_return_inf_aaoi_th():
+    """Test that ev_sim() returns infinite ev AAoI when one AAoI is infinite."""
+    ev_aaoi_th, ev_aaoi_sim, _, _, _, _ = ev_sim(
+        20, 250000000000, 35, 400, 200, 0.005, 500, 1e-13
+    )
+    assert np.isinf(ev_aaoi_th)
+    assert np.isinf(ev_aaoi_sim)
