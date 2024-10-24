@@ -42,7 +42,7 @@ def test_version(script_runner):
     assert f"{agenet_cmd} v{agenet_version}" in ret.stdout
 
 
-def test_keyboard_interrupt(script_runner):
+def test_keyboard_interrupt():
     """Test a keyboard interrupt."""
     # Start the subprocess that runs the function in a separate Python interpreter
     process = subprocess.Popen(
@@ -73,6 +73,29 @@ def test_keyboard_interrupt(script_runner):
     assert "Simulation terminated early by user!" in stdout
     assert elapsed_str in stdout
     assert process.returncode == 0
+
+
+@pytest.mark.parametrize("table_param", ["--show-table", "-t"])
+def test_table(monkeypatch, script_runner, table_param):
+    """Test if a table is produced when requested."""
+    # Coerce Rich into thinking it's outputting to a wide console with no color
+    monkeypatch.setenv("NO_COLOR", "")
+    monkeypatch.setenv("COLUMNS", "300")
+
+    # Run the script
+    ret = script_runner.run(
+        [agenet_cmd, table_param, "--distance", "100", "200", "300"]
+    )
+
+    # Assert that the table was shown
+    assert ret.success
+    assert "freq" in ret.stdout
+    assert "num_" in ret.stdout
+    assert "info_" in ret.stdout
+    assert "powe" in ret.stdout
+    assert "dist" in ret.stdout
+    assert "N0" in ret.stdout
+    assert elapsed_str in ret.stdout
 
 
 @pytest.mark.parametrize(
