@@ -7,6 +7,7 @@ import sys
 import time
 
 import pytest
+import matplotlib.pyplot as plt
 
 agenet_cmd = "agenet"
 elapsed_str = "Elapsed simulation time: "
@@ -191,6 +192,24 @@ def test_save_plot(tmp_path, script_runner):
     assert img_file.exists()
     assert img_file.is_file()
     assert len(img_file.read_bytes()) > 0
+    assert elapsed_str in ret.stdout
+
+
+def test_show_plot(monkeypatch, script_runner):
+    """Test displaying the plot."""
+
+    def mock_show():
+        mock_show.was_called = True
+
+    mock_show.was_called = False
+    monkeypatch.setattr(plt, "show", mock_show)
+
+    ret = script_runner.run(
+        [agenet_cmd, "--power", "0.001", "0.002", "0.003", "--show-plot"]
+    )
+
+    assert mock_show.was_called, "plt.show() was not called"
+    assert ret.success
     assert elapsed_str in ret.stdout
 
 
