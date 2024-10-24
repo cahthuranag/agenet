@@ -1,10 +1,14 @@
 """Tests for the command-line script."""
 
 import importlib.metadata
+import signal
+import subprocess
+import time
 
 import pytest
 
 agenet_cmd = "agenet"
+elapsed_str = "Elapsed simulation time: "
 
 
 @pytest.mark.parametrize("help_param", ["--help", "-h"])
@@ -36,6 +40,39 @@ def test_version(script_runner):
     ret = script_runner.run([agenet_cmd, "--version"])
     assert ret.success
     assert f"{agenet_cmd} v{agenet_version}" in ret.stdout
+
+
+def test_keyboard_interrupt(script_runner):
+    """Test a keyboard interrupt."""
+    # Start the subprocess that runs the function in a separate Python interpreter
+    process = subprocess.Popen(
+        [
+            agenet_cmd,
+            "--num-events",
+            "10",
+            "--num-runs",
+            "10",
+            "--distance",
+            *[str(f) for f in range(10, 100000)],
+        ],
+        stdout=subprocess.PIPE,
+        stderr=subprocess.PIPE,
+        text=True,
+    )
+
+    # Give the subprocess some time to run
+    time.sleep(1.5)
+
+    # Send SIGINT to the subprocess to simulate a CTRL+C (KeyboardInterrupt)
+    process.send_signal(signal.SIGINT)
+
+    # Wait for the subprocess to terminate
+    stdout, _ = process.communicate()
+
+    # Check if the subprocess caught the KeyboardInterrupt and terminated correctly
+    assert "Simulation terminated early by user!" in stdout
+    assert elapsed_str in stdout
+    assert process.returncode == 0
 
 
 @pytest.mark.parametrize(
@@ -72,4 +109,4 @@ def test_valid_params(script_runner, valid_params):
     """Test that valid parameters don't produce errors."""
     ret = script_runner.run([agenet_cmd, *valid_params])
     assert ret.success
-    assert "Elapsed simulation time: " in ret.stdout
+    assert elapsed_str in ret.stdout
