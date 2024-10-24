@@ -60,7 +60,6 @@ dev = [
     "flake8-simplify",
     "isort",
     "pre-commit",
-    "types-tabulate",
     "typing"]
 
 [tool.setuptools]
