@@ -192,3 +192,25 @@ def test_save_plot(tmp_path, script_runner):
     assert img_file.is_file()
     assert len(img_file.read_bytes()) > 0
     assert elapsed_str in ret.stdout
+
+
+@pytest.mark.parametrize(
+    "invalid_plot_params, error_msg",
+    [
+        (["--frequency", "-10", "-20", "-30"], "insufficient simulation data"),
+        (["--N0", "2e-13"], "only 1 variable parameter is allowed, but there are 0"),
+        (
+            ["--power", "0.001", "0.002", "--distance-2", "300", "400"],
+            "only 1 variable parameter is allowed, but there are 2",
+        ),
+        (["-f", "1e13", "2e13", "5e13"], "some AAoI values are infinite"),
+    ],
+)
+def test_plot_errors(script_runner, invalid_plot_params, error_msg):
+    """Test if plot creation errors are raised."""
+    ret = script_runner.run([agenet_cmd, "--show-plot", *invalid_plot_params])
+
+    assert ret.returncode == 1
+    assert "Unable to create plot" in ret.stderr
+    assert error_msg in ret.stderr
+    assert elapsed_str in ret.stdout
