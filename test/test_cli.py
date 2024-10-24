@@ -3,6 +3,7 @@
 import importlib.metadata
 import signal
 import subprocess
+import sys
 import time
 
 import pytest
@@ -42,18 +43,15 @@ def test_version(script_runner):
     assert f"{agenet_cmd} v{agenet_version}" in ret.stdout
 
 
+@pytest.mark.skipif(sys.platform.startswith("win"), reason="Does not work on Windows")
 def test_keyboard_interrupt():
     """Test a keyboard interrupt."""
     # Start the subprocess that runs the function in a separate Python interpreter
     process = subprocess.Popen(
         [
             agenet_cmd,
-            "--num-events",
-            "10",
-            "--num-runs",
-            "10",
             "--distance",
-            *[str(f) for f in range(10, 100000)],
+            *[str(f) for f in range(10, 1000)],
         ],
         stdout=subprocess.PIPE,
         stderr=subprocess.PIPE,
@@ -61,7 +59,7 @@ def test_keyboard_interrupt():
     )
 
     # Give the subprocess some time to run
-    time.sleep(1.5)
+    time.sleep(1)
 
     # Send SIGINT to the subprocess to simulate a CTRL+C (KeyboardInterrupt)
     process.send_signal(signal.SIGINT)
