@@ -36,3 +36,40 @@ def test_version(script_runner):
     ret = script_runner.run([agenet_cmd, "--version"])
     assert ret.success
     assert f"{agenet_cmd} v{agenet_version}" in ret.stdout
+
+
+@pytest.mark.parametrize(
+    "valid_params",
+    [
+        ["--frequency", "2500000000"],
+        ["-f", "750000000"],
+        ["-f", "250000000", "500000000", "750000000"],
+        ["--num-events", "25"],
+        ["-e", "5", "35", "51"],
+        ["--num-runs", "10"],
+        ["-r", "12"],
+        ["-s", "12334"],
+        ["--seed", "3546"],
+        ["--num-bits", "500"],
+        ["--num-bits", "400", "500", "600"],
+        ["--info-bits", "305"],
+        ["--info-bits", "220", "300", "380"],
+        ["--power", "0.008"],
+        ["--power", "0.001", "0.003", "0.005", "0.007", "0.009"],
+        ["--N0", "1e-13"],
+        ["--N0", "1e-13", "2e-13", "3e-13", "4e-13", "5e-13"],
+        ["--num-bits-2", "600"],
+        ["--num-bits-2", "500", "600", "700", "800"],
+        ["--info-bits-2", "305"],
+        ["--info-bits-2", "280", "305", "325"],
+        ["--power-2", "0.006"],
+        ["--power-2", "0.001", "0.002", "0.003", "0.004", "0.005"],
+        ["--N0-2", "5e-14"],
+        ["--N0-2", "5e-14", "6e-14", "7e-14", "8e-14", "9e-14"],
+    ],
+)
+def test_valid_params(script_runner, valid_params):
+    """Test that valid parameters don't produce errors."""
+    ret = script_runner.run([agenet_cmd, *valid_params])
+    assert ret.success
+    assert "Elapsed simulation time: " in ret.stdout
