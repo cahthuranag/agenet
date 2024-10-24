@@ -131,3 +131,28 @@ def test_valid_params(script_runner, valid_params):
     ret = script_runner.run([agenet_cmd, *valid_params])
     assert ret.success
     assert elapsed_str in ret.stdout
+
+
+def test_invalid_param_combos(script_runner):
+    """Test that invalid parameter combinations are caught."""
+    ret = script_runner.run(
+        [
+            agenet_cmd,
+            "-f",
+            "-10",
+            "2500000000",
+            "--num-bits",
+            "300",
+            "350",
+            "400",
+            "450",
+            "--info-bits",
+            "310",
+            "390",
+            "410",
+            "480",
+        ]
+    )
+    assert ret.success
+    assert "invalid parameter combinations due to:" in ret.stdout
+    assert elapsed_str in ret.stdout
