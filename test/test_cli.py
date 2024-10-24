@@ -225,8 +225,12 @@ def test_show_plot(monkeypatch, script_runner):
         (["-f", "1e13", "2e13", "5e13"], "some AAoI values are infinite"),
     ],
 )
-def test_plot_errors(script_runner, invalid_plot_params, error_msg):
+def test_plot_errors(monkeypatch, script_runner, invalid_plot_params, error_msg):
     """Test if plot creation errors are raised."""
+    # Say to Rich that we have a 300-column terminal (required for Windows)
+    monkeypatch.setenv("NO_COLOR", "")
+    monkeypatch.setenv("COLUMNS", "300")
+
     ret = script_runner.run([agenet_cmd, "--show-plot", *invalid_plot_params])
 
     assert ret.returncode == 1
