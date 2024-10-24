@@ -237,3 +237,22 @@ def test_plot_errors(monkeypatch, script_runner, invalid_plot_params, error_msg)
     assert "Unable to create plot" in ret.stderr
     assert error_msg in ret.stderr
     assert elapsed_str in ret.stdout
+
+
+@pytest.mark.parametrize(
+    "debug_level, match_str",
+    [
+        (1, "Traceback"),
+        (2, "locals"),
+    ],
+)
+def test_debug_levels(script_runner, debug_level, match_str):
+    """Test that the debug levels are being activated."""
+    ret = script_runner.run(
+        [agenet_cmd, "--show-plot", "-f", "-10", "-20", "--debug", str(debug_level)]
+    )
+
+    assert ret.returncode == 1
+    assert match_str in ret.stderr
+    assert "ValueError" in ret.stderr
+    assert elapsed_str in ret.stdout
