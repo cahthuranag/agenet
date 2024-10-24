@@ -59,7 +59,7 @@ def test_keyboard_interrupt():
     )
 
     # Give the subprocess some time to run
-    time.sleep(1)
+    time.sleep(2)
 
     # Send SIGINT to the subprocess to simulate a CTRL+C (KeyboardInterrupt)
     process.send_signal(signal.SIGINT)
