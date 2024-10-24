@@ -1,11 +1,13 @@
 """This file contains the test cases for the maincom.py file."""
 
 import re
+from multiprocessing import Value
+from threading import Event
 
-import pytest
 import numpy as np
+import pytest
 
-from agenet import ev_sim, sim
+from agenet import ev_sim, multi_param_ev_sim, sim
 
 # ############################ #
 # Tests for the sim() function #
@@ -460,9 +462,9 @@ def test_sim_error_handling(
         )
 
 
-# ############################ #
+# ############################### #
 # Tests for the ev_sim() function #
-# ############################ #
+# ############################### #
 
 
 def test_ev_sim():
@@ -503,3 +505,178 @@ def test_ev_sim_return_inf_aaoi_th():
     )
     assert np.isinf(ev_aaoi_th)
     assert np.isinf(ev_aaoi_sim)
+
+
+# ########################################### #
+# Tests for the multi_param_ev_sim() function #
+# ########################################### #
+
+
+@pytest.mark.parametrize(
+    "num_runs, frequency, num_events, num_bits, info_bits, power, distance, N0, num_bits_2, info_bits_2, power_2, distance_2, N0_2, seed, counter, stop_event",
+    [
+        (
+            5,
+            [1000],
+            [50],
+            [100],
+            [100],
+            [10**-3],
+            [700],
+            [1 * (10**-13)],
+            [None],
+            [None],
+            [None],
+            [None],
+            [None],
+            42,
+            None,
+            None,
+        ),
+        (
+            5,
+            [1000, 2000],
+            [5, 10],
+            [100, 300],
+            [100, 350],
+            [10**-3],
+            [700],
+            [1 * (10**-13)],
+            [None],
+            [None],
+            [None],
+            [None],
+            [None],
+            42,
+            Value("i", 0),
+            Event(),
+        ),
+        (
+            2,
+            [1500],
+            [5],
+            [100, 300],
+            [100, 350],
+            [1e-3],
+            [700],
+            [1e-13],
+            [75, 100, 200, 350],
+            [65, 105, 195, 351],
+            [1e-3, 2e-3],
+            [500, 900],
+            [5e-14, 2e-13],
+            242,
+            Value("i", 0),
+            Event(),
+        ),
+    ],
+)
+def test_multi_param_ev_sim_ok(
+    num_runs,
+    frequency,
+    num_events,
+    num_bits,
+    info_bits,
+    power,
+    distance,
+    N0,
+    num_bits_2,
+    info_bits_2,
+    power_2,
+    distance_2,
+    N0_2,
+    seed,
+    counter,
+    stop_event,
+):
+    """Test that the multi_param_ev_sim() function works well with valid parameters."""
+    df, perrs = multi_param_ev_sim(
+        num_runs,
+        frequency,
+        num_events,
+        num_bits,
+        info_bits,
+        power,
+        distance,
+        N0,
+        num_bits_2,
+        info_bits_2,
+        power_2,
+        distance_2,
+        N0_2,
+        seed,
+        counter,
+        stop_event,
+    )
+
+    num_results = len(df) + sum(len(v) for v in perrs.values())
+    total_param_combos = (
+        len(frequency)
+        * len(num_events)
+        * len(num_bits)
+        * len(info_bits)
+        * len(power)
+        * len(distance)
+        * len(N0)
+        * len(num_bits_2)
+        * len(info_bits_2)
+        * len(power_2)
+        * len(distance_2)
+        * len(N0_2)
+    )
+
+    assert num_results == total_param_combos
+    assert counter is None or counter.value == num_results
+    assert stop_event is None or not stop_event.is_set()
+
+
+def test_multi_param_ev_sim_stop():
+    """Test that multi_param_ev_sim() stops ahead of time given an event signal."""
+    frequency = [1250]
+    num_events = [7]
+    num_bits = [100, 200]
+    info_bits = [100]
+    power = [1e-3]
+    distance = [600]
+    n0 = [9e-14]
+    same_as_source = [None]
+
+    stop_event = Event()
+    stop_event.set()
+    df, perrs = multi_param_ev_sim(
+        5,
+        frequency,
+        num_events,
+        num_bits,
+        info_bits,
+        power,
+        distance,
+        n0,
+        same_as_source,
+        same_as_source,
+        same_as_source,
+        same_as_source,
+        same_as_source,
+        123,
+        None,
+        stop_event,
+    )
+
+    num_results = len(df) + sum(len(v) for v in perrs.values())
+    total_param_combos = (
+        len(frequency)
+        * len(num_events)
+        * len(num_bits)
+        * len(info_bits)
+        * len(power)
+        * len(distance)
+        * len(n0)
+        * len(same_as_source)
+        * len(same_as_source)
+        * len(same_as_source)
+        * len(same_as_source)
+        * len(same_as_source)
+    )
+
+    assert num_results < total_param_combos
+    assert stop_event.is_set()
