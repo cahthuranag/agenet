@@ -156,3 +156,39 @@ def test_invalid_param_combos(script_runner):
     assert ret.success
     assert "invalid parameter combinations due to:" in ret.stdout
     assert elapsed_str in ret.stdout
+
+
+def test_save_csv(tmp_path, script_runner):
+    """Test if CSV file was successfully saved."""
+    csv_file = tmp_path / "results.csv"
+
+    ret = script_runner.run(
+        [
+            agenet_cmd,
+            "--distance-2",
+            *[str(f) for f in range(300, 310)],
+            "--save-csv",
+            str(csv_file),
+        ]
+    )
+
+    assert ret.success
+    assert csv_file.exists()
+    assert csv_file.is_file()
+    assert len(csv_file.read_text()) > 0
+    assert elapsed_str in ret.stdout
+
+
+def test_save_plot(tmp_path, script_runner):
+    """Test if plot image was successfully saved."""
+    img_file = tmp_path / "plot.png"
+
+    ret = script_runner.run(
+        [agenet_cmd, "--power", "0.001", "0.002", "0.003", "--save-plot", str(img_file)]
+    )
+
+    assert ret.success
+    assert img_file.exists()
+    assert img_file.is_file()
+    assert len(img_file.read_bytes()) > 0
+    assert elapsed_str in ret.stdout
