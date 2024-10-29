@@ -239,7 +239,7 @@ def _sim(
     transmission_period = (num_bits_1 + num_bits_2) * symbol_time
 
     # Inter-arrival times
-    inter_arrival_times = transmission_period * (np.ones(num_events))
+    inter_arrival_times = transmission_period * np.ones(num_events)
 
     # Arrival timestamps
     arrival_timestamps = np.cumsum(inter_arrival_times)
@@ -254,7 +254,6 @@ def _sim(
     er_p_th = blkerr1_th + (blkerr2_th * (1 - blkerr1_th))
 
     for i in range(0, num_events):
-
         # SNR for the source nodes at the relay or access point
         snr1 = snr(N0_1, distance_1, power_1, frequency, seed=rng)
         snr2 = snr(N0_2, distance_2, power_2, frequency, seed=rng)
@@ -277,8 +276,9 @@ def _sim(
             departure_timestamps_s[i] = arrival_timestamps[i] + inter_service_times[i]
             server_timestamps_1[i] = arrival_timestamps[i]
 
-    dep = [x for x in departure_timestamps_s if not np.isnan(x)]
-    sermat = [x for x in server_timestamps_1 if not np.isnan(x)]
+    # Using NumPy boolean indexing to create arrays
+    dep = departure_timestamps_s[~np.isnan(departure_timestamps_s)]
+    sermat = server_timestamps_1[~np.isnan(server_timestamps_1)]
 
     # Choose a small threshold
     if abs(1 - er_p_th) < 1e-20:
@@ -287,17 +287,18 @@ def _sim(
     aaoi_th = (transmission_period) * (0.5 + (1 / (1 - er_p_th)))
 
     # if dep and sermat are empty, return infinity
-    if not dep or not sermat:
+    if dep.size == 0 or sermat.size == 0:
         return float("inf"), float("inf")
+
     if np.isnan(departure_timestamps_s[-1]):
         last_dep = arrival_timestamps[-1] + inter_service_times[-1]
-        depature_mat = dep + [last_dep]
-        arrival_mat = [0] + sermat[1:] + [arrival_timestamps[-1]]
+        departure_mat = np.concatenate([dep, [last_dep]])
+        arrival_mat = np.concatenate([[0], sermat[1:], [arrival_timestamps[-1]]])
     else:
-        depature_mat = dep
-        arrival_mat = [0] + sermat[1:]
+        departure_mat = dep
+        arrival_mat = np.concatenate([[0], sermat[1:]])
 
-    aaoi_sim, _, _ = aaoi_fn(np.array(depature_mat), np.array(arrival_mat))
+    aaoi_sim, _, _ = aaoi_fn(departure_mat, arrival_mat)
 
     return aaoi_th, aaoi_sim
 
