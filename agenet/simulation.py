@@ -289,7 +289,7 @@ def _sim(
     # if dep and sermat are empty, return infinity
     if not dep or not sermat:
         return float("inf"), float("inf")
-    if np.isnan(departure_timestamps_s[-1]):
+    if departure_timestamps_s[-1] is np.nan:
         depature_mat = dep + arrival_timestamps[-1] + inter_service_times[-1]
         arrival_mat = [0] + sermat[1:] + arrival_timestamps[-1]
     else:
