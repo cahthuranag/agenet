@@ -291,8 +291,8 @@ def _sim(
         return float("inf"), float("inf")
     if np.isnan(departure_timestamps_s[-1]):
         last_dep = arrival_timestamps[-1] + inter_service_times[-1]
-        depature_mat = dep + [last_dep]
-        arrival_mat = [0] + sermat[1:] + [arrival_timestamps[-1]]
+        depature_mat = np.append(dep, last_dep)
+        arrival_mat = np.concatenate(([0], sermat[1:], [arrival_timestamps[-1]]))
     else:
         depature_mat = dep
         arrival_mat = [0] + sermat[1:]
